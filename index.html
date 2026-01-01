@@ -271,31 +271,31 @@
     const provider = new GoogleAuthProvider();
 
     document.getElementById("google-auth-btn").addEventListener("click", () => {
-        signInWithPopup(auth, provider)
-            .then(async (result) => {
-                const user = result.user;
-                const userRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(userRef);
+        signInWithPopup(auth, provider).then(async (result) => {
+            const user = result.user;
+            
+            // 1. فحص هل المستخدم له بيانات في الـ Wallet أم لا
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
 
-                // إنشاء سجل للمستخدم إذا كان أول مرة يدخل
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, {
-                        name: user.displayName,
-                        balance: 0,
-                        total_spend: 0,
-                        email: user.email,
-                        createdAt: new Date()
-                    });
-                }
-                
-                // تنبيه: تأكد أن ملف الصفحة الثانية موجود في هذا المسار
-                window.location.href = "page2.html"; // غير الاسم لاسم ملف الصفحة الثانية عندك
-            })
-            .catch((error) => {
-                // هذا السطر سيخبرك في "Console" المتصفح بنوع الخطأ بالضبط
-                console.error("Firebase Error:", error.code, error.message);
-                alert("فشل تسجيل الدخول: " + error.message);
-            });
+            if (!docSnap.exists()) {
+                // إذا كان جديد، ننشئ له سجل الواليت
+                await setDoc(userRef, {
+                    name: user.displayName,
+                    balance: 0,
+                    total_spend: 0,
+                    email: user.email
+                });
+            }
+            
+            // 2. الانتقال إلى الصفحة الثانية (تأكد أن الملف بنفس المجلد واسمه Page2.html)
+            window.location.href = "Page2.html"; 
+
+        }).catch(e => {
+            console.error("Error details:", e);
+            // سيظهر لك التنبيه نوع الخطأ (مثلاً لو لم تكن مفعل Google في Firebase)
+            alert("فشل تسجيل الدخول: " + e.message);
+        });
     });
 </script>
 
