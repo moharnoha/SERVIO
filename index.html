@@ -274,28 +274,28 @@
         signInWithPopup(auth, provider).then(async (result) => {
             const user = result.user;
             
-            // 1. فحص هل المستخدم له بيانات في الـ Wallet أم لا
+            // الربط مع قاعدة البيانات Firestore
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
 
+            // إذا كان المستخدم يدخل لأول مرة، ننشئ له محفظة رصيدها 0
             if (!docSnap.exists()) {
-                // إذا كان جديد، ننشئ له سجل الواليت
                 await setDoc(userRef, {
                     name: user.displayName,
                     balance: 0,
                     total_spend: 0,
-                    email: user.email
+                    email: user.email,
+                    uid: user.uid // حفظ الـ UID للرجوع إليه
                 });
             }
             
-            // 2. الانتقال إلى الصفحة الثانية (تأكد أن الملف بنفس المجلد واسمه Page2.html)
-            window.location.href = "Page2.html"; 
+            // العودة للرابط الأصلي الذي طلبته
+            window.location.href = "dashboard/"; 
 
         }).catch(e => {
-            console.error("Error details:", e);
-            // سيظهر لك التنبيه نوع الخطأ (مثلاً لو لم تكن مفعل Google في Firebase)
+            console.error("Firebase Error:", e);
+            // إذا استمر الخطأ، سيخبرك التنبيه بالسبب التقني
             alert("فشل تسجيل الدخول: " + e.message);
         });
     });
 </script>
-
