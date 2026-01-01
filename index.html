@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Firebase Integration</title>
+    <title>serviocmm - Full Responsive</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -14,19 +14,24 @@
             --google-section-bg: #EAF0E9; 
         }
 
+        /* تعديل الجسم لإزالة أي فراغات بيضاء */
         body { 
             margin: 0; padding: 0; 
             font-family: 'Inter', sans-serif; 
-            background-color: #f1f5f9; 
-            display: flex; justify-content: center;
+            background-color: #f7fafc; /* لون خلفية افتراضي */
+            min-height: 100vh;
+            display: flex; flex-direction: column;
             direction: rtl !important; 
         }
 
+        /* الحاوية الآن تتمدد لتملأ الشاشة بالكامل */
         .mobile-container { 
-            width: 100%; max-width: 480px; 
-            min-height: 100vh; background-color: #f7fafc;
+            width: 100%; 
+            min-height: 100vh; 
+            background-color: #f7fafc;
             display: flex; flex-direction: column; 
             position: relative;
+            flex-grow: 1; /* تجعلها تملأ الفراغ الرأسي */
         }
 
         /* --- الهيدر 1 --- */
@@ -34,69 +39,66 @@
             width: 100%; height: 65px; 
             background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
+            padding: 0 15px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
         }
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 32px; width: auto; display: block; }
-        .v-line { width: 1px; height: 22px; background-color: rgba(255,255,255,0.3); margin: 0 10px; }
+        .logo-img { height: 35px; width: auto; display: block; }
+        .v-line { width: 1px; height: 22px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span:first-child { font-size: 10px; font-weight: 800; color: #ffffff; line-height: 1.1; }
-        .title-box span:last-child { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.1; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; line-height: 1.1; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.1; }
+
         .info-display-wrapper { 
             display: flex; align-items: center; background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; 
-            padding: 0 12px; height: 38px; cursor: pointer;
+            padding: 0 12px; height: 40px; cursor: pointer;
         }
-        .display-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 8px; }
-        .flag-icon { width: 22px; height: 14px; border-radius: 2px; object-fit: cover; }
-        .mena-icon { width: 18px; height: 18px; fill: #ffffff; }
+        .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 8px; }
+        .flag-icon { width: 24px; height: 16px; border-radius: 2px; object-fit: cover; }
+        .mena-icon { width: 20px; height: 20px; fill: #ffffff; }
 
         /* --- الهيدر 2 --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
-            padding: 12px 15px; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: flex-start; gap: 14px;
+            padding: 15px 20px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: flex-start; gap: 16px;
         }
-        .login-text { color: #ffffff; font-size: 16px; font-weight: 700; }
+        .login-text { color: #ffffff; font-size: 18px; font-weight: 700; }
         .menu-btn-link { text-decoration: none; display: block; }
         .menu-btn-box {
             background-color: rgba(255, 255, 255, 0.18); 
-            width: 40px; height: 40px; border-radius: 12px;
+            width: 44px; height: 44px; border-radius: 12px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
         }
-        .menu-line { width: 20px; height: 2.5px; background-color: #ffffff; border-radius: 2px; }
+        .menu-line { width: 22px; height: 2.5px; background-color: #ffffff; border-radius: 2px; }
 
         /* --- الهيدر 3 --- */
         .google-section {
             width: 100%; background-color: var(--google-section-bg);
-            padding: 22px 15px; box-sizing: border-box; display: flex; justify-content: center;
+            padding: 30px 20px; box-sizing: border-box; display: flex; justify-content: center;
         }
         .google-btn {
-            width: 100%; background-color: #ffffff; border-radius: 12px; height: 54px;
+            width: 100%; max-width: 400px; /* تحديد أقصى عرض للزر فقط ليكون متناسقاً على الحواسب */
+            background-color: #ffffff; border-radius: 12px; height: 56px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; cursor: pointer;
-            outline: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; cursor: pointer;
         }
-        .google-btn:active { transform: scale(0.98); background-color: #f9fafb; }
-        .google-btn span { color: #1f2937; font-size: 14px; font-weight: 700; }
+        .google-btn span { color: #1f2937; font-size: 15px; font-weight: 700; }
 
-        /* نافذة المناطق */
+        /* نافذة المناطق - تعديل العرض على الحواسب */
         .selection-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
         }
         .selection-sheet {
-            width: 100%; max-width: 480px; background: white; border-radius: 24px 24px 0 0; 
-            padding: 24px; box-sizing: border-box; max-height: 85vh; overflow-y: auto; direction: rtl !important;
+            width: 100%; max-width: 500px; background: white; border-radius: 24px 24px 0 0; 
+            padding: 24px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;
         }
-        .sheet-header { font-size: 16px; font-weight: 800; margin-bottom: 20px; color: #1e293b; border-bottom: 1px solid #f1f5f9; padding-bottom: 15px; }
-        .option-item { padding: 16px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 15px; font-weight: 600; color: #334155; }
-        .region-name { flex-grow: 1; text-align: right; }
+        .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 16px; font-weight: 600; color: #334155; }
         .flag-container { display: flex; align-items: center; margin-right: 15px; }
         .lang-switch-btn { background: #2E5822; color: white; border-radius: 12px; margin-bottom: 25px; justify-content: center; }
-        .flag-item { width: 26px; height: 18px; border-radius: 3px; object-fit: cover; }
-        .mena-icon-dark { width: 22px; height: 22px; fill: #64748b; }
+        .flag-item { width: 28px; height: 18px; border-radius: 3px; object-fit: cover; }
     </style>
 </head>
 <body class="notranslate">
@@ -136,7 +138,7 @@
 
         <div class="google-section">
             <button class="google-btn" id="google-auth-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
                     <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
@@ -149,16 +151,15 @@
 
     <div id="overlay" class="selection-overlay" onclick="closeSelection()">
         <div class="selection-sheet" onclick="event.stopPropagation()">
-            <div class="sheet-header">اللغة / Language</div>
             <div class="option-item lang-switch-btn" onclick="toggleLang()">
                 <span id="lang-btn-text">تغيير إلى English</span>
             </div>
-            <div class="sheet-header">اختر المنطقة</div>
             <div id="regions-list"></div>
         </div>
     </div>
 
     <script>
+        // مصفوفة المناطق (كما هي في النسخ السابقة)
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon' },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -176,7 +177,6 @@
         ];
 
         const menaIcon = `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-        const menaIconDark = `<svg class="mena-icon-dark" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
 
         function openSelection() { renderRegions(); document.getElementById('overlay').style.display = 'flex'; }
         function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
@@ -202,7 +202,7 @@
                 const div = document.createElement('div');
                 div.className = 'option-item';
                 div.onclick = () => setRegion(i);
-                let flagMarkup = reg.type === 'icon' ? menaIconDark : `<img src="${reg.flag}" class="flag-item">`;
+                let flagMarkup = reg.type === 'icon' ? menaIcon : `<img src="${reg.flag}" class="flag-item">`;
                 div.innerHTML = `<span class="region-name">${reg[lang]}</span> <div class="flag-container">${flagMarkup}</div>`;
                 list.appendChild(div);
             });
@@ -240,15 +240,14 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // ربط الزر بكود Firebase
         document.getElementById("google-auth-btn").addEventListener("click", () => {
             signInWithPopup(auth, provider)
                 .then(() => {
-                    window.location.href = "dashboard/"; // التوجه للوحة التحكم عند النجاح
+                    window.location.href = "dashboard/";
                 })
                 .catch((error) => {
-                    console.error("Firebase Error:", error);
-                    alert("حدث خطأ في تسجيل الدخول، تأكد من إعدادات Firebase");
+                    console.error(error);
+                    alert("خطأ في تسجيل الدخول");
                 });
         });
     </script>
