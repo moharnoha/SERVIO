@@ -82,7 +82,7 @@
         }
         .google-btn span { color: #1f2937; font-size: 15px; font-weight: 700; }
 
-        /* --- المنصات --- */
+        /* --- الهيدر 4 و 5: المنصات --- */
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
@@ -240,6 +240,7 @@
             document.getElementById('login-btn-label').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "المتابعة باستخدام حساب Google" : "Continue with Google";
             
+            // تحديث نصوص الهيدر الرابع (الترويجي)
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
@@ -251,50 +252,49 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    // أضفنا سطر استيراد Firestore هنا
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
+    const firebaseConfig = { 
+        apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+        authDomain: "serviocmm-a65ed.firebaseapp.com", 
+        projectId: "serviocmm-a65ed", 
+        storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+        messagingSenderId: "975373759034", 
+        appId: "1:975373759034:web:645cb5fb48772839453b03" 
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app); // تعريف قاعدة البيانات
+    const provider = new GoogleAuthProvider();
 
-        document.getElementById("google-auth-btn").addEventListener("click", () => {
-            signInWithPopup(auth, provider).then(async (result) => {
-                const user = result.user;
-                const userRef = doc(db, "users", user.uid);
-                
-                // التحقق مما إذا كان المستخدم موجوداً مسبقاً في Firestore
-                const docSnap = await getDoc(userRef);
+    document.getElementById("google-auth-btn").addEventListener("click", () => {
+        signInWithPopup(auth, provider).then(async (result) => {
+            const user = result.user;
+            
+            // --- الجزء المهم لربط الواليت ---
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
 
-                if (!docSnap.exists()) {
-                    // إذا كان مستخدماً جديداً، أنشئ له ملف بيانات تلقائياً
-                    await setDoc(userRef, {
-                        name: user.displayName || "مستخدم جديد",
-                        email: user.email,
-                        balance: 0.00,
-                        total_spend: 0.00,
-                        createdAt: new Date()
-                    });
-                }
-                
-                // التوجه إلى لوحة التحكم بعد نجاح العملية
-                window.location.href = "dashboard/";
-            }).catch(e => {
-                console.error("Authentication Error: ", e);
-                alert("حدث خطأ أثناء تسجيل الدخول، يرجى المحاولة مرة أخرى.");
-            });
+            if (!docSnap.exists()) {
+                // إذا كان مستخدم جديد، ننشئ له وثيقة في Firestore بالقيم التي تريدها
+                await setDoc(userRef, {
+                    name: user.displayName,
+                    balance: 0,
+                    total_spend: 0,
+                    email: user.email
+                });
+            }
+            
+            // التوجه لصفحة المحفظة بعد التأكد من وجود البيانات
+            window.location.href = "dashboard/"; 
+
+        }).catch(e => {
+            console.error("خطأ في تسجيل الدخول:", e);
+            alert("حدث خطأ أثناء تسجيل الدخول");
         });
-    </script>
-</body>
-</html>
+    });
+</script>
