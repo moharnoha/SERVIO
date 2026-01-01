@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Menu Redirection</title>
+    <title>serviocmm - Firebase Integration</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -29,7 +29,7 @@
             position: relative;
         }
 
-        /* --- الهيدر 1: كامل الخصائص --- */
+        /* --- الهيدر 1 --- */
         header { 
             width: 100%; height: 65px; 
             background-color: var(--header-green); 
@@ -37,14 +37,12 @@
             padding: 0 12px; box-sizing: border-box; position: sticky; 
             top: 0; z-index: 1000;
         }
-
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 32px; width: auto; display: block; }
         .v-line { width: 1px; height: 22px; background-color: rgba(255,255,255,0.3); margin: 0 10px; }
         .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span:first-child { font-size: 10px; font-weight: 800; color: #ffffff; line-height: 1.1; }
         .title-box span:last-child { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.1; }
-
         .info-display-wrapper { 
             display: flex; align-items: center; background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; 
@@ -54,23 +52,19 @@
         .flag-icon { width: 22px; height: 14px; border-radius: 2px; object-fit: cover; }
         .mena-icon { width: 18px; height: 18px; fill: #ffffff; }
 
-        /* --- الهيدر 2: مع رابط التحويل --- */
+        /* --- الهيدر 2 --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 12px 15px; box-sizing: border-box;
             display: flex; align-items: center; justify-content: flex-start; gap: 14px;
         }
         .login-text { color: #ffffff; font-size: 16px; font-weight: 700; }
-        
-        /* زر الإعدادات كـ رابط */
         .menu-btn-link { text-decoration: none; display: block; }
         .menu-btn-box {
             background-color: rgba(255, 255, 255, 0.18); 
             width: 40px; height: 40px; border-radius: 12px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-            transition: background 0.2s;
         }
-        .menu-btn-box:active { background-color: rgba(255, 255, 255, 0.3); }
         .menu-line { width: 20px; height: 2.5px; background-color: #ffffff; border-radius: 2px; }
 
         /* --- الهيدر 3 --- */
@@ -82,10 +76,12 @@
             width: 100%; background-color: #ffffff; border-radius: 12px; height: 54px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; cursor: pointer;
+            outline: none;
         }
+        .google-btn:active { transform: scale(0.98); background-color: #f9fafb; }
         .google-btn span { color: #1f2937; font-size: 14px; font-weight: 700; }
 
-        /* نافذة اختيار المناطق */
+        /* نافذة المناطق */
         .selection-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
@@ -139,7 +135,7 @@
         </div>
 
         <div class="google-section">
-            <button class="google-btn">
+            <button class="google-btn" id="google-auth-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
@@ -180,9 +176,7 @@
         ];
 
         const menaIcon = `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-        const otherIcon = `<svg class="mena-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
         const menaIconDark = `<svg class="mena-icon-dark" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-        const otherIconDark = `<svg class="mena-icon-dark" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
         function openSelection() { renderRegions(); document.getElementById('overlay').style.display = 'flex'; }
         function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
@@ -204,19 +198,11 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const list = document.getElementById('regions-list');
             list.innerHTML = '';
-            
             regionConfigs.forEach((reg, i) => {
                 const div = document.createElement('div');
                 div.className = 'option-item';
                 div.onclick = () => setRegion(i);
-                
-                let flagMarkup = '';
-                if(reg.type === 'icon') {
-                    flagMarkup = reg.id === 'mena' ? menaIconDark : otherIconDark;
-                } else {
-                    flagMarkup = `<img src="${reg.flag}" class="flag-item">`;
-                }
-                
+                let flagMarkup = reg.type === 'icon' ? menaIconDark : `<img src="${reg.flag}" class="flag-item">`;
                 div.innerHTML = `<span class="region-name">${reg[lang]}</span> <div class="flag-container">${flagMarkup}</div>`;
                 list.appendChild(div);
             });
@@ -227,22 +213,44 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx];
-            
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
-            
             const box = document.getElementById('flag-display');
-            if(reg.type === 'icon') {
-                box.innerHTML = reg.id === 'mena' ? menaIcon : otherIcon;
-            } else {
-                box.innerHTML = `<img src="${reg.flag}" class="flag-icon">`;
-            }
-            
+            box.innerHTML = reg.type === 'icon' ? menaIcon : `<img src="${reg.flag}" class="flag-icon">`;
             document.getElementById('login-btn-label').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "المتابعة باستخدام حساب Google" : "Continue with Google";
         }
-
         updateUI();
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
+            authDomain: "serviocmm-a65ed.firebaseapp.com",
+            projectId: "serviocmm-a65ed",
+            storageBucket: "serviocmm-a65ed.firebasestorage.app",
+            messagingSenderId: "975373759034",
+            appId: "1:975373759034:web:645cb5fb48772839453b03"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // ربط الزر بكود Firebase
+        document.getElementById("google-auth-btn").addEventListener("click", () => {
+            signInWithPopup(auth, provider)
+                .then(() => {
+                    window.location.href = "dashboard/"; // التوجه للوحة التحكم عند النجاح
+                })
+                .catch((error) => {
+                    console.error("Firebase Error:", error);
+                    alert("حدث خطأ في تسجيل الدخول، تأكد من إعدادات Firebase");
+                });
+        });
     </script>
 </body>
 </html>
