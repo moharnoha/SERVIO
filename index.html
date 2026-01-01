@@ -1,38 +1,59 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7f6; margin: 0; }
+        /* تصميم الزر تحت الهيدر */
+        .google-btn {
+            width: 240px; height: 50px; background-color: #ffffff; border-radius: 8px;
+            border: 1px solid #dadce0; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .google-btn:hover { background-color: #f8faff; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .google-btn img { width: 22px; margin-right: 12px; }
+        .google-btn span { color: #3c4043; font-weight: 500; font-size: 16px; }
+    </style>
+</head>
+<body>
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
-  authDomain: "serviocmm-a65ed.firebaseapp.com",
-  projectId: "serviocmm-a65ed",
-  storageBucket: "serviocmm-a65ed.firebasestorage.app",
-  messagingSenderId: "975373759034",
-  appId: "1:975373759034:web:645cb5fb48772839453b03"
-};
+    <div class="google-btn" id="btn-login">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
+        <span>الدخول بواسطة جوجل</span>
+    </div>
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- تحت الهيدر: كود تسجيل الدخول مع التحويل لصفحة Dashboard ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
+            authDomain: "serviocmm-a65ed.firebaseapp.com",
+            projectId: "serviocmm-a65ed",
+            storageBucket: "serviocmm-a65ed.firebasestorage.app",
+            messagingSenderId: "975373759034",
+            appId: "1:975373759034:web:645cb5fb48772839453b03"
+        };
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-// دالة تسجيل الدخول
-const handleGoogleLogin = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // إذا نجح تسجيل الدخول، يتم التوجيه فوراً
-      console.log("Success! Redirecting...");
-      window.location.href = "dashboard.html"; 
-    })
-    .catch((error) => {
-      console.error("Error during login:", error.message);
-      alert("فشل تسجيل الدخول: " + error.message);
-    });
-};
-
-// ملاحظة: تأكد من ربط هذه الدالة بزر تسجيل الدخول في واجهة HTML الخاصة بك
-// مثال: <button onclick="handleGoogleLogin()">Login with Google</button>
+        // تفعيل الضغط على الزر والتحويل للداشبورد
+        document.getElementById('btn-login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    console.log("نجح الدخول:", result.user.displayName);
+                    window.location.href = "dashboard.html"; // سيتم تحويلك هنا
+                })
+                .catch((error) => {
+                    alert("خطأ: تأكد من تفعيل Google في Firebase Console");
+                    console.error(error);
+                });
+        });
+    </script>
+</body>
+</html>
