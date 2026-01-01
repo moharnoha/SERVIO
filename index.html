@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Updated Icons & Spacing</title>
+    <title>serviocmm - Final Version</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -23,6 +23,7 @@
             direction: rtl !important; 
         }
 
+        /* حاوية تتمدد لملئ الشاشة وإزالة الفراغات البيضاء */
         .mobile-container { 
             width: 100%; 
             min-height: 100vh; 
@@ -31,9 +32,9 @@
             flex-grow: 1;
         }
 
-        /* --- الهيدر 1: تعديل مسافات النصوص --- */
+        /* --- الهيدر 1: مسافات محسنة ونصوص واضحة --- */
         header { 
-            width: 100%; height: 70px; /* زيادة الطول قليلاً لاستيعاب المسافة الجديدة */
+            width: 100%; height: 70px; 
             background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; position: sticky; 
@@ -41,17 +42,17 @@
         }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; display: block; }
-        .v-line { width: 1px; height: 28px; background-color: rgba(255,255,255,0.3); margin: 0 15px; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 15px; }
         
         .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span:first-child { 
             font-size: 11px; font-weight: 800; color: #ffffff; 
-            margin-bottom: 4px; /* زيادة المساحة هنا */
+            margin-bottom: 5px; /* مسافة بين العربي والإنجليزي */
             letter-spacing: 0.2px;
         }
         .title-box span:last-child { 
-            font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.8); 
-            letter-spacing: 0.3px;
+            font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); 
+            letter-spacing: 0.4px;
         }
 
         .info-display-wrapper { 
@@ -60,10 +61,9 @@
             padding: 0 12px; height: 42px; cursor: pointer;
         }
         .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
-        .flag-icon, .nav-icon { width: 22px; height: 22px; display: block; }
-        .nav-icon { fill: #ffffff; }
+        .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
 
-        /* --- الهيدر 2 --- */
+        /* --- الهيدر 2: رابط الإعدادات --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 15px 20px; box-sizing: border-box;
@@ -83,12 +83,13 @@
             padding: 30px 20px; box-sizing: border-box; display: flex; justify-content: center;
         }
         .google-btn {
-            width: 100%; max-width: 400px; background-color: #ffffff; border-radius: 12px; height: 56px;
+            width: 100%; max-width: 420px; background-color: #ffffff; border-radius: 12px; height: 58px;
             display: flex; align-items: center; justify-content: center; gap: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; cursor: pointer;
         }
+        .google-btn span { color: #1f2937; font-size: 15px; font-weight: 700; }
 
-        /* نافذة المناطق */
+        /* نافذة المناطق (Selection Sheet) */
         .selection-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
@@ -99,7 +100,7 @@
         }
         .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
         .flag-container { display: flex; align-items: center; margin-right: 15px; }
-        .mena-icon-dark { width: 24px; height: 24px; fill: #64748b; }
+        .icon-dark { width: 24px; height: 24px; fill: #64748b; }
     </style>
 </head>
 <body class="notranslate">
@@ -127,7 +128,7 @@
         </header>
 
         <div class="login-bar">
-            <a href="/Settings/" style="text-decoration:none;">
+            <a href="Settings/" style="text-decoration:none;">
                 <div class="menu-btn-box">
                     <div class="menu-line"></div>
                     <div class="menu-line"></div>
@@ -139,7 +140,12 @@
 
         <div class="google-section">
             <button class="google-btn" id="google-auth-btn">
-                <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                <svg viewBox="0 0 48 48" width="24px" height="24px">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                </svg>
                 <span id="google-btn-label">المتابعة باستخدام حساب Google</span>
             </button>
         </div>
@@ -152,7 +158,7 @@
     </div>
 
     <script>
-        // أيقونات الـ SVG الجديدة
+        // أيقونات الـ SVG
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -175,10 +181,16 @@
         function openSelection() { renderRegions(); document.getElementById('overlay').style.display = 'flex'; }
         function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
 
+        function toggleLang() {
+            const current = localStorage.getItem('pref_lang') || 'ar';
+            localStorage.setItem('pref_lang', current === 'ar' ? 'en' : 'ar');
+            updateUI(); renderRegions();
+        }
+
         function renderRegions() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const list = document.getElementById('regions-list');
-            list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center;" onclick="toggleLang()">
+            list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
                 ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
             </div>`;
             
@@ -186,16 +198,10 @@
                 const div = document.createElement('div');
                 div.className = 'option-item';
                 div.onclick = () => { localStorage.setItem('pref_reg_idx', i); updateUI(); closeSelection(); };
-                let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'mena-icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px;">`;
+                let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px; border:1px solid #eee;">`;
                 div.innerHTML = `<span style="font-weight:600; color:#334155;">${reg[lang]}</span> <div class="flag-container">${iconMarkup}</div>`;
                 list.appendChild(div);
             });
-        }
-
-        function toggleLang() {
-            const current = localStorage.getItem('pref_lang') || 'ar';
-            localStorage.setItem('pref_lang', current === 'ar' ? 'en' : 'ar');
-            updateUI(); renderRegions();
         }
 
         function updateUI() {
@@ -204,7 +210,7 @@
             const reg = regionConfigs[regIdx];
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
-            document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="flag-icon" style="border-radius:2px;">`;
+            document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             document.getElementById('login-btn-label').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "المتابعة باستخدام حساب Google" : "Continue with Google";
         }
