@@ -12,7 +12,6 @@
             --header-green: #2E5822; 
             --sub-green: #386E2C; 
             --platform-bg: #f7fafc;
-            /* قيم قسم الاختصارات */
             --bg-gradient: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
             --text-dark: #1A2419;
             --brand-green: #2E5822;
@@ -79,13 +78,14 @@
             background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; 
             display: flex; align-items: center; transition: 0.2s;
         }
+        .toggle-visibility:active { transform: scale(0.9); }
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
 
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        /* --- الهيدر الثالث (تم التحديث) --- */
+        /* --- الهيدر الثالث (تم التحديث ليكون ديناميكياً وثابتاً) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -105,8 +105,7 @@
         .shortcut-svg { width: 26px; height: 26px; fill: var(--brand-green); }
         .logout-svg { fill: var(--brand-red); }
         .shortcut-label { font-size: 10px; font-weight: 700; color: #3d4a3c; text-align: center; line-height: 1.2; white-space: nowrap; }
-        .shortcut-item:active .icon-box { transform: scale(0.92); }
-
+        
         svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .main-content { flex-grow: 1; padding: 20px; }
@@ -155,7 +154,7 @@
 
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0.00</span>
+                        <span class="bal-amount" id="user-balance">---</span>
                     </div>
                 </div>
             </div>
@@ -169,36 +168,28 @@
             <div class="shortcuts-scroll-wrapper">
                 <a href="smm-services/" class="shortcut-item">
                     <div class="icon-box">
-                        <div class="icon-circle">
-                            <svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2zM12 15.9l-3.76 1.66L12 6.3l3.76 11.26L12 15.9z"/></svg>
-                        </div>
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2zM12 15.9l-3.76 1.66L12 6.3l3.76 11.26L12 15.9z"/></svg></div>
                     </div>
                     <span class="shortcut-label" id="lbl-smm">خدمات SMM</span>
                 </a>
 
                 <a href="deposit/" class="shortcut-item">
                     <div class="icon-box">
-                        <div class="icon-circle">
-                            <svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg>
-                        </div>
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg></div>
                     </div>
                     <span class="shortcut-label" id="lbl-add">إضافة رصيد</span>
                 </a>
 
                 <a href="account-subscription/" class="shortcut-item">
                     <div class="icon-box">
-                        <div class="icon-circle">
-                            <svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                        </div>
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>
                     </div>
                     <span class="shortcut-label" id="lbl-sub">اشتراك الحساب</span>
                 </a>
 
                 <div class="shortcut-item" onclick="handleLogout()">
                     <div class="icon-box">
-                        <div class="icon-circle logout-circle">
-                            <svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                        </div>
+                        <div class="icon-circle logout-circle"><svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
                     </div>
                     <span class="shortcut-label" id="lbl-logout">تسجيل الخروج</span>
                 </div>
@@ -226,32 +217,32 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // جعل دالة تسجيل الخروج متاحة عالمياً
-        window.handleLogout = function() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const msg = (lang === 'ar') ? "هل أنت متأكد من تسجيل الخروج؟" : "Are you sure you want to logout?";
-            if (confirm(msg)) {
-                signOut(auth).then(() => {
-                    window.location.href = "../";
-                }).catch((error) => console.error("Logout Error:", error));
-            }
+        // جعل تسجيل الخروج متاحاً
+        window.handleLogout = () => {
+            if(confirm("هل تريد تسجيل الخروج؟")) signOut(auth).then(() => window.location.href = "../");
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const userRef = doc(db, "users", user.uid);
+                // مراقبة حية للتغيرات (onSnapshot) لضمان عدم ثبات الرصيد على 0
                 onSnapshot(userRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
+                        
+                        // تحديث المتغيرات العالمية فوراً
                         window.currentName = data.fullName || user.displayName || "User";
                         window.currentEmail = user.email || "---";
+                        window.currentBalance = balance;
 
+                        // تحديث الواجهة
                         document.getElementById('user-balance').innerText = balance;
                         localStorage.setItem('last_balance', balance);
                         localStorage.setItem('last_name', window.currentName);
                         localStorage.setItem('last_email', window.currentEmail);
-                        renderUserData();
+                        
+                        if(typeof renderUserData === 'function') renderUserData();
                     }
                 });
             } else {
@@ -263,16 +254,12 @@
     <script>
         const regions = [
             { ar: "الشرق الأوسط", en: "MENA", img: "map-marker" },
-            { ar: "الجزائر", en: "Algeria", img: "https://flagcdn.com/dz.svg" },
-            { ar: "مصر", en: "Egypt", img: "https://flagcdn.com/eg.svg" },
-            { ar: "العراق", en: "Iraq", img: "https://flagcdn.com/iq.svg" },
-            { ar: "المغرب", en: "Morocco", img: "https://flagcdn.com/ma.svg" },
-            { ar: "السعودية", en: "Saudi Arabia", img: "https://flagcdn.com/sa.svg" }
-            // ... يمكنك إضافة باقي المناطق هنا
+            { ar: "الجزائر", en: "Algeria", img: "https://flagcdn.com/dz.svg" }
         ];
 
         window.currentName = localStorage.getItem('last_name') || "---";
         window.currentEmail = localStorage.getItem('last_email') || "---";
+        window.currentBalance = localStorage.getItem('last_balance') || "---";
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
         function sync() {
@@ -280,27 +267,25 @@
             const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regions[rIdx] || regions[0];
 
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
+            document.getElementById('lang-name').innerText = l.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[l];
+            document.getElementById('user-balance').innerText = window.currentBalance;
             
-            document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
-            document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
-            
-            // تحديث نصوص الاختصارات
+            // نصوص اللغة
             const isAr = (l === 'ar');
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-shortcuts-title').innerText = isAr ? 'إختصارات المحفظة' : 'Wallet Shortcuts';
-            document.getElementById('lbl-smm').innerHTML = isAr ? 'خدمات SMM' : 'SMM<br>Services';
-            document.getElementById('lbl-add').innerHTML = isAr ? 'إضافة رصيد' : 'Add<br>Balance';
-            document.getElementById('lbl-sub').innerHTML = isAr ? 'اشتراك الحساب' : 'Account<br>Subscription';
-            document.getElementById('lbl-logout').innerHTML = isAr ? 'تسجيل الخروج' : 'Logout<br>Account';
+            document.getElementById('lbl-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('lbl-add').innerText = isAr ? 'إضافة رصيد' : 'Add Balance';
+            document.getElementById('lbl-sub').innerText = isAr ? 'اشتراك الحساب' : 'Subscription';
+            document.getElementById('lbl-logout').innerText = isAr ? 'تسجيل الخروج' : 'Logout';
 
             const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                if(reg.img === "map-marker") {
-                    flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-                } else {
-                    flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
-                }
+            if(reg.img === "map-marker") {
+                flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+            } else {
+                flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
             }
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
