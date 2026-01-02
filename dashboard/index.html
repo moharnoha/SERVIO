@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Secure Wallet</title>
+    <title>serviocmm - Persistent Privacy Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -34,7 +34,7 @@
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
 
-        /* --- الهيدر الثاني المحسن مع ميزة الإخفاء --- */
+        /* --- الهيدر الثاني (تصميم المحفظة مع الثبات) --- */
         .bottom-header-wrapper {
             background-color: var(--sub-green);
             padding: 15px;
@@ -49,48 +49,49 @@
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px);
+            min-height: 95px;
         }
 
-        .user-meta-info { display: flex; align-items: center; gap: 12px; }
+        .user-meta-info { display: flex; align-items: center; gap: 12px; flex: 1; }
         .avatar-box { 
-            width: 44px; height: 44px; 
+            width: 48px; height: 48px; 
             background: rgba(255, 255, 255, 0.15); 
             border-radius: 14px; 
             display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
         
-        .name-stack { display: flex; flex-direction: column; gap: 2px; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        
         .name-row { display: flex; align-items: center; gap: 8px; }
-        .welcome-label { font-size: 11px; color: rgba(255,255,255,0.65); font-weight: 600; }
-        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; letter-spacing: 0.2px; transition: 0.3s; }
+        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; }
+        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; }
 
-        /* زر إخفاء الاسم */
         .toggle-visibility { 
-            background: none; border: none; padding: 4px; cursor: pointer; 
-            display: flex; align-items: center; opacity: 0.7; transition: 0.2s;
+            background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; 
+            display: flex; align-items: center; transition: 0.2s;
         }
-        .toggle-visibility:hover { opacity: 1; }
-        .toggle-visibility svg { width: 18px; height: 18px; fill: #ffffff; }
+        .toggle-visibility:active { transform: scale(0.9); }
+        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .bal-title { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+        .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
 
         .deposit-link {
             background: #ffffff;
             color: var(--header-green);
-            padding: 7px 18px;
-            border-radius: 10px;
+            padding: 7px 16px;
+            border-radius: 9px;
             text-decoration: none;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
-            margin-top: 5px;
-            display: inline-block;
+            margin-top: 6px;
         }
 
         svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .main-content { flex-grow: 1; padding: 20px; }
     </style>
 </head>
 <body class="notranslate">
@@ -122,10 +123,11 @@
                             <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                             <div class="name-row">
                                 <span class="full-name-val" id="user-full-name">---</span>
-                                <button class="toggle-visibility" onclick="toggleName()" id="visibility-btn">
-                                    <svg id="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                                <button class="toggle-visibility" onclick="togglePrivacy()" id="visibility-btn">
+                                    <svg id="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/></svg>
                                 </button>
                             </div>
+                            <span class="user-email-val" id="user-email">---</span>
                         </div>
                     </div>
 
@@ -137,49 +139,57 @@
                 </div>
             </div>
         </div>
-
         <main class="main-content"></main>
     </div>
 
     <script>
-        let realName = "---";
-        let isNameHidden = localStorage.getItem('name_hidden') === 'true';
+        // تعريف المتغيرات من الذاكرة المحلية فوراً
+        let currentName = localStorage.getItem('last_name') || "---";
+        let currentEmail = localStorage.getItem('last_email') || "---";
+        
+        // التحقق من حالة الخصوصية المحفوظة (Default is False)
+        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
-        function toggleName() {
-            isNameHidden = !isNameHidden;
-            localStorage.setItem('name_hidden', isNameHidden);
-            updateNameDisplay();
+        function togglePrivacy() {
+            isPrivacyOn = !isPrivacyOn;
+            // حفظ الحالة الجديدة فوراً في الذاكرة لتبقي ثابتة دائماً
+            localStorage.setItem('privacy_active', isPrivacyOn);
+            renderUserData();
         }
 
-        function updateNameDisplay() {
-            const nameElem = document.getElementById('user-full-name');
+        function renderUserData() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            
-            if (isNameHidden) {
-                nameElem.innerText = "••••••••";
+
+            if (isPrivacyOn) {
+                nameEl.innerText = "••••••••";
+                emailEl.innerText = "••••••••••••";
+                // أيقونة العين المشطوبة (مخفي)
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
             } else {
-                nameElem.innerText = realName;
+                nameEl.innerText = currentName;
+                emailEl.innerText = currentEmail;
+                // أيقونة العين المفتوحة (ظاهر)
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         }
 
-        // مزامنة اللغة والبيانات المحفوظة
-        function syncUI() {
+        // مزامنة واجهة المستخدم عند التحميل
+        function syncAll() {
             const l = localStorage.getItem('pref_lang') || 'ar';
             document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
-            
             document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('btn-deposit-txt').innerText = (l === 'ar') ? 'إيداع' : 'Deposit';
-
-            // تحميل الكاش
-            realName = localStorage.getItem('last_name') || "---";
+            
+            // جلب الرصيد من الكاش
             document.getElementById('user-balance').innerText = localStorage.getItem('last_balance') || "0.00";
-            updateNameDisplay();
+            
+            // تطبيق العرض النهائي بناءً على حالة الخصوصية
+            renderUserData();
         }
-
-        window.onload = syncUI;
+        window.onload = syncAll;
     </script>
 
     <script type="module">
@@ -207,12 +217,20 @@
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
-                        realName = data.fullName || user.displayName || "User";
+                        
+                        // تحديث القيم الحقيقية في الخلفية
+                        currentName = data.fullName || user.displayName || "User";
+                        currentEmail = user.email || "---";
 
                         document.getElementById('user-balance').innerText = balance;
+                        
+                        // حفظ البيانات الجديدة في الكاش
                         localStorage.setItem('last_balance', balance);
-                        localStorage.setItem('last_name', realName);
-                        updateNameDisplay();
+                        localStorage.setItem('last_name', currentName);
+                        localStorage.setItem('last_email', currentEmail);
+                        
+                        // تحديث العرض مع احترام حالة الخصوصية الحالية
+                        renderUserData();
                     }
                 });
             } else {
