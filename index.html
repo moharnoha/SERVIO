@@ -4,298 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Final Version</title>
+    <title>serviocmm - Pro Wallet Header</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --header-green: #2E5822; 
-            --login-bg: #386E2C; 
-            --google-section-bg: #EAF0E9; 
+            --sub-green: #386E2C; 
             --platform-bg: #f7fafc;
+            --bg-gradient: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --text-dark: #1A2419;
+            --brand-green: #2E5822;
+            --brand-red: #C62828;
+            --card-white: #FFFFFF;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f7fafc; 
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            direction: rtl !important; 
-        }
+        /* جعل الصفحة ثابتة ككتلة واحدة */
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
+        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
 
-        .mobile-container { 
-            width: 100%; 
-            min-height: 100vh; 
-            display: flex; flex-direction: column; 
-            position: relative;
-            flex-grow: 1;
-        }
+        .sticky-header-container { width: 100%; }
 
-        /* --- الهيدر 1 --- */
-        header { 
-            width: 100%; height: 70px; 
-            background-color: var(--header-green); 
+        /* --- الهيدر الأول (لا يتغير) --- */
+        .top-header { 
+            height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1000;
+            padding: 0 15px; box-sizing: border-box;
         }
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 35px; width: auto; display: block; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 15px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; margin-bottom: 5px; letter-spacing: 0.2px; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.4px; }
+        .logo-img { height: 35px; width: auto; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; 
-            padding: 0 12px; height: 42px; cursor: pointer;
+        /* --- الهيدر الثاني (لا يتغير) --- */
+        .bottom-header {
+            background-color: var(--sub-green);
+            padding: 15px; box-sizing: border-box;
         }
-        .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
 
-        /* --- الهيدر 2 --- */
-        .login-bar {
-            width: 100%; background-color: var(--login-bg);
-            padding: 15px 20px; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: flex-start; gap: 16px;
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            min-height: 85px;
         }
-        .login-text { color: #ffffff; font-size: 18px; font-weight: 700; }
-        .menu-btn-box {
-            background-color: rgba(255, 255, 255, 0.18); 
-            width: 44px; height: 44px; border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-        }
-        .menu-line { width: 22px; height: 2.5px; background-color: #ffffff; border-radius: 2px; }
 
-        /* --- الهيدر 3 --- */
-        .google-section {
-            width: 100%; background-color: var(--google-section-bg);
-            padding: 30px 20px; box-sizing: border-box; display: flex; justify-content: center;
-        }
-        .google-btn {
-            width: 100%; max-width: 420px; background-color: #ffffff; border-radius: 12px; height: 58px;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; cursor: pointer;
-        }
-        .google-btn span { color: #1f2937; font-size: 15px; font-weight: 700; }
+        .user-meta-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .avatar-box { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; }
+        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+        .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; }
 
-        /* --- الهيدر 4 و 5: المنصات --- */
-        .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
-        .section-header { text-align: center; padding: 0 20px 20px 20px; }
-        .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
-        .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
+        /* --- الهيدر الثالث (تم تحديث الروابط والتثبيت) --- */
+        .new-header-container {
+            background: var(--bg-gradient);
+            padding: 25px 20px 30px 20px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 0; 
+        }
+        .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
+        .shortcuts-scroll-wrapper { 
+            display: flex; 
+            justify-content: space-between; 
+            gap: 10px; 
+            overflow-x: hidden; 
+        }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; color: inherit; }
+        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(255, 255, 255, 0.7); transition: 0.2s; }
+        .icon-box:active { transform: scale(0.95); }
+        .icon-circle { width: 45px; height: 45px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .logout-circle { background: #fdf2f2; }
+        .shortcut-svg { width: 24px; height: 24px; fill: var(--brand-green); }
+        .logout-svg { fill: var(--brand-red); }
+        .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
 
-        .platforms-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-            padding: 0 20px; max-width: 600px; margin: 0 auto;
-        }
-        .platform-box {
-            background: #ffffff; border-radius: 18px; padding: 18px 5px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;
-            transition: transform 0.2s; text-decoration: none; cursor: pointer;
-        }
-        .platform-box:active { transform: scale(0.92); }
-        .p-img { width: 40px; height: 40px; object-fit: contain; }
-        .p-svg { width: 36px; height: 36px; }
-        .platform-name { font-size: 11px; font-weight: 700; color: #334155; }
-
-        /* نافذة اختيار المنطقة */
-        .selection-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
-        }
-        .selection-sheet {
-            width: 100%; max-width: 500px; background: white; border-radius: 24px 24px 0 0; 
-            padding: 24px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;
-        }
-        .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .flag-container { display: flex; align-items: center; margin-right: 15px; }
-        .icon-dark { width: 24px; height: 24px; fill: #64748b; }
+        svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; }
+        .main-content { flex-grow: 1; padding: 20px; }
     </style>
 </head>
 <body class="notranslate">
 
-    <div class="mobile-container">
-        <header>
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box">
-                    <span>مركز الشحن الرسمي</span>
-                    <span>Official Top Up Center</span>
+    <div class="page-wrapper">
+        <div class="sticky-header-container">
+            <div class="top-header">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box">
+                        <span>مركز الشحن الرسمي</span>
+                        <span>Official Top Up Center</span>
+                    </div>
                 </div>
-            </div>
-            <div class="header-left-group">
-                <div class="info-display-wrapper" onclick="openSelection()">
-                    <div id="flag-display"></div>
-                    <div class="display-text">
-                        <span id="label-reg">---</span>
-                        <span style="color:rgba(255,255,255,0.3);">|</span>
-                        <span id="label-lng">--</span>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text">
+                        <span id="reg-name">---</span>
+                        <span style="opacity:0.3">|</span>
+                        <span id="lang-name">--</span>
                     </div>
                 </div>
             </div>
-        </header>
 
-        <div class="login-bar">
-            <a href="Settings/" style="text-decoration:none;">
-                <div class="menu-btn-box">
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
+            <div class="bottom-header">
+                <div class="wallet-card">
+                    <div class="user-meta-info">
+                        <div class="avatar-box">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                        <div class="name-stack">
+                            <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                            <div class="name-row">
+                                <span class="full-name-val" id="user-full-name">---</span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()">
+                                    <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/></svg>
+                                </button>
+                            </div>
+                            <span class="user-email-val" id="user-email">---</span>
+                        </div>
+                    </div>
+
+                    <div class="balance-stack">
+                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
+                        <span class="bal-amount" id="user-balance">---</span>
+                    </div>
                 </div>
-            </a>
-            <span class="login-text" id="login-btn-label">تسجيل الدخول</span>
-        </div>
-
-        <div class="google-section">
-            <button class="google-btn" id="google-auth-btn">
-                <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                <span id="google-btn-label">المتابعة باستخدام حساب Google</span>
-            </button>
-        </div>
-
-        <div class="platforms-wrapper">
-            <div class="section-header">
-                <div class="section-title" id="promo-main">اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام</div>
-                <div class="section-subtitle" id="promo-sub">نمو سريع، حقيقي وبأفضل الأسعار!</div>
-            </div>
-
-            <div class="platforms-grid">
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="platform-name">YouTube</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="platform-name">Facebook</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.778 6.98 6.978 1.28.058 1.688.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg><span class="platform-name">Instagram</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.23-2.74.24-.73.42-1.31 1.1-1.58 1.9-.2.55-.2 1.14-.11 1.72.17.91.71 1.74 1.44 2.3 1.02.82 2.5.94 3.63.31.95-.51 1.59-1.5 1.76-2.58.11-.64.1-1.29.1-1.93V.02z"/></svg><span class="platform-name">TikTok</span></a>
-                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/snapchat--v1.png" class="p-img" alt="Snapchat"><span class="platform-name">Snapchat</span></a>
-                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
-                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
         </div>
-    </div>
 
-    <div id="overlay" class="selection-overlay" onclick="closeSelection()">
-        <div class="selection-sheet" onclick="event.stopPropagation()">
-            <div id="regions-list"></div>
+        <div class="new-header-container">
+            <div class="header-top-row">
+                <div class="section-title" id="txt-shortcuts-title">إختصارات المحفظة</div>
+            </div>
+
+            <div class="shortcuts-scroll-wrapper">
+                <a href="smm-services/" class="shortcut-item">
+                    <div class="icon-box">
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2zM12 15.9l-3.76 1.66L12 6.3l3.76 11.26L12 15.9z"/></svg></div>
+                    </div>
+                    <span class="shortcut-label" id="lbl-smm">خدمات SMM</span>
+                </a>
+
+                <a href="deposit/" class="shortcut-item">
+                    <div class="icon-box">
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg></div>
+                    </div>
+                    <span class="shortcut-label" id="lbl-add">إضافة رصيد</span>
+                </a>
+
+                <a href="account-subscription/" class="shortcut-item">
+                    <div class="icon-box">
+                        <div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>
+                    </div>
+                    <span class="shortcut-label" id="lbl-sub">اشتراك الحساب</span>
+                </a>
+
+                <div class="shortcut-item" style="cursor:pointer" onclick="handleLogout()">
+                    <div class="icon-box">
+                        <div class="icon-circle logout-circle"><svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
+                    </div>
+                    <span class="shortcut-label" id="lbl-logout">تسجيل الخروج</span>
+                </div>
+            </div>
         </div>
+
+        <main class="main-content"></main>
     </div>
-
-    <script>
-        const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-        const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-
-        const regionConfigs = [
-            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
-            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
-            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
-            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
-            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
-            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
-            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
-            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
-            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
-            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
-            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
-            { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
-        ];
-
-        function openSelection() { renderRegions(); document.getElementById('overlay').style.display = 'flex'; }
-        function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
-
-        function toggleLang() {
-            const current = localStorage.getItem('pref_lang') || 'ar';
-            localStorage.setItem('pref_lang', current === 'ar' ? 'en' : 'ar');
-            updateUI(); renderRegions();
-        }
-
-        function renderRegions() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const list = document.getElementById('regions-list');
-            list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
-                ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
-            </div>`;
-            regionConfigs.forEach((reg, i) => {
-                const div = document.createElement('div');
-                div.className = 'option-item';
-                div.onclick = () => { localStorage.setItem('pref_reg_idx', i); updateUI(); closeSelection(); };
-                let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px; border:1px solid #eee;">`;
-                div.innerHTML = `<span style="font-weight:600; color:#334155;">${reg[lang]}</span> <div class="flag-container">${iconMarkup}</div>`;
-                list.appendChild(div);
-            });
-        }
-
-        function updateUI() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx];
-            document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = reg[lang];
-            document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
-            document.getElementById('login-btn-label').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "المتابعة باستخدام حساب Google" : "Continue with Google";
-            
-            // تحديث نصوص الهيدر الرابع (الترويجي)
-            const promo = {
-                ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
-                en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
-            };
-            document.getElementById('promo-main').innerText = promo[lang].main;
-            document.getElementById('promo-sub').innerText = promo[lang].sub;
-        }
-        updateUI();
-    </script>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = { 
-        apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-        authDomain: "serviocmm-a65ed.firebaseapp.com", 
-        projectId: "serviocmm-a65ed", 
-        storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-        messagingSenderId: "975373759034", 
-        appId: "1:975373759034:web:645cb5fb48772839453b03" 
-    };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+            authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", 
+            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", 
+            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    document.getElementById("google-auth-btn").addEventListener("click", () => {
-        signInWithPopup(auth, provider).then(async (result) => {
-            const user = result.user;
-            
-            // الربط مع قاعدة البيانات Firestore
-            const userRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(userRef);
+        window.handleLogout = () => {
+            if(confirm("هل تريد تسجيل الخروج؟")) signOut(auth).then(() => window.location.href = "../");
+        };
 
-            // إذا كان المستخدم يدخل لأول مرة، ننشئ له محفظة رصيدها 0
-            if (!docSnap.exists()) {
-                await setDoc(userRef, {
-                    name: user.displayName,
-                    balance: 0,
-                    total_spend: 0,
-                    email: user.email,
-                    uid: user.uid // حفظ الـ UID للرجوع إليه
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                onSnapshot(userRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
+                        window.currentName = data.fullName || user.displayName || "User";
+                        window.currentEmail = user.email || "---";
+                        window.currentBalance = balance;
+                        document.getElementById('user-balance').innerText = balance;
+                        localStorage.setItem('last_balance', balance);
+                        localStorage.setItem('last_name', window.currentName);
+                        localStorage.setItem('last_email', window.currentEmail);
+                        if(typeof renderUserData === 'function') renderUserData();
+                    }
                 });
+            } else {
+                window.location.href = "../"; 
             }
-            
-            // العودة للرابط الأصلي الذي طلبته
-            window.location.href = "dashboard/"; 
-
-        }).catch(e => {
-            console.error("Firebase Error:", e);
-            // إذا استمر الخطأ، سيخبرك التنبيه بالسبب التقني
-            alert("فشل تسجيل الدخول: " + e.message);
         });
-    });
-</script>
+    </script>
+
+    <script>
+        const regions = [
+            { ar: "الشرق الأوسط", en: "MENA", img: "map-marker" },
+            { ar: "الجزائر", en: "Algeria", img: "https://flagcdn.com/dz.svg" }
+        ];
+
+        window.currentName = localStorage.getItem('last_name') || "---";
+        window.currentEmail = localStorage.getItem('last_email') || "---";
+        window.currentBalance = localStorage.getItem('last_balance') || "---";
+        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+
+        function sync() {
+            const l = localStorage.getItem('pref_lang') || 'ar';
+            const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regions[rIdx] || regions[0];
+            document.getElementById('lang-name').innerText = l.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[l];
+            document.getElementById('user-balance').innerText = window.currentBalance;
+            const isAr = (l === 'ar');
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-shortcuts-title').innerText = isAr ? 'إختصارات المحفظة' : 'Wallet Shortcuts';
+            document.getElementById('lbl-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('lbl-add').innerText = isAr ? 'إضافة رصيد' : 'Add Balance';
+            document.getElementById('lbl-sub').innerText = isAr ? 'اشتراك الحساب' : 'Subscription';
+            document.getElementById('lbl-logout').innerText = isAr ? 'تسجيل الخروج' : 'Logout';
+            const flagBox = document.getElementById('flag-ui');
+            if(reg.img === "map-marker") {
+                flagBox.innerHTML = `<svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+            } else {
+                flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag" width="22">`;
+            }
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            renderUserData();
+        }
+
+        function togglePrivacy() {
+            isPrivacyOn = !isPrivacyOn;
+            localStorage.setItem('privacy_active', isPrivacyOn);
+            renderUserData();
+        }
+
+        function renderUserData() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (isPrivacyOn) {
+                nameEl.innerText = "••••••••";
+                emailEl.innerText = "••••••••••••";
+                eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+            } else {
+                nameEl.innerText = window.currentName;
+                emailEl.innerText = window.currentEmail;
+                eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            }
+        }
+
+        window.onload = sync;
+        window.addEventListener('storage', sync);
+    </script>
+</body>
+</html>
