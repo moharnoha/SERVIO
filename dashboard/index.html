@@ -72,10 +72,9 @@
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
-        /* تم تعديل حجم الخط قليلاً ليستوعب 7 أرقام */
-        .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; }
+        .bal-amount { font-size: 22px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        /* --- الهيدر الثالث (تم التحديث لدعم 7 أرقام بعد الفاصلة) --- */
+        /* --- الهيدر الثالث (المحتوى المتغير) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -151,7 +150,7 @@
 
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0.0000000</span>
+                        <span class="bal-amount" id="user-balance">---</span>
                     </div>
                 </div>
             </div>
@@ -218,19 +217,31 @@
             if(confirm("هل تريد تسجيل الخروج؟")) signOut(auth).then(() => window.location.href = "../");
         };
 
+        // دالة مخصصة لتنسيق الرصيد بذكاء (مثل البنوك)
+        function formatSmartBalance(num) {
+            const val = Number(num);
+            if (isNaN(val)) return "0";
+            // إذا كان الرقم صحيحاً تماماً، لا تظهر أصفاراً بعد الفاصلة
+            if (Number.isInteger(val)) return val.toString();
+            // إذا كان كسر، أظهر حتى 7 أرقام وقم بإزالة الأصفار الزائدة في نهاية الكسر
+            return val.toFixed(7).replace(/\.?0+$/, "");
+        }
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const userRef = doc(db, "users", user.uid);
                 onSnapshot(userRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        // تم التعديل هنا ليتم عرض 7 أرقام بعد الفاصلة
-                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(7) : "0.0000000";
+                        const rawBalance = data.balance !== undefined ? data.balance : 0;
+                        const balanceFormatted = formatSmartBalance(rawBalance);
+                        
                         window.currentName = data.fullName || user.displayName || "User";
                         window.currentEmail = user.email || "---";
-                        window.currentBalance = balance;
-                        document.getElementById('user-balance').innerText = balance;
-                        localStorage.setItem('last_balance', balance);
+                        window.currentBalance = balanceFormatted;
+                        
+                        document.getElementById('user-balance').innerText = balanceFormatted;
+                        localStorage.setItem('last_balance', balanceFormatted);
                         localStorage.setItem('last_name', window.currentName);
                         localStorage.setItem('last_email', window.currentEmail);
                         if(typeof renderUserData === 'function') renderUserData();
@@ -250,8 +261,7 @@
 
         window.currentName = localStorage.getItem('last_name') || "---";
         window.currentEmail = localStorage.getItem('last_email') || "---";
-        // التأكد من تهيئة الرصيد بـ 7 أرقام في حالة عدم وجود قيمة سابقة
-        window.currentBalance = localStorage.getItem('last_balance') || "0.0000000";
+        window.currentBalance = localStorage.getItem('last_balance') || "0";
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
         function sync() {
