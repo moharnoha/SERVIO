@@ -72,28 +72,27 @@
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
-        .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
+        /* تم تعديل حجم الخط قليلاً ليستوعب 7 أرقام */
+        .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        /* --- الهيدر الثالث (تم تثبيته ومنع التمرير الجانبي إذا كانت العناصر كافية) --- */
+        /* --- الهيدر الثالث (تم التحديث لدعم 7 أرقام بعد الفاصلة) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px;
             border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
-            /* إزالة أي مارجن سفلي لدمج الشكل */
             margin-bottom: 0; 
         }
         .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
         .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
         
-        /* تعديل حاوية الاختصارات لتكون ثابتة ولا تظهر شريط تمرير إلا عند الضرورة القصوى */
         .shortcuts-scroll-wrapper { 
             display: flex; 
-            justify-content: space-between; /* توزيع العناصر بالتساوي */
+            justify-content: space-between; 
             gap: 10px; 
             padding: 5px 2px 10px 2px;
-            overflow-x: hidden; /* منع الحركة الجانبية */
+            overflow-x: hidden; 
         }
         
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; transition: 0.2s; }
@@ -152,7 +151,7 @@
 
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">---</span>
+                        <span class="bal-amount" id="user-balance">0.0000000</span>
                     </div>
                 </div>
             </div>
@@ -225,7 +224,8 @@
                 onSnapshot(userRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
+                        // تم التعديل هنا ليتم عرض 7 أرقام بعد الفاصلة
+                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(7) : "0.0000000";
                         window.currentName = data.fullName || user.displayName || "User";
                         window.currentEmail = user.email || "---";
                         window.currentBalance = balance;
@@ -250,7 +250,8 @@
 
         window.currentName = localStorage.getItem('last_name') || "---";
         window.currentEmail = localStorage.getItem('last_email') || "---";
-        window.currentBalance = localStorage.getItem('last_balance') || "---";
+        // التأكد من تهيئة الرصيد بـ 7 أرقام في حالة عدم وجود قيمة سابقة
+        window.currentBalance = localStorage.getItem('last_balance') || "0.0000000";
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
         function sync() {
