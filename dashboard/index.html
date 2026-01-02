@@ -20,7 +20,7 @@
 
         .sticky-header-container { position: sticky; top: 0; z-index: 1000; width: 100%; }
 
-        /* --- الهيدر الأول (كما هو في كودك الأصلي تماماً) --- */
+        /* --- الهيدر الأول --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -35,7 +35,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر الثاني (تصميم المحفظة مع ميزات الإخفاء والجيمايل) --- */
+        /* --- الهيدر الثاني --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -153,12 +153,58 @@
         const regions = [
             { ar: "الشرق الأوسط", en: "MENA", img: "globe" },
             { ar: "الجزائر", en: "Algeria", img: "https://flagcdn.com/dz.svg" },
-            { ar: "المغرب", en: "Morocco", img: "https://flagcdn.com/ma.svg" }
+            { ar: "مصر", en: "Egypt", img: "https://flagcdn.com/eg.svg" },
+            { ar: "العراق", en: "Iraq", img: "https://flagcdn.com/iq.svg" },
+            { ar: "المغرب", en: "Morocco", img: "https://flagcdn.com/ma.svg" },
+            { ar: "نيجيريا", en: "Nigeria", img: "https://flagcdn.com/ng.svg" },
+            { ar: "عمان", en: "Oman", img: "https://flagcdn.com/om.svg" },
+            { ar: "فلسطين", en: "Palestine", img: "https://flagcdn.com/ps.svg" },
+            { ar: "قطر", en: "Qatar", img: "https://flagcdn.com/qa.svg" },
+            { ar: "السعودية", en: "Saudi Arabia", img: "https://flagcdn.com/sa.svg" },
+            { ar: "تونس", en: "Tunisia", img: "https://flagcdn.com/tn.svg" },
+            { ar: "الإمارات", en: "UAE", img: "https://flagcdn.com/ae.svg" }
         ];
 
         let currentName = localStorage.getItem('last_name') || "---";
         let currentEmail = localStorage.getItem('last_email') || "---";
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+
+        function sync() {
+            const l = localStorage.getItem('pref_lang') || 'ar';
+            const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regions[rIdx] || regions[0];
+
+            // تحديث نصوص المنطقة واللغة
+            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
+            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
+            
+            // تحديث نصوص الواجهة
+            document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('btn-deposit-txt').innerText = (l === 'ar') ? 'إيداع' : 'Deposit';
+            
+            document.getElementById('user-balance').innerText = localStorage.getItem('last_balance') || "0.00";
+            
+            // تحديث العلم
+            const flagBox = document.getElementById('flag-ui');
+            if(flagBox) {
+                if(reg.img === "globe") {
+                    flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+                } else {
+                    flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
+                }
+            }
+
+            document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
+            renderUserData();
+        }
+
+        // الاستماع لتغييرات localStorage من صفحات أخرى
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'pref_lang' || e.key === 'pref_reg_idx') {
+                sync();
+            }
+        });
 
         function togglePrivacy() {
             isPrivacyOn = !isPrivacyOn;
@@ -180,33 +226,6 @@
                 emailEl.innerText = currentEmail;
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
-        }
-
-        function sync() {
-            const l = localStorage.getItem('pref_lang') || 'ar';
-            const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regions[rIdx] || regions[0];
-
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
-            
-            document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
-            document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
-            document.getElementById('btn-deposit-txt').innerText = (l === 'ar') ? 'إيداع' : 'Deposit';
-            
-            document.getElementById('user-balance').innerText = localStorage.getItem('last_balance') || "0.00";
-            
-            const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                if(reg.img === "globe") {
-                    flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-                } else {
-                    flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
-                }
-            }
-
-            document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
-            renderUserData();
         }
 
         window.onload = sync;
