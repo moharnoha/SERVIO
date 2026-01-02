@@ -4,97 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Unified Header White Icons</title>
+    <title>serviocmm - Orange Official</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --header-green: #2E5822; 
-            --sub-green: #386E2C; 
             --platform-bg: #f7fafc;
+            --orange-main: #ff6600;
         }
 
-        html, body { 
-            height: 100%; 
-            margin: 0; 
-            padding: 0; 
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--platform-bg); 
-            display: flex; 
-            flex-direction: column;
-            direction: rtl; 
-        }
-
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            flex-grow: 1;
-        }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
+        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; flex-grow: 1; }
 
         /* --- الهيدر الموحد المثبت --- */
-        .sticky-header-container {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
+        .sticky-header-container { position: sticky; top: 0; z-index: 1000; width: 100%; }
 
+        /* الهيدر العلوي (أخضر) */
         .top-header { 
-            height: 70px; 
-            background-color: var(--header-green); 
+            height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box;
         }
 
+        /* الهيدر السفلي (أسود - ستايل الصورة) */
         .bottom-header {
-            background-color: var(--sub-green);
-            padding: 12px 15px; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: space-between;
+            background-color: #000000; padding: 25px 20px; 
+            box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;
         }
 
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        
         .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
 
         .region-badge { 
             display: flex; align-items: center; background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; 
-            padding: 0 10px; height: 40px; gap: 8px;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px;
         }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        .action-group { display: flex; align-items: center; gap: 8px; }
-        
-        .btn-ui {
-            background-color: rgba(255, 255, 255, 0.18); 
-            height: 42px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none; color: #ffffff; transition: 0.2s;
-        }
-        .btn-ui:active { background-color: rgba(255, 255, 255, 0.3); }
-        .icon-only { width: 42px; }
-        .with-text { padding: 0 12px; gap: 6px; font-weight: 700; font-size: 13px; }
+        /* منطقة المستخدم (يسار الصورة - يمين الكود بسب RTL) */
+        .user-info-area { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+        .card-icon { width: 35px; height: auto; filter: brightness(0) invert(1); margin-bottom: 5px; }
+        .user-name-wrapper { display: flex; align-items: center; gap: 6px; color: #ffffff; font-weight: 700; font-size: 17px; }
+        .verified-circle { background-color: #2ecc71; color: white; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        .top-up-btn { border: 2px solid #ffffff; border-radius: 25px; padding: 6px 22px; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 800; transition: 0.2s; }
+        .top-up-btn:active { background: white; color: black; }
 
-        .wallet-display {
-            display: flex; align-items: center; gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 12px; border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .amount { color: #ffffff; font-size: 17px; font-weight: 800; }
+        /* منطقة الرصيد (يمين الصورة - يسار الكود بسب RTL) */
+        .balance-area { display: flex; flex-direction: column; align-items: flex-end; }
+        .balance-label { color: var(--orange-main); font-size: 18px; font-weight: 800; }
+        .balance-value-row { display: flex; align-items: baseline; gap: 8px; color: var(--orange-main); margin-top: -5px; }
+        .big-num { font-size: 45px; font-weight: 900; line-height: 1; }
+        .currency-txt { font-size: 24px; font-weight: 700; }
 
-        /* فرض اللون الأبيض على جميع الأيقونات */
         svg.icon { width: 20px; height: 20px; fill: #ffffff !important; }
-        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; border: 0.5px solid rgba(255,255,255,0.2); }
-
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .main-content { flex-grow: 1; padding: 20px; }
     </style>
 </head>
@@ -113,79 +82,52 @@
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
             </div>
 
             <div class="bottom-header">
-                <div class="action-group">
-                    <a href="messages/" class="btn-ui icon-only">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-                    </a>
-                    <a href="deposit/" class="btn-ui with-text">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                        <span id="deposit-txt">إيداع</span>
-                    </a>
+                <div class="user-info-area">
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                    <div class="user-name-wrapper">
+                        <div class="verified-circle">✓</div>
+                        <span id="user-full-name">جاري التحميل...</span>
+                    </div>
+                    <a href="deposit/" class="top-up-btn">تزويد رصيدي</a>
                 </div>
 
-                <div class="wallet-display">
-                    <span class="amount" id="user-balance">0.00</span>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <div class="balance-area">
+                    <span class="balance-label">رصيدي</span>
+                    <div class="balance-value-row">
+                        <span class="big-num" id="user-balance">0.0</span>
+                        <span class="currency-txt">دولار</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <main class="main-content">
-            </main>
+        <main class="main-content"></main>
     </div>
 
     <script>
-        const regions = [
-            { ar: "الشرق الأوسط", en: "MENA", img: "globe" },
-            { ar: "الجزائر", en: "Algeria", img: "https://flagcdn.com/dz.svg" },
-            { ar: "مصر", en: "Egypt", img: "https://flagcdn.com/eg.svg" },
-            { ar: "العراق", en: "Iraq", img: "https://flagcdn.com/iq.svg" },
-            { ar: "المغرب", en: "Morocco", img: "https://flagcdn.com/ma.svg" },
-            { ar: "نيجيريا", en: "Nigeria", img: "https://flagcdn.com/ng.svg" },
-            { ar: "عمان", en: "Oman", img: "https://flagcdn.com/om.svg" },
-            { ar: "فلسطين", en: "Palestine", img: "https://flagcdn.com/ps.svg" },
-            { ar: "قطر", en: "Qatar", img: "https://flagcdn.com/qa.svg" },
-            { ar: "السعودية", en: "Saudi Arabia", img: "https://flagcdn.com/sa.svg" },
-            { ar: "تونس", en: "Tunisia", img: "https://flagcdn.com/tn.svg" },
-            { ar: "الإمارات", en: "UAE", img: "https://flagcdn.com/ae.svg" }
-        ];
+        // 1. مزامنة البيانات المحفوظة فوراً قبل اتصال Firebase لضمان الثقة
+        function fastSync() {
+            const savedBalance = localStorage.getItem('last_balance') || "0.0";
+            const savedName = localStorage.getItem('last_name') || "مستخدم";
+            
+            document.getElementById('user-balance').innerText = savedBalance;
+            document.getElementById('user-full-name').innerText = savedName;
 
-        function sync() {
             const l = localStorage.getItem('pref_lang') || 'ar';
+            const regions = [{ ar: "الشرق الأوسط", en: "MENA", img: "globe" }, { ar: "المغرب", en: "Morocco", img: "https://flagcdn.com/ma.svg" }]; // اختصار
             const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regions[rIdx] || regions[0];
 
-            const langNameElem = document.getElementById('lang-name');
-            const regNameElem = document.getElementById('reg-name');
-            const depTxtElem = document.getElementById('deposit-txt');
-            
-            if(langNameElem) langNameElem.innerText = l.toUpperCase();
-            if(regNameElem) regNameElem.innerText = reg[l];
-            if(depTxtElem) depTxtElem.innerText = (l === 'ar') ? 'إيداع' : 'Deposit';
-            
-            const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                if(reg.img === "globe") {
-                    flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-                } else {
-                    flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
-                }
-            }
-
+            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
+            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
             document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
         }
-
-        window.onload = sync;
-        window.addEventListener('storage', sync);
+        fastSync();
     </script>
 
     <script type="module">
@@ -193,7 +135,6 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // إعدادات Firebase
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
             authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -207,30 +148,25 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // مراقبة تسجيل الدخول وجلب البيانات
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // ربط الصفحة بوثيقة المستخدم في Firestore باستخدام UID
                 const userRef = doc(db, "users", user.uid);
-
-                // استماع لحظي للتغييرات (رصيد، اسم...)
                 onSnapshot(userRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         
-                        // تحديث الرصيد في الواجهة
-                        const amountDisplay = document.getElementById('user-balance');
-                        if (amountDisplay) {
-                            // نتحقق من وجود حقل balance أو نضع 0
-                            const balance = data.balance !== undefined ? data.balance : 0;
-                            amountDisplay.innerText = Number(balance).toFixed(2);
-                        }
-                    } else {
-                        console.log("لا توجد بيانات لهذا المستخدم في Firestore");
+                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(1) : "0.0";
+                        const name = data.fullName || user.displayName || "مستخدم";
+
+                        // تحديث الواجهة وحفظ البيانات (Cache)
+                        document.getElementById('user-balance').innerText = balance;
+                        document.getElementById('user-full-name').innerText = name;
+                        
+                        localStorage.setItem('last_balance', balance);
+                        localStorage.setItem('last_name', name);
                     }
                 });
             } else {
-                // إذا لم يسجل دخول، يتم توجيهه لصفحة الدخول
                 window.location.href = "../"; 
             }
         });
