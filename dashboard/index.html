@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Pro Wallet Header</title>
+    <title>serviocmm - Pro Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -12,17 +12,21 @@
             --header-green: #2E5822; 
             --sub-green: #386E2C; 
             --platform-bg: #f7fafc;
-            --bg-gradient-shortcuts: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --bg-gradient: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --text-dark: #1A2419;
             --brand-red: #C62828;
+            --card-white: #FFFFFF;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
         }
 
         html, body { height: 100%; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
         .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; flex-grow: 1; }
 
-        .sticky-header-container { position: sticky; top: 0; z-index: 1000; width: 100%; }
+        /* جعل الهيدر والإختصارات ثابتة في الأعلى */
+        .sticky-wrapper { position: sticky; top: 0; z-index: 1000; width: 100%; }
 
-        /* --- الهيدر الأول (ثابت) --- */
+        /* --- الهيدر الأول والثاني --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -32,17 +36,16 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         .title-box { display: flex; flex-direction: column; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .title-box span { color: #ffffff; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; opacity: 0.7; }
+
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر الثاني (ثابت) --- */
-        .bottom-header {
-            background-color: var(--sub-green);
-            padding: 15px; box-sizing: border-box;
-        }
+        .bottom-header { background-color: var(--sub-green); padding: 15px; }
 
+        /* --- الهيدر الثالث (بطاقة المحفظة) --- */
         .wallet-card {
             background: rgba(255, 255, 255, 0.12);
             border-radius: 18px;
@@ -50,127 +53,76 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px);
             min-height: 95px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .user-meta-info { display: flex; align-items: center; gap: 12px; flex: 1; }
-        .avatar-box { 
-            width: 48px; height: 48px; 
-            background: rgba(255, 255, 255, 0.15); 
-            border-radius: 14px; 
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+        .avatar-box { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; }
+        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.7); direction: ltr; text-align: right; }
         
-        .name-row { display: flex; align-items: center; gap: 8px; }
-        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; }
-        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; }
-
-        .toggle-visibility { 
-            background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; 
-            display: flex; align-items: center; transition: 0.2s;
-        }
-        .toggle-visibility:active { transform: scale(0.9); }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; }
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px; flex-shrink: 0; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
-        .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
+        .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; }
 
-        /* --- الجزء الجديد: إختصارات المحفظة المحسنة --- */
-        .shortcuts-section {
-            background: var(--bg-gradient-shortcuts);
-            padding: 25px 15px 30px 15px;
+        /* --- قسم الإختصارات (تحت الهيدر) --- */
+        .new-header-container {
+            background: var(--bg-gradient);
+            padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px;
             border-bottom-right-radius: 35px;
-            box-shadow: 0 8px 24px rgba(46, 88, 34, 0.08);
-            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
         }
 
-        .shortcuts-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            padding: 0 5px;
+        .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
+        
+        .back-button {
+            width: 40px; height: 40px; background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
         .shortcuts-scroll-wrapper {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 5px 2px 10px 2px;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
+            display: flex; overflow-x: auto; gap: 15px; padding-bottom: 5px;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
         }
         .shortcuts-scroll-wrapper::-webkit-scrollbar { display: none; }
 
-        .shortcut-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 82px;
-            gap: 12px;
-            text-decoration: none;
-        }
-
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; min-width: 80px; gap: 10px; text-decoration: none; }
         .icon-box {
-            width: 80px;
-            height: 80px;
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1.5px solid rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
+            width: 75px; height: 75px; background: var(--card-white); border-radius: 22px;
+            display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-soft);
+            transition: transform 0.2s;
         }
-
-        .icon-circle {
-            width: 58px;
-            height: 58px;
-            background: #f1f5f1;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .custom-svg-icon { width: 28px; height: 28px; fill: var(--header-green); }
+        .icon-circle { width: 55px; height: 55px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .logout-circle { background: #fdf2f2; }
+        .custom-svg-icon { width: 26px; height: 26px; fill: var(--header-green); }
         .logout-icon { fill: var(--brand-red); }
+        .shortcut-label { font-size: 11px; font-weight: 700; color: #3d4a3c; text-align: center; }
 
-        .shortcut-label {
-            font-size: 10.5px;
-            font-weight: 700;
-            color: #3d4a3c;
-            text-align: center;
-            line-height: 1.2;
-        }
+        .shortcut-item:active .icon-box { transform: scale(0.95); }
 
-        .shortcut-item:active .icon-box { transform: scale(0.92); }
-
-        svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
-        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .main-content { flex-grow: 1; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; }
+        .main-content { flex-grow: 1; padding: 20px; }
     </style>
 </head>
 <body class="notranslate">
 
     <div class="page-wrapper">
-        <div class="sticky-header-container">
+        <div class="sticky-wrapper">
             <div class="top-header">
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
                     <div class="title-box">
-                        <span>مركز الشحن الرسمي</span>
+                        <span id="txt-official-center">مركز الشحن الرسمي</span>
                         <span>Official Top Up Center</span>
                     </div>
                 </div>
@@ -188,11 +140,11 @@
                 <div class="wallet-card">
                     <div class="user-meta-info">
                         <div class="avatar-box">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg style="width:24px; height:24px; fill:#fff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                         <div class="name-stack">
                             <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                            <div class="name-row">
+                            <div style="display:flex; align-items:center; gap:8px;">
                                 <span class="full-name-val" id="user-full-name">---</span>
                                 <button class="toggle-visibility" onclick="togglePrivacy()">
                                     <svg id="eye-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/></svg>
@@ -201,116 +153,44 @@
                             <span class="user-email-val" id="user-email">---</span>
                         </div>
                     </div>
-
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
                         <span class="bal-amount" id="user-balance">0.00</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <main class="main-content">
-            <section class="shortcuts-section">
-                <div class="shortcuts-title">إختصارات المحفظة</div>
+            <div class="new-header-container">
+                <div class="header-top-row">
+                    <div class="section-title" id="txt-shortcuts-title">إختصارات المحفظة</div>
+                    <div class="back-button" onclick="window.history.back()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    </div>
+                </div>
+
                 <div class="shortcuts-scroll-wrapper">
-                    
-                    <a href="smm-services" class="shortcut-item">
-                        <div class="icon-box">
-                            <div class="icon-circle">
-                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2zM12 15.9l-3.76 1.66L12 6.3l3.76 11.26L12 15.9z"/></svg>
-                            </div>
-                        </div>
+                    <a href="smm-services/" class="shortcut-item">
+                        <div class="icon-box"><div class="icon-circle"><svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div></div>
                         <span class="shortcut-label">SMM<br>Services</span>
                     </a>
-
-                    <a href="add-balance" class="shortcut-item">
-                        <div class="icon-box">
-                            <div class="icon-circle">
-                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg>
-                            </div>
-                        </div>
+                    <a href="add-balance/" class="shortcut-item">
+                        <div class="icon-box"><div class="icon-circle"><svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg></div></div>
                         <span class="shortcut-label">Add<br>Balance</span>
                     </a>
-
-                    <a href="account-subscription" class="shortcut-item">
-                        <div class="icon-box">
-                            <div class="icon-circle">
-                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                            </div>
-                        </div>
+                    <a href="account-subscription/" class="shortcut-item">
+                        <div class="icon-box"><div class="icon-circle"><svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg></div></div>
                         <span class="shortcut-label">Account<br>Subscription</span>
                     </a>
-
                     <div class="shortcut-item" onclick="handleLogout()">
-                        <div class="icon-box">
-                            <div class="icon-circle logout-circle">
-                                <svg class="custom-svg-icon logout-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                            </div>
-                        </div>
-                        <span class="shortcut-label">Logout<br>Account</span>
+                        <div class="icon-box"><div class="icon-circle logout-circle"><svg class="custom-svg-icon logout-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div></div>
+                        <span class="shortcut-label" id="txt-logout">Logout<br>Account</span>
                     </div>
-
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
+
+        <main class="main-content"></main>
     </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // وظيفة تسجيل الخروج
-        window.handleLogout = async function() {
-            if (confirm("هل أنت متأكد من تسجيل الخروج؟")) {
-                try {
-                    await signOut(auth);
-                    localStorage.clear();
-                    sessionStorage.clear();
-                    window.location.href = "login"; 
-                } catch (error) {
-                    console.error("Error signing out: ", error);
-                }
-            }
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const userRef = doc(db, "users", user.uid);
-                onSnapshot(userRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
-                        
-                        currentName = data.fullName || user.displayName || "User";
-                        currentEmail = user.email || "---";
-
-                        document.getElementById('user-balance').innerText = balance;
-                        localStorage.setItem('last_balance', balance);
-                        localStorage.setItem('last_name', currentName);
-                        localStorage.setItem('last_email', currentEmail);
-                        renderUserData();
-                    }
-                });
-            } else {
-                window.location.href = "../"; 
-            }
-        });
-    </script>
 
     <script>
         const regions = [
@@ -337,21 +217,22 @@
             const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regions[rIdx] || regions[0];
 
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
-            
+            // تعريب وترجمة النصوص
+            document.getElementById('lang-name').innerText = l.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[l];
             document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
-            document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
-            
+            document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Current Balance';
+            document.getElementById('txt-official-center').innerText = (l === 'ar') ? 'مركز الشحن الرسمي' : 'Official Top Up Center';
+            document.getElementById('txt-shortcuts-title').innerText = (l === 'ar') ? 'إختصارات المحفظة' : 'Wallet Shortcuts';
+            document.getElementById('txt-logout').innerHTML = (l === 'ar') ? 'تسجيل الخروج' : 'Logout<br>Account';
+
             document.getElementById('user-balance').innerText = localStorage.getItem('last_balance') || "0.00";
             
             const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                if(reg.img === "globe") {
-                    flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-                } else {
-                    flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
-                }
+            if(reg.img === "globe") {
+                flagBox.innerHTML = `<svg style="width:20px; height:20px; fill:#fff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg>`;
+            } else {
+                flagBox.innerHTML = `<img src="${reg.img}" class="nav-flag">`;
             }
 
             document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
@@ -368,7 +249,6 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-
             if (isPrivacyOn) {
                 nameEl.innerText = "••••••••";
                 emailEl.innerText = "••••••••••••";
@@ -380,7 +260,56 @@
             }
         }
 
+        function handleLogout() {
+            const l = localStorage.getItem('pref_lang') || 'ar';
+            const msg = (l === 'ar') ? "هل أنت متأكد من تسجيل الخروج؟" : "Are you sure you want to logout?";
+            if (confirm(msg)) {
+                localStorage.clear();
+                window.location.href = "login/"; 
+            }
+        }
+
         window.onload = sync;
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+            authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", 
+            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", 
+            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                onSnapshot(userRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
+                        currentName = data.fullName || user.displayName || "User";
+                        currentEmail = user.email || "---";
+                        document.getElementById('user-balance').innerText = balance;
+                        localStorage.setItem('last_balance', balance);
+                        localStorage.setItem('last_name', currentName);
+                        localStorage.setItem('last_email', currentEmail);
+                        renderUserData();
+                    }
+                });
+            } else {
+                window.location.href = "../"; 
+            }
+        });
     </script>
 </body>
 </html>
