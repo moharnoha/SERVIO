@@ -12,6 +12,8 @@
             --header-green: #2E5822; 
             --sub-green: #386E2C; 
             --platform-bg: #f7fafc;
+            --bg-gradient-shortcuts: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --brand-red: #C62828;
         }
 
         html, body { height: 100%; margin: 0; padding: 0; }
@@ -20,7 +22,7 @@
 
         .sticky-header-container { position: sticky; top: 0; z-index: 1000; width: 100%; }
 
-        /* --- الهيدر الأول --- */
+        /* --- الهيدر الأول (ثابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -35,7 +37,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر الثاني --- */
+        /* --- الهيدر الثاني (ثابت) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -76,24 +78,87 @@
         .toggle-visibility:active { transform: scale(0.9); }
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px; flex-shrink: 0; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        .deposit-link {
-            background: #ffffff;
-            color: var(--header-green);
-            padding: 7px 16px;
-            border-radius: 9px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 800;
-            margin-top: 6px;
+        /* --- الجزء الجديد: إختصارات المحفظة المحسنة --- */
+        .shortcuts-section {
+            background: var(--bg-gradient-shortcuts);
+            padding: 25px 15px 30px 15px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: 0 8px 24px rgba(46, 88, 34, 0.08);
+            margin-bottom: 20px;
         }
+
+        .shortcuts-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding: 0 5px;
+        }
+
+        .shortcuts-scroll-wrapper {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 5px 2px 10px 2px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .shortcuts-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        .shortcut-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 82px;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .icon-circle {
+            width: 58px;
+            height: 58px;
+            background: #f1f5f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-svg-icon { width: 28px; height: 28px; fill: var(--header-green); }
+        .logout-circle { background: #fdf2f2; }
+        .logout-icon { fill: var(--brand-red); }
+
+        .shortcut-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #3d4a3c;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .shortcut-item:active .icon-box { transform: scale(0.92); }
 
         svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .main-content { flex-grow: 1; padding: 20px; }
+        .main-content { flex-grow: 1; }
     </style>
 </head>
 <body class="notranslate">
@@ -138,16 +203,114 @@
                     </div>
 
                     <div class="balance-stack">
-                        <span class="bal-title" id="txt-balance-label">رصيدك</span>
+                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
                         <span class="bal-amount" id="user-balance">0.00</span>
-                        <a href="deposit/" class="deposit-link" id="btn-deposit-txt">إيداع</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <main class="main-content"></main>
+        <main class="main-content">
+            <section class="shortcuts-section">
+                <div class="shortcuts-title">إختصارات المحفظة</div>
+                <div class="shortcuts-scroll-wrapper">
+                    
+                    <a href="smm-services" class="shortcut-item">
+                        <div class="icon-box">
+                            <div class="icon-circle">
+                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2zM12 15.9l-3.76 1.66L12 6.3l3.76 11.26L12 15.9z"/></svg>
+                            </div>
+                        </div>
+                        <span class="shortcut-label">SMM<br>Services</span>
+                    </a>
+
+                    <a href="add-balance" class="shortcut-item">
+                        <div class="icon-box">
+                            <div class="icon-circle">
+                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z"/></svg>
+                            </div>
+                        </div>
+                        <span class="shortcut-label">Add<br>Balance</span>
+                    </a>
+
+                    <a href="account-subscription" class="shortcut-item">
+                        <div class="icon-box">
+                            <div class="icon-circle">
+                                <svg class="custom-svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                            </div>
+                        </div>
+                        <span class="shortcut-label">Account<br>Subscription</span>
+                    </a>
+
+                    <div class="shortcut-item" onclick="handleLogout()">
+                        <div class="icon-box">
+                            <div class="icon-circle logout-circle">
+                                <svg class="custom-svg-icon logout-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                            </div>
+                        </div>
+                        <span class="shortcut-label">Logout<br>Account</span>
+                    </div>
+
+                </div>
+            </section>
+        </main>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+            authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", 
+            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", 
+            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // وظيفة تسجيل الخروج
+        window.handleLogout = async function() {
+            if (confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+                try {
+                    await signOut(auth);
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.href = "login"; 
+                } catch (error) {
+                    console.error("Error signing out: ", error);
+                }
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                onSnapshot(userRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
+                        
+                        currentName = data.fullName || user.displayName || "User";
+                        currentEmail = user.email || "---";
+
+                        document.getElementById('user-balance').innerText = balance;
+                        localStorage.setItem('last_balance', balance);
+                        localStorage.setItem('last_name', currentName);
+                        localStorage.setItem('last_email', currentEmail);
+                        renderUserData();
+                    }
+                });
+            } else {
+                window.location.href = "../"; 
+            }
+        });
+    </script>
 
     <script>
         const regions = [
@@ -174,18 +337,14 @@
             const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regions[rIdx] || regions[0];
 
-            // تحديث نصوص المنطقة واللغة
             if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = l.toUpperCase();
             if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[l];
             
-            // تحديث نصوص الواجهة
             document.getElementById('txt-welcome').innerText = (l === 'ar') ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = (l === 'ar') ? 'رصيدك الحالي' : 'Balance';
-            document.getElementById('btn-deposit-txt').innerText = (l === 'ar') ? 'إيداع' : 'Deposit';
             
             document.getElementById('user-balance').innerText = localStorage.getItem('last_balance') || "0.00";
             
-            // تحديث العلم
             const flagBox = document.getElementById('flag-ui');
             if(flagBox) {
                 if(reg.img === "globe") {
@@ -198,13 +357,6 @@
             document.documentElement.dir = (l === 'ar') ? 'rtl' : 'ltr';
             renderUserData();
         }
-
-        // الاستماع لتغييرات localStorage من صفحات أخرى
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'pref_lang' || e.key === 'pref_reg_idx') {
-                sync();
-            }
-        });
 
         function togglePrivacy() {
             isPrivacyOn = !isPrivacyOn;
@@ -229,48 +381,6 @@
         }
 
         window.onload = sync;
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const userRef = doc(db, "users", user.uid);
-                onSnapshot(userRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        const balance = data.balance !== undefined ? Number(data.balance).toFixed(2) : "0.00";
-                        
-                        currentName = data.fullName || user.displayName || "User";
-                        currentEmail = user.email || "---";
-
-                        document.getElementById('user-balance').innerText = balance;
-                        localStorage.setItem('last_balance', balance);
-                        localStorage.setItem('last_name', currentName);
-                        localStorage.setItem('last_email', currentEmail);
-                        renderUserData();
-                    }
-                });
-            } else {
-                window.location.href = "../"; 
-            }
-        });
     </script>
 </body>
 </html>
