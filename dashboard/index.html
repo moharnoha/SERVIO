@@ -20,7 +20,6 @@
             --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
         }
 
-        /* تعديل لجعل الصفحة ثابتة كقطعة واحدة */
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
         .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
@@ -74,33 +73,60 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 700; }
         .bal-amount { font-size: 22px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        /* --- الهيدر الثالث (المحتوى المتغير) --- */
+        /* --- الهيدر الثالث (المحتوى المحدث) --- */
         .new-header-container {
             background: var(--bg-gradient);
-            padding: 25px 20px 30px 20px;
+            padding: 25px 15px 30px 15px;
             border-bottom-left-radius: 35px;
             border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
             margin-bottom: 0; 
         }
-        .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
+        .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; padding: 0 5px; }
+        .section-title { font-size: 18px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.3px; }
         
         .shortcuts-scroll-wrapper { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 10px; 
-            padding: 5px 2px 10px 2px;
-            overflow-x: hidden; 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 5px 0;
         }
         
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; transition: 0.2s; }
-        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(255, 255, 255, 0.7); transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
-        .icon-circle { width: 45px; height: 45px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .logout-circle { background: #fdf2f2; }
-        .shortcut-svg { width: 24px; height: 24px; fill: var(--brand-green); }
+        .shortcut-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-decoration: none; 
+            gap: 10px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .shortcut-item:active { transform: scale(0.92); }
+
+        .icon-box { 
+            width: 64px; 
+            height: 64px; 
+            background: var(--card-white); 
+            border-radius: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+        .icon-circle { 
+            width: 42px; 
+            height: 42px; 
+            background: #f1f6f0; 
+            border-radius: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .logout-circle { background: #fff1f1; }
+        .shortcut-svg { width: 22px; height: 22px; fill: var(--brand-green); }
         .logout-svg { fill: var(--brand-red); }
-        .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; line-height: 1.2; white-space: nowrap; }
+        .shortcut-label { font-size: 10px; font-weight: 700; color: #4a5a49; text-align: center; line-height: 1.3; }
         
         svg.icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
@@ -217,13 +243,10 @@
             if(confirm("هل تريد تسجيل الخروج؟")) signOut(auth).then(() => window.location.href = "../");
         };
 
-        // دالة مخصصة لتنسيق الرصيد بذكاء (مثل البنوك)
         function formatSmartBalance(num) {
             const val = Number(num);
             if (isNaN(val)) return "0";
-            // إذا كان الرقم صحيحاً تماماً، لا تظهر أصفاراً بعد الفاصلة
             if (Number.isInteger(val)) return val.toString();
-            // إذا كان كسر، أظهر حتى 7 أرقام وقم بإزالة الأصفار الزائدة في نهاية الكسر
             return val.toFixed(7).replace(/\.?0+$/, "");
         }
 
@@ -266,11 +289,14 @@
 
         function sync() {
             const l = localStorage.getItem('pref_lang') || 'ar';
-            const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            // جلب مؤشر المنطقة من التخزين، أو استخدام 0 (الشرق الأوسط) كقيمة افتراضية ثابتة
+            const rIdx = localStorage.getItem('pref_reg_idx') !== null ? parseInt(localStorage.getItem('pref_reg_idx')) : 0;
             const reg = regions[rIdx] || regions[0];
+
             document.getElementById('lang-name').innerText = l.toUpperCase();
             document.getElementById('reg-name').innerText = reg[l];
             document.getElementById('user-balance').innerText = window.currentBalance;
+            
             const isAr = (l === 'ar');
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
@@ -279,6 +305,7 @@
             document.getElementById('lbl-add').innerText = isAr ? 'إضافة رصيد' : 'Add Balance';
             document.getElementById('lbl-sub').innerText = isAr ? 'اشتراك الحساب' : 'Subscription';
             document.getElementById('lbl-logout').innerText = isAr ? 'تسجيل الخروج' : 'Logout';
+            
             const flagBox = document.getElementById('flag-ui');
             if(reg.img === "map-marker") {
                 flagBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
