@@ -26,7 +26,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر 1 --- */
+        /* --- الهيدر 1 (ثابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -41,7 +41,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر 2 (ثبات الواليت) --- */
+        /* --- الهيدر 2 (رصيد ثابت 0.00) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -74,7 +74,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر 3 --- */
+        /* --- الهيدر 3 (محدث) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -191,16 +191,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // تنسيق الرصيد: إذا كان صفر يظهر 0.00، وإذا كان رقم يظهر الحقيقي
-        function formatBalance(num) {
-            const val = Number(num);
-            if (isNaN(val) || val === 0) return "0.00";
-            // إذا كان الرقم فيه كسور كثيرة يظهر الرصيد الحقيقي بدقة (مثل 0.00012)
-            if (val > 0 && val < 0.01) return val.toFixed(5).replace(/\.?0+$/, "");
-            // الرصيد العادي بفاصلتين عشريتين
-            return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
-        }
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
@@ -208,9 +198,8 @@
                         const d = snap.data();
                         window.currentName = d.fullName || d.name || "User";
                         window.currentEmail = user.email;
-                        window.currentBalance = formatBalance(d.balance || 0);
                         
-                        document.getElementById('user-balance').innerText = window.currentBalance;
+                        // تم إلغاء تحديث الرصيد هنا ليبقى ثابتاً على 0.00 في الواجهة
                         renderUserData();
                     }
                 });
@@ -224,6 +213,7 @@
     </script>
 
     <script>
+        // مصفوفة الدول للتوافق مع الاختيارات
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
