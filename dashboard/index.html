@@ -73,7 +73,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (المحدث) --- */
+        /* --- الهيدر الثالث (تعديل الألوان والتنسيق) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -93,7 +93,7 @@
         .logout-svg { fill: var(--brand-red); }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
 
-        /* --- الهيدر الرابع (المعاملات) --- */
+        /* --- الهيدر الرابع: قسم المعاملات --- */
         .transactions-header {
             padding: 25px 20px;
             background: #ffffff;
@@ -181,7 +181,7 @@
                 </a>
                 <a href="account-subscription/" class="shortcut-item">
                     <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-sub">اشتراك</span>
+                    <span class="shortcut-label" id="lbl-sub">اشتراك الحساب</span>
                 </a>
                 <div class="shortcut-item" onclick="handleLogout()">
                     <div class="icon-box"><div class="icon-circle logout-circle"><svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div></div>
@@ -193,7 +193,7 @@
         <div class="transactions-header">
             <div class="section-title" id="txt-trans-title">المعاملات الأخيرة</div>
             <div id="trans-container" class="trans-list">
-                <div class="empty-state" id="txt-empty">لا توجد معاملات حتى الآن</div>
+                <div class="empty-state" id="txt-empty">جاري تحميل البيانات...</div>
             </div>
         </div>
 
@@ -220,30 +220,26 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // مراقبة بيانات الرصيد والاسم للمستخدم الحالي
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const fBal = (d.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 });
-                        const fName = d.fullName || d.name || "User";
-                        
-                        window.currentName = fName;
-                        window.currentEmail = user.email;
-                        
-                        document.getElementById('user-balance').innerText = fBal;
-                        document.getElementById('user-full-name').innerText = fName;
-                        document.getElementById('user-email').innerText = user.email;
+                        window.currentName = d.fullName || d.name || "User";
+                        window.currentEmail = user.email || "---";
+                        const bal = Number(d.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                        document.getElementById('user-balance').innerText = bal;
                         renderUserData();
                     }
                 });
 
-                // تعديل هنا: عرض القيمة كما هي من Firebase (بدون إضافة ناقص إضافية)
+                // مراقبة معاملات المستخدم الحالي (التي تخص الـ UID الخاص به فقط)
                 const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(5));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
-                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات حتى الآن' : 'No transactions yet'}</div>`;
+                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات لهذا الحساب' : 'No transactions found'}</div>`;
                     } else {
                         container.innerHTML = "";
                         snap.forEach(doc => {
@@ -255,7 +251,7 @@
                                             <svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
                                         </div>
                                         <div class="trans-meta">
-                                            <span class="trans-name">${t.description || (isAr ? 'شراء' : 'Purchase')}</span>
+                                            <span class="trans-name">${t.description || (isAr ? 'عملية شراء' : 'Purchase')}</span>
                                             <span class="trans-date">${t.timestamp?.toDate().toLocaleDateString() || ''}</span>
                                         </div>
                                     </div>
@@ -264,19 +260,23 @@
                         });
                     }
                 });
-
-            } else { window.location.href = "../"; }
+            } else { 
+                window.location.href = "../"; 
+            }
         });
 
         window.handleLogout = () => {
             if(confirm("هل تريد تسجيل الخروج؟")) {
-                signOut(auth).then(() => { localStorage.clear(); window.location.href = "../"; });
+                signOut(auth).then(() => {
+                    localStorage.clear();
+                    window.location.href = "../";
+                });
             }
         };
     </script>
 
     <script>
-        // كود التحكم في اللغة والأقاليم والخصوصية (نفس منطقك السابق)
+        // منطق تبديل اللغة والمنطقة والخصوصية
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -300,23 +300,33 @@
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-shortcuts-title').innerText = isAr ? 'إختصارات المحفظة' : 'Shortcuts';
             document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
+            document.getElementById('lbl-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('lbl-add').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('lbl-sub').innerText = isAr ? 'اشتراك' : 'Subscription';
             document.getElementById('lbl-logout').innerText = isAr ? 'خروج' : 'Logout';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             renderUserData();
         }
 
-        function togglePrivacy() { isPrivacyOn = !isPrivacyOn; localStorage.setItem('privacy_active', isPrivacyOn); renderUserData(); }
+        function togglePrivacy() {
+            isPrivacyOn = !isPrivacyOn;
+            localStorage.setItem('privacy_active', isPrivacyOn);
+            renderUserData();
+        }
 
         function renderUserData() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
             if (isPrivacyOn) {
-                document.getElementById('user-full-name').innerText = "••••••••"; 
-                document.getElementById('user-email').innerText = "••••••••••••";
+                nameEl.innerText = "••••••••"; 
+                emailEl.innerText = "••••••••••••";
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
             } else {
-                document.getElementById('user-full-name').innerText = window.currentName || "---"; 
-                document.getElementById('user-email').innerText = window.currentEmail || "---";
+                nameEl.innerText = window.currentName || "---"; 
+                emailEl.innerText = window.currentEmail || "---";
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         }
