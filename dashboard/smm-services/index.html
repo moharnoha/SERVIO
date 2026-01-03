@@ -116,11 +116,6 @@
                             <span id="btn-text">تأكيد الطلب والدفع</span>
                             <div class="spinner"></div>
                         </button>
-                        
-                        <div class="security-badge">
-                            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
-                            <span id="safe-text">بوابة دفع آمنة مشفرة بواسطة SERVIO</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -129,37 +124,29 @@
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
-
         function formatNumber(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-
         function updatePriceAndFormat() {
             const qtyInput = document.getElementById("quantity");
-            const displayPrice = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
-            const valNum = parseInt(rawValue) || 0;
-            const total = unitPrice * valNum;
-            displayPrice.innerText = `$${Number(total.toFixed(7))}`;
+            const total = unitPrice * (parseInt(rawValue) || 0);
+            document.getElementById("display-price").innerText = `$${Number(total.toFixed(7))}`;
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
-            localStorage.setItem("temp_qty", rawValue);
         }
-
         function updateUI() {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('min-hint').innerText = (isAr ? "الأدنى: " : "Min: ") + (localStorage.getItem("service_min") || "--");
             document.getElementById('max-hint').innerText = (isAr ? "الأقصى: " : "Max: ") + (localStorage.getItem("service_max") || "--");
-            document.getElementById("category").innerText = localStorage.getItem('chosen_service') || (isAr ? "اختر الخدمة..." : "Select Service...");
+            document.getElementById("category").innerText = localStorage.getItem('chosen_service') || "Select Service...";
             document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
             updatePriceAndFormat();
         }
-
         function goToCategory() {
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
             location.href = `../Category/`;
         }
-
         window.onload = updateUI;
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
@@ -181,7 +168,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
         let currentUser = null;
 
         onAuthStateChanged(auth, (user) => {
@@ -192,8 +178,7 @@
         });
 
         document.getElementById("payBtn").onclick = async function() {
-            if (!currentUser) { alert("يرجى تسجيل الدخول أولاً"); return; }
-
+            if (!currentUser) { alert("يرجى تسجيل الدخول"); return; }
             const link = document.getElementById("platformLink").value;
             const email = document.getElementById("email").value;
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
@@ -202,9 +187,7 @@
             const finalCharge = unitPrice * qtyNum;
             const service = localStorage.getItem("chosen_service");
 
-            if (!link || !service || qtyNum <= 0 || !email.includes('@')) {
-                alert("يرجى إكمال البيانات بشكل صحيح"); return;
-            }
+            if (!link || !service || qtyNum <= 0) { alert("اكمل البيانات"); return; }
 
             this.classList.add('loading');
             this.disabled = true;
@@ -213,40 +196,33 @@
                 const userRef = doc(db, "users", currentUser.uid);
                 const userSnap = await getDoc(userRef);
 
-                if (userSnap.exists()) {
-                    const balance = userSnap.data().balance || 0;
+                if (userSnap.exists() && (userSnap.data().balance || 0) >= finalCharge) {
+                    // 1. تحديث الرصيد
+                    await updateDoc(userRef, {
+                        balance: increment(-finalCharge),
+                        total_spend: increment(finalCharge)
+                    });
 
-                    if (balance >= finalCharge) {
-                        // 1. الخصم وتحديث إحصائيات المستخدم
-                        await updateDoc(userRef, {
-                            balance: increment(-finalCharge),
-                            total_spend: increment(finalCharge)
-                        });
+                    // 2. إضافة المعاملة (سبب الخطأ إذا لم تكن القواعد مفتوحة)
+                    await addDoc(collection(db, "users", currentUser.uid, "transactions"), {
+                        amount: finalCharge.toFixed(2),
+                        description: service,
+                        timestamp: serverTimestamp(),
+                        type: "order"
+                    });
 
-                        // 2. تسجيل المعاملة في Firestore (لتظهر في الهيدر)
-                        await addDoc(collection(db, "users", currentUser.uid, "transactions"), {
-                            amount: finalCharge.toFixed(2),
-                            description: service,
-                            timestamp: serverTimestamp(),
-                            type: "order"
-                        });
+                    // 3. شيت جوجل
+                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge, gmail: email }) });
 
-                        // 3. الإرسال لـ Google Sheets
-                        const data = { platformLink: link, category: service, quantity: qtyNum, charge: `$${finalCharge.toFixed(7)}`, gmail: email };
-                        await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-
-                        // 4. الانتهاء والتحويل لصفحة التأكيد
-                        localStorage.removeItem("temp_qty");
-                        location.href = `Confirm/?link=${encodeURIComponent(link)}`;
-                    } else {
-                        alert("رصيدك غير كافٍ!");
-                        this.classList.remove('loading');
-                        this.disabled = false;
-                    }
+                    location.href = `Confirm/?link=${encodeURIComponent(link)}`;
+                } else {
+                    alert("رصيد غير كافٍ");
+                    this.classList.remove('loading');
+                    this.disabled = false;
                 }
             } catch (e) {
-                console.error("Payment Error:", e);
-                alert("خطأ: " + e.message);
+                console.error(e);
+                alert("خطأ في الأذونات: تأكد من إعداد Rules في Firebase");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
