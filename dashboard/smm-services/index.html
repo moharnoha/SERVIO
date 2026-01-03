@@ -22,6 +22,12 @@
             .main-container { max-width: 800px; margin: 20px; border-radius: 20px; min-height: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         }
 
+        header { 
+            width: 100%; height: 65px; background-color: var(--bg-light); border-bottom: 1px solid var(--border-gray); 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box; 
+            position: sticky; top: 0; z-index: 1000;
+        }
+
         .content-area { padding: 20px 16px; flex: 1; }
         .order-card { width: 100%; background: #ffffff; border-radius: 24px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.03); padding: 24px; box-sizing: border-box; }
         .order-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
@@ -54,6 +60,9 @@
         .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
+        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
     </style>
 </head>
 <body>
@@ -69,24 +78,24 @@
 
                     <div class="form-grid">
                         <div class="field">
-                            <label class="label">رابط الحساب / المنشور</label>
-                            <div class="input-box">
+                            <label class="label" id="label-platform">رابط الحساب / المنشور</label>
+                            <div class="input-box" id="box-platform">
                                 <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" placeholder="أدخل الرابط هنا">
+                                <input id="platformLink" placeholder="أدخل الرابط يدوياً هنا">
                             </div>
                         </div>
 
                         <div class="field" onclick="goToCategory()">
-                            <label class="label">الفئة المختارة</label>
-                            <div class="input-box" style="cursor:pointer">
+                            <label class="label" id="label-category">الفئة المختارة</label>
+                            <div class="input-box" style="cursor:pointer" id="box-category">
                                 <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
                                 <span id="category"></span>
                             </div>
                         </div>
 
                         <div class="field">
-                            <label class="label">الكمية المطلوبة</label>
-                            <div class="input-box">
+                            <label class="label" id="label-quantity">الكمية المطلوبة</label>
+                            <div class="input-box" id="box-quantity">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
                                 <input id="quantity" type="text" inputmode="numeric">
                             </div>
@@ -97,15 +106,15 @@
                         </div>
 
                         <div class="field">
-                            <label class="label">البريد الإلكتروني (Gmail)</label>
-                            <div class="input-box">
+                            <label class="label" id="label-email">البريد الإلكتروني (Gmail)</label>
+                            <div class="input-box" id="box-email">
                                 <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
                                 <input id="email" type="email" placeholder="example@gmail.com">
                             </div>
                         </div>
 
                         <div class="price-container">
-                            <span class="price-label">إجمالي المستحق</span>
+                            <span class="price-label" id="label-total">إجمالي المستحق</span>
                             <span class="price-value" id="display-price">$0</span>
                         </div>
 
@@ -113,6 +122,11 @@
                             <span id="btn-text">تأكيد الطلب والدفع</span>
                             <div class="spinner"></div>
                         </button>
+                        
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7L18,11V14.5C18,17.83 15.5,20.82 12,21.93C8.5,20.82 6,17.83 6,14.5V11L12,7M12,9.15L8.43,12.72L9.85,14.14L12,11.97L14.14,14.12L15.56,12.7L12,9.15Z"/></svg>
+                            <span id="safe-text">بوابة دفع آمنة مشفرة بواسطة SERVIO</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,7 +135,9 @@
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+
         function formatNumber(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
         function updatePriceAndFormat() {
             const qtyInput = document.getElementById("quantity");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
@@ -130,19 +146,23 @@
             document.getElementById("display-price").innerText = `$${Number(total.toFixed(7))}`;
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
         }
+
         function updateUI() {
-            document.getElementById('min-hint').innerText = "الأدنى: " + (localStorage.getItem("service_min") || "--");
-            document.getElementById('max-hint').innerText = "الأقصى: " + (localStorage.getItem("service_max") || "--");
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            document.getElementById('min-hint').innerText = (isAr ? "الأدنى: " : "Min: ") + (localStorage.getItem("service_min") || "--");
+            document.getElementById('max-hint').innerText = (isAr ? "الأقصى: " : "Max: ") + (localStorage.getItem("service_max") || "--");
             document.getElementById("category").innerText = localStorage.getItem('chosen_service') || "Select Service...";
             document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
             document.getElementById("email").value = localStorage.getItem("temp_email") || "";
             updatePriceAndFormat();
         }
+
         function goToCategory() {
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             localStorage.setItem("temp_email", document.getElementById("email").value);
             location.href = `../Category/`;
         }
+
         window.onload = updateUI;
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
@@ -166,7 +186,12 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => { if (user) currentUser = user; });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                if(!document.getElementById("email").value) document.getElementById("email").value = user.email;
+            }
+        });
 
         document.getElementById("payBtn").onclick = async function() {
             if (!currentUser) { alert("يرجى تسجيل الدخول"); return; }
@@ -188,13 +213,14 @@
                 const userSnap = await getDoc(userRef);
 
                 if (userSnap.exists() && (userSnap.data().balance || 0) >= finalCharge) {
-                    // 1. خصم الرصيد من جدول users
+                    
+                    // 1. تحديث الرصيد والإنفاق
                     await updateDoc(userRef, {
                         balance: increment(-finalCharge),
                         total_spend: increment(finalCharge)
                     });
 
-                    // 2. تسجيل المعاملة في الجدول الرئيسي (كما في الصورة)
+                    // 2. تسجيل المعاملة في المجلد الرئيسي (المسار الجديد المعتمد)
                     await addDoc(collection(db, "transactions"), {
                         amount: -finalCharge.toFixed(2),
                         description: "عملية شراء: " + service,
@@ -203,8 +229,18 @@
                         userEmail: email
                     });
 
-                    // 3. شيت جوجل
-                    await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge, gmail: email }) });
+                    // 3. الإرسال لشيت جوجل
+                    await fetch(scriptURL, { 
+                        method: "POST", 
+                        mode: "no-cors", 
+                        body: JSON.stringify({ 
+                            platformLink: link, 
+                            category: service, 
+                            quantity: qtyNum, 
+                            charge: finalCharge.toFixed(7), 
+                            gmail: email 
+                        }) 
+                    });
 
                     location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 } else {
@@ -213,8 +249,7 @@
                     this.disabled = false;
                 }
             } catch (e) {
-                console.error(e);
-                alert("حدث خطأ في الأذونات");
+                alert("خطأ في الأذونات: تأكد من تحديث Rules");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
