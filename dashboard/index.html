@@ -26,7 +26,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول والثاني (ثوابت - لا يتم تعديلها) --- */
+        /* --- الهيدر الأول والثاني (ثوابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -73,7 +73,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (تم تحديثه ليكون تفاعلياً) --- */
+        /* --- الهيدر الثالث (تم تحديثه) --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -93,10 +93,18 @@
         .logout-svg { fill: var(--brand-red); }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
 
-        /* --- قسم المعاملات (تعديلات للعرض الديناميكي) --- */
-        .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
+        /* --- الهيدر الرابع: قسم المعاملات (جديد) --- */
+        .transactions-header {
+            padding: 25px 20px;
+            background: #ffffff;
+            margin-top: 10px;
+        }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .trans-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed; }
+        .trans-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; background: #f9fbf9; border-radius: 15px;
+            border: 1px solid #edf2ed;
+        }
         .trans-info { display: flex; align-items: center; gap: 12px; }
         .trans-icon-bg { width: 40px; height: 40px; border-radius: 12px; background: #fff1f1; display: flex; align-items: center; justify-content: center; }
         .trans-meta { display: flex; flex-direction: column; }
@@ -185,7 +193,7 @@
         <div class="transactions-header">
             <div class="section-title" id="txt-trans-title">المعاملات الأخيرة</div>
             <div id="trans-container" class="trans-list">
-                <div class="empty-state" id="txt-empty">جاري تحميل البيانات...</div>
+                <div class="empty-state" id="txt-empty">لا توجد معاملات حتى الآن</div>
             </div>
         </div>
 
@@ -212,29 +220,46 @@
 
         function formatBalance(num) {
             const val = Number(num);
-            return isNaN(val) ? "0.00" : val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (isNaN(val) || val === 0) return "0.00";
+            return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
         }
+
+        // --- استعادة البيانات فوراً من الذاكرة المحلية ---
+        const savedBal = localStorage.getItem('user_last_balance');
+        const savedName = localStorage.getItem('user_last_name');
+        const savedEmail = localStorage.getItem('user_last_email');
+        
+        if(savedBal) document.getElementById('user-balance').innerText = savedBal;
+        if(savedName) document.getElementById('user-full-name').innerText = savedName;
+        if(savedEmail) document.getElementById('user-email').innerText = savedEmail;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // مراقبة بيانات المستخدم الشخصية
+                // مراقبة بيانات المستخدم
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        window.currentName = d.fullName || d.name || "User";
-                        window.currentEmail = user.email || "---";
                         const fBal = formatBalance(d.balance || 0);
+                        const fName = d.fullName || d.name || "User";
+                        const fEmail = user.email || "---";
+                        
+                        window.currentName = fName;
+                        window.currentEmail = fEmail;
+                        window.currentBalance = fBal;
                         
                         document.getElementById('user-balance').innerText = fBal;
+                        document.getElementById('user-full-name').innerText = fName;
+                        document.getElementById('user-email').innerText = fEmail;
+                        
                         localStorage.setItem('user_last_balance', fBal);
-                        localStorage.setItem('user_last_name', window.currentName);
-                        localStorage.setItem('user_last_email', window.currentEmail);
+                        localStorage.setItem('user_last_name', fName);
+                        localStorage.setItem('user_last_email', fEmail);
                         
                         renderUserData();
                     }
                 });
 
-                // مراقبة المعاملات الخاصة بهذا الـ UID حصراً
+                // مراقبة المعاملات (Header 4)
                 const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(5));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
@@ -253,24 +278,27 @@
                                             <svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
                                         </div>
                                         <div class="trans-meta">
-                                            <span class="trans-name">${t.description || (isAr ? 'عملية شراء' : 'Purchase')}</span>
+                                            <span class="trans-name">${t.description || (isAr ? 'شراء بقيمة' : 'Purchase')}</span>
                                             <span class="trans-date">${t.timestamp?.toDate().toLocaleDateString() || ''}</span>
                                         </div>
                                     </div>
-                                    <span class="trans-val">${t.amount}</span>
+                                    <span class="trans-val">-${t.amount}</span>
                                 </div>`;
                         });
                     }
                 });
 
             } else { 
+                localStorage.removeItem('user_last_balance');
+                localStorage.removeItem('user_last_name');
+                localStorage.removeItem('user_last_email');
                 window.location.href = "../"; 
             }
         });
 
         window.handleLogout = () => {
-            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            if(confirm(isAr ? "هل تريد تسجيل الخروج؟" : "Do you want to logout?")) {
+            const l = localStorage.getItem('pref_lang') || 'ar';
+            if(confirm(l === 'ar' ? "هل تريد تسجيل الخروج؟" : "Do you want to logout?")) {
                 signOut(auth).then(() => {
                     localStorage.clear();
                     window.location.href = "../";
@@ -280,11 +308,13 @@
     </script>
 
     <script>
-        // إعدادات المناطق واللغات
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
-            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' }
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
         ];
 
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
