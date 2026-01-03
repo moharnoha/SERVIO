@@ -26,7 +26,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر 1 (ثابت) --- */
+        /* --- الهيدر 1 (المنطقة واللغة) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -38,39 +38,35 @@
         .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+        .nav-icon { width: 20px; height: 20px; fill: #ffffff; }
 
-        /* --- الهيدر 2 (ثابت) --- */
-        .bottom-header {
-            background-color: var(--sub-green);
-            padding: 15px; box-sizing: border-box;
-        }
+        /* --- الهيدر 2 (الواليت) --- */
+        .bottom-header { background-color: var(--sub-green); padding: 15px; box-sizing: border-box; }
         .wallet-card {
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 18px; padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.12); border-radius: 18px; padding: 18px 20px;
             display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px); min-height: 90px;
+            border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px); min-height: 90px;
         }
         .user-meta-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
         .avatar-box { width: 46px; height: 46px; background: rgba(255, 255, 255, 0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; }
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
-        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
+        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; }
+        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff; }
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; margin-right: 15px; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; }
 
-        /* --- الهيدر 3 (ثابت) --- */
+        /* --- الهيدر 3 (الاختصارات) --- */
         .new-header-container {
-            background: var(--bg-gradient);
-            padding: 25px 20px 30px 20px;
-            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
-            box-shadow: var(--shadow-soft);
+            background: var(--bg-gradient); padding: 25px 20px 30px 20px;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; box-shadow: var(--shadow-soft);
         }
         .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; }
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
@@ -80,29 +76,21 @@
         .shortcut-svg { width: 24px; height: 24px; fill: var(--brand-green); }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; }
 
-        /* --- الهيدر 4 الجديد (قسم المعاملات) --- */
-        .transactions-header {
-            padding: 25px 20px;
-            background: #ffffff;
-            margin-top: 10px;
-        }
+        /* --- الهيدر 4 (المعاملات) --- */
+        .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; background: #f9fbf9; border-radius: 15px;
-            border: 1px solid #edf2ed;
+            padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
         }
         .trans-info { display: flex; align-items: center; gap: 12px; }
         .trans-icon-bg { width: 40px; height: 40px; border-radius: 12px; background: #fff1f1; display: flex; align-items: center; justify-content: center; }
         .trans-meta { display: flex; flex-direction: column; }
         .trans-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
-        .trans-date { font-size: 10px; color: #888; margin-top: 2px; }
+        .trans-date { font-size: 10px; color: #888; }
         .trans-val { font-size: 15px; font-weight: 800; color: var(--brand-red); direction: ltr; }
-        
-        .empty-state { text-align: center; padding: 30px 10px; color: #aaa; font-size: 12px; font-weight: 500; }
+        .empty-state { text-align: center; padding: 30px; color: #aaa; font-size: 12px; }
 
-        svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
-        .nav-flag { width: 22px; height: 15px; border-radius: 2px; }
         .main-content { flex-grow: 1; }
     </style>
 </head>
@@ -125,7 +113,7 @@
             <div class="bottom-header">
                 <div class="wallet-card">
                     <div class="user-meta-info">
-                        <div class="avatar-box"><svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                        <div class="avatar-box"><svg style="fill:#fff; width:22px;" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
                         <div class="name-stack">
                             <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                             <div style="display:flex; align-items:center; gap:8px;">
@@ -167,11 +155,8 @@
 
         <div class="transactions-header">
             <div class="section-title" id="txt-trans-title">المعاملات الأخيرة</div>
-            <div id="trans-container" class="trans-list">
-                <div class="empty-state" id="txt-empty">لا توجد معاملات حتى الآن</div>
-            </div>
+            <div id="trans-container" class="trans-list"><div class="empty-state">لا توجد معاملات</div></div>
         </div>
-
         <main class="main-content"></main>
     </div>
 
@@ -181,38 +166,21 @@
         import { getFirestore, doc, onSnapshot, collection, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        function formatBalance(num) {
-            const val = Number(num);
-            return (isNaN(val) || val === 0) ? "0.00" : val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
-        }
-
-        // تحميل فوري
-        const savedBal = localStorage.getItem('user_last_balance');
-        const savedName = localStorage.getItem('user_last_name');
-        const savedEmail = localStorage.getItem('user_last_email');
-        if(savedBal) document.getElementById('user-balance').innerText = savedBal;
-        if(savedName) document.getElementById('user-full-name').innerText = savedName;
-        if(savedEmail) document.getElementById('user-email').innerText = savedEmail;
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // جلب بيانات الحساب
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const fBal = formatBalance(d.balance || 0);
+                        const fBal = (Number(d.balance)||0).toLocaleString('en-US',{minimumFractionDigits:2});
                         const fName = d.fullName || d.name || "User";
                         document.getElementById('user-balance').innerText = fBal;
                         document.getElementById('user-full-name').innerText = fName;
@@ -225,49 +193,62 @@
                     }
                 });
 
-                // جلب المعاملات (نفترض وجود مجموعة فرعية باسم transactions لكل مستخدم)
                 const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(5));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
-                    if (snap.empty) {
-                        container.innerHTML = `<div class="empty-state">${localStorage.getItem('pref_lang')==='en'?'No transactions yet':'لا توجد معاملات حتى الآن'}</div>`;
-                    } else {
+                    if (snap.empty) { container.innerHTML = `<div class="empty-state">لا توجد معاملات حتى الآن</div>`; }
+                    else {
                         container.innerHTML = "";
                         snap.forEach(doc => {
                             const t = doc.data();
-                            container.innerHTML += `
-                                <div class="trans-item">
-                                    <div class="trans-info">
-                                        <div class="trans-icon-bg"><svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></div>
-                                        <div class="trans-meta">
-                                            <span class="trans-name">${t.description || (localStorage.getItem('pref_lang')==='en'?'Purchase':'شراء')}</span>
-                                            <span class="trans-date">${t.timestamp?.toDate().toLocaleDateString() || ''}</span>
-                                        </div>
-                                    </div>
-                                    <span class="trans-val">-${t.amount}</span>
-                                </div>`;
+                            container.innerHTML += `<div class="trans-item"><div class="trans-info"><div class="trans-icon-bg"><svg style="width:18px;fill:red" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></div><div class="trans-meta"><span class="trans-name">${t.description||'شراء'}</span><span class="trans-date">${t.timestamp?.toDate().toLocaleDateString()||''}</span></div></div><span class="trans-val">-${t.amount}</span></div>`;
                         });
                     }
                 });
             } else { window.location.href = "../"; }
         });
 
-        window.handleLogout = () => { if(confirm("خروج؟")) signOut(auth).then(() => { localStorage.clear(); window.location.href = "../"; }); };
+        window.handleLogout = () => { if(confirm("تسجيل خروج؟")) signOut(auth).then(()=> { localStorage.clear(); window.location.href="../"; }); };
     </script>
 
     <script>
+        // مصفوفة المناطق واللغات لإصلاح "فارغة"
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi", flag: 'https://flagcdn.com/sa.svg' }
+        ];
+
         let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+
         function sync() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
             const isAr = (lang === 'ar');
+
+            // تحديث نصوص المنطقة واللغة
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+
+            // ترجمة النصوص الأخرى
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-shortcuts-title').innerText = isAr ? 'إختصارات المحفظة' : 'Shortcuts';
             document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
             document.getElementById('lbl-logout').innerText = isAr ? 'خروج' : 'Logout';
+            
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             renderUserData();
         }
+
         function togglePrivacy() { isPrivacyOn = !isPrivacyOn; localStorage.setItem('privacy_active', isPrivacyOn); renderUserData(); }
+        
         function renderUserData() {
             const eye = document.getElementById('eye-icon');
             if (isPrivacyOn) {
