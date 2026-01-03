@@ -38,6 +38,7 @@
         .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
@@ -55,7 +56,6 @@
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .name-row { display: flex; align-items: center; gap: 8px; }
         .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; }
         
         .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
@@ -69,8 +69,7 @@
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; box-shadow: var(--shadow-soft);
         }
-        .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
+        .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; }
         
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; }
@@ -80,7 +79,7 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; }
 
         /* --- الهيدر الرابع: قسم المعاملات --- */
-        .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
+        .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; border-radius: 30px 30px 0 0; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
@@ -144,9 +143,7 @@
         </div>
 
         <div class="new-header-container">
-            <div class="header-top-row">
-                <div class="section-title" id="txt-shortcuts-title">إختصارات المحفظة</div>
-            </div>
+            <div class="section-title" id="txt-shortcuts-title">إختصارات المحفظة</div>
             <div class="shortcuts-scroll-wrapper">
                 <a href="smm-services/" class="shortcut-item">
                     <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div></div>
@@ -200,7 +197,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // 1. مراقبة بيانات المستخدم (الرصيد)
+                // 1. مراقبة الرصيد
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
@@ -209,20 +206,16 @@
                         
                         window.currentName = fName;
                         window.currentEmail = user.email;
-                        window.currentBalance = fBal;
                         
                         document.getElementById('user-balance').innerText = fBal;
-                        document.getElementById('user-full-name').innerText = isPrivacyOn ? "••••••••" : fName;
-                        document.getElementById('user-email').innerText = isPrivacyOn ? "••••••••" : user.email;
-                        
-                        localStorage.setItem('user_last_balance', fBal);
+                        renderPrivacy();
                     }
                 });
 
-                // 2. مراقبة المعاملات من المجلد الرئيسي (المسار الجديد)
+                // 2. مراقبة المعاملات (المسار الموحد)
                 const q = query(
                     collection(db, "transactions"), 
-                    where("userId", "==", user.uid), 
+                    where("userId", "==", user.uid), // الـ I كبيرة تطابق صورة الـ Firebase
                     orderBy("timestamp", "desc"), 
                     limit(5)
                 );
@@ -237,8 +230,8 @@
                     }
 
                     container.innerHTML = "";
-                    snap.forEach(doc => {
-                        const t = doc.data();
+                    snap.forEach(docSnap => {
+                        const t = docSnap.data();
                         const date = t.timestamp ? new Date(t.timestamp.seconds * 1000).toLocaleDateString(isAr ? 'ar-EG' : 'en-US') : '';
                         container.innerHTML += `
                             <div class="trans-item">
@@ -247,7 +240,7 @@
                                         <svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
                                     </div>
                                     <div class="trans-meta">
-                                        <span class="trans-name">${t.description || (isAr ? 'شراء' : 'Purchase')}</span>
+                                        <span class="trans-name">${t.description || (isAr ? 'عملية شراء' : 'Purchase')}</span>
                                         <span class="trans-date">${date}</span>
                                     </div>
                                 </div>
@@ -255,8 +248,8 @@
                             </div>`;
                     });
                 }, (err) => {
-                    console.error("Index Required: ", err);
-                    document.getElementById('trans-container').innerHTML = '<div class="empty-state">يرجى تفعيل Index في Firebase</div>';
+                    console.error("Firebase Error: ", err);
+                    document.getElementById('trans-container').innerHTML = '<div class="empty-state">يرجى التأكد من الـ Index</div>';
                 });
 
             } else {
@@ -266,24 +259,23 @@
 
         window.handleLogout = () => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            if(confirm(isAr ? "تسجيل الخروج؟" : "Logout?")) {
+            if(confirm(isAr ? "هل تريد الخروج؟" : "Logout?")) {
                 signOut(auth).then(() => { localStorage.clear(); window.location.href = "../"; });
             }
         };
-    </script>
 
-    <script>
         // نظام اللغة والخصوصية
-        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+        window.isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
         const regionConfigs = [
-            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg style="width:22px; fill:#fff" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' }
         ];
 
-        function sync() {
+        window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const isAr = (lang === 'ar');
-            const reg = regionConfigs[parseInt(localStorage.getItem('pref_reg_idx')) || 0] || regionConfigs[0];
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
 
             document.getElementById('lang-name').innerText = lang.toUpperCase();
             document.getElementById('reg-name').innerText = reg[lang];
@@ -299,17 +291,17 @@
             renderPrivacy();
         }
 
-        function togglePrivacy() {
-            isPrivacyOn = !isPrivacyOn;
-            localStorage.setItem('privacy_active', isPrivacyOn);
+        window.togglePrivacy = function() {
+            window.isPrivacyOn = !window.isPrivacyOn;
+            localStorage.setItem('privacy_active', window.isPrivacyOn);
             renderPrivacy();
         }
 
-        function renderPrivacy() {
+        window.renderPrivacy = function() {
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            if (isPrivacyOn) {
+            if (window.isPrivacyOn) {
                 nameEl.innerText = "••••••••"; emailEl.innerText = "••••••••";
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27z"/>';
             } else {
@@ -318,7 +310,7 @@
             }
         }
 
-        window.onload = sync;
+        window.onload = window.sync;
     </script>
 </body>
 </html>
