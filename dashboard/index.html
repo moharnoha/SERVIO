@@ -26,7 +26,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر 1 (ثابت) --- */
+        /* --- الهيدر الأول والثاني (ثوابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -41,7 +41,6 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر 2 (ثابت) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -65,7 +64,7 @@
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .name-row { display: flex; align-items: center; gap: 8px; }
         .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; }
+        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; }
         
         .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
         .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
@@ -74,7 +73,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر 3 (محدث دائماً) --- */
+        /* --- الهيدر الثالث --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -197,36 +196,47 @@
             return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
         }
 
-        // تشغيل التحميل الفوري من الذاكرة المحلية (الثقة الفورية)
-        const lastKnownBalance = localStorage.getItem('user_last_balance');
-        const lastKnownName = localStorage.getItem('user_last_name');
-        if(lastKnownBalance) document.getElementById('user-balance').innerText = lastKnownBalance;
-        if(lastKnownName) document.getElementById('user-full-name').innerText = lastKnownName;
+        // --- ميزة الثبات الفوري للمحفظة ---
+        // استعادة البيانات فوراً من الذاكرة المحلية قبل أي اتصال بالإنترنت
+        const savedBal = localStorage.getItem('user_last_balance');
+        const savedName = localStorage.getItem('user_last_name');
+        const savedEmail = localStorage.getItem('user_last_email');
+        
+        if(savedBal) document.getElementById('user-balance').innerText = savedBal;
+        if(savedName) document.getElementById('user-full-name').innerText = savedName;
+        if(savedEmail) document.getElementById('user-email').innerText = savedEmail;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const formattedBal = formatBalance(d.balance || 0);
-                        const fullName = d.fullName || d.name || "User";
+                        const fBal = formatBalance(d.balance || 0);
+                        const fName = d.fullName || d.name || "User";
+                        const fEmail = user.email || "---";
                         
-                        window.currentName = fullName;
-                        window.currentEmail = user.email;
-                        window.currentBalance = formattedBal;
+                        // تحديث المتغيرات العامة
+                        window.currentName = fName;
+                        window.currentEmail = fEmail;
+                        window.currentBalance = fBal;
                         
-                        // تحديث الواجهة وتخزين القيمة للزيارة القادمة
-                        document.getElementById('user-balance').innerText = formattedBal;
-                        localStorage.setItem('user_last_balance', formattedBal);
-                        localStorage.setItem('user_last_name', fullName);
+                        // تحديث الواجهة وتخزينها للزيارة القادمة (لضمان الثبات)
+                        document.getElementById('user-balance').innerText = fBal;
+                        document.getElementById('user-full-name').innerText = fName;
+                        document.getElementById('user-email').innerText = fEmail;
+                        
+                        localStorage.setItem('user_last_balance', fBal);
+                        localStorage.setItem('user_last_name', fName);
+                        localStorage.setItem('user_last_email', fEmail);
                         
                         renderUserData();
                     }
                 });
             } else { 
-                // إذا لم يكن هناك مستخدم، مسح البيانات المخزنة والتوجه للرئيسية
+                // تنظيف الذاكرة في حال تسجيل الخروج
                 localStorage.removeItem('user_last_balance');
                 localStorage.removeItem('user_last_name');
+                localStorage.removeItem('user_last_email');
                 window.location.href = "../"; 
             }
         });
@@ -235,8 +245,7 @@
             const l = localStorage.getItem('pref_lang') || 'ar';
             if(confirm(l === 'ar' ? "هل تريد تسجيل الخروج؟" : "Do you want to logout?")) {
                 signOut(auth).then(() => {
-                    localStorage.removeItem('user_last_balance');
-                    localStorage.removeItem('user_last_name');
+                    localStorage.clear(); // تنظيف كامل لضمان الأمان
                     window.location.href = "../";
                 });
             }
@@ -244,6 +253,7 @@
     </script>
 
     <script>
+        // مصفوفة الدول المتوافقة مع الصفحة الرئيسية
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -295,12 +305,14 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
             if (isPrivacyOn) {
-                nameEl.innerText = "••••••••"; emailEl.innerText = "••••••••••••";
+                nameEl.innerText = "••••••••"; 
+                emailEl.innerText = "••••••••••••";
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
             } else {
                 nameEl.innerText = window.currentName || localStorage.getItem('user_last_name') || "---"; 
-                emailEl.innerText = window.currentEmail || "---";
+                emailEl.innerText = window.currentEmail || localStorage.getItem('user_last_email') || "---";
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         }
