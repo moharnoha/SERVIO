@@ -38,7 +38,7 @@
         [dir="rtl"] .input-box svg { margin-left: 10px; }
         [dir="ltr"] .input-box svg { margin-right: 10px; }
 
-        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; display: flex; align-items: center; }
+        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
         .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: flex; gap: 8px; }
 
@@ -54,9 +54,6 @@
         .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .security-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; color: #64748b; font-size: 11px; font-weight: 600; }
-        .security-badge svg { width: 14px; height: 14px; fill: var(--success-green); }
     </style>
 </head>
 <body>
@@ -79,11 +76,14 @@
                             </div>
                         </div>
 
-                        <div class="field" onclick="goToCategory()">
+                        <div class="field" onclick="goToCategory()" style="cursor:pointer">
                             <label class="label">الفئة المختارة</label>
-                            <div class="input-box" style="cursor:pointer">
-                                <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                                <span id="category">اختر الخدمة...</span>
+                            <div class="input-box" style="justify-content: space-between; background: #fdfdfd;">
+                                <div style="display: flex; align-items: center;">
+                                    <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                                    <span id="category" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">جاري التحميل...</span>
+                                </div>
+                                <svg viewBox="0 0 24 24" style="width: 18px; fill: #94a3b8;"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
                             </div>
                         </div>
 
@@ -91,11 +91,11 @@
                             <label class="label">الكمية المطلوبة</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="text" inputmode="numeric" placeholder="0">
+                                <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية">
                             </div>
                             <div class="limit-hint">
-                                <span id="min-hint">الأدنى: --</span>
-                                <span id="max-hint">الأقصى: --</span>
+                                <span id="min-hint"></span>
+                                <span id="max-hint"></span>
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@
                             <label class="label">البريد الإلكتروني (Gmail)</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
-                                <input id="email" type="email" placeholder="example@gmail.com">
+                                <input id="email" type="email" readonly style="background: #f1f5f9; cursor: not-allowed;">
                             </div>
                         </div>
 
@@ -123,43 +123,35 @@
     </div>
 
     <script>
-        // التحديث الثالث: JavaScript logic المطور
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
-        function formatNumber(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+        function formatNumber(num) { 
+            if (!num) return "0";
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+        }
 
         function updatePriceAndFormat() {
             const qtyInput = document.getElementById("quantity");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
             const total = unitPrice * (parseInt(rawValue) || 0);
-            
             document.getElementById("display-price").innerText = `$${total.toFixed(7)}`;
-            
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
         }
 
         function updateUI() {
-            // تحديث الفئة المختارة والحدود ديناميكياً
-            const savedService = localStorage.getItem('chosen_service');
-            if(savedService) { document.getElementById("category").innerText = savedService; }
-
-            const minVal = localStorage.getItem("service_min");
-            const maxVal = localStorage.getItem("service_max");
-            
-            if(minVal) document.getElementById('min-hint').innerText = "الأدنى: " + formatNumber(minVal);
-            if(maxVal) document.getElementById('max-hint').innerText = "الأقصى: " + formatNumber(maxVal);
-
+            const minVal = localStorage.getItem("service_min") || "0";
+            const maxVal = localStorage.getItem("service_max") || "0";
+            document.getElementById('min-hint').innerHTML = `<b>الأدنى:</b> ${formatNumber(minVal)}`;
+            document.getElementById('max-hint').innerHTML = `<b>الأقصى:</b> ${formatNumber(maxVal)}`;
+            document.getElementById("category").innerText = localStorage.getItem('chosen_service') || "اضغط لاختيار خدمة";
             document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
-            document.getElementById("email").value = localStorage.getItem("temp_email") || "";
-            
             updatePriceAndFormat();
         }
 
         function goToCategory() {
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
-            localStorage.setItem("temp_email", document.getElementById("email").value);
-            window.location.href = "../Category/";
+            location.href = `../Category/`;
         }
 
         window.onload = updateUI;
@@ -185,27 +177,28 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => { if (user) currentUser = user; });
+        onAuthStateChanged(auth, (user) => { 
+            if (user) {
+                currentUser = user;
+                document.getElementById("email").value = user.email;
+            } 
+        });
 
-        document.getElementById("payBtn").onclick = async function(e) {
-            e.preventDefault(); 
-            
+        document.getElementById("payBtn").onclick = async function() {
             if (!currentUser) { alert("يرجى تسجيل الدخول"); return; }
             const link = document.getElementById("platformLink").value;
-            const email = document.getElementById("email").value;
+            const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
             const qtyNum = parseInt(qtyRaw) || 0;
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             const finalCharge = unitPrice * qtyNum;
             const service = localStorage.getItem("chosen_service");
-
-            // التحقق من الحدود قبل الدفع
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
             if (!link || !service || qtyNum <= 0) { alert("أكمل البيانات"); return; }
-            if (qtyNum < minAllowed) { alert(`أقل كمية مسموحة هي ${minAllowed}`); return; }
-            if (qtyNum > maxAllowed) { alert(`أقصى كمية مسموحة هي ${maxAllowed}`); return; }
+            if (qtyNum < minAllowed) { alert(`الكمية أقل من الحد الأدنى: ${formatNumber(minAllowed)}`); return; }
+            if (qtyNum > maxAllowed) { alert(`الكمية تجاوزت الحد الأقصى: ${formatNumber(maxAllowed)}`); return; }
 
             this.classList.add('loading');
             this.disabled = true;
@@ -215,14 +208,11 @@
                 const userSnap = await getDoc(userRef);
 
                 if (userSnap.exists() && (userSnap.data().balance || 0) >= finalCharge) {
-                    
-                    // 1. الخصم وتحديث الرصيد
                     await updateDoc(userRef, {
                         balance: increment(-finalCharge),
                         total_spend: increment(finalCharge)
                     });
 
-                    // 2. تسجيل المعاملة
                     await addDoc(collection(db, "transactions"), {
                         amount: `-${finalCharge.toFixed(7)}`,
                         description: "شراء: " + service,
@@ -231,32 +221,24 @@
                         userEmail: email
                     });
 
-                    // 3. إرسال البيانات للـ Google Sheet
                     try {
                         await fetch(scriptURL, { 
                             method: "POST", 
                             mode: "no-cors", 
-                            body: JSON.stringify({ 
-                                platformLink: link, 
-                                category: service, 
-                                quantity: qtyNum, 
-                                charge: finalCharge.toFixed(7), 
-                                gmail: email 
-                            }) 
+                            body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(7), gmail: email }) 
                         });
-                    } catch (err) { console.warn("Google Sheet log failed."); }
+                    } catch (e) {}
 
-                    // التوجيه النهائي المباشر والآمن
-                    window.location.replace(`Confirm/?link=${encodeURIComponent(link)}`);
-
+                    localStorage.removeItem("temp_link");
+                    alert("تم تأكيد طلبك بنجاح!");
+                    location.href = "../Dashboard/";
                 } else {
                     alert("رصيد غير كافٍ");
                     this.classList.remove('loading');
                     this.disabled = false;
                 }
             } catch (e) {
-                console.error("Error:", e);
-                alert("حدث خطأ في العملية");
+                alert("حدث خطأ أثناء الدفع");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
