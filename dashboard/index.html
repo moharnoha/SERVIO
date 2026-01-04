@@ -72,7 +72,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (مُحدث - المزامنة السريعة) --- */
+        /* --- الهيدر الثالث (مُحدث - دقة الفواصل والمزامنة) --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
@@ -134,7 +134,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0.000000$</span>
+                        <span class="bal-amount" id="user-balance">0$</span>
                     </div>
                 </div>
             </div>
@@ -182,40 +182,43 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // تحميل البيانات الفوري من الكاش لسرعة العرض الأولية
+        // وظيفة تنسيق المبلغ بمرونة (رقم صحيح أو فواصل دقيقة)
+        const formatBalance = (val) => {
+            if (val === undefined || val === null || isNaN(val)) return "0";
+            return Number(val).toString(); // يحافظ على الفواصل كما هي ويحذف الأصفار الزائدة في الأرقام الصحيحة
+        };
+
         const loadCache = () => {
             const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
-                document.getElementById('user-balance').innerText = (cache.balance || 0).toFixed(6) + "$";
+                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + "$";
                 window.renderUserData();
             }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // المزامنة اللحظية لبيانات المستخدم (اسم، إيميل، رصيد)
+                // مزامنة فورية لبيانات المستخدم
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const bal = d.balance || 0;
+                        const bal = d.balance; 
                         const name = d.fullName || d.name || "User";
                         
-                        // تحديث المتغيرات العالمية
                         window.currentName = name;
-                        window.currentEmail = user.email; // الإيميل من Auth أو Firestore
+                        window.currentEmail = user.email;
                         
-                        // تحديث الواجهة فوراً
-                        document.getElementById('user-balance').innerText = bal.toFixed(6) + "$";
+                        // عرض الرصيد بتنسيق مرن
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + "$";
                         
-                        // حفظ النسخة الجديدة في الكاش
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
-                }, (error) => console.error("Update Error:", error));
+                });
 
-                // المزامنة اللحظية للمعاملات (أسرع استجابة عند إضافة رصيد أو خصمه)
+                // مزامنة فورية للمعاملات
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
@@ -227,8 +230,11 @@
                     let htmlContent = "";
                     snap.forEach(docSnap => {
                         const t = docSnap.data();
-                        const amountStr = t.amount ? t.amount.toString() : "0";
-                        const isDep = amountStr.includes('+');
+                        // تطبيق التنسيق المرن على مبالغ المعاملات أيضاً
+                        const rawAmount = t.amount ? t.amount.toString() : "0";
+                        const isDep = rawAmount.includes('+');
+                        const cleanAmount = formatBalance(rawAmount.replace(/[+-]/g, ''));
+                        
                         let dateStr = "---";
                         if (t.timestamp) {
                             const d = t.timestamp.toDate();
@@ -240,7 +246,7 @@
                                     <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
-                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountStr}$</span>
+                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${cleanAmount}$</span>
                             </div>`;
                     });
                     container.innerHTML = htmlContent;
