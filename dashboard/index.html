@@ -24,12 +24,11 @@
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
         
-        /* منع أي حركة أو اهتزاز أثناء التحديث الفوري */
         * { transition: none !important; -webkit-tap-highlight-color: transparent; }
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول والثاني --- */
+        /* --- الهيدر الأول (ثابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -44,6 +43,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
+        /* --- الهيدر الثاني (ثابت) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -72,7 +72,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث --- */
+        /* --- الهيدر الثالث (مُحدث - المزامنة السريعة) --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
@@ -84,13 +84,15 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        /* --- الهيدر الرابع --- */
+        /* --- قسم المعاملات --- */
         .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
+            animation: fadeIn 0.3s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .trans-date { font-size: 10px; color: #888; margin-top: 4px; direction: ltr; text-align: right; display: block; }
         .trans-val { font-size: 14px; font-weight: 800; direction: ltr; }
         
@@ -180,79 +182,78 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // تحميل البيانات من الكاش فوراً قبل أي اتصال بالسيرفر
-        const loadInstantData = () => {
+        // تحميل البيانات الفوري من الكاش لسرعة العرض الأولية
+        const loadCache = () => {
             const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
-            const transCache = localStorage.getItem('trans_cache');
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
                 document.getElementById('user-balance').innerText = (cache.balance || 0).toFixed(6) + "$";
+                window.renderUserData();
             }
-            if (transCache) document.getElementById('trans-container').innerHTML = transCache;
-            
-            // استدعاء المزامنة والترجمة فوراً
-            if (typeof window.sync === 'function') window.sync();
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // المزامنة اللحظية لبيانات المستخدم (اسم، إيميل، رصيد)
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0;
                         const name = d.fullName || d.name || "User";
                         
-                        document.getElementById('user-balance').innerText = bal.toFixed(6) + "$";
+                        // تحديث المتغيرات العالمية
                         window.currentName = name;
-                        window.currentEmail = user.email;
+                        window.currentEmail = user.email; // الإيميل من Auth أو Firestore
                         
-                        // حفظ في الكاش
+                        // تحديث الواجهة فوراً
+                        document.getElementById('user-balance').innerText = bal.toFixed(6) + "$";
+                        
+                        // حفظ النسخة الجديدة في الكاش
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
-                        if (typeof window.renderUserData === 'function') window.renderUserData();
+                        window.renderUserData();
                     }
-                });
+                }, (error) => console.error("Update Error:", error));
 
+                // المزامنة اللحظية للمعاملات (أسرع استجابة عند إضافة رصيد أو خصمه)
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
-                    let htmlContent = "";
                     if (snap.empty) {
-                        htmlContent = `<div class="empty-state">لا توجد معاملات</div>`;
-                    } else {
-                        snap.forEach(docSnap => {
-                            const t = docSnap.data();
-                            const amountStr = t.amount ? t.amount.toString() : "0";
-                            const isDep = amountStr.includes('+');
-                            let dateStr = "---";
-                            if (t.timestamp) {
-                                const d = t.timestamp.toDate();
-                                dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
-                            }
-                            htmlContent += `
-                                <div class="trans-item">
-                                    <div style="display:flex; flex-direction:column">
-                                        <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
-                                        <span class="trans-date">${dateStr}</span>
-                                    </div>
-                                    <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountStr}$</span>
-                                </div>`;
-                        });
+                        container.innerHTML = `<div class="empty-state">لا توجد معاملات</div>`;
+                        return;
                     }
+                    
+                    let htmlContent = "";
+                    snap.forEach(docSnap => {
+                        const t = docSnap.data();
+                        const amountStr = t.amount ? t.amount.toString() : "0";
+                        const isDep = amountStr.includes('+');
+                        let dateStr = "---";
+                        if (t.timestamp) {
+                            const d = t.timestamp.toDate();
+                            dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
+                        }
+                        htmlContent += `
+                            <div class="trans-item">
+                                <div style="display:flex; flex-direction:column">
+                                    <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
+                                    <span class="trans-date">${dateStr}</span>
+                                </div>
+                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountStr}$</span>
+                            </div>`;
+                    });
                     container.innerHTML = htmlContent;
-                    localStorage.setItem('trans_cache', htmlContent);
                 });
             } else { window.location.href = "../"; }
         });
 
         window.handleLogout = () => { if(confirm("خروج؟")) { localStorage.clear(); signOut(auth); } };
         
-        // تنفيذ التحميل الفوري عند التشغيل
-        loadInstantData();
+        loadCache();
     </script>
 
     <script>
-        // منطق التزامن واللغة والخصوصية
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
