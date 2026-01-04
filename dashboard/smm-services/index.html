@@ -133,7 +133,6 @@
             let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
             const total = unitPrice * (parseInt(rawValue) || 0);
             
-            // استخدام toFixed(7) لضمان عدم ظهور 0 فقط في الخدمات الرخيصة
             document.getElementById("display-price").innerText = `$${total.toFixed(7)}`;
             
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
@@ -200,33 +199,38 @@
 
                 if (userSnap.exists() && (userSnap.data().balance || 0) >= finalCharge) {
                     
-                    // 1. خصم الرصيد بالدقة الكاملة
+                    // 1. الخصم من الرصيد
                     await updateDoc(userRef, {
                         balance: increment(-finalCharge),
                         total_spend: increment(finalCharge)
                     });
 
-                    // 2. تسجيل المعاملة بالدقة الكاملة (7 أرقام)
+                    // 2. تحديث: تسجيل المعاملة لتتوافق مع الـ Index والبيانات الحقيقية
                     await addDoc(collection(db, "transactions"), {
+                        // تخزين المبلغ كنص بدقة عالية (كما ظهر في صورتك لضمان توافق العرض)
                         amount: `-${finalCharge.toFixed(7)}`,
                         description: "شراء: " + service,
+                        // استخدام وقت السيرفر حصراً ليعمل الـ Index بنجاح
                         timestamp: serverTimestamp(),
+                        // التأكد من أن الحرف I كبير userId
                         userId: currentUser.uid,
                         userEmail: email
                     });
 
-                    // 3. شيت جوجل
-                    await fetch(scriptURL, { 
-                        method: "POST", 
-                        mode: "no-cors", 
-                        body: JSON.stringify({ 
-                            platformLink: link, 
-                            category: service, 
-                            quantity: qtyNum, 
-                            charge: finalCharge.toFixed(7), 
-                            gmail: email 
-                        }) 
-                    });
+                    // 3. إرسال للـ Google Sheet
+                    try {
+                        await fetch(scriptURL, { 
+                            method: "POST", 
+                            mode: "no-cors", 
+                            body: JSON.stringify({ 
+                                platformLink: link, 
+                                category: service, 
+                                quantity: qtyNum, 
+                                charge: finalCharge.toFixed(7), 
+                                gmail: email 
+                            }) 
+                        });
+                    } catch (sheetErr) { console.warn("Google Sheet log failed, but transaction is recorded."); }
 
                     location.href = `Confirm/?link=${encodeURIComponent(link)}`;
                 } else {
@@ -235,8 +239,8 @@
                     this.disabled = false;
                 }
             } catch (e) {
-                console.error(e);
-                alert("حدث خطأ في الدفع");
+                console.error("Payment Process Error:", e);
+                alert("حدث خطأ في الدفع: " + e.message);
                 this.classList.remove('loading');
                 this.disabled = false;
             }
