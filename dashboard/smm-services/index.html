@@ -139,7 +139,6 @@
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
         }
 
-        // الوظيفة الأساسية لتحديث الواجهة فوراً
         function updateUI() {
             const chosenService = localStorage.getItem('chosen_service');
             const minVal = localStorage.getItem("service_min");
@@ -159,19 +158,9 @@
             location.href = `../Category/`;
         }
 
-        // --- حل مشكلة سرعة التحديث عند العودة ---
-        
-        // 1. التحديث عند تحميل الصفحة
         window.addEventListener('load', updateUI);
-
-        // 2. التحديث عند الرجوع للصفحة (حتى لو من الـ Cache)
-        window.addEventListener('pageshow', function(event) {
-            updateUI();
-        });
-
-        // 3. التحديث عند تغير أي بيانات في الذاكرة
+        window.addEventListener('pageshow', updateUI);
         window.addEventListener('storage', updateUI);
-
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
 
@@ -248,7 +237,10 @@
 
                     localStorage.removeItem("temp_link");
                     alert("تم تأكيد طلبك بنجاح!");
-                    location.href = "../Dashboard/";
+                    
+                    // التعديل المطلوب: التوجيه لمجلد Dashboard
+                    location.href = "../dashboard/";
+                    
                 } else {
                     alert("رصيد غير كافٍ");
                     this.classList.remove('loading');
