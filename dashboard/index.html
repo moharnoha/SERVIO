@@ -24,11 +24,12 @@
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
         
-        * { transition: none !important; -webkit-tap-highlight-color: transparent; }
+        /* تعطيل الحركات تماماً لضمان الثبات */
+        * { transition: none !important; animation: none !important; -webkit-tap-highlight-color: transparent; }
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول (ثابت) --- */
+        /* --- الهيدر الأول (لا يتم تعديله) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -43,7 +44,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر الثاني (ثابت) --- */
+        /* --- الهيدر الثاني (لا يتم تعديله) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -72,7 +73,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (تحديث شامل: إزالة الحركات وجعل الظهور لحظياً) --- */
+        /* --- الهيدر الثالث (يتم تحديثه دائماً - ثابت الحركة) --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
@@ -84,13 +85,13 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        /* --- قسم المعاملات (تمت إزالة الانيميشن ليكون ثابتاً) --- */
+        /* --- قسم المعاملات (ثبات مطلق) --- */
         .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
-        .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; transition: none !important; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
-            /* تم حذف خاصية animation لضمان الثبات */
+            transform: none !important; opacity: 1 !important;
         }
         
         .trans-date { font-size: 10px; color: #888; margin-top: 4px; direction: ltr; text-align: right; display: block; }
@@ -247,6 +248,7 @@
                                 <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${finalFormatted}$</span>
                             </div>`;
                     });
+                    // استبدال المحتوى فوراً دون تأثيرات
                     container.innerHTML = htmlContent;
                 });
             } else { window.location.href = "../"; }
