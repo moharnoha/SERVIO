@@ -26,7 +26,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول والثاني (لم يتم تعديلهما) --- */
+        /* --- الهيدر الأول والثاني (ثابت حسب التعليمات) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -64,32 +64,22 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 22px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث: إختصارات المحفظة (تم التحديث) --- */
+        /* --- الهيدر الثالث المحدث (إختصارات المحفظة) --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; box-shadow: var(--shadow-soft);
         }
         .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; }
         
-        .shortcuts-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 12px; 
-        }
-        .shortcut-item { 
-            display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; 
-            transition: transform 0.2s ease;
-        }
-        .shortcut-item:active { transform: scale(0.92); }
-        .icon-box { 
-            width: 100%; aspect-ratio: 1/1; max-width: 70px; background: var(--card-white); 
-            border-radius: 20px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; 
-        }
-        .icon-circle { width: 40px; height: 40px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .shortcuts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; transition: transform 0.2s; }
+        .shortcut-item:active { transform: scale(0.95); }
+        .icon-box { width: 100%; aspect-ratio: 1/1; max-width: 65px; background: var(--card-white); border-radius: 20px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
+        .icon-circle { width: 38px; height: 38px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .shortcut-svg { width: 22px; height: 22px; fill: var(--brand-green); }
-        .shortcut-label { font-size: 10px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
+        .shortcut-label { font-size: 10px; font-weight: 700; color: #3d4a3c; text-align: center; }
 
-        /* --- الهيدر الرابع: قسم المعاملات --- */
+        /* --- قسم المعاملات --- */
         .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; border-radius: 30px 30px 0 0; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
@@ -99,7 +89,7 @@
         .trans-info { display: flex; align-items: center; gap: 12px; }
         .trans-icon-bg { width: 40px; height: 40px; border-radius: 12px; background: #fff1f1; display: flex; align-items: center; justify-content: center; }
         .trans-meta { display: flex; flex-direction: column; }
-        .trans-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+        .trans-name { font-size: 12px; font-weight: 700; color: var(--text-dark); max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .trans-date { font-size: 10px; color: #888; margin-top: 2px; }
         .trans-val { font-size: 14px; font-weight: 800; color: var(--brand-red); direction: ltr; }
         .empty-state { text-align: center; padding: 30px 10px; color: #aaa; font-size: 12px; }
@@ -118,29 +108,18 @@
                         <span>Official Top Up Center</span>
                     </div>
                 </div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
-                </div>
+                <div class="region-badge"><div id="flag-ui"></div><div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div></div>
             </div>
 
             <div class="bottom-header">
                 <div class="wallet-card">
                     <div class="user-meta-info">
-                        <div class="avatar-box">
-                            <svg style="width:22px; fill:#fff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                        </div>
+                        <div class="avatar-box"><svg style="width:22px; fill:#fff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
                         <div class="name-stack">
                             <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                             <div class="name-row">
                                 <span class="full-name-val" id="user-full-name">---</span>
-                                <button class="toggle-visibility" onclick="togglePrivacy()">
-                                    <svg id="eye-icon" viewBox="0 0 24 24" style="width:16px; fill:#fff"></svg>
-                                </button>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24" style="width:16px; fill:#fff"></svg></button>
                             </div>
                             <span class="user-email-val" id="user-email" style="font-size: 9px; color: rgba(255,255,255,0.5);">---</span>
                         </div>
@@ -158,19 +137,19 @@
             <div class="shortcuts-grid">
                 <a href="smm-services/" class="shortcut-item">
                     <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-smm">خدمات SMM</span>
+                    <span class="shortcut-label">خدمات SMM</span>
                 </a>
                 <a href="deposit/" class="shortcut-item">
                     <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-add">إضافة رصيد</span>
+                    <span class="shortcut-label">إضافة رصيد</span>
                 </a>
                 <a href="account-subscription/" class="shortcut-item">
                     <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-sub">اشتراك</span>
+                    <span class="shortcut-label">اشتراك</span>
                 </a>
                 <div class="shortcut-item" style="cursor:pointer" onclick="handleLogout()">
                     <div class="icon-box"><div class="icon-circle" style="background:#fdf2f2"><svg class="shortcut-svg" style="fill:#C62828" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-logout">خروج</span>
+                    <span class="shortcut-label">خروج</span>
                 </div>
             </div>
         </div>
@@ -203,6 +182,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // مراقبة رصيد المستخدم
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
@@ -213,12 +193,12 @@
                     }
                 });
 
-                // تعديل الاستعلام لضمان العمل
+                // استعلام المعاملات بناءً على الـ Index الموضح في صورك
                 const q = query(
                     collection(db, "transactions"), 
                     where("userId", "==", user.uid),
                     orderBy("timestamp", "desc"), 
-                    limit(5)
+                    limit(10)
                 );
 
                 onSnapshot(q, (snap) => {
@@ -226,38 +206,42 @@
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
-                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions'}</div>`;
+                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات بعد' : 'No transactions yet'}</div>`;
                         return;
                     }
 
                     container.innerHTML = "";
                     snap.forEach(docSnap => {
                         const t = docSnap.data();
-                        const date = t.timestamp ? new Date(t.timestamp.seconds * 1000).toLocaleDateString() : '--';
+                        
+                        // تحويل الوقت من Firebase Timestamp كما ظهر في الصورة
+                        const date = t.timestamp ? new Date(t.timestamp.seconds * 1000).toLocaleDateString(isAr ? 'ar-EG' : 'en-US') : '--';
+                        
+                        // معالجة المبلغ إذا كان نصاً (كما في الصورة) وتحويله لرقم
+                        let amt = t.amount;
+                        if (typeof amt === 'string') amt = parseFloat(amt);
+                        const formattedAmt = (amt || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 });
+
                         container.innerHTML += `
                             <div class="trans-item">
                                 <div class="trans-info">
-                                    <div class="trans-icon-bg">
-                                        <svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
-                                    </div>
+                                    <div class="trans-icon-bg"><svg style="width:18px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></div>
                                     <div class="trans-meta">
-                                        <span class="trans-name">${t.description || (isAr ? 'شراء' : 'Order')}</span>
+                                        <span class="trans-name">${t.description || (isAr ? 'شراء خدمة' : 'Service Purchase')}</span>
                                         <span class="trans-date">${date}</span>
                                     </div>
                                 </div>
-                                <span class="trans-val">${t.amount}$</span>
+                                <span class="trans-val">${formattedAmt}$</span>
                             </div>`;
                     });
-                }, (error) => {
-                    // إذا ظهر هذا الخطأ، ستحتاج للنقر على الرابط في الكونسول لإنشاء الـ Index
-                    console.error("Firestore Error:", error);
-                    document.getElementById('trans-container').innerHTML = '<div class="empty-state">خطأ في جلب البيانات (تحقق من الـ Index)</div>';
+                }, (err) => {
+                    console.error(err);
+                    document.getElementById('trans-container').innerHTML = '<div class="empty-state">خطأ في جلب البيانات</div>';
                 });
-
             } else { window.location.href = "../"; }
         });
 
-        // بقية الوظائف المساعدة
+        // الوظائف المساعدة لنظام اللغة والخصوصية
         window.handleLogout = () => { if(confirm("خروج؟")) signOut(auth).then(() => window.location.href = "../"); };
         window.isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
         window.togglePrivacy = () => { window.isPrivacyOn = !window.isPrivacyOn; localStorage.setItem('privacy_active', window.isPrivacyOn); renderPrivacy(); };
@@ -267,10 +251,12 @@
             e.innerText = window.isPrivacyOn ? "••••••••" : (window.currentEmail || "---");
             i.innerHTML = window.isPrivacyOn ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>';
         };
-        window.onload = () => { 
+        window.onload = () => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('lang-name').innerText = isAr ? 'AR' : 'EN';
+            document.getElementById('reg-name').innerText = isAr ? 'الشرق الأوسط' : 'MENA';
+            document.getElementById('flag-ui').innerHTML = `<svg style="width:22px; fill:#fff" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>`;
         };
     </script>
 </body>
