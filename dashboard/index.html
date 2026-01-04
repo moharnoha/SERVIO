@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Pro Wallet Header</title>
+    <title>serviocmm - Pro Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -16,7 +16,7 @@
             --text-dark: #1A2419;
             --brand-green: #2E5822;
             --brand-red: #C62828;
-            --brand-success: #2E7D32; /* لون الإيداع الجديد */
+            --brand-deposit: #10b981; /* لون أخضر للشحن */
             --card-white: #FFFFFF;
             --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
         }
@@ -27,7 +27,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول والثاني (ثوابت - لم يتم تعديلها) --- */
+        /* --- الهيدر الأول والثاني --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -74,7 +74,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (ثابت كما هو) --- */
+        /* --- الهيدر الثالث --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -94,38 +94,24 @@
         .logout-svg { fill: var(--brand-red); }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
 
-        /* --- الهيدر الرابع: نظام المعاملات المحدث --- */
-        .transactions-header {
-            padding: 25px 20px;
-            background: #ffffff;
-            margin-top: 10px;
-        }
+        /* --- الهيدر الرابع: قسم المعاملات المطور --- */
+        .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px;
-            border: 1px solid #edf2ed;
+            border: 1px solid #edf2ed; transition: transform 0.2s;
         }
         .trans-info { display: flex; align-items: center; gap: 12px; }
-        
-        /* أيقونات النظام الجديد */
-        .trans-icon-bg { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .bg-in { background: #f1fbf1; } /* إيداع */
-        .bg-out { background: #fff1f1; } /* سحب */
-        
+        .trans-icon-bg { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .trans-meta { display: flex; flex-direction: column; }
         .trans-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
         .trans-date { font-size: 10px; color: #888; margin-top: 2px; }
-        
         .trans-val { font-size: 15px; font-weight: 800; direction: ltr; }
-        .val-in { color: var(--brand-success); }
-        .val-out { color: var(--brand-red); }
         
         .empty-state { text-align: center; padding: 30px 10px; color: #aaa; font-size: 12px; font-weight: 500; }
-        
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .main-content { flex-grow: 1; }
     </style>
 </head>
 <body class="notranslate">
@@ -203,7 +189,7 @@
         <div class="transactions-header">
             <div class="section-title" id="txt-trans-title">المعاملات الأخيرة</div>
             <div id="trans-container" class="trans-list">
-                <div class="empty-state">جاري تحميل المعاملات...</div>
+                <div class="empty-state" id="txt-empty">جاري تحميل البيانات...</div>
             </div>
         </div>
 
@@ -213,7 +199,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -228,22 +214,40 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        function formatBalance(num) {
+            const val = Number(num);
+            if (isNaN(val)) return "0.00";
+            return val.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // بيانات المستخدم (ثابتة)
+                // مراقبة بيانات الرصيد والاسم
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        document.getElementById('user-balance').innerText = (d.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 });
-                        document.getElementById('user-full-name').innerText = d.fullName || "User";
+                        const fBal = formatBalance(d.balance || 0);
+                        const fName = d.fullName || d.name || "User";
+                        
+                        window.currentName = fName;
+                        window.currentEmail = user.email;
+                        
+                        document.getElementById('user-balance').innerText = fBal + "$";
+                        document.getElementById('user-full-name').innerText = fName;
                         document.getElementById('user-email').innerText = user.email;
-                        window.currentName = d.fullName; window.currentEmail = user.email;
+                        
                         renderUserData();
                     }
                 });
 
-                // --- نظام استقبال المعاملات الجديد ---
-                const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(5));
+                // --- تعديل جلب المعاملات (Header 4) ليعمل مع userId والفهرس ---
+                const q = query(
+                    collection(db, "transactions"), 
+                    where("userId", "==", user.uid), 
+                    orderBy("timestamp", "desc"), 
+                    limit(8)
+                );
+
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
@@ -252,57 +256,109 @@
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات حتى الآن' : 'No transactions yet'}</div>`;
                     } else {
                         container.innerHTML = "";
-                        snap.forEach(doc => {
-                            const t = doc.data();
-                            // كشف نوع المعاملة (إيداع أم سحب)
-                            const isDeposit = t.type === 'deposit' || t.amount > 0;
-                            const sign = isDeposit ? '+' : '-';
-                            const colorClass = isDeposit ? 'val-in' : 'val-out';
-                            const bgClass = isDeposit ? 'bg-in' : 'bg-out';
-                            const iconColor = isDeposit ? 'var(--brand-success)' : 'var(--brand-red)';
-                            const iconPath = isDeposit ? 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' : 'M19 13H5v-2h14v2z';
+                        snap.forEach(docSnap => {
+                            const t = docSnap.data();
+                            const amountRaw = t.amount ? t.amount.toString() : "0";
+                            
+                            // تحديد هل العملية شحن (تحتوي على +) أم خصم
+                            const isDeposit = amountRaw.includes('+');
+                            const color = isDeposit ? 'var(--brand-deposit)' : 'var(--brand-red)';
+                            const bgColor = isDeposit ? '#ecfdf5' : '#fff1f1';
+                            const iconPath = isDeposit 
+                                ? "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" // أيقونة زائد
+                                : "M19 13H5v-2h14v2z"; // أيقونة ناقص
+
+                            let dateText = "";
+                            if (t.timestamp) {
+                                dateText = t.timestamp.toDate().toLocaleDateString(isAr ? 'ar-EG' : 'en-US');
+                            }
 
                             container.innerHTML += `
                                 <div class="trans-item">
                                     <div class="trans-info">
-                                        <div class="trans-icon-bg ${bgClass}">
-                                            <svg style="width:18px; fill:${iconColor}" viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
+                                        <div class="trans-icon-bg" style="background: ${bgColor}">
+                                            <svg style="width:18px; fill:${color}" viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
                                         </div>
                                         <div class="trans-meta">
-                                            <span class="trans-name">${t.description || (isDeposit ? (isAr ? 'إيداع' : 'Deposit') : (isAr ? 'شراء' : 'Purchase'))}</span>
-                                            <span class="trans-date">${t.timestamp?.toDate().toLocaleDateString(isAr ? 'ar-EG' : 'en-US') || ''}</span>
+                                            <span class="trans-name">${t.description || (isAr ? 'معاملة' : 'Transaction')}</span>
+                                            <span class="trans-date">${dateText}</span>
                                         </div>
                                     </div>
-                                    <span class="trans-val ${colorClass}">${sign}${Math.abs(t.amount)}</span>
+                                    <span class="trans-val" style="color: ${color}">${amountRaw}$</span>
                                 </div>`;
                         });
                     }
+                }, (error) => {
+                    console.error("Query Error:", error);
+                    document.getElementById('trans-container').innerHTML = `<div class="empty-state">يجب إعداد الفهرس (Index) في Firebase لتظهر البيانات</div>`;
                 });
+
             } else { window.location.href = "../"; }
         });
+
+        window.handleLogout = () => {
+            if(confirm("هل تريد تسجيل الخروج؟")) {
+                signOut(auth).then(() => {
+                    localStorage.clear();
+                    window.location.href = "../";
+                });
+            }
+        };
     </script>
 
     <script>
-        // بقية الدوال (sync, togglePrivacy, renderUserData) تظل كما هي في كودك الأصلي لضمان استقرار الهيدر 1 و 2
+        // منطق تبديل اللغات والخصوصية
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
+        ];
+
+        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+
+        function sync() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            const isAr = (lang === 'ar');
+
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-shortcuts-title').innerText = isAr ? 'إختصارات المحفظة' : 'Shortcuts';
+            document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            renderUserData();
+        }
+
         function togglePrivacy() {
-            let active = localStorage.getItem('privacy_active') === 'true';
-            localStorage.setItem('privacy_active', !active);
+            isPrivacyOn = !isPrivacyOn;
+            localStorage.setItem('privacy_active', isPrivacyOn);
             renderUserData();
         }
 
         function renderUserData() {
-            const isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
             if (isPrivacyOn) {
-                nameEl.innerText = "••••••••"; emailEl.innerText = "••••••••••••";
+                nameEl.innerText = "••••••••"; 
+                emailEl.innerText = "••••••••••••";
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
             } else {
-                nameEl.innerText = window.currentName || "---"; emailEl.innerText = window.currentEmail || "---";
+                nameEl.innerText = window.currentName || "---"; 
+                emailEl.innerText = window.currentEmail || "---";
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         }
+        window.onload = sync;
     </script>
 </body>
 </html>
