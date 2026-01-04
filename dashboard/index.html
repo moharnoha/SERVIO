@@ -27,7 +27,7 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول والثاني (ثوابت حسب تعليماتك) --- */
+        /* --- الهيدر الأول والثاني (ثوابت حسب طلبك) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -74,7 +74,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 24px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (مُحدث) --- */
+        /* --- الهيدر الثالث المحدث --- */
         .new-header-container {
             background: var(--bg-gradient);
             padding: 25px 20px 30px 20px;
@@ -85,38 +85,48 @@
         .header-top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
         .section-title { font-size: 19px; font-weight: 800; color: var(--text-dark); }
         
-        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; overflow-x: hidden; }
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
-        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; border: 1.5px solid rgba(255, 255, 255, 0.7); }
-        .icon-circle { width: 45px; height: 45px; background: #f1f5f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .logout-circle { background: #fdf2f2; }
+        /* تحسين شبكة الاختصارات */
+        .shortcuts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+        }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; }
+        .icon-box { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            background: var(--card-white); 
+            border-radius: 18px; 
+            box-shadow: var(--shadow-soft); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1.5px solid rgba(255, 255, 255, 0.7); 
+        }
         .shortcut-svg { width: 24px; height: 24px; fill: var(--brand-green); }
         .logout-svg { fill: var(--brand-red); }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
 
-        /* --- الهيدر الرابع: قسم المعاملات (تم تحسينه وتحديثه) --- */
+        /* --- الهيدر الرابع: قسم المعاملات --- */
         .transactions-header {
             padding: 25px 20px;
             background: #ffffff;
             margin-top: 10px;
+            flex: 1;
         }
-        .trans-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 14px; background: #fff; border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            border: 1px solid #f0f3f0;
+            padding: 15px; background: #fff; border-radius: 16px;
+            border: 1px solid #edf2ed;
         }
-        .trans-info { display: flex; align-items: center; gap: 14px; }
-        .trans-icon-bg { 
-            width: 44px; height: 44px; border-radius: 14px; 
-            display: flex; align-items: center; justify-content: center;
-        }
-        .trans-meta { display: flex; flex-direction: column; gap: 2px; }
+        .trans-info { display: flex; align-items: center; gap: 12px; }
+        .trans-icon-bg { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .trans-meta { display: flex; flex-direction: column; }
         .trans-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
-        .trans-date { font-size: 10px; color: #99a298; }
+        .trans-date { font-size: 10px; color: #888; margin-top: 2px; }
         .trans-val { font-size: 15px; font-weight: 800; direction: ltr; }
-        .empty-state { text-align: center; padding: 40px 10px; color: #8a9589; font-size: 13px; font-weight: 500; }
+        .empty-state { text-align: center; padding: 40px 10px; color: #999; font-size: 13px; }
         
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
@@ -175,21 +185,21 @@
             <div class="header-top-row">
                 <div class="section-title" id="txt-shortcuts-title">إختصارات المحفظة</div>
             </div>
-            <div class="shortcuts-scroll-wrapper">
+            <div class="shortcuts-grid">
                 <a href="smm-services/" class="shortcut-item">
-                    <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div></div>
+                    <div class="icon-box"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
                     <span class="shortcut-label" id="lbl-smm">خدمات SMM</span>
                 </a>
                 <a href="deposit/" class="shortcut-item">
-                    <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div></div>
+                    <div class="icon-box"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
                     <span class="shortcut-label" id="lbl-add">إضافة رصيد</span>
                 </a>
                 <a href="account-subscription/" class="shortcut-item">
-                    <div class="icon-box"><div class="icon-circle"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div></div>
-                    <span class="shortcut-label" id="lbl-sub">اشتراك الحساب</span>
+                    <div class="icon-box"><svg class="shortcut-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>
+                    <span class="shortcut-label" id="lbl-sub">اشتراك</span>
                 </a>
                 <div class="shortcut-item" onclick="handleLogout()">
-                    <div class="icon-box"><div class="icon-circle logout-circle"><svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div></div>
+                    <div class="icon-box" style="background:#fff1f1;"><svg class="shortcut-svg logout-svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
                     <span class="shortcut-label" id="lbl-logout">خروج</span>
                 </div>
             </div>
@@ -198,7 +208,7 @@
         <div class="transactions-header">
             <div class="section-title" id="txt-trans-title">المعاملات الأخيرة</div>
             <div id="trans-container" class="trans-list">
-                <div class="empty-state" id="txt-empty">جاري تحميل البيانات...</div>
+                <div class="empty-state" id="txt-empty">جاري التحميل...</div>
             </div>
         </div>
 
@@ -223,102 +233,82 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        function formatBalance(num) {
-            const val = Number(num);
-            if (isNaN(val) || val === 0) return "0.00";
-            return val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
-        }
-
-        const savedBal = localStorage.getItem('user_last_balance');
-        const savedName = localStorage.getItem('user_last_name');
-        const savedEmail = localStorage.getItem('user_last_email');
-        
-        if(savedBal) document.getElementById('user-balance').innerText = savedBal;
-        if(savedName) document.getElementById('user-full-name').innerText = savedName;
-        if(savedEmail) document.getElementById('user-email').innerText = savedEmail;
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // جلب بيانات المستخدم
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const fBal = formatBalance(d.balance || 0);
-                        const fName = d.fullName || d.name || "User";
+                        const fBal = (d.balance || 0).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                        const fName = d.fullName || d.name || "مستخدم";
                         const fEmail = user.email || "---";
                         
                         window.currentName = fName;
                         window.currentEmail = fEmail;
-                        window.currentBalance = fBal;
                         
                         document.getElementById('user-balance').innerText = fBal;
                         document.getElementById('user-full-name').innerText = fName;
                         document.getElementById('user-email').innerText = fEmail;
                         
-                        localStorage.setItem('user_last_balance', fBal);
-                        localStorage.setItem('user_last_name', fName);
-                        localStorage.setItem('user_last_email', fEmail);
-                        
                         renderUserData();
                     }
                 });
 
-                // --- منطق المعاملات المُحدث ---
-                const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(5));
+                // جلب المعاملات من المسار الصحيح (users -> UID -> transactions)
+                const q = query(collection(db, "users", user.uid, "transactions"), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات حتى الآن' : 'No transactions yet'}</div>`;
-                    } else {
-                        container.innerHTML = "";
-                        snap.forEach(doc => {
-                            const t = doc.data();
-                            const amt = parseFloat(t.amount) || 0;
-                            const isCredit = amt > 0; // إذا كان المبلغ موجب فهو شحن
-                            const themeColor = isCredit ? "var(--brand-success)" : "var(--brand-red)";
-                            const bgColor = isCredit ? "#E8F5E9" : "#FFF1F1";
-                            const iconPath = isCredit 
-                                ? "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" 
-                                : "M19 13H5v-2h14v2z";
-
-                            container.innerHTML += `
-                                <div class="trans-item">
-                                    <div class="trans-info">
-                                        <div class="trans-icon-bg" style="background: ${bgColor}">
-                                            <svg style="width:18px; fill:${themeColor}" viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
-                                        </div>
-                                        <div class="trans-meta">
-                                            <span class="trans-name">${t.description || (isAr ? 'معاملة محفظة' : 'Wallet Transaction')}</span>
-                                            <span class="trans-date">${t.timestamp?.toDate().toLocaleDateString('ar-EG') || ''}</span>
-                                        </div>
-                                    </div>
-                                    <span class="trans-val" style="color: ${themeColor}">
-                                        ${isCredit ? '+' : ''}${amt.toFixed(2)}$
-                                    </span>
-                                </div>`;
-                        });
+                        return;
                     }
+
+                    container.innerHTML = "";
+                    snap.forEach(docSnap => {
+                        const t = docSnap.data();
+                        
+                        // معالجة التاريخ والنوع
+                        const date = t.timestamp?.toDate ? t.timestamp.toDate().toLocaleDateString('ar-EG') : "--/--/--";
+                        const amt = parseFloat(t.amount) || 0;
+                        const isCredit = amt > 0;
+                        const themeColor = isCredit ? "var(--brand-success)" : "var(--brand-red)";
+                        const bgColor = isCredit ? "#E8F5E9" : "#FFF1F1";
+                        const iconPath = isCredit ? "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" : "M19 13H5v-2h14v2z";
+
+                        container.innerHTML += `
+                            <div class="trans-item">
+                                <div class="trans-info">
+                                    <div class="trans-icon-bg" style="background: ${bgColor}">
+                                        <svg style="width:18px; fill:${themeColor}" viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
+                                    </div>
+                                    <div class="trans-meta">
+                                        <span class="trans-name">${t.description || (isAr ? 'معاملة محفظة' : 'Wallet Transaction')}</span>
+                                        <span class="trans-date">${date}</span>
+                                    </div>
+                                </div>
+                                <span class="trans-val" style="color: ${themeColor}">
+                                    ${isCredit ? '+' : '-'}${Math.abs(amt).toLocaleString('en-US', { minimumFractionDigits: 2 })}$
+                                </span>
+                            </div>`;
+                    });
                 });
 
             } else { 
-                localStorage.clear();
                 window.location.href = "../"; 
             }
         });
 
         window.handleLogout = () => {
-            const l = localStorage.getItem('pref_lang') || 'ar';
-            if(confirm(l === 'ar' ? "هل تريد تسجيل الخروج؟" : "Do you want to logout?")) {
-                signOut(auth).then(() => {
-                    localStorage.clear();
-                    window.location.href = "../";
-                });
+            if(confirm("هل تريد تسجيل الخروج؟")) {
+                signOut(auth).then(() => window.location.href = "../");
             }
         };
     </script>
 
     <script>
+        // ... بقية دوال المزامنة والخصوصية (sync / togglePrivacy / renderUserData) ...
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -362,22 +352,16 @@
 
         function renderUserData() {
             const nameEl = document.getElementById('user-full-name');
-            const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            
             if (isPrivacyOn) {
                 nameEl.innerText = "••••••••"; 
-                emailEl.innerText = "••••••••••••";
                 eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
             } else {
-                nameEl.innerText = window.currentName || localStorage.getItem('user_last_name') || "---"; 
-                emailEl.innerText = window.currentEmail || localStorage.getItem('user_last_email') || "---";
+                nameEl.innerText = window.currentName || "---"; 
                 eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         }
-
         window.onload = sync;
-        window.addEventListener('storage', sync);
     </script>
 </body>
 </html>
