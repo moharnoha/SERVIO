@@ -81,7 +81,7 @@
                             <div class="input-box" style="justify-content: space-between; background: #fdfdfd;">
                                 <div style="display: flex; align-items: center;">
                                     <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                                    <span id="category" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">جاري التحميل...</span>
+                                    <span id="category" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">اضغط لاختيار خدمة...</span>
                                 </div>
                                 <svg viewBox="0 0 24 24" style="width: 18px; fill: #94a3b8;"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
                             </div>
@@ -94,8 +94,8 @@
                                 <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية">
                             </div>
                             <div class="limit-hint">
-                                <span id="min-hint"></span>
-                                <span id="max-hint"></span>
+                                <span id="min-hint">الأدنى: --</span>
+                                <span id="max-hint">الأقصى: --</span>
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
         function formatNumber(num) { 
-            if (!num) return "0";
+            if (!num || isNaN(num)) return "0";
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
         }
 
@@ -139,13 +139,29 @@
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
         }
 
+        // تحديث البيانات من localStorage
         function updateUI() {
-            const minVal = localStorage.getItem("service_min") || "0";
-            const maxVal = localStorage.getItem("service_max") || "0";
-            document.getElementById('min-hint').innerHTML = `<b>الأدنى:</b> ${formatNumber(minVal)}`;
-            document.getElementById('max-hint').innerHTML = `<b>الأقصى:</b> ${formatNumber(maxVal)}`;
-            document.getElementById("category").innerText = localStorage.getItem('chosen_service') || "اضغط لاختيار خدمة";
-            document.getElementById("platformLink").value = localStorage.getItem("temp_link") || "";
+            const chosenService = localStorage.getItem('chosen_service');
+            const minVal = localStorage.getItem("service_min");
+            const maxVal = localStorage.getItem("service_max");
+            const tempLink = localStorage.getItem("temp_link");
+
+            if (chosenService) {
+                document.getElementById("category").innerText = chosenService;
+            }
+            
+            if (minVal) {
+                document.getElementById('min-hint').innerHTML = `<b>الأدنى:</b> ${formatNumber(minVal)}`;
+            }
+            
+            if (maxVal) {
+                document.getElementById('max-hint').innerHTML = `<b>الأقصى:</b> ${formatNumber(maxVal)}`;
+            }
+
+            if (tempLink) {
+                document.getElementById("platformLink").value = tempLink;
+            }
+
             updatePriceAndFormat();
         }
 
@@ -154,7 +170,9 @@
             location.href = `../Category/`;
         }
 
+        // تنفيذ التحديث عند تحميل الصفحة وعند العودة إليها
         window.onload = updateUI;
+        window.onfocus = updateUI; 
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
 
@@ -197,8 +215,8 @@
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
             if (!link || !service || qtyNum <= 0) { alert("أكمل البيانات"); return; }
-            if (qtyNum < minAllowed) { alert(`الكمية أقل من الحد الأدنى: ${formatNumber(minAllowed)}`); return; }
-            if (qtyNum > maxAllowed) { alert(`الكمية تجاوزت الحد الأقصى: ${formatNumber(maxAllowed)}`); return; }
+            if (qtyNum < minAllowed) { alert(`الكمية أقل من الحد الأدنى المسموح به: ${formatNumber(minAllowed)}`); return; }
+            if (qtyNum > maxAllowed) { alert(`الكمية تجاوزت الحد الأقصى المسموح به: ${formatNumber(maxAllowed)}`); return; }
 
             this.classList.add('loading');
             this.disabled = true;
