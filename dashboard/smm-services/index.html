@@ -139,29 +139,18 @@
             if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
         }
 
-        // تحديث البيانات من localStorage
+        // الوظيفة الأساسية لتحديث الواجهة فوراً
         function updateUI() {
             const chosenService = localStorage.getItem('chosen_service');
             const minVal = localStorage.getItem("service_min");
             const maxVal = localStorage.getItem("service_max");
             const tempLink = localStorage.getItem("temp_link");
 
-            if (chosenService) {
-                document.getElementById("category").innerText = chosenService;
-            }
+            document.getElementById("category").innerText = chosenService || "اضغط لاختيار خدمة...";
+            document.getElementById('min-hint').innerHTML = minVal ? `<b>الأدنى:</b> ${formatNumber(minVal)}` : "الأدنى: --";
+            document.getElementById('max-hint').innerHTML = maxVal ? `<b>الأقصى:</b> ${formatNumber(maxVal)}` : "الأقصى: --";
             
-            if (minVal) {
-                document.getElementById('min-hint').innerHTML = `<b>الأدنى:</b> ${formatNumber(minVal)}`;
-            }
-            
-            if (maxVal) {
-                document.getElementById('max-hint').innerHTML = `<b>الأقصى:</b> ${formatNumber(maxVal)}`;
-            }
-
-            if (tempLink) {
-                document.getElementById("platformLink").value = tempLink;
-            }
-
+            if (tempLink) document.getElementById("platformLink").value = tempLink;
             updatePriceAndFormat();
         }
 
@@ -170,9 +159,19 @@
             location.href = `../Category/`;
         }
 
-        // تنفيذ التحديث عند تحميل الصفحة وعند العودة إليها
-        window.onload = updateUI;
-        window.onfocus = updateUI; 
+        // --- حل مشكلة سرعة التحديث عند العودة ---
+        
+        // 1. التحديث عند تحميل الصفحة
+        window.addEventListener('load', updateUI);
+
+        // 2. التحديث عند الرجوع للصفحة (حتى لو من الـ Cache)
+        window.addEventListener('pageshow', function(event) {
+            updateUI();
+        });
+
+        // 3. التحديث عند تغير أي بيانات في الذاكرة
+        window.addEventListener('storage', updateUI);
+
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
 
