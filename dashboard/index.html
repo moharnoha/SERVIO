@@ -72,7 +72,7 @@
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 
-        /* --- الهيدر الثالث (مُحدث - دقة الفواصل والمزامنة) --- */
+        /* --- الهيدر الثالث (تحديث شامل: إزالة الحركات وجعل الظهور لحظياً) --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
@@ -84,15 +84,15 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        /* --- قسم المعاملات --- */
+        /* --- قسم المعاملات (تمت إزالة الانيميشن ليكون ثابتاً) --- */
         .transactions-header { padding: 25px 20px; background: #ffffff; margin-top: 10px; }
         .trans-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
-            animation: fadeIn 0.3s ease;
+            /* تم حذف خاصية animation لضمان الثبات */
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
         .trans-date { font-size: 10px; color: #888; margin-top: 4px; direction: ltr; text-align: right; display: block; }
         .trans-val { font-size: 14px; font-weight: 800; direction: ltr; }
         
@@ -182,16 +182,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        /**
-         * دالة التنسيق الاحترافية (6 أرقام دقيقة)
-         * تظهر الرقم كما هو إذا كان صحيحاً، وتظهر الفواصل بدقة متناهية إذا وجدت.
-         */
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
-            
             const num = Number(val);
-            
-            // نستخدم نظام التنسيق العالمي لضمان عدم التقريب وعدم إضافة أصفار في الأرقام الصحيحة
             return num.toLocaleString('en-US', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 6,
@@ -211,25 +204,19 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // مزامنة فورية لبيانات المستخدم (Header 3)
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
-                        
                         window.currentName = name;
                         window.currentEmail = user.email;
-                        
-                        // التحديث اللحظي للمبلغ بدقة 6 خانات
                         document.getElementById('user-balance').innerText = formatBalance(bal) + "$";
-                        
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
                 });
 
-                // مزامنة فورية للمعاملات
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
@@ -241,7 +228,6 @@
                     let htmlContent = "";
                     snap.forEach(docSnap => {
                         const t = docSnap.data();
-                        // استخراج الإشارة (+ أو -) وتنسيق الرقم بدقة 6 خانات
                         const rawAmountStr = t.amount ? t.amount.toString() : "0";
                         const isDep = rawAmountStr.includes('+');
                         const cleanNum = rawAmountStr.replace(/[+-]/g, '');
@@ -267,7 +253,6 @@
         });
 
         window.handleLogout = () => { if(confirm("خروج؟")) { localStorage.clear(); signOut(auth); } };
-        
         loadCache();
     </script>
 
