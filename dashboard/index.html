@@ -182,10 +182,21 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // وظيفة تنسيق المبلغ بمرونة (رقم صحيح أو فواصل دقيقة)
+        /**
+         * دالة التنسيق الاحترافية (6 أرقام دقيقة)
+         * تظهر الرقم كما هو إذا كان صحيحاً، وتظهر الفواصل بدقة متناهية إذا وجدت.
+         */
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
-            return Number(val).toString(); // يحافظ على الفواصل كما هي ويحذف الأصفار الزائدة في الأرقام الصحيحة
+            
+            const num = Number(val);
+            
+            // نستخدم نظام التنسيق العالمي لضمان عدم التقريب وعدم إضافة أصفار في الأرقام الصحيحة
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 6,
+                useGrouping: false
+            });
         };
 
         const loadCache = () => {
@@ -200,17 +211,17 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // مزامنة فورية لبيانات المستخدم
+                // مزامنة فورية لبيانات المستخدم (Header 3)
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
-                        const bal = d.balance; 
+                        const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
                         
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        // عرض الرصيد بتنسيق مرن
+                        // التحديث اللحظي للمبلغ بدقة 6 خانات
                         document.getElementById('user-balance').innerText = formatBalance(bal) + "$";
                         
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
@@ -230,10 +241,11 @@
                     let htmlContent = "";
                     snap.forEach(docSnap => {
                         const t = docSnap.data();
-                        // تطبيق التنسيق المرن على مبالغ المعاملات أيضاً
-                        const rawAmount = t.amount ? t.amount.toString() : "0";
-                        const isDep = rawAmount.includes('+');
-                        const cleanAmount = formatBalance(rawAmount.replace(/[+-]/g, ''));
+                        // استخراج الإشارة (+ أو -) وتنسيق الرقم بدقة 6 خانات
+                        const rawAmountStr = t.amount ? t.amount.toString() : "0";
+                        const isDep = rawAmountStr.includes('+');
+                        const cleanNum = rawAmountStr.replace(/[+-]/g, '');
+                        const finalFormatted = formatBalance(cleanNum);
                         
                         let dateStr = "---";
                         if (t.timestamp) {
@@ -246,7 +258,7 @@
                                     <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
-                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${cleanAmount}$</span>
+                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${finalFormatted}$</span>
                             </div>`;
                     });
                     container.innerHTML = htmlContent;
