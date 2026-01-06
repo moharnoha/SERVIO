@@ -22,7 +22,7 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
 
-        /* --- الهيدر الأول (ثابت) --- */
+        /* --- الهيدر الأول (ثابت تماماً) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -40,7 +40,8 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        .search-sticky { position: sticky; top: 70px; z-index: 1000; background: var(--search-bg); padding: 12px 16px; }
+        /* --- جزء البحث (ثابت تماماً) --- */
+        .search-sticky { position: sticky; top: 70px; z-index: 1000; background: var(--search-bg); padding: 12px 16px; width: 100%; box-sizing: border-box; }
         .search-wrapper { position: relative; width: 100%; }
         .search-input { 
             width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px; border: 1.5px solid transparent; 
@@ -50,6 +51,7 @@
         .search-input:focus { border-color: var(--primary-blue); box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
+        /* --- جزء الخدمات --- */
         .content-area { padding: 0 16px 110px 16px; background-color: var(--bg-gray); }
         .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 25px 0 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
         .category-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #cbd5e0, transparent); }
