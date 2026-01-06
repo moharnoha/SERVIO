@@ -151,7 +151,6 @@
                 confirm_order: "تأكيد الطلب والدفع",
                 login_msg: "يرجى تسجيل الدخول للمتابعة",
                 link_err: "عذراً، يرجى تزويدنا بالرابط المطلوب",
-                invalid_link_err: "الرابط غير صالح (ممنوع اللغة العربية أو الرموز التعبيرية)",
                 service_err: "يرجى تحديد الخدمة المطلوبة أولاً",
                 qty_req: "يرجى إدخال الكمية المطلوبة",
                 min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
@@ -176,7 +175,6 @@
                 confirm_order: "Confirm & Pay",
                 login_msg: "Please login to continue",
                 link_err: "Sorry, please provide the required link",
-                invalid_link_err: "Invalid link (Arabic or emojis are not allowed)",
                 service_err: "Please select a service first",
                 qty_req: "Please enter the requested quantity",
                 min_err: "Quantity is lower than the minimum allowed: ",
@@ -286,6 +284,10 @@
         window.addEventListener('pageshow', function(event) { updateUI(); });
         window.addEventListener('storage', updateUI);
         document.getElementById("quantity").oninput = updatePriceAndFormat;
+
+        document.getElementById("platformLink").oninput = function() {
+            this.value = this.value.replace(/[^\x00-\x7F]/g, "");
+        };
     </script>
 
     <script type="module">
@@ -331,14 +333,6 @@
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
             if (!link) { showToast(t.link_err, "error"); return; }
-            
-            // Link Validation: No Arabic, No Emojis, No non-ASCII characters
-            const forbiddenRegex = /[\u0600-\u06FF]|[\uD83C-\uDBFF\uDC00-\uDFFF]/;
-            if (forbiddenRegex.test(link)) {
-                showToast(t.invalid_link_err, "error");
-                return;
-            }
-
             if (!service) { showToast(t.service_err, "error"); return; }
             if (qtyNum <= 0) { showToast(t.qty_req, "error"); return; }
             
@@ -389,7 +383,7 @@
                     setTimeout(() => {
                         this.classList.remove('loading');
                         this.disabled = false;
-                        window.location.href = "dashboard/";
+                        window.location.href = "../../dashboard/";
                     }, 1500);
                 } else {
                     showToast(t.balance_err, "error");
