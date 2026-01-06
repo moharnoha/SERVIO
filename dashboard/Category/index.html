@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
     <title>Servio - All Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
+            --header-green: #2E5822; 
             --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c;
             --primary-blue: #2563eb; --text-light: #64748b; --bg-gray: #f1f5f9;
             --card-bg: #ffffff; --fb-color: #1877F2; --ig-color: #E4405F; 
@@ -16,33 +18,27 @@
             --price-color: #10b981; --qty-color: #94a3b8;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
 
-        header { 
-            width: 100%; height: 65px; background-color: var(--bg-light); 
-            border-bottom: 1px solid var(--border-gray); display: flex; 
-            align-items: center; justify-content: space-between; 
-            padding: 0 12px; box-sizing: border-box; position: sticky; 
-            top: 0; z-index: 1001;
+        /* --- الهيدر الأول (ثابت) --- */
+        .top-header { 
+            height: 70px; background-color: var(--header-green); 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box; width: 100%;
         }
-
         .brand-section { display: flex; align-items: center; }
-        .logo-img { height: 28px; width: auto; }
-        .v-line { width: 1px; height: 22px; background-color: #cbd5e0; margin: 0 10px; }
-        .title-box { display: flex; flex-direction: column; }
-        .title-box span { font-size: 10px; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+        .logo-img { height: 35px; width: auto; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 6px; 
-            padding: 0 12px; height: 34px; gap: 5px;
-        }
-
-        .display-text { font-size: 10px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 5px; }
-        .flag-icon { width: 18px; height: 12px; border-radius: 2px; }
-
-        .search-sticky { position: sticky; top: 65px; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
+        .search-sticky { position: sticky; top: 0; z-index: 1000; background: var(--bg-gray); padding: 12px 16px; }
         .search-wrapper { position: relative; width: 100%; }
         .search-input { 
             width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px; border: 1.5px solid transparent; 
@@ -107,25 +103,19 @@
 <body>
 
     <div class="main-container">
-        <header>
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/KvMWmkZw/servio.png" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box">
-                    <span id="nav-t1"></span>
-                    <span id="nav-t2"></span>
-                </div>
-            </div>
-            <div class="info-display-wrapper">
-                <div id="flag-display"></div>
-                <div class="display-text">
-                    <span id="label-reg">---</span>
-                    <span style="color:#cbd5e0;">|</span>
-                    <span id="label-lng">--</span>
-                </div>
-            </div>
-        </header>
 
+        <div class="top-header">
+            <div class="brand-section">
+                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box"><span>مركز الشحن الرسمي</span><span>Official Top Up Center</span></div>
+            </div>
+            <div class="region-badge">
+                <div id="flag-ui"></div>
+                <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+            </div>
+        </div>
+        
         <div class="search-sticky">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -142,10 +132,8 @@
     </div>
 
     <script>
-        // دالة مساعدة لتنسيق الأرقام بفاصلة الآلاف
         function formatWithCommas(n) {
             if (!n) return n;
-            // تنظيف الرقم من أي فواصل سابقة ثم تنسيقه
             let clean = n.toString().replace(/,/g, '');
             return clean.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
@@ -165,11 +153,14 @@
             }
         };
 
-        const flags = {
-            mena: `<svg class="mena-icon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#94a3b8;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            algeria: `https://flagcdn.com/dz.svg`, egypt: `https://flagcdn.com/eg.svg`, iraq: `https://flagcdn.com/iq.svg`, morocco: `https://flagcdn.com/ma.svg`, nigeria: `https://flagcdn.com/ng.svg`, oman: `https://flagcdn.com/om.svg`, palestine: `https://flagcdn.com/ps.svg`, qatar: `https://flagcdn.com/qa.svg`, saudi: `https://flagcdn.com/sa.svg`, tunisia: `https://flagcdn.com/tn.svg`, uae: `https://flagcdn.com/ae.svg`,
-            other: `<svg class="mena-icon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#94a3b8;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
-        };
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
+        ];
 
         const servicesData = [
             { cat: ["Facebook", "فيسبوك"], icon: "bg-fb", fa: "fa-facebook-f", items: [
@@ -204,7 +195,7 @@
                 ["Instagram - Comments [Targeted]", "إنستغرام - التعليقات [ البلد المستهدف ]", "0.00945", "10", "10000"],
                 ["Instagram - Story Views", "إنستغرام - مشاهدات القصص", "0.000162", "100", "200000"],
                 ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة", "0.000513", "100", "50000"],
-                ["Instagram - Live Views", "إنستغرام - مشاهدات مباشرة", "0.002025", "5", "5000"]
+                ["Instagram - Live Views", "إنستغرام - مشاهدات مباشرة", "0.002025", "5", "500"]
             ]},
             { cat: ["TikTok", "تيك توك"], icon: "bg-tt", fa: "fa-tiktok", items: [
                 ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074", "50", "1000000"],
@@ -254,16 +245,15 @@
             const isAr = lang === 'ar';
             const savedServiceId = localStorage.getItem('chosen_service_id'); 
 
-            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-            document.getElementById('nav-t1').innerText = t.navT1;
-            document.getElementById('nav-t2').innerText = t.navT2;
-            document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = t.regions[regIdx];
-            
-            const flagKey = ["mena", "algeria", "egypt", "iraq", "morocco", "nigeria", "oman", "palestine", "qatar", "saudi", "tunisia", "uae", "other"][regIdx];
-            const flagBox = document.getElementById('flag-display');
-            flagBox.innerHTML = (flagKey === 'mena' || flagKey === 'other') ? flags[flagKey] : `<img src="${flags[flagKey]}" class="flag-icon" style="width:18px;height:12px;border-radius:2px;">`;
+            // تحديث الهيدر
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            
             document.getElementById('serviceSearch').placeholder = t.search;
             document.getElementById('btn-text').innerText = t.btn;
 
@@ -287,7 +277,6 @@
                     item.className = 'service-item';
                     if (savedServiceId === serviceId) item.classList.add('selected');
 
-                    // تطبيق تنسيق الفواصل هنا
                     let limitsHtml = (min && max) ? 
                         `<div class="limits-row">
                             <span>${t.min} ${formatWithCommas(min)}</span>
