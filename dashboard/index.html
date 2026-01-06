@@ -109,7 +109,10 @@
             contain: content; /* يحسن أداء العرض ويمنع إعادة الحسابات المفاجئة */
         }
         
-        .trans-date { font-size: 10px; color: #888; margin-top: 4px; direction: ltr; text-align: right; display: block; }
+        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #e2e8f0; color: #475569; }
+        .status-badge.active { background: #dcfce7; color: #166534; }
+        .trans-date { font-size: 10px; color: #888; direction: ltr; text-align: right; display: block; }
         .trans-val { font-size: 14px; font-weight: 800; direction: ltr; }
         
         .empty-state { text-align: center; padding: 30px 10px; color: #aaa; font-size: 12px; font-weight: 500; }
@@ -249,6 +252,8 @@
                         const isDep = rawAmountStr.includes('+');
                         const cleanNum = rawAmountStr.replace(/[+-]/g, '');
                         const finalFormatted = formatBalance(cleanNum);
+                        const status = t.status || 'Active';
+                        const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
                         
                         let dateStr = "---";
                         if (t.timestamp) {
@@ -259,7 +264,10 @@
                             <div class="trans-item">
                                 <div style="display:flex; flex-direction:column">
                                     <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
-                                    <span class="trans-date">${dateStr}</span>
+                                    <div class="trans-date-container">
+                                        <span class="status-badge ${statusClass}">${status}</span>
+                                        <span class="trans-date">${dateStr}</span>
+                                    </div>
                                 </div>
                                 <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${finalFormatted}$</span>
                             </div>`;
