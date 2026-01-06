@@ -54,9 +54,20 @@
         .loading .spinner { opacity: 1; animation: spin 0.8s linear infinite; }
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Custom Toast Styles */
+        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none; }
+        .toast { padding: 16px 20px; border-radius: 16px; background: #fff; color: #1a202c; font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; animation: slideDown 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; border-right: 5px solid transparent; pointer-events: auto; }
+        .toast.success { border-right-color: var(--success-green); }
+        .toast.error { border-right-color: var(--error-red); }
+        .toast.info { border-right-color: var(--primary-blue); }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
     </style>
 </head>
 <body>
+
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="container-wrapper">
         <div class="main-container">
@@ -124,6 +135,25 @@
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = '';
+            if(type === 'success') icon = '✅';
+            else if(type === 'error') icon = '❌';
+            else icon = 'ℹ️';
+
+            toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.4s forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
 
         function formatNumber(num) { 
             if (!num || isNaN(num)) return "0";
@@ -205,7 +235,7 @@
         });
 
         document.getElementById("payBtn").onclick = async function() {
-            if (!currentUser) { alert("يرجى تسجيل الدخول للمتابعة"); return; }
+            if (!currentUser) { showToast("يرجى تسجيل الدخول للمتابعة", "error"); return; }
             const link = document.getElementById("platformLink").value;
             const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
@@ -216,20 +246,20 @@
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
-            if (!link) { alert("عذراً، يرجى تزويدنا بالرابط المطلوب"); return; }
-            if (!service) { alert("يرجى تحديد الخدمة المطلوبة أولاً"); return; }
-            if (qtyNum <= 0) { alert("يرجى إدخال كمية صحيحة"); return; }
+            if (!link) { showToast("عذراً، يرجى تزويدنا بالرابط المطلوب", "error"); return; }
+            if (!service) { showToast("يرجى تحديد الخدمة المطلوبة أولاً", "error"); return; }
+            if (qtyNum <= 0) { showToast("يرجى إدخال كمية صحيحة", "error"); return; }
             
             if (qtyNum < minAllowed) { 
-                alert(`عذراً، الكمية المدخلة أقل من الحد الأدنى المسموح به لهذه الخدمة وهو: ${formatNumber(minAllowed)}`); 
+                showToast(`الكمية أقل من الحد الأدنى المسموح به: ${qtyNum.toLocaleString()}`, "error"); 
                 return; 
             }
             if (qtyNum > maxAllowed) { 
-                alert(`عذراً، الكمية المدخلة تجاوزت الحد الأقصى المسموح به وهو: ${formatNumber(maxAllowed)}`); 
+                showToast(`الكمية تجاوزت الحد الأقصى المسموح به: ${qtyNum.toLocaleString()}`, "error"); 
                 return; 
             }
             if (qtyRaw.length > 10) {
-                alert("عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية");
+                showToast("عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية", "error");
                 return;
             }
 
@@ -263,15 +293,15 @@
                     } catch (e) {}
 
                     localStorage.removeItem("temp_link");
-                    alert("رائع! تم استلام طلبك ومعالجته بنجاح.");
-                    location.href = "../dashboard/";
+                    showToast("رائع! تم استلام طلبك ومعالجته بنجاح.", "success");
+                    setTimeout(() => location.href = "../dashboard/", 1500);
                 } else {
-                    alert("عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية");
+                    showToast("عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية", "error");
                     this.classList.remove('loading');
                     this.disabled = false;
                 }
             } catch (e) {
-                alert("نعتذر، حدث خطأ غير متوقع أثناء عملية الدفع. يرجى المحاولة لاحقاً");
+                showToast("نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً", "error");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
@@ -279,3 +309,4 @@
     </script>
 </body>
 </html>
+
