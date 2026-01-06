@@ -365,6 +365,7 @@
                     await addDoc(collection(db, "transactions"), {
                         amount: `-${finalCharge.toFixed(7)}`,
                         description: "شراء: " + service,
+                        status: "Active",
                         timestamp: serverTimestamp(),
                         userId: currentUser.uid,
                         userEmail: email
@@ -374,7 +375,7 @@
                         await fetch(scriptURL, { 
                             method: "POST", 
                             mode: "no-cors", 
-                            body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(7), gmail: email }) 
+                            body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(7), gmail: email, status: "Active" }) 
                         });
                     } catch (e) {}
 
