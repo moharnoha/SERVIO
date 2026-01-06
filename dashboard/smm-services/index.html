@@ -248,7 +248,7 @@
 
             if (!link) { showToast("عذراً، يرجى تزويدنا بالرابط المطلوب", "error"); return; }
             if (!service) { showToast("يرجى تحديد الخدمة المطلوبة أولاً", "error"); return; }
-            if (qtyNum <= 0) { showToast("يرجى إدخال كمية صحيحة", "error"); return; }
+            if (qtyNum <= 0) { showToast("يرجى إدخال الكمية المطلوبة", "error"); return; }
             
             if (qtyNum < minAllowed) { 
                 showToast(`الكمية أقل من الحد الأدنى المسموح به: ${qtyNum.toLocaleString()}`, "error"); 
@@ -309,4 +309,3 @@
     </script>
 </body>
 </html>
-
