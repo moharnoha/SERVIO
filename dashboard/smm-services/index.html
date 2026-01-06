@@ -261,6 +261,11 @@
             const minVal = localStorage.getItem("service_min");
             const maxVal = localStorage.getItem("service_max");
             const tempLink = localStorage.getItem("temp_link");
+            const savedEmail = localStorage.getItem("user_email");
+
+            if (savedEmail) {
+                document.getElementById("email").value = savedEmail;
+            }
 
             document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
             document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
@@ -303,6 +308,7 @@
         onAuthStateChanged(auth, (user) => { 
             if (user) {
                 currentUser = user;
+                localStorage.setItem("user_email", user.email);
                 document.getElementById("email").value = user.email;
             } 
         });
@@ -373,7 +379,7 @@
                     setTimeout(() => {
                         this.classList.remove('loading');
                         this.disabled = false;
-                        window.location.href = "dashboard/";
+                        window.location.href = "../../dashboard/";
                     }, 1500);
                 } else {
                     showToast(t.balance_err, "error");
