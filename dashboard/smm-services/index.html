@@ -91,7 +91,7 @@
                             <label class="label">الكمية المطلوبة</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية">
+                                <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية" maxlength="13">
                             </div>
                             <div class="limit-hint">
                                 <span id="min-hint">الأدنى: --</span>
@@ -134,9 +134,18 @@
             const qtyInput = document.getElementById("quantity");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
             let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
+            
+            if (rawValue.length > 10) {
+                rawValue = rawValue.substring(0, 10);
+            }
+            
             const total = unitPrice * (parseInt(rawValue) || 0);
             document.getElementById("display-price").innerText = `$${total.toFixed(7)}`;
-            if (rawValue !== "") { qtyInput.value = formatNumber(rawValue); }
+            if (rawValue !== "") { 
+                qtyInput.value = formatNumber(rawValue); 
+            } else {
+                qtyInput.value = "";
+            }
         }
 
         function updateUI() {
@@ -196,7 +205,7 @@
         });
 
         document.getElementById("payBtn").onclick = async function() {
-            if (!currentUser) { alert("يرجى تسجيل الدخول"); return; }
+            if (!currentUser) { alert("يرجى تسجيل الدخول للمتابعة"); return; }
             const link = document.getElementById("platformLink").value;
             const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
@@ -207,9 +216,22 @@
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
-            if (!link || !service || qtyNum <= 0) { alert("أكمل البيانات"); return; }
-            if (qtyNum < minAllowed) { alert(`الكمية أقل من الحد الأدنى المسموح به: ${formatNumber(minAllowed)}`); return; }
-            if (qtyNum > maxAllowed) { alert(`الكمية تجاوزت الحد الأقصى المسموح به: ${formatNumber(maxAllowed)}`); return; }
+            if (!link) { alert("عذراً، يرجى تزويدنا بالرابط المطلوب"); return; }
+            if (!service) { alert("يرجى تحديد الخدمة المطلوبة أولاً"); return; }
+            if (qtyNum <= 0) { alert("يرجى إدخال كمية صحيحة"); return; }
+            
+            if (qtyNum < minAllowed) { 
+                alert(`عذراً، الكمية المدخلة أقل من الحد الأدنى المسموح به لهذه الخدمة وهو: ${formatNumber(minAllowed)}`); 
+                return; 
+            }
+            if (qtyNum > maxAllowed) { 
+                alert(`عذراً، الكمية المدخلة تجاوزت الحد الأقصى المسموح به وهو: ${formatNumber(maxAllowed)}`); 
+                return; 
+            }
+            if (qtyRaw.length > 10) {
+                alert("عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية");
+                return;
+            }
 
             this.classList.add('loading');
             this.disabled = true;
@@ -241,15 +263,15 @@
                     } catch (e) {}
 
                     localStorage.removeItem("temp_link");
-                    alert("تم تأكيد طلبك بنجاح!");
+                    alert("رائع! تم استلام طلبك ومعالجته بنجاح.");
                     location.href = "../dashboard/";
                 } else {
-                    alert("رصيد غير كافٍ");
+                    alert("عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية");
                     this.classList.remove('loading');
                     this.disabled = false;
                 }
             } catch (e) {
-                alert("حدث خطأ أثناء الدفع");
+                alert("نعتذر، حدث خطأ غير متوقع أثناء عملية الدفع. يرجى المحاولة لاحقاً");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
