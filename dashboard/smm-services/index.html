@@ -373,7 +373,7 @@
                     setTimeout(() => {
                         this.classList.remove('loading');
                         this.disabled = false;
-                        location.href = "/dashboard/";
+                        window.location.href = "dashboard/";
                     }, 1500);
                 } else {
                     showToast(t.balance_err, "error");
