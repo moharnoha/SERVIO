@@ -75,43 +75,43 @@
                 <div class="order-card">
                     <div class="order-header">
                         <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
-                        <div class="order-title">تفاصيل الطلب</div>
+                        <div class="order-title" data-i18n="order_details">تفاصيل الطلب</div>
                     </div>
 
                     <div class="form-grid">
                         <div class="field">
-                            <label class="label">الرابط</label>
+                            <label class="label" data-i18n="link_label">الرابط</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" placeholder="أدخل الرابط هنا">
+                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
                             </div>
                         </div>
 
                         <div class="field" onclick="goToCategory()" style="cursor:pointer">
-                            <label class="label">الفئة المختارة</label>
+                            <label class="label" data-i18n="category_label">الفئة المختارة</label>
                             <div class="input-box" style="justify-content: space-between; background: #fdfdfd;">
                                 <div style="display: flex; align-items: center;">
                                     <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                                    <span id="category" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">اضغط لاختيار خدمة...</span>
+                                    <span id="category" data-i18n="choose_service" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">اضغط لاختيار خدمة...</span>
                                 </div>
                                 <svg viewBox="0 0 24 24" style="width: 18px; fill: #94a3b8;"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
                             </div>
                         </div>
 
                         <div class="field">
-                            <label class="label">الكمية المطلوبة</label>
+                            <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
-                                <input id="quantity" type="text" inputmode="numeric" placeholder="أدخل الكمية" maxlength="13">
+                                <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
                             </div>
                             <div class="limit-hint">
-                                <span id="min-hint">الأدنى: --</span>
-                                <span id="max-hint">الأقصى: --</span>
+                                <span id="min-hint"><span data-i18n="min">الأدنى:</span> --</span>
+                                <span id="max-hint"><span data-i18n="max">الأقصى:</span> --</span>
                             </div>
                         </div>
 
                         <div class="field">
-                            <label class="label">البريد الإلكتروني (Gmail)</label>
+                            <label class="label" data-i18n="email_label">البريد الإلكتروني (Gmail)</label>
                             <div class="input-box" style="background: transparent; cursor: default;">
                                 <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
                                 <input id="email" type="email" readonly style="background: transparent; cursor: default;">
@@ -119,12 +119,12 @@
                         </div>
 
                         <div class="price-container">
-                            <span class="price-label">إجمالي المستحق</span>
+                            <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
                             <span class="price-value" id="display-price">$0.0000000</span>
                         </div>
 
                         <button id="payBtn">
-                            <span id="btn-text">تأكيد الطلب والدفع</span>
+                            <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
                             <div class="spinner"></div>
                         </button>
                     </div>
@@ -134,6 +134,77 @@
     </div>
 
     <script>
+        const translations = {
+            ar: {
+                order_details: "تفاصيل الطلب",
+                link_label: "الرابط",
+                link_placeholder: "أدخل الرابط هنا",
+                category_label: "الفئة المختارة",
+                choose_service: "اضغط لاختيار خدمة...",
+                quantity_label: "الكمية المطلوبة",
+                quantity_placeholder: "أدخل الكمية",
+                min: "الأدنى:",
+                max: "الأقصى:",
+                email_label: "البريد الإلكتروني (Gmail)",
+                total_due: "إجمالي المستحق",
+                confirm_order: "تأكيد الطلب والدفع",
+                login_msg: "يرجى تسجيل الدخول للمتابعة",
+                link_err: "عذراً، يرجى تزويدنا بالرابط المطلوب",
+                service_err: "يرجى تحديد الخدمة المطلوبة أولاً",
+                qty_req: "يرجى إدخال الكمية المطلوبة",
+                min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
+                max_err: "الكمية تجاوزت الحد الأقصى المسموح به: ",
+                max_digits: "عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية",
+                success_msg: "رائع! تم استلام طلبك ومعالجته بنجاح.",
+                balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
+                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً"
+            },
+            en: {
+                order_details: "Order Details",
+                link_label: "Link",
+                link_placeholder: "Enter link here",
+                category_label: "Selected Category",
+                choose_service: "Click to choose a service...",
+                quantity_label: "Requested Quantity",
+                quantity_placeholder: "Enter quantity",
+                min: "Min:",
+                max: "Max:",
+                email_label: "Email (Gmail)",
+                total_due: "Total Due",
+                confirm_order: "Confirm & Pay",
+                login_msg: "Please login to continue",
+                link_err: "Sorry, please provide the required link",
+                service_err: "Please select a service first",
+                qty_req: "Please enter the requested quantity",
+                min_err: "Quantity is lower than the minimum allowed: ",
+                max_err: "Quantity exceeded the maximum allowed: ",
+                max_digits: "Sorry, quantity cannot exceed 10 digits",
+                success_msg: "Great! Your order has been received and processed.",
+                balance_err: "Sorry, your current balance is insufficient",
+                error_msg: "Sorry, an unexpected error occurred. Please try again later"
+            }
+        };
+
+        function applyTranslations() {
+            const lang = localStorage.getItem('selectedLanguage') || 'ar';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+        }
+
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
 
         function showToast(message, type = 'info') {
@@ -179,14 +250,16 @@
         }
 
         function updateUI() {
+            applyTranslations();
+            const lang = localStorage.getItem('selectedLanguage') || 'ar';
             const chosenService = localStorage.getItem('chosen_service');
             const minVal = localStorage.getItem("service_min");
             const maxVal = localStorage.getItem("service_max");
             const tempLink = localStorage.getItem("temp_link");
 
-            document.getElementById("category").innerText = chosenService || "اضغط لاختيار خدمة...";
-            document.getElementById('min-hint').innerHTML = minVal ? `<b>الأدنى:</b> ${formatNumber(minVal)}` : "الأدنى: --";
-            document.getElementById('max-hint').innerHTML = maxVal ? `<b>الأقصى:</b> ${formatNumber(maxVal)}` : "الأقصى: --";
+            document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
+            document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
+            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
             
             if (tempLink) document.getElementById("platformLink").value = tempLink;
             updatePriceAndFormat();
@@ -198,13 +271,8 @@
         }
         
         window.addEventListener('load', updateUI);
-
-        window.addEventListener('pageshow', function(event) {
-            updateUI();
-        });
-
+        window.addEventListener('pageshow', function(event) { updateUI(); });
         window.addEventListener('storage', updateUI);
-
         document.getElementById("quantity").oninput = updatePriceAndFormat;
     </script>
 
@@ -235,7 +303,10 @@
         });
 
         document.getElementById("payBtn").onclick = async function() {
-            if (!currentUser) { showToast("يرجى تسجيل الدخول للمتابعة", "error"); return; }
+            const lang = localStorage.getItem('selectedLanguage') || 'ar';
+            const t = translations[lang];
+
+            if (!currentUser) { showToast(t.login_msg, "error"); return; }
             const link = document.getElementById("platformLink").value;
             const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
@@ -246,20 +317,20 @@
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
-            if (!link) { showToast("عذراً، يرجى تزويدنا بالرابط المطلوب", "error"); return; }
-            if (!service) { showToast("يرجى تحديد الخدمة المطلوبة أولاً", "error"); return; }
-            if (qtyNum <= 0) { showToast("يرجى إدخال الكمية المطلوبة", "error"); return; }
+            if (!link) { showToast(t.link_err, "error"); return; }
+            if (!service) { showToast(t.service_err, "error"); return; }
+            if (qtyNum <= 0) { showToast(t.qty_req, "error"); return; }
             
             if (qtyNum < minAllowed) { 
-                showToast(`الكمية أقل من الحد الأدنى المسموح به: ${qtyNum.toLocaleString()}`, "error"); 
+                showToast(`${t.min_err}${formatNumber(minAllowed)}`, "error"); 
                 return; 
             }
             if (qtyNum > maxAllowed) { 
-                showToast(`الكمية تجاوزت الحد الأقصى المسموح به: ${qtyNum.toLocaleString()}`, "error"); 
+                showToast(`${t.max_err}${formatNumber(maxAllowed)}`, "error"); 
                 return; 
             }
             if (qtyRaw.length > 10) {
-                showToast("عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية", "error");
+                showToast(t.max_digits, "error");
                 return;
             }
 
@@ -293,15 +364,15 @@
                     } catch (e) {}
 
                     localStorage.removeItem("temp_link");
-                    showToast("رائع! تم استلام طلبك ومعالجته بنجاح.", "success");
+                    showToast(t.success_msg, "success");
                     setTimeout(() => location.href = "../dashboard/", 1500);
                 } else {
-                    showToast("عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية", "error");
+                    showToast(t.balance_err, "error");
                     this.classList.remove('loading');
                     this.disabled = false;
                 }
             } catch (e) {
-                showToast("نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً", "error");
+                showToast(t.error_msg, "error");
                 this.classList.remove('loading');
                 this.disabled = false;
             }
@@ -309,3 +380,4 @@
     </script>
 </body>
 </html>
+
