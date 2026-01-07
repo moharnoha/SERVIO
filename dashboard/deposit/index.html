@@ -31,10 +31,16 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        /* تعديل التباعد ليتطابق مع الصورة المطلوبة */
-        .title-box { display: flex; flex-direction: column; text-align: center; gap: 4px; }
-        .title-box span:first-child { font-size: 13px; font-weight: 800; color: #ffffff; line-height: 1.1; }
-        .title-box span:last-child { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.1; }
+        /* تثبيت النص لمنع التأثر بالترجمة التلقائية */
+        .title-box { 
+            display: flex; 
+            flex-direction: column; 
+            text-align: center; 
+            gap: 4px;
+            unicode-bidi: isolate;
+        }
+        .title-box span:first-child { font-size: 13px; font-weight: 800; color: #ffffff; line-height: 1.1; display: block; }
+        .title-box span:last-child { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.1; display: block; }
         
         .region-badge { 
             display: flex; align-items: center; 
@@ -117,7 +123,7 @@
 
     </style>
 </head>
-<body>
+<body class="notranslate" translate="no">
 
     <div class="main-container">
 
@@ -126,8 +132,8 @@
                 <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                 <div class="v-line"></div>
                 <div class="title-box">
-                    <span>مركز الشحن الرسمي</span>
-                    <span>Official Top Up Center</span>
+                    <span class="notranslate" translate="no">مركز الشحن الرسمي</span>
+                    <span class="notranslate" translate="no">Official Top Up Center</span>
                 </div>
             </div>
             <div class="region-badge">
@@ -204,7 +210,8 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
-            // الاتجاه يبقى ثابتاً (RTL) لضمان عدم حدوث حركة أو انقلاب عند الترجمة
+            // تم تثبيت الاتجاه على RTL ومنع تغييره برمجياً للحفاظ على الشكل بعد الترجمة
+            document.documentElement.dir = 'rtl';
         }
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', updateUI);
