@@ -20,50 +20,28 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* --- الهيدر "المجمد" (لا يتأثر بالترجمة أو الاتجاه) --- */
+        /* --- الهيدر (بدون تعديل) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; 
-            flex-direction: row-reverse !important; /* إجبار اللوجو على اليمين دائماً */
-            align-items: center; justify-content: space-between; 
+            display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
-            direction: ltr !important; /* عكس الاتجاه البرمجي لضمان ثبات الترتيب البصري */
+            direction: rtl !important; /* ضمان بقاء الترتيب ثابت مهما تغيرت لغة الصفحة */
         }
-
-        /* حاوية اللوجو والنص */
-        .brand-section { 
-            display: flex; 
-            flex-direction: row-reverse !important; 
-            align-items: center; 
-            flex-shrink: 0; 
-        }
-
+        .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; line-height: 1.2; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); line-height: 1.2; }
         
-        /* النصوص محمية من الترجمة والقلب */
-        .title-box { 
-            display: flex; flex-direction: column; 
-            text-align: right !important; 
-            min-width: 110px;
-            direction: rtl !important;
-        }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; line-height: 1.2; white-space: nowrap; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); line-height: 1.2; white-space: nowrap; }
-        
-        /* زر الدولة محمي من القلب */
         .region-badge { 
-            display: flex; 
-            flex-direction: row !important; /* بقاء العلم بجانب النص دائماً */
-            align-items: center; 
+            display: flex; align-items: center; 
             background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px;
-            flex-shrink: 0;
-            direction: ltr !important;
+            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
         }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: ltr !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
@@ -142,7 +120,7 @@
 
     <div class="main-container">
 
-        <header class="top-header notranslate" translate="no">
+        <div class="top-header">
             <div class="brand-section">
                 <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                 <div class="v-line"></div>
@@ -159,19 +137,24 @@
                     <span id="lang-name">--</span>
                 </div>
             </div>
-        </header>
+        </div>
 
-        <main class="services-grid">
+        <div class="services-grid">
+            
             <div class="section-header">وسائل الدفع</div>
 
             <a href="#" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
+                <div class="card-icon">
+                    <img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus">
+                </div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Cash Plus</h3>
             </a>
 
             <a href="#" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money"></div>
+                <div class="card-icon">
+                    <img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money">
+                </div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Orange Money Maroc</h3>
             </a>
@@ -179,24 +162,33 @@
             <div class="section-header">التحويلات الدولية</div>
 
             <a href="#" class="service-card">
-                <div class="card-icon"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968393.png" alt="WU"></div>
+                <div class="card-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968393.png" alt="WU">
+                </div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">ويسترن يونيون</h3>
             </a>
 
             <a href="#" class="service-card">
-                <div class="card-icon"><img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank"></div>
+                <div class="card-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                </div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">تحويل بنكي</h3>
             </a>
-        </main>
+
+        </div>
     </div>
 
     <script>
+        // الكود المحدث دائماً [cite: 2026-01-07]
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
-            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' }
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
         ];
 
         function updateUI() {
@@ -211,8 +203,6 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
-            
-            // الجسم الرئيسي فقط يتبع اللغة، الهيدر محمي بـ CSS
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         }
         window.addEventListener('load', updateUI);
