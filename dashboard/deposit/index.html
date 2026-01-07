@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
+    <title>Servio - Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --header-green: #2E5822; 
+            --bg-gray: #F2F2F2; 
+            --card-white: #ffffff;
+            --text-main: #000000;
+            --accent-green: #386E2C; 
+        }
+
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* --- الهيدر (بدون تعديل) --- */
+        .top-header { 
+            height: 70px; background-color: var(--header-green); 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box; width: 100%;
+            position: sticky; top: 0; z-index: 2000;
+        }
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 35px; width: auto; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; line-height: 1.2; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); line-height: 1.2; }
+        
+        .region-badge { 
+            display: flex; align-items: center; 
+            background: rgba(255,255,255,0.15); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
+        }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
+
+        /* --- شبكة البطاقات المضغوطة --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .service-card {
+            background-color: var(--card-white);
+            border-radius: 12px; 
+            height: 85px; 
+            text-decoration: none;
+            position: relative; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            overflow: hidden;
+            display: block;
+        }
+
+        .service-card:active { transform: scale(0.97); }
+
+        .card-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .card-icon img { width: 75%; height: 75%; object-fit: contain; }
+
+        .action-arrow {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 11px;
+            color: var(--accent-green);
+            opacity: 0.7;
+        }
+
+        .service-title {
+            position: absolute;
+            bottom: 10px;
+            right: 12px;
+            left: 12px;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .section-header {
+            grid-column: span 2;
+            font-size: 16px;
+            font-weight: 800;
+            color: #333;
+            margin: 15px 5px 5px 5px;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="top-header">
+            <div class="brand-section">
+                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box">
+                    <span>مركز الشحن الرسمي</span>
+                    <span>Official Top Up Center</span>
+                </div>
+            </div>
+            <div class="region-badge">
+                <div id="flag-ui"></div>
+                <div class="region-text">
+                    <span id="reg-name">---</span>
+                    <span style="opacity:0.3">|</span>
+                    <span id="lang-name">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="services-grid">
+            
+            <div class="section-header">وسائل الدفع</div>
+
+            <a href="#" class="service-card">
+                <div class="card-icon">
+                    <img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus">
+                </div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">Cash Plus</h3>
+            </a>
+
+            <a href="#" class="service-card">
+                <div class="card-icon">
+                    <img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money">
+                </div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">Orange Money Maroc</h3>
+            </a>
+
+            <div class="section-header">التحويلات الدولية</div>
+
+            <a href="#" class="service-card">
+                <div class="card-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968393.png" alt="WU">
+                </div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">ويسترن يونيون</h3>
+            </a>
+
+            <a href="#" class="service-card">
+                <div class="card-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                </div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">تحويل بنكي</h3>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        // الكود المحدث دائماً [cite: 2026-01-02]
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
+        ];
+
+        function updateUI() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            
+            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = lang.toUpperCase();
+            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[lang];
+            
+            const flagBox = document.getElementById('flag-ui');
+            if(flagBox) {
+                flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+            }
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        }
+        window.addEventListener('load', updateUI);
+        window.addEventListener('pageshow', updateUI);
+    </script>
+</body>
+</html>
 
