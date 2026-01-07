@@ -20,7 +20,7 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* --- الهيدر (تطبيق التباعد والحجم من الكود المرجعي بدقة) --- */
+        /* --- الهيدر مأخوذ بالكامل من كود Pro Wallet --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -31,24 +31,10 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        /* التعديل المطلوب: إضافة التباعد الموجود في الكود المرجعي */
-        .title-box { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 2px; /* هذا هو التباعد الذي يصنع الفرق بين السطرين */
-        }
-        .title-box span:first-child { 
-            font-size: 11px; 
-            font-weight: 800; 
-            color: #ffffff; 
-            line-height: 1.1; 
-        }
-        .title-box span:last-child { 
-            font-size: 9px; 
-            font-weight: 600; 
-            color: rgba(255,255,255,0.7); 
-            line-height: 1.1; 
-        }
+        /* التنسيق الأصلي للمساحات والنصوص */
+        .title-box { display: flex; flex-direction: column; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
         
         .region-badge { 
             display: flex; align-items: center; 
@@ -60,7 +46,7 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        /* --- شبكة البطاقات --- */
+        /* --- شبكة البطاقات (تم الحفاظ عليها) --- */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -128,7 +114,6 @@
             margin: 15px 5px 5px 5px;
             text-align: right;
         }
-
     </style>
 </head>
 <body class="notranslate" translate="no">
