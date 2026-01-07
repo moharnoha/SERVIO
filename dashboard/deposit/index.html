@@ -26,7 +26,6 @@
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
-            direction: rtl !important; /* ضمان بقاء الترتيب ثابت مهما تغيرت لغة الصفحة */
         }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
@@ -203,7 +202,7 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            // تمت إزالة خاصية الانقلاب البرمجي للاتجاه بناءً على الترجمة
         }
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', updateUI);
