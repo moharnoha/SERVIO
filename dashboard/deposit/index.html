@@ -20,7 +20,7 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* --- الهيدر (باستخدام القيم الأصلية المرجعية) --- */
+        /* --- الهيدر (تطبيق التباعد والحجم من الكود المرجعي بدقة) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -31,19 +31,23 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        /* تطبيق مقاسات الكود المرجعي بدقة */
-        .title-box { display: flex; flex-direction: column; text-align: right; }
+        /* التعديل المطلوب: إضافة التباعد الموجود في الكود المرجعي */
+        .title-box { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 2px; /* هذا هو التباعد الذي يصنع الفرق بين السطرين */
+        }
         .title-box span:first-child { 
-            font-size: 11px; /* الحجم الأصلي */
-            font-weight: 800; /* الوزن الأصلي */
+            font-size: 11px; 
+            font-weight: 800; 
             color: #ffffff; 
-            line-height: 1.2;
+            line-height: 1.1; 
         }
         .title-box span:last-child { 
-            font-size: 9px; /* الحجم الأصلي */
-            font-weight: 600; /* الوزن الأصلي */
+            font-size: 9px; 
+            font-weight: 600; 
             color: rgba(255,255,255,0.7); 
-            line-height: 1.2;
+            line-height: 1.1; 
         }
         
         .region-badge { 
@@ -177,7 +181,6 @@
     </div>
 
     <script>
-        // الكود المحدث دائماً [cite: 2026-01-07]
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
