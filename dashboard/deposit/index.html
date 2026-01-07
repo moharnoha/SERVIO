@@ -180,7 +180,7 @@
     </div>
 
     <script>
-        // الكود المحدث دائماً [cite: 2026-01-07]
+        // الكود المحدث دائماً [cite: 2026-01-02]
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -202,7 +202,7 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
-            // تمت إزالة خاصية الانقلاب البرمجي للاتجاه بناءً على الترجمة
+            // تم إزالة تعديل document.documentElement.dir لضمان بقاء الاتجاه ثابتاً (RTL) وعدم الانقلاب عند الترجمة
         }
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', updateUI);
