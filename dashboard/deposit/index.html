@@ -20,7 +20,7 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* --- الهيدر (الحجم الطبيعي الأصلي) --- */
+        /* --- الهيدر (تعديل دقيق للحجم بناءً على الصور) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -31,24 +31,26 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        /* إعادة توزيع المساحة الطبيعية بين الأسطر */
+        /* تعديل التباعد والحجم ليتطابق مع الصورة المرفقة */
         .title-box { 
             display: flex; 
             flex-direction: column; 
-            text-align: right; 
+            text-align: center; 
+            gap: 2px; /* تباعد بسيط بين السطرين */
             unicode-bidi: isolate;
         }
         .title-box span:first-child { 
-            font-size: 11px; 
+            font-size: 14px; /* حجم الخط العربي */
             font-weight: 800; 
             color: #ffffff; 
-            line-height: 1.2; /* التباعد الطبيعي */
+            line-height: 1.4; 
         }
         .title-box span:last-child { 
-            font-size: 9px; 
+            font-size: 11px; /* حجم الخط الإنجليزي */
             font-weight: 600; 
-            color: rgba(255,255,255,0.7); 
-            line-height: 1.2; /* التباعد الطبيعي */
+            color: rgba(255,255,255,0.85); 
+            line-height: 1;
+            letter-spacing: 0.2px;
         }
         
         .region-badge { 
@@ -156,48 +158,32 @@
         </div>
 
         <div class="services-grid">
-            
             <div class="section-header">وسائل الدفع</div>
-
             <a href="#" class="service-card">
-                <div class="card-icon">
-                    <img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus">
-                </div>
+                <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Cash Plus</h3>
             </a>
-
             <a href="#" class="service-card">
-                <div class="card-icon">
-                    <img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money">
-                </div>
+                <div class="card-icon"><img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Orange Money Maroc</h3>
             </a>
-
             <div class="section-header">التحويلات الدولية</div>
-
             <a href="#" class="service-card">
-                <div class="card-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968393.png" alt="WU">
-                </div>
+                <div class="card-icon"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968393.png" alt="WU"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">ويسترن يونيون</h3>
             </a>
-
             <a href="#" class="service-card">
-                <div class="card-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
-                </div>
+                <div class="card-icon"><img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">تحويل بنكي</h3>
             </a>
-
         </div>
     </div>
 
     <script>
-        // الكود المحدث دائماً [cite: 2026-01-07]
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -219,11 +205,9 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
-            // تثبيت الاتجاه على RTL لمنع الانقلاب
             document.documentElement.dir = 'rtl';
         }
         window.addEventListener('load', updateUI);
-        window.addEventListener('pageshow', updateUI);
     </script>
 </body>
 </html>
