@@ -163,19 +163,19 @@
             <div class="shortcuts-scroll-wrapper">
                 <a href="smm-services/" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
-                    <span class="shortcut-label">خدمات SMM</span>
+                    <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
                 </a>
                 <a href="deposit/" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
-                    <span class="shortcut-label">إضافة رصيد</span>
+                    <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
                 </a>
                 <a href="menu/" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
-                    <span class="shortcut-label">القائمة</span>
+                    <span class="shortcut-label" id="txt-menu">القائمة</span>
                 </a>
                 <div class="shortcut-item" onclick="handleLogout()">
                     <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
-                    <span class="shortcut-label">خروج</span>
+                    <span class="shortcut-label" id="txt-logout">خروج</span>
                 </div>
             </div>
         </div>
@@ -239,9 +239,10 @@
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
+                    const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
-                        container.innerHTML = `<div class="empty-state">لا توجد معاملات</div>`;
+                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
                         return;
                     }
                     
@@ -263,7 +264,7 @@
                         htmlContent += `
                             <div class="trans-item">
                                 <div style="display:flex; flex-direction:column">
-                                    <span style="font-weight:700; font-size:13px">${t.description || 'عملية محفظة'}</span>
+                                    <span style="font-weight:700; font-size:13px">${t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction')}</span>
                                     <div class="trans-date-container">
                                         <span class="status-badge ${statusClass}">${status}</span>
                                         <span class="trans-date">${dateStr}</span>
@@ -278,7 +279,10 @@
             } else { window.location.href = "../"; }
         });
 
-        window.handleLogout = () => { if(confirm("خروج؟")) { localStorage.clear(); signOut(auth); } };
+        window.handleLogout = () => { 
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            if(confirm(isAr ? "خروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
+        };
         loadCache();
     </script>
 
@@ -309,6 +313,12 @@
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
             
+            // تحديث نصوص القائمة السريعة
+            document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
+            document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
+
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             window.renderUserData();
         };
