@@ -89,12 +89,12 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        /* --- قسم المعاملات --- */
+        /* --- قسم المعاملات (تم التعديل ليكون ثابتاً 100%) --- */
         .transactions-header { 
             padding: 25px 20px; 
             background: #ffffff; 
             margin-top: 10px;
-            min-height: 500px;
+            min-height: 500px; /* ضمان أن المساحة البيضاء تبقى ثابتة ولا تتقلص */
         }
         .trans-list { 
             display: flex; 
@@ -106,7 +106,7 @@
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
-            contain: content;
+            contain: content; /* يحسن أداء العرض ويمنع إعادة الحسابات المفاجئة */
         }
         
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
@@ -213,21 +213,17 @@
 
         const loadCache = () => {
             const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
-            const transCache = localStorage.getItem('trans_cache');
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
                 document.getElementById('user-balance').innerText = formatBalance(cache.balance) + "$";
                 window.renderUserData();
             }
-            if (transCache) {
-                document.getElementById('trans-container').innerHTML = transCache;
-            }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: true }, (snap) => {
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
@@ -241,13 +237,12 @@
                 });
 
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
-                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
+                onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
-                        localStorage.removeItem('trans_cache');
                         return;
                     }
                     
@@ -261,6 +256,11 @@
                         const status = t.status || 'Active';
                         const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
                         
+                        let desc = t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction');
+                        if (desc.toLowerCase().includes('شراء') || desc.toLowerCase().includes('buy')) {
+                            desc = isAr ? 'شراء' : 'Buy';
+                        }
+
                         let dateStr = "---";
                         if (t.timestamp) {
                             const d = t.timestamp.toDate();
@@ -269,7 +269,7 @@
                         htmlContent += `
                             <div class="trans-item">
                                 <div style="display:flex; flex-direction:column">
-                                    <span style="font-weight:700; font-size:13px">${t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction')}</span>
+                                    <span style="font-weight:700; font-size:13px">${desc}</span>
                                     <div class="trans-date-container">
                                         <span class="status-badge ${statusClass}">${status}</span>
                                         <span class="trans-date">${dateStr}</span>
@@ -280,7 +280,6 @@
                     });
                     
                     container.innerHTML = htmlContent;
-                    localStorage.setItem('trans_cache', htmlContent);
                 });
             } else { window.location.href = "../"; }
         });
