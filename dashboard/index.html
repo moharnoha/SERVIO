@@ -76,14 +76,16 @@
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; margin-right: 15px; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
         
-        /* --- تحديث طريقة عرض الرصيد لتطابق الصورة --- */
+        /* --- الهيدر الثالث (محدث) --- */
         .bal-amount { 
-            font-size: 24px; 
+            font-size: 32px; 
             color: #ffffff; 
             font-weight: 900; 
             line-height: 1; 
-            font-family: 'Courier New', Courier, monospace; 
-            letter-spacing: -1px;
+            font-family: 'Inter', sans-serif;
+            font-feature-settings: "zero" 1, "tnum" 1;
+            letter-spacing: -1.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         /* --- الهيدر الثالث (محدث) --- */
@@ -213,7 +215,6 @@
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0,00";
             const num = Number(val);
-            // تعديل التنسيق ليعرض الفاصلة كعلامة عشرية مع صفرين
             return num.toLocaleString('de-DE', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
