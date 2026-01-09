@@ -121,7 +121,7 @@
 
                         <div class="price-container">
                             <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
-                            <span class="price-value" id="display-price">$0.0000000</span>
+                            <span class="price-value" id="display-price">USD 0.0000000</span>
                         </div>
 
                         <button id="payBtn">
@@ -246,7 +246,7 @@
             }
             
             const total = unitPrice * (parseInt(rawValue) || 0);
-            document.getElementById("display-price").innerText = `$${total.toFixed(7)}`;
+            document.getElementById("display-price").innerText = `USD ${total.toFixed(7)}`;
             if (rawValue !== "") { 
                 qtyInput.value = formatNumber(rawValue); 
             } else {
