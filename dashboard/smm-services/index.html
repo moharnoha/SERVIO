@@ -84,7 +84,7 @@
                             <label class="label" data-i18n="link_label">الرابط</label>
                             <div class="input-box">
                                 <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
+                                <input id="platformLink" type="url" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
                             </div>
                         </div>
 
@@ -150,7 +150,7 @@
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
                 login_msg: "يرجى تسجيل الدخول للمتابعة",
-                link_err: "عذراً، يرجى تزويدنا بالرابط المطلوب",
+                link_err: "عذراً، يرجى تزويدنا برابط صحيح يبدأ بـ http أو https",
                 service_err: "يرجى تحديد الخدمة المطلوبة أولاً",
                 qty_req: "يرجى إدخال الكمية المطلوبة",
                 min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
@@ -174,7 +174,7 @@
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
                 login_msg: "Please login to continue",
-                link_err: "Sorry, please provide the required link",
+                link_err: "Sorry, please provide a valid link starting with http or https",
                 service_err: "Please select a service first",
                 qty_req: "Please enter the requested quantity",
                 min_err: "Quantity is lower than the minimum allowed: ",
@@ -264,6 +264,15 @@
             return text.substring(0, 2) + "****" + text.substring(text.length - 2);
         }
 
+        function isValidURL(string) {
+            try {
+                const url = new URL(string);
+                return url.protocol === "http:" || url.protocol === "https:";
+            } catch (_) {
+                return false;  
+            }
+        }
+
         function updateUI() {
             applyTranslations();
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -325,8 +334,6 @@
                 currentUser = user;
                 localStorage.setItem("user_email", user.email);
                 
-                // مركز الخدمات الرقمية | Digital Services Center
-                // Check privacy settings from Firestore
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 if (userSnap.exists()) {
@@ -346,7 +353,7 @@
             const t = translations[lang];
 
             if (!currentUser) { showToast(t.login_msg, "error"); return; }
-            const link = document.getElementById("platformLink").value;
+            const link = document.getElementById("platformLink").value.trim();
             const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
             const qtyNum = parseInt(qtyRaw) || 0;
@@ -356,7 +363,7 @@
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
-            if (!link) { showToast(t.link_err, "error"); return; }
+            if (!link || !isValidURL(link)) { showToast(t.link_err, "error"); return; }
             if (!service) { showToast(t.service_err, "error"); return; }
             if (qtyNum <= 0) { showToast(t.qty_req, "error"); return; }
             
@@ -424,4 +431,4 @@
         };
     </script>
 </body>
-</html>
+</html>```
