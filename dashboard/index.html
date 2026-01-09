@@ -164,7 +164,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0,00$</span>
+                        <span class="bal-amount" id="user-balance">0,00 USD</span>
                     </div>
                 </div>
             </div>
@@ -228,7 +228,7 @@
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
-                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + "$";
+                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + " USD";
                 window.renderUserData();
             }
             if (transCache) {
@@ -252,7 +252,7 @@
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
                         localStorage.setItem('privacy_active', isPrivacyOn);
 
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + "$";
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
@@ -293,7 +293,7 @@
                                         <span class="trans-date">${dateStr}</span>
                                     </div>
                                 </div>
-                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${finalFormatted}$</span>
+                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${isDep?'+':'-'}${finalFormatted} USD</span>
                             </div>`;
                     });
                     
