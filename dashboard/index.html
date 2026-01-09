@@ -75,7 +75,16 @@
 
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; margin-right: 15px; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
-        .bal-amount { font-size: 28px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; text-decoration: underline overline; text-decoration-thickness: 2px; text-underline-offset: -12px; }
+        
+        /* --- تحديث طريقة عرض الرصيد لتطابق الصورة --- */
+        .bal-amount { 
+            font-size: 24px; 
+            color: #ffffff; 
+            font-weight: 900; 
+            line-height: 1; 
+            font-family: 'Courier New', Courier, monospace; 
+            letter-spacing: -1px;
+        }
 
         /* --- الهيدر الثالث (محدث) --- */
         .new-header-container {
@@ -153,7 +162,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0$</span>
+                        <span class="bal-amount" id="user-balance">0,00$</span>
                     </div>
                 </div>
             </div>
@@ -202,11 +211,12 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0";
+            if (val === undefined || val === null || isNaN(val)) return "0,00";
             const num = Number(val);
-            return num.toLocaleString('en-US', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 6,
+            // تعديل التنسيق ليعرض الفاصلة كعلامة عشرية مع صفرين
+            return num.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
                 useGrouping: false
             });
         };
@@ -235,6 +245,7 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
+                        // Sync privacy settings from Firestore to LocalStorage
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
@@ -303,6 +314,7 @@
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
             
+            // Update Firestore so changes reflect across all pages/devices
             try {
                 const userRef = doc(db, "users", user.uid);
                 await updateDoc(userRef, {
@@ -386,4 +398,4 @@
         window.onload = window.sync;
     </script>
 </body>
-</html>```
+</html>
