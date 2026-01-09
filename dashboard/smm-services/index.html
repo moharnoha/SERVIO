@@ -254,6 +254,16 @@
             }
         }
 
+        function maskSensitiveInfo(text) {
+            if (!text) return "";
+            if (text.includes('@')) {
+                const [user, domain] = text.split('@');
+                return user.substring(0, 2) + "****@" + domain;
+            }
+            if (text.length <= 4) return "****";
+            return text.substring(0, 2) + "****" + text.substring(text.length - 2);
+        }
+
         function updateUI() {
             applyTranslations();
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -262,9 +272,10 @@
             const maxVal = localStorage.getItem("service_max");
             const tempLink = localStorage.getItem("temp_link");
             const savedEmail = localStorage.getItem("user_email");
+            const isEmailHidden = localStorage.getItem("hide_email") === "true";
 
             if (savedEmail) {
-                document.getElementById("email").value = savedEmail;
+                document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail;
             }
 
             document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
@@ -309,11 +320,24 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => { 
+        onAuthStateChanged(auth, async (user) => { 
             if (user) {
                 currentUser = user;
                 localStorage.setItem("user_email", user.email);
-                document.getElementById("email").value = user.email;
+                
+                // مركز الخدمات الرقمية | Digital Services Center
+                // Check privacy settings from Firestore
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    localStorage.setItem("hide_email", userData.hide_email || "false");
+                    localStorage.setItem("hide_username", userData.hide_username || "false");
+                }
+                
+                const isEmailHidden = localStorage.getItem("hide_email") === "true";
+                document.getElementById("email").value = isEmailHidden ? 
+                    (user.email.substring(0, 2) + "****@" + user.email.split('@')[1]) : user.email;
             } 
         });
 
