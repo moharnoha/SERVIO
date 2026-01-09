@@ -75,7 +75,7 @@
 
         .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; margin-right: 15px; }
         .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
-        .bal-amount { font-size: 20px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+        .bal-amount { font-size: 28px; color: #ffffff; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; text-decoration: underline overline; text-decoration-thickness: 2px; text-underline-offset: -12px; }
 
         /* --- الهيدر الثالث (محدث) --- */
         .new-header-container {
@@ -235,7 +235,6 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        // Sync privacy settings from Firestore to LocalStorage
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
@@ -304,7 +303,6 @@
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
             
-            // Update Firestore so changes reflect across all pages/devices
             try {
                 const userRef = doc(db, "users", user.uid);
                 await updateDoc(userRef, {
@@ -388,4 +386,4 @@
         window.onload = window.sync;
     </script>
 </body>
-</html>
+</html>```
