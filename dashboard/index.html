@@ -66,6 +66,7 @@
         .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; }
         
+        /* التعديل المطلوب: الاسم بجانب مرحبا بك، والايميل والايقونة بالاسفل */
         .welcome-row { display: flex; align-items: center; gap: 6px; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
         .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -205,7 +206,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -216,6 +217,12 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // تفعيل التخزين المحلي لسرعة استجابة فائقة (Offline Persistence)
+        enableIndexedDbPersistence(db).catch((err) => {
+            if (err.code == 'failed-precondition') { console.warn("Multiple tabs open, persistence disabled."); }
+            else if (err.code == 'unimplemented') { console.warn("Browser doesn't support persistence."); }
+        });
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0,00000000";
@@ -243,6 +250,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // استخدام includeMetadataChanges: true لضمان الاستجابة اللحظية من الكاش ثم السيرفر
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: true }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
@@ -253,8 +261,8 @@
                         
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
-                        window.isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
-                        localStorage.setItem('privacy_active', window.isPrivacyOn);
+                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
+                        localStorage.setItem('privacy_active', isPrivacyOn);
 
                         document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
@@ -316,8 +324,8 @@
             const user = auth.currentUser;
             if (!user) return;
             
-            window.isPrivacyOn = !window.isPrivacyOn; 
-            const val = window.isPrivacyOn ? "true" : "false";
+            isPrivacyOn = !isPrivacyOn; 
+            const val = isPrivacyOn ? "true" : "false";
             
             try {
                 const userRef = doc(db, "users", user.uid);
@@ -326,7 +334,7 @@
                     hide_username: val
                 });
                 
-                localStorage.setItem('privacy_active', window.isPrivacyOn); 
+                localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
                 window.renderUserData(); 
@@ -346,7 +354,7 @@
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
         ];
         
-        window.isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
         window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
