@@ -87,14 +87,6 @@
             letter-spacing: -0.5px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        /* تنسيق الفاصلة العلوية */
-        .bal-amount sup {
-            font-size: 0.6em;
-            vertical-align: super;
-            margin: 0 1px;
-            opacity: 0.9;
-        }
 
         /* --- الهيدر الثالث (محدث) --- */
         .new-header-container {
@@ -172,7 +164,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0<sup>,</sup>00 USD</span>
+                        <span class="bal-amount" id="user-balance">0,0000000 USD</span>
                     </div>
                 </div>
             </div>
@@ -221,15 +213,13 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0<sup>,</sup>0000000";
+            if (val === undefined || val === null || isNaN(val)) return "0,0000000";
             const num = Number(val);
-            const formatted = num.toLocaleString('de-DE', {
+            return num.toLocaleString('de-DE', {
                 minimumFractionDigits: 7,
                 maximumFractionDigits: 7,
                 useGrouping: true
             });
-            // استبدال الفاصلة بفاصلة علوية
-            return formatted.replace(/,/g, '<sup>,</sup>');
         };
 
         const loadCache = () => {
@@ -238,7 +228,7 @@
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
-                document.getElementById('user-balance').innerHTML = formatBalance(cache.balance) + " USD";
+                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + " USD";
                 window.renderUserData();
             }
             if (transCache) {
@@ -256,13 +246,7 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        // Sync privacy settings from Firestore to LocalStorage
-                        localStorage.setItem('hide_email', d.hide_email || "false");
-                        localStorage.setItem('hide_username', d.hide_username || "false");
-                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
-                        localStorage.setItem('privacy_active', isPrivacyOn);
-
-                        document.getElementById('user-balance').innerHTML = formatBalance(bal) + " USD";
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
@@ -325,7 +309,6 @@
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
             
-            // Update Firestore so changes reflect across all pages/devices
             try {
                 const userRef = doc(db, "users", user.uid);
                 await updateDoc(userRef, {
