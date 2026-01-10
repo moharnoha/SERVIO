@@ -78,16 +78,14 @@
         
         /* --- الهيدر الثالث (محدث بتوازن واحترافية) --- */
         .bal-amount { 
-            font-size: 17px; 
+            font-size: 26px; 
             color: #ffffff; 
             font-weight: 800; 
-            line-height: 1.2; 
+            line-height: 1; 
             font-family: 'Inter', sans-serif;
             font-feature-settings: "zero" 1, "tnum" 1;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.5px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            text-align: left;
-            direction: ltr;
         }
 
         /* --- الهيدر الثالث (محدث) --- */
@@ -166,7 +164,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0 USD</span>
+                        <span class="bal-amount" id="user-balance">0,00 USD</span>
                     </div>
                 </div>
             </div>
@@ -215,15 +213,13 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0";
+            if (val === undefined || val === null || isNaN(val)) return "0,00";
             const num = Number(val);
-            let formatted = num.toFixed(8).replace(/\.?0+$/, "");
-            if (!formatted.includes(".")) {
-                return num.toLocaleString('en-US');
-            }
-            const parts = formatted.split(".");
-            parts[0] = Number(parts[0]).toLocaleString('en-US');
-            return parts.join(".");
+            return num.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+                useGrouping: false
+            });
         };
 
         const loadCache = () => {
@@ -242,8 +238,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Fixed high-speed live snapshot monitoring
-                onSnapshot(doc(db, "users", user.uid), (snap) => {
+                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: true }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
@@ -251,24 +246,20 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
+                        // Sync privacy settings from Firestore to LocalStorage
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
                         localStorage.setItem('privacy_active', isPrivacyOn);
 
-                        const formattedBal = formatBalance(bal) + " USD";
-                        const balEl = document.getElementById('user-balance');
-                        if (balEl.innerText !== formattedBal) {
-                            balEl.innerText = formattedBal;
-                        }
-
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
-                }, (error) => { console.error("Balance Listener Error:", error); });
+                });
 
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
-                onSnapshot(q, (snap) => {
+                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
@@ -306,11 +297,9 @@
                             </div>`;
                     });
                     
-                    if (container.innerHTML !== htmlContent) {
-                        container.innerHTML = htmlContent;
-                        localStorage.setItem('trans_cache', htmlContent);
-                    }
-                }, (error) => { console.error("Transactions Listener Error:", error); });
+                    container.innerHTML = htmlContent;
+                    localStorage.setItem('trans_cache', htmlContent);
+                });
             } else { window.location.href = "../"; }
         });
 
@@ -326,6 +315,7 @@
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
             
+            // Update Firestore so changes reflect across all pages/devices
             try {
                 const userRef = doc(db, "users", user.uid);
                 await updateDoc(userRef, {
