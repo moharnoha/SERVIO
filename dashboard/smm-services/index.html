@@ -246,8 +246,8 @@
             }
             
             const total = unitPrice * (parseInt(rawValue) || 0);
-            // Modified logic to hide decimals for whole numbers
-            let displayVal = total % 1 === 0 ? total.toString() : total.toFixed(7).replace('.', ',');
+            // Updated to handle precision and decimal points
+            let displayVal = total % 1 === 0 ? total.toString() : total.toFixed(8).replace(/\.?0+$/, "");
             document.getElementById("display-price").innerText = `USD ${displayVal}`;
             
             if (rawValue !== "") { 
@@ -328,8 +328,6 @@
                 currentUser = user;
                 localStorage.setItem("user_email", user.email);
                 
-                // مركز الخدمات الرقمية | Digital Services Center
-                // Check privacy settings from Firestore
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 if (userSnap.exists()) {
@@ -354,7 +352,7 @@
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
             const qtyNum = parseInt(qtyRaw) || 0;
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            const finalCharge = unitPrice * qtyNum;
+            const finalCharge = parseFloat((unitPrice * qtyNum).toFixed(8));
             const service = localStorage.getItem("chosen_service");
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
@@ -383,41 +381,45 @@
                 const userRef = doc(db, "users", currentUser.uid);
                 const userSnap = await getDoc(userRef);
 
-                if (userSnap.exists() && (userSnap.data().balance || 0) >= finalCharge) {
-                    await updateDoc(userRef, {
-                        balance: increment(-finalCharge),
-                        total_spend: increment(finalCharge)
-                    });
-
-                    await addDoc(collection(db, "transactions"), {
-                        amount: `-${finalCharge.toFixed(7)}`,
-                        description: "شراء: " + service,
-                        status: "Active",
-                        link: link,
-                        timestamp: serverTimestamp(),
-                        userId: currentUser.uid,
-                        userEmail: email
-                    });
-
-                    try {
-                        await fetch(scriptURL, { 
-                            method: "POST", 
-                            mode: "no-cors", 
-                            body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(7), gmail: email, status: "Active" }) 
+                if (userSnap.exists()) {
+                    const currentBalance = parseFloat(userSnap.data().balance || 0);
+                    // Use a small epsilon for floating point comparison
+                    if (currentBalance >= (finalCharge - 0.000000001)) {
+                        await updateDoc(userRef, {
+                            balance: increment(-finalCharge),
+                            total_spend: increment(finalCharge)
                         });
-                    } catch (e) {}
 
-                    localStorage.removeItem("temp_link");
-                    showToast(t.success_msg, "success");
-                    setTimeout(() => {
+                        await addDoc(collection(db, "transactions"), {
+                            amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`,
+                            description: "شراء: " + service,
+                            status: "Active",
+                            link: link,
+                            timestamp: serverTimestamp(),
+                            userId: currentUser.uid,
+                            userEmail: email
+                        });
+
+                        try {
+                            await fetch(scriptURL, { 
+                                method: "POST", 
+                                mode: "no-cors", 
+                                body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: email, status: "Active" }) 
+                            });
+                        } catch (e) {}
+
+                        localStorage.removeItem("temp_link");
+                        showToast(t.success_msg, "success");
+                        setTimeout(() => {
+                            this.classList.remove('loading');
+                            this.disabled = false;
+                            window.location.href = "../../dashboard/";
+                        }, 1500);
+                    } else {
+                        showToast(t.balance_err, "error");
                         this.classList.remove('loading');
                         this.disabled = false;
-                        window.location.href = "../../dashboard/";
-                    }, 1500);
-                } else {
-                    showToast(t.balance_err, "error");
-                    this.classList.remove('loading');
-                    this.disabled = false;
+                    }
                 }
             } catch (e) {
                 showToast(t.error_msg, "error");
