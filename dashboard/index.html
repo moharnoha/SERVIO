@@ -213,12 +213,12 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0,00";
+            if (val === undefined || val === null || isNaN(val)) return "0,0000000";
             const num = Number(val);
             return num.toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-                useGrouping: false
+                minimumFractionDigits: 7,
+                maximumFractionDigits: 7,
+                useGrouping: true
             });
         };
 
