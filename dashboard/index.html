@@ -172,8 +172,8 @@
             margin-bottom: 4px;
         }
         .detail-label { font-weight: 700; font-size: 9px; color: #666; }
-        .detail-value { font-weight: 800; font-size: 10px; color: var(--text-dark); text-align: left; }
-        .detail-value.active { color: #166534; }
+        .detail-value { font-weight: 800; font-size: 10px; color: #475569; text-align: left; }
+        .detail-value.is-active { color: #166534; }
         .detail-value.m-red { color: #C62828; }
     </style>
 </head>
@@ -284,7 +284,7 @@
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
             const isStatusActive = status.toLowerCase() === 'active';
-            const statusStyle = isStatusActive ? 'active' : '';
+            const statusStyle = isStatusActive ? 'is-active' : '';
             const isNegative = amount.includes('-');
             const amountStyle = isNegative ? 'm-red' : '';
 
@@ -354,7 +354,6 @@
 
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 
-                // Optimized Real-time listener for Transactions with delay prevention
                 onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
