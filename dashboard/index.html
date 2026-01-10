@@ -78,7 +78,7 @@
         
         /* --- الهيدر الثالث (محدث بتوازن واحترافية) --- */
         .bal-amount { 
-            font-size: 26px; 
+            font-size: 20px; 
             color: #ffffff; 
             font-weight: 800; 
             line-height: 1; 
@@ -164,7 +164,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0,00 USD</span>
+                        <span class="bal-amount" id="user-balance">0,00000000 USD</span>
                     </div>
                 </div>
             </div>
@@ -213,11 +213,11 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0,00";
+            if (val === undefined || val === null || isNaN(val)) return "0,00000000";
             const num = Number(val);
             return num.toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
+                minimumFractionDigits: 8,
+                maximumFractionDigits: 8,
                 useGrouping: false
             });
         };
