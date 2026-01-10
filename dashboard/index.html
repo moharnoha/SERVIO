@@ -132,46 +132,47 @@
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
-        /* Modal Structure (Small Card Style - Absolute Center) */
+        /* Modal Structure (No Blur - Sharp Corners - Minimized Header) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 0;
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 0;
+            backdrop-filter: none; /* Removed Blur */
         }
         .modal-card {
-            background: #fff; width: 85%; max-width: 320px; border-radius: 24px; padding: 0;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3); position: relative; overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-            margin: auto; /* Ensures centering in flex container */
+            background: #fff; width: 85%; max-width: 310px; border-radius: 0px; padding: 0; /* Sharp Corners */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; overflow: hidden;
+            border: 1px solid #000;
         }
         .modal-header-accent {
-            background: var(--header-green); color: white; padding: 18px 15px; text-align: center;
+            background: var(--header-green); color: white; padding: 0; text-align: center; /* Minimized Header */
         }
         .modal-icon-circle {
-            width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;
+            display: none; /* Removed Icon circle to minimize space */
         }
-        .modal-title-text { font-weight: 800; font-size: 15px; margin: 0; }
+        .modal-title-text { 
+            font-weight: 800; font-size: 13px; margin: 0; padding: 10px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
         .modal-body { 
-            padding: 15px; font-size: 12px; line-height: 1.5; color: var(--text-dark); 
+            padding: 12px; font-size: 11px; line-height: 1.4; color: var(--text-dark); 
             background: #fff;
         }
         .modal-footer {
-            padding: 10px 20px 20px; text-align: center; background: #fff;
+            padding: 0 12px 12px; text-align: center; background: #fff;
         }
         .modal-close-btn {
-            background: var(--header-green); color: white; border: none; padding: 10px 30px;
-            border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%;
+            background: var(--header-green); color: white; border: none; padding: 8px 0;
+            border-radius: 0px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%; /* Sharp Corners */
         }
 
         /* Detail Rows for the Small Card */
         .detail-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px; background: #f9fbf9; border-radius: 12px; border: 1px solid #edf2ed;
-            margin-bottom: 6px;
+            padding: 8px; background: #fdfdfd; border-radius: 0px; border: 1px solid #eee; /* Sharp Corners */
+            margin-bottom: 4px;
         }
-        .detail-label { font-weight: 700; font-size: 10px; color: #888; }
-        .detail-value { font-weight: 800; font-size: 11px; color: var(--text-dark); text-align: left; }
+        .detail-label { font-weight: 700; font-size: 9px; color: #666; }
+        .detail-value { font-weight: 800; font-size: 10px; color: var(--text-dark); text-align: left; }
     </style>
 </head>
 <body class="notranslate">
@@ -245,9 +246,6 @@
     <div id="trans-modal" class="modal-overlay" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="modal-header-accent">
-                <div class="modal-icon-circle">
-                    <svg style="width:24px; height:24px; fill:#fff" viewBox="0 0 24 24"><path d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-                </div>
                 <h3 class="modal-title-text" id="modal-title">التفاصيل</h3>
             </div>
             <div class="modal-body" id="modal-content"></div>
@@ -280,7 +278,7 @@
 
         window.showDetails = (title, amount, status, date, fullDesc) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            document.getElementById('modal-title').innerText = isAr ? 'التفاصيل' : 'Details';
+            document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
             const html = `
@@ -298,9 +296,9 @@
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
-                    <span class="detail-value" style="direction:ltr; font-size:10px">${date}</span>
+                    <span class="detail-value" style="direction:ltr; font-size:9px">${date}</span>
                 </div>
-                <div class="detail-row" style="flex-direction:column; align-items:flex-start; gap:4px">
+                <div class="detail-row" style="flex-direction:column; align-items:flex-start; gap:3px">
                     <span class="detail-label">${isAr ? 'الوصف' : 'Description'}</span>
                     <span class="detail-value" style="text-align:right; width:100%">${fullDesc}</span>
                 </div>
