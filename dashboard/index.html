@@ -217,13 +217,10 @@
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
-            // Handle precision up to 8 decimal places and remove trailing zeros
             let formatted = num.toFixed(8).replace(/\.?0+$/, "");
-            // Handle integer cases
             if (!formatted.includes(".")) {
                 return num.toLocaleString('en-US');
             }
-            // For decimal cases, format the integer part and append the decimal part
             const parts = formatted.split(".");
             parts[0] = Number(parts[0]).toLocaleString('en-US');
             return parts.join(".");
@@ -245,7 +242,8 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: true }, (snap) => {
+                // Fixed high-speed live snapshot monitoring
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
@@ -258,14 +256,19 @@
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
                         localStorage.setItem('privacy_active', isPrivacyOn);
 
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
+                        const formattedBal = formatBalance(bal) + " USD";
+                        const balEl = document.getElementById('user-balance');
+                        if (balEl.innerText !== formattedBal) {
+                            balEl.innerText = formattedBal;
+                        }
+
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
-                });
+                }, (error) => { console.error("Balance Listener Error:", error); });
 
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
-                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
+                onSnapshot(q, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
@@ -303,9 +306,11 @@
                             </div>`;
                     });
                     
-                    container.innerHTML = htmlContent;
-                    localStorage.setItem('trans_cache', htmlContent);
-                });
+                    if (container.innerHTML !== htmlContent) {
+                        container.innerHTML = htmlContent;
+                        localStorage.setItem('trans_cache', htmlContent);
+                    }
+                }, (error) => { console.error("Transactions Listener Error:", error); });
             } else { window.location.href = "../"; }
         });
 
