@@ -66,7 +66,6 @@
         .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; }
         
-        /* التعديل المطلوب: الاسم بجانب مرحبا بك، والايميل والايقونة بالاسفل */
         .welcome-row { display: flex; align-items: center; gap: 6px; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
         .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -252,11 +251,10 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        // Sync privacy settings from Firestore to LocalStorage
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
-                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
-                        localStorage.setItem('privacy_active', isPrivacyOn);
+                        window.isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
+                        localStorage.setItem('privacy_active', window.isPrivacyOn);
 
                         document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
@@ -318,10 +316,9 @@
             const user = auth.currentUser;
             if (!user) return;
             
-            isPrivacyOn = !isPrivacyOn; 
-            const val = isPrivacyOn ? "true" : "false";
+            window.isPrivacyOn = !window.isPrivacyOn; 
+            const val = window.isPrivacyOn ? "true" : "false";
             
-            // Update Firestore so changes reflect across all pages/devices
             try {
                 const userRef = doc(db, "users", user.uid);
                 await updateDoc(userRef, {
@@ -329,7 +326,7 @@
                     hide_username: val
                 });
                 
-                localStorage.setItem('privacy_active', isPrivacyOn); 
+                localStorage.setItem('privacy_active', window.isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
                 window.renderUserData(); 
@@ -349,7 +346,7 @@
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
         ];
         
-        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+        window.isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
         window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
