@@ -41,7 +41,7 @@
         }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0; margin-right: 12px; margin-left: 12px; }
         .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
@@ -168,7 +168,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0,00000000 USD</span>
+                        <span class="bal-amount" id="user-balance">0 USD</span>
                     </div>
                 </div>
             </div>
@@ -217,13 +217,10 @@
         const db = getFirestore(app);
 
         const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0,00000000";
+            if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
-            return num.toLocaleString('de-DE', {
-                minimumFractionDigits: 8,
-                maximumFractionDigits: 8,
-                useGrouping: false
-            });
+            // إذا كان الرقم صحيحاً طبيعياً يظهر بدون فواصل، وإلا يظهر بحد أقصى 8 فواصل بدون أصفار زائدة
+            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(8)).toString();
         };
 
         const loadCache = () => {
@@ -242,7 +239,6 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // استخدام onSnapshot مع استراتيجية توجيه فورية للتحديثات المباشرة
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
@@ -256,7 +252,6 @@
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
                         localStorage.setItem('privacy_active', isPrivacyOn);
 
-                        // تحديث واجهة المستخدم فوراً
                         const balElement = document.getElementById('user-balance');
                         if (balElement) balElement.innerText = formatBalance(bal) + " USD";
                         
