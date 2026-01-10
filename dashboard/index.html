@@ -219,8 +219,8 @@
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
-            // تحسين معالجة الكسور العشرية الطويلة لمنع التقريب الخاطئ
-            return num % 1 === 0 ? num.toString() : num.toFixed(8).replace(/\.?0+$/, "");
+            // Allow up to 7 decimal places accurately
+            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
         const loadCache = () => {
