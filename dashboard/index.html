@@ -353,7 +353,9 @@
                 });
 
                 const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
-                onSnapshot(q, (snap) => {
+                
+                // Optimized Real-time listener for Transactions with delay prevention
+                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
