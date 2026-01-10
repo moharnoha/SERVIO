@@ -57,30 +57,30 @@
         .wallet-card {
             background: rgba(255, 255, 255, 0.12);
             border-radius: 18px; padding: 18px 20px;
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; flex-direction: column; gap: 15px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px); min-height: 90px;
         }
 
-        .user-meta-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-        .avatar-box { width: 46px; height: 46px; background: rgba(255, 255, 255, 0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+        .user-meta-info { display: flex; align-items: center; gap: 12px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
-        .name-row { display: flex; align-items: center; gap: 8px; }
-        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .full-name-val { font-size: 14px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; }
         
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
-        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; }
+        .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; margin-right: 15px; }
-        .bal-title { font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
+        .bal-title { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
         
         /* --- الهيدر الثالث (محدث بتوازن واحترافية) --- */
         .bal-amount { 
-            font-size: 20px; 
+            font-size: 24px; 
             color: #ffffff; 
-            font-weight: 800; 
+            font-weight: 900; 
             line-height: 1; 
             font-family: 'Inter', sans-serif;
             font-feature-settings: "zero" 1, "tnum" 1;
@@ -157,9 +157,11 @@
                             <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                             <div class="name-row">
                                 <span class="full-name-val" id="user-full-name">---</span>
-                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span class="user-email-val" id="user-email">---</span>
+                                    <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                                </div>
                             </div>
-                            <span class="user-email-val" id="user-email">---</span>
                         </div>
                     </div>
                     <div class="balance-stack">
