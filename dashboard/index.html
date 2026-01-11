@@ -168,12 +168,12 @@
         /* Detail Rows for Modal (Balanced Centering) */
         .detail-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px; text-align: center;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px; width: 100%; box-sizing: border-box;
         }
         .detail-row:last-child { border-bottom: none; }
         .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; flex: 1; text-align: right; }
-        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; line-height: 1.4; flex: 1.5; text-align: left; }
-        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; display: inline-block; width: fit-content; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; line-height: 1.4; flex: 1; text-align: left; overflow-wrap: break-word; }
+        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; display: inline-block; width: fit-content; text-align: center; }
         .detail-value.m-red { color: #ef4444; }
     </style>
 </head>
