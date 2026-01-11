@@ -132,16 +132,15 @@
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
-        /* Modal Structure (Optimized UI - No Blur) */
+        /* Modal Structure (Improved UI) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
-            backdrop-filter: none;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
         }
         .modal-card {
             background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 0;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden;
-            border: none; margin: auto; display: flex; flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+            border: none;
         }
         .modal-header-accent {
             background: var(--header-green); color: white; padding: 25px 20px; text-align: center;
@@ -165,15 +164,15 @@
             border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
         }
 
-        /* Detail Rows for Modal (Balanced Centering) */
+        /* Detail Rows for Modal */
         .detail-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px; width: 100%; box-sizing: border-box;
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
         }
         .detail-row:last-child { border-bottom: none; }
-        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; flex: 1; text-align: right; }
-        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; line-height: 1.4; flex: 1; text-align: left; overflow-wrap: break-word; }
-        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; display: inline-block; width: fit-content; text-align: center; }
+        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
+        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
         .detail-value.m-red { color: #ef4444; }
     </style>
 </head>
