@@ -30,7 +30,7 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            padding-bottom: 140px; /* مساحة لضمان عدم تغطية الواجهة السفلية للمحتوى */
+            padding-bottom: 140px;
         }
 
         /* --- الهيدر 1 --- */
@@ -57,7 +57,7 @@
         .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
 
-        /* --- الهيدر 2 المعدل (رسالة ترحيبية) --- */
+        /* --- الهيدر 2 المعدل (ترحيب) --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 15px 20px; box-sizing: border-box;
@@ -66,7 +66,7 @@
         .welcome-msg { color: #ffffff; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .welcome-icon { width: 24px; height: 24px; fill: #ffffff; opacity: 0.9; }
 
-        /* --- واجهة تسجيل الدخول المنبثقة الثابتة في الأسفل --- */
+        /* --- واجهة تسجيل الدخول الاحترافية المنبثقة --- */
         .login-sticky-sheet {
             position: fixed;
             bottom: 0;
@@ -305,7 +305,7 @@
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = { 
         apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -325,6 +325,9 @@
         signInWithPopup(auth, provider).then(async (result) => {
             const user = result.user;
             
+            const finalLang = localStorage.getItem('pref_lang') || 'ar';
+            const finalRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
 
@@ -334,7 +337,16 @@
                     balance: 0,
                     total_spend: 0,
                     email: user.email,
-                    uid: user.uid
+                    uid: user.uid,
+                    pref_lang: finalLang,
+                    pref_reg_idx: finalRegIdx,
+                    created_at: new Date()
+                });
+            } else {
+                await updateDoc(userRef, {
+                    pref_lang: finalLang,
+                    pref_reg_idx: finalRegIdx,
+                    last_login: new Date()
                 });
             }
             
