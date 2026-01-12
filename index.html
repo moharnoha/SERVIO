@@ -321,12 +321,29 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
+    const regionConfigs = [
+        { id: 'mena', ar: "الشرق الأوسط", en: "MENA" },
+        { id: 'algeria', ar: "الجزائر", en: "Algeria" },
+        { id: 'egypt', ar: "مصر", en: "Egypt" },
+        { id: 'iraq', ar: "العراق", en: "Iraq" },
+        { id: 'morocco', ar: "المغرب", en: "Morocco" },
+        { id: 'nigeria', ar: "نيجيريا", en: "Nigeria" },
+        { id: 'oman', ar: "عمان", en: "Oman" },
+        { id: 'palestine', ar: "فلسطين", en: "Palestine" },
+        { id: 'qatar', ar: "قطر", en: "Qatar" },
+        { id: 'saudi', ar: "السعودية", en: "Saudi Arabia" },
+        { id: 'tunisia', ar: "تونس", en: "Tunisia" },
+        { id: 'uae', ar: "الإمارات", en: "UAE" },
+        { id: 'other', ar: "منطقة أخرى", en: "Other Region" }
+    ];
+
     document.getElementById("google-auth-btn").addEventListener("click", () => {
         signInWithPopup(auth, provider).then(async (result) => {
             const user = result.user;
             
             const finalLang = localStorage.getItem('pref_lang') || 'ar';
-            const finalRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const regionName = regionConfigs[regIdx] ? regionConfigs[regIdx].ar : "الشرق الأوسط";
 
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
@@ -339,13 +356,13 @@
                     email: user.email,
                     uid: user.uid,
                     pref_lang: finalLang,
-                    pref_reg_idx: finalRegIdx,
+                    region: regionName,
                     created_at: new Date()
                 });
             } else {
                 await updateDoc(userRef, {
                     pref_lang: finalLang,
-                    pref_reg_idx: finalRegIdx,
+                    region: regionName,
                     last_login: new Date()
                 });
             }
