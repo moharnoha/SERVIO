@@ -22,13 +22,12 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
 
-        /* --- الهيدر الثابت (تصميم لا يتأثر باتجاه اللغة) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
-            direction: rtl !important; /* ضمان بقاء الترتيب من اليمين لليسار دائماً */
+            direction: rtl !important; 
         }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
@@ -145,24 +144,32 @@
             ar: { 
                 navT1: "مركز الشحن", navT2: "الرسمي",
                 search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
-                qty: "الكمية: 1", min: "أدنى:", max: "أقصى:",
-                regions: ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"] 
+                qty: "الكمية: 1", min: "أدنى:", max: "أقصى:"
             },
             en: { 
                 navT1: "Official Top Up", navT2: "Center",
                 search: "Search service...", btn: "Confirm Selection",
-                qty: "Qty: 1", min: "Min:", max: "Max:",
-                regions: ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"] 
+                qty: "Qty: 1", min: "Min:", max: "Max:"
             }
         };
 
+        const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+        const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+
         const regionConfigs = [
-            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>` },
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
             { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
             { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
             { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
-            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' }
+            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
+            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
+            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
+            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
+            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
+            { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
         const servicesData = [
@@ -248,7 +255,6 @@
             const isAr = lang === 'ar';
             const savedServiceId = localStorage.getItem('chosen_service_id'); 
 
-            // تحديث بيانات الهيدر
             const reg = regionConfigs[regIdx] || regionConfigs[0];
             document.getElementById('lang-name').innerText = lang.toUpperCase();
             document.getElementById('reg-name').innerText = reg[lang];
