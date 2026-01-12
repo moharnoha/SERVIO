@@ -52,10 +52,10 @@
         .info-display-wrapper { 
             display: flex; align-items: center; background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; 
-            padding: 0 12px; height: 42px; cursor: pointer;
+            padding: 0 10px; height: 42px; cursor: pointer; min-width: 110px; justify-content: space-between;
         }
-        .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
+        .display-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; flex-shrink: 0; }
 
         /* --- الهيدر 2 المعدل (رسالة ترحيبية) --- */
         .login-bar {
@@ -298,64 +298,72 @@
             };
             document.getElementById('promo-main').innerText = promo[lang].main;
             document.getElementById('promo-sub').innerText = promo[lang].sub;
+            
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.body.style.direction = (lang === 'ar') ? 'rtl' : 'ltr';
+            
+            const titles = document.querySelectorAll('.title-box');
+            titles.forEach(t => t.style.textAlign = (lang === 'ar') ? 'right' : 'left');
         }
         updateUI();
     </script>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = { 
-        apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-        authDomain: "serviocmm-a65ed.firebaseapp.com", 
-        projectId: "serviocmm-a65ed", 
-        storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-        messagingSenderId: "975373759034", 
-        appId: "1:975373759034:web:645cb5fb48772839453b03" 
-    };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+            authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", 
+            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", 
+            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
 
-    document.getElementById("google-auth-btn").addEventListener("click", () => {
-        signInWithPopup(auth, provider).then(async (result) => {
-            const user = result.user;
-            
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const regionName = regionConfigs[regIdx] ? regionConfigs[regIdx].en : "Unknown";
+        document.getElementById("google-auth-btn").addEventListener("click", () => {
+            signInWithPopup(auth, provider).then(async (result) => {
+                const user = result.user;
+                
+                const lang = localStorage.getItem('pref_lang') || 'ar';
+                const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+                const regions = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"];
+                const currentRegionName = regions[regIdx] || "Unknown";
 
-            const userRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(userRef);
+                const userRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(userRef);
 
-            if (!docSnap.exists()) {
-                await setDoc(userRef, {
-                    name: user.displayName,
-                    balance: 0,
-                    total_spend: 0,
-                    email: user.email,
-                    uid: user.uid,
-                    region: regionName,
-                    language: lang
-                });
-            } else {
-                await setDoc(userRef, {
-                    region: regionName,
-                    language: lang
-                }, { merge: true });
-            }
-            
-            window.location.href = "dashboard/"; 
+                if (!docSnap.exists()) {
+                    await setDoc(userRef, {
+                        name: user.displayName,
+                        email: user.email,
+                        uid: user.uid,
+                        balance: 0,
+                        total_spend: 0,
+                        selected_region: currentRegionName, 
+                        selected_language: lang,             
+                        joined_at: new Date().toISOString()
+                    });
+                } else {
+                    await setDoc(userRef, {
+                        selected_region: currentRegionName,
+                        selected_language: lang
+                    }, { merge: true });
+                }
+                
+                window.location.href = "dashboard/"; 
 
-        }).catch(e => {
-            console.error("Firebase Error:", e);
-            alert("فشل تسجيل الدخول: " + e.message);
+            }).catch(e => {
+                console.error("Firebase Error:", e);
+                alert("Login Failed");
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
