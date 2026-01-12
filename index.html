@@ -30,7 +30,7 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            padding-bottom: 140px;
+            padding-bottom: 140px; /* مساحة لضمان عدم تغطية الواجهة السفلية للمحتوى */
         }
 
         /* --- الهيدر 1 --- */
@@ -57,7 +57,7 @@
         .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
 
-        /* --- الهيدر 2 المعدل (ترحيب) --- */
+        /* --- الهيدر 2 المعدل (رسالة ترحيبية) --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 15px 20px; box-sizing: border-box;
@@ -66,7 +66,7 @@
         .welcome-msg { color: #ffffff; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .welcome-icon { width: 24px; height: 24px; fill: #ffffff; opacity: 0.9; }
 
-        /* --- واجهة تسجيل الدخول الاحترافية المنبثقة --- */
+        /* --- واجهة تسجيل الدخول المنبثقة الثابتة في الأسفل --- */
         .login-sticky-sheet {
             position: fixed;
             bottom: 0;
