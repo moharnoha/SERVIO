@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
     <title>serviocmm - Final Version</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root { 
@@ -17,7 +17,7 @@
 
         body { 
             margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Cairo', 'Inter', sans-serif; 
             background-color: #f7fafc; 
             min-height: 100vh;
             display: flex; flex-direction: column;
@@ -45,17 +45,17 @@
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 15px; }
         
         .title-box { display: flex; flex-direction: column; text-align: right; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; margin-bottom: 5px; letter-spacing: 0.2px; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.4px; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; margin-bottom: 2px; letter-spacing: 0px; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0px; }
 
         .info-display-wrapper { 
             display: flex; align-items: center; background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; 
-            padding: 0 12px; height: 42px; cursor: pointer;
-            box-sizing: border-box;
+            padding: 0 10px; height: 42px; cursor: pointer;
+            box-sizing: border-box; min-width: 115px; justify-content: center;
         }
-        .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
+        .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-right: 8px; white-space: nowrap; }
+        .nav-icon { width: 20px; height: 20px; fill: #ffffff; display: block; flex-shrink: 0; }
 
         .login-bar {
             width: 100%; background-color: var(--login-bg);
@@ -126,7 +126,7 @@
 
         .google-btn span { 
             color: #1f2937; 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: 700; 
         }
 
@@ -320,8 +320,11 @@
                 
                 const lang = localStorage.getItem('pref_lang') || 'ar';
                 const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-                const regions = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other"];
-                const currentRegionName = regions[regIdx] || "Unknown";
+                const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
+                const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
+                
+                const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
+                const currentLanguageName = lang === 'ar' ? "العربية" : "English";
 
                 const userRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(userRef);
@@ -334,12 +337,12 @@
                         email: user.email,
                         uid: user.uid,
                         selected_region: currentRegionName,
-                        selected_language: lang
+                        selected_language: currentLanguageName
                     });
                 } else {
                     await setDoc(userRef, {
                         selected_region: currentRegionName,
-                        selected_language: lang
+                        selected_language: currentLanguageName
                     }, { merge: true });
                 }
                 
