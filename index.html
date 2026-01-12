@@ -270,10 +270,10 @@
             list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
                 ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
             </div>`;
-            regionConfigs.forEach((reg, i) => {
+            regionConfigs.forEach((reg) => {
                 const div = document.createElement('div');
                 div.className = 'option-item';
-                div.onclick = () => { localStorage.setItem('pref_reg_idx', i); updateUI(); closeSelection(); };
+                div.onclick = () => { localStorage.setItem('pref_reg_name', reg.ar); updateUI(); closeSelection(); };
                 let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px; border:1px solid #eee;">`;
                 div.innerHTML = `<span style="font-weight:600; color:#334155;">${reg[lang]}</span> <div class="flag-container">${iconMarkup}</div>`;
                 list.appendChild(div);
@@ -282,8 +282,9 @@
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx];
+            const regName = localStorage.getItem('pref_reg_name') || "الشرق الأوسط";
+            const reg = regionConfigs.find(r => r.ar === regName) || regionConfigs[0];
+            
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
@@ -321,29 +322,12 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    const regionConfigs = [
-        { id: 'mena', ar: "الشرق الأوسط", en: "MENA" },
-        { id: 'algeria', ar: "الجزائر", en: "Algeria" },
-        { id: 'egypt', ar: "مصر", en: "Egypt" },
-        { id: 'iraq', ar: "العراق", en: "Iraq" },
-        { id: 'morocco', ar: "المغرب", en: "Morocco" },
-        { id: 'nigeria', ar: "نيجيريا", en: "Nigeria" },
-        { id: 'oman', ar: "عمان", en: "Oman" },
-        { id: 'palestine', ar: "فلسطين", en: "Palestine" },
-        { id: 'qatar', ar: "قطر", en: "Qatar" },
-        { id: 'saudi', ar: "السعودية", en: "Saudi Arabia" },
-        { id: 'tunisia', ar: "تونس", en: "Tunisia" },
-        { id: 'uae', ar: "الإمارات", en: "UAE" },
-        { id: 'other', ar: "منطقة أخرى", en: "Other Region" }
-    ];
-
     document.getElementById("google-auth-btn").addEventListener("click", () => {
         signInWithPopup(auth, provider).then(async (result) => {
             const user = result.user;
             
             const finalLang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const regionName = regionConfigs[regIdx] ? regionConfigs[regIdx].ar : "الشرق الأوسط";
+            const regionName = localStorage.getItem('pref_reg_name') || "الشرق الأوسط";
 
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
