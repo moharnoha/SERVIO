@@ -373,6 +373,11 @@
                         
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
                         window.renderUserData();
+                        
+                        // تحديث المنطقة واللغة من Firestore
+                        if (d.pref_lang) localStorage.setItem('pref_lang', d.pref_lang);
+                        if (d.pref_reg_idx !== undefined) localStorage.setItem('pref_reg_idx', d.pref_reg_idx);
+                        window.sync();
                     }
                 });
 
