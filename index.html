@@ -30,7 +30,6 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            padding-bottom: 140px;
         }
 
         /* --- الهيدر 1 --- */
@@ -57,82 +56,33 @@
         .display-text { font-size: 12px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-right: 10px; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff; display: block; }
 
-        /* --- الهيدر 2 المعدل (ترحيب) --- */
+        /* --- الهيدر 2 --- */
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 15px 20px; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; justify-content: flex-start; gap: 16px;
         }
-        .welcome-msg { color: #ffffff; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .welcome-icon { width: 24px; height: 24px; fill: #ffffff; opacity: 0.9; }
-
-        /* --- واجهة تسجيل الدخول الاحترافية المنبثقة --- */
-        .login-sticky-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 30px 30px 0 0;
-            box-shadow: 0 -15px 40px rgba(0,0,0,0.12);
-            padding: 25px 20px 40px 20px;
-            box-sizing: border-box;
-            z-index: 9998;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: sheetEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        .login-text { color: #ffffff; font-size: 18px; font-weight: 700; }
+        .menu-btn-box {
+            background-color: rgba(255, 255, 255, 0.18); 
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
         }
+        .menu-line { width: 22px; height: 2.5px; background-color: #ffffff; border-radius: 2px; }
 
-        @keyframes sheetEnter {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        /* --- الهيدر 3 --- */
+        .google-section {
+            width: 100%; background-color: var(--google-section-bg);
+            padding: 30px 20px; box-sizing: border-box; display: flex; justify-content: center;
         }
-
-        .sheet-pill {
-            width: 45px;
-            height: 5px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .sheet-header-text {
-            font-size: 18px;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
         .google-btn {
-            width: 100%; 
-            max-width: 400px; 
-            background-color: #ffffff; 
-            border-radius: 16px; 
-            height: 60px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 14px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.07); 
-            border: 1.5px solid #f1f5f9; 
-            cursor: pointer;
-            transition: all 0.3s ease;
+            width: 100%; max-width: 420px; background-color: #ffffff; border-radius: 12px; height: 58px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; cursor: pointer;
         }
-        
-        .google-btn:active {
-            transform: scale(0.97);
-            background-color: #f8fafc;
-        }
+        .google-btn span { color: #1f2937; font-size: 15px; font-weight: 700; }
 
-        .google-btn span { 
-            color: #1f2937; 
-            font-size: 16px; 
-            font-weight: 700; 
-        }
-
-        /* --- المنصات --- */
+        /* --- الهيدر 4 و 5: المنصات --- */
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
@@ -192,12 +142,21 @@
         </header>
 
         <div class="login-bar">
-            <div class="welcome-msg" id="welcome-text">
-                أهلاً بك في عالم التميز الرقمي
-            </div>
-            <svg class="welcome-icon" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
-            </svg>
+            <a href="Settings/" style="text-decoration:none;">
+                <div class="menu-btn-box">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
+            </a>
+            <span class="login-text" id="login-btn-label">تسجيل الدخول</span>
+        </div>
+
+        <div class="google-section">
+            <button class="google-btn" id="google-auth-btn">
+                <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                <span id="google-btn-label">المتابعة باستخدام حساب Google</span>
+            </button>
         </div>
 
         <div class="platforms-wrapper">
@@ -217,15 +176,6 @@
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
-        </div>
-
-        <div class="login-sticky-sheet">
-            <div class="sheet-pill"></div>
-            <div class="sheet-header-text" id="sheet-title">ابدأ رحلة نجاحك الرقمي الآن</div>
-            <button class="google-btn" id="google-auth-btn">
-                <svg viewBox="0 0 48 48" width="28px" height="28px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                <span id="google-btn-label">المتابعة باستخدام حساب Google</span>
-            </button>
         </div>
     </div>
 
@@ -270,10 +220,10 @@
             list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
                 ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
             </div>`;
-            regionConfigs.forEach((reg) => {
+            regionConfigs.forEach((reg, i) => {
                 const div = document.createElement('div');
                 div.className = 'option-item';
-                div.onclick = () => { localStorage.setItem('pref_reg_name', reg.ar); updateUI(); closeSelection(); };
+                div.onclick = () => { localStorage.setItem('pref_reg_idx', i); updateUI(); closeSelection(); };
                 let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px; border:1px solid #eee;">`;
                 div.innerHTML = `<span style="font-weight:600; color:#334155;">${reg[lang]}</span> <div class="flag-container">${iconMarkup}</div>`;
                 list.appendChild(div);
@@ -282,19 +232,17 @@
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regName = localStorage.getItem('pref_reg_name') || "الشرق الأوسط";
-            const reg = regionConfigs.find(r => r.ar === regName) || regionConfigs[0];
-            
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx];
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
-            
-            document.getElementById('welcome-text').innerText = lang === 'ar' ? "أهلاً بك في عالم التميز الرقمي" : "Welcome to digital excellence";
+            document.getElementById('login-btn-label').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "المتابعة باستخدام حساب Google" : "Continue with Google";
-            document.getElementById('sheet-title').innerText = lang === 'ar' ? "ابدأ رحلة نجاحك الرقمي الآن" : "Start your digital success journey now";
             
+            // تحديث نصوص الهيدر الرابع (الترويجي)
             const promo = {
-                ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
+                ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع،  حقيقي وبأفضل الأسعار!" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
             };
             document.getElementById('promo-main').innerText = promo[lang].main;
@@ -306,7 +254,7 @@
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = { 
         apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -326,35 +274,27 @@
         signInWithPopup(auth, provider).then(async (result) => {
             const user = result.user;
             
-            const finalLang = localStorage.getItem('pref_lang') || 'ar';
-            const regionName = localStorage.getItem('pref_reg_name') || "الشرق الأوسط";
-
+            // الربط مع قاعدة البيانات Firestore
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
 
+            // إذا كان المستخدم يدخل لأول مرة، ننشئ له محفظة رصيدها 0
             if (!docSnap.exists()) {
                 await setDoc(userRef, {
                     name: user.displayName,
                     balance: 0,
                     total_spend: 0,
                     email: user.email,
-                    uid: user.uid,
-                    pref_lang: finalLang,
-                    region: regionName,
-                    created_at: new Date()
-                });
-            } else {
-                await updateDoc(userRef, {
-                    pref_lang: finalLang,
-                    region: regionName,
-                    last_login: new Date()
+                    uid: user.uid // حفظ الـ UID للرجوع إليه
                 });
             }
             
+            // العودة للرابط الأصلي الذي طلبته
             window.location.href = "dashboard/"; 
 
         }).catch(e => {
             console.error("Firebase Error:", e);
+            // إذا استمر الخطأ، سيخبرك التنبيه بالسبب التقني
             alert("فشل تسجيل الدخول: " + e.message);
         });
     });
