@@ -146,7 +146,7 @@
         </div>
 
         <div class="services-grid">
-            <div class="section-header">وسائل الدفع</div>
+            <div class="section-header" data-ar="وسائل الدفع" data-en="Payment Methods">وسائل الدفع</div>
             <a href="#" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
@@ -162,7 +162,7 @@
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">cih mobile</h3>
             </a>
-            <div class="section-header">التحويلات الدولية</div>
+            <div class="section-header" data-ar="التحويلات الدولية" data-en="International Transfers">التحويلات الدولية</div>
             <a href="#" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/9Q0wbRH3/IMG-2738.jpg" alt="WU"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
@@ -193,13 +193,13 @@
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">remitly</h3>
             </a>
-            <div class="section-header">الخدمات المصرفية</div>
+            <div class="section-header" data-ar="الخدمات المصرفية" data-en="Banking Services">الخدمات المصرفية</div>
             <a href="#" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/cJbmZmHS/IMG-2794.jpg" alt="Attijari Mobile"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Attijari Mobile</h3>
             </a>
-            <div class="section-header">المحافض الالكترونية</div>
+            <div class="section-header" data-ar="المحافض الالكترونية" data-en="Electronic Wallets">المحافض الالكترونية</div>
             <a href="#" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/T2SLJ37F/IMG-2799.jpg" alt="Binance"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
@@ -250,6 +250,12 @@
             if(flagBox) {
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
+
+            // Update Section Headers translation
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.innerText = header.getAttribute(`data-${lang}`);
+            });
+
             document.documentElement.dir = 'rtl';
         }
         window.addEventListener('load', updateUI);
