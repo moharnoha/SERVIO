@@ -25,12 +25,13 @@
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
+            direction: rtl !important;
         }
-        .brand-section { display: flex; align-items: center; }
+        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box { display: flex; flex-direction: column; text-align: right !important; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
         
@@ -39,11 +40,13 @@
             background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
+            flex-direction: row !important;
         }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; flex-direction: row !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
+        /* Dynamic Grid Layout */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -51,6 +54,7 @@
             padding: 15px;
         }
 
+        /* Default (Arabic/RTL) Card Styles */
         .service-card {
             background-color: var(--card-white);
             border-radius: 12px; 
@@ -65,6 +69,7 @@
 
         .service-card:active { transform: scale(0.97); }
 
+        /* Positioning for RTL (Default) */
         .card-icon {
             position: absolute;
             top: 10px;
@@ -114,36 +119,12 @@
             font-family: 'Cairo', sans-serif;
         }
 
-        /* Forced LTR styles for English mode on specific elements */
-        html[dir="ltr"] .top-header,
-        html[dir="ltr"] .brand-section,
-        html[dir="ltr"] .region-badge,
-        html[dir="ltr"] .region-text {
-            flex-direction: row;
-        }
-
-        html[dir="ltr"] .title-box {
-            text-align: left;
-        }
-
-        html[dir="ltr"] .section-header {
-            text-align: left;
-        }
-
-        html[dir="ltr"] .card-icon {
-            right: auto;
-            left: 10px;
-        }
-
-        html[dir="ltr"] .action-arrow {
-            left: auto;
-            right: 12px;
-            transform: scaleX(-1);
-        }
-
-        html[dir="ltr"] .service-title {
-            text-align: left;
-        }
+        /* LTR Overrides for Grid Content ONLY */
+        html[dir="ltr"] .services-grid { direction: ltr; }
+        html[dir="ltr"] .section-header { text-align: left; }
+        html[dir="ltr"] .service-title { text-align: left; }
+        html[dir="ltr"] .card-icon { right: auto; left: 10px; }
+        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -275,13 +256,13 @@
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
 
-            // Update text based on lang
+            // Update Section Headers text based on language
             document.querySelectorAll('.section-header').forEach(header => {
                 header.innerText = header.getAttribute(`data-${lang}`);
             });
 
-            // Set direction based on lang
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            // Change Direction of the document (Headers/Cards) but Keep Top-Header RTL via CSS
+            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
         }
         window.addEventListener('load', updateUI);
     </script>
