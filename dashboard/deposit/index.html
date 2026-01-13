@@ -30,7 +30,10 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box { display: flex; flex-direction: column; }
+        [dir="rtl"] .title-box { text-align: right; }
+        [dir="ltr"] .title-box { text-align: left; }
+        
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
         
@@ -68,7 +71,6 @@
         .card-icon {
             position: absolute;
             top: 10px;
-            right: 10px;
             width: 42px;
             height: 42px;
             display: flex;
@@ -77,16 +79,20 @@
             background: #f8f9fa;
             border-radius: 8px;
         }
+        [dir="rtl"] .card-icon { right: 10px; }
+        [dir="ltr"] .card-icon { left: 10px; }
+
         .card-icon img { width: 85%; height: 85%; object-fit: contain; }
 
         .action-arrow {
             position: absolute;
             top: 12px;
-            left: 12px;
             font-size: 11px;
             color: var(--accent-green);
             opacity: 0.7;
         }
+        [dir="rtl"] .action-arrow { left: 12px; }
+        [dir="ltr"] .action-arrow { right: 12px; transform: scaleX(-1); }
 
         .service-title {
             position: absolute;
@@ -97,12 +103,13 @@
             font-weight: 800;
             color: var(--text-main);
             margin: 0;
-            text-align: right;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-family: 'Cairo', sans-serif;
         }
+        [dir="rtl"] .service-title { text-align: right; }
+        [dir="ltr"] .service-title { text-align: left; }
 
         .section-header {
             grid-column: span 2;
@@ -110,9 +117,10 @@
             font-weight: 800;
             color: #333;
             margin: 15px 5px 5px 5px;
-            text-align: right;
             font-family: 'Cairo', sans-serif;
         }
+        [dir="rtl"] .section-header { text-align: right; }
+        [dir="ltr"] .section-header { text-align: left; }
     </style>
 </head>
 <body class="notranslate" translate="no">
