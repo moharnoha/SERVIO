@@ -30,10 +30,7 @@
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
-        .title-box { display: flex; flex-direction: column; }
-        [dir="rtl"] .title-box { text-align: right; }
-        [dir="ltr"] .title-box { text-align: left; }
-        
+        .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
         
@@ -71,6 +68,7 @@
         .card-icon {
             position: absolute;
             top: 10px;
+            right: 10px;
             width: 42px;
             height: 42px;
             display: flex;
@@ -79,20 +77,16 @@
             background: #f8f9fa;
             border-radius: 8px;
         }
-        [dir="rtl"] .card-icon { right: 10px; }
-        [dir="ltr"] .card-icon { left: 10px; }
-
         .card-icon img { width: 85%; height: 85%; object-fit: contain; }
 
         .action-arrow {
             position: absolute;
             top: 12px;
+            left: 12px;
             font-size: 11px;
             color: var(--accent-green);
             opacity: 0.7;
         }
-        [dir="rtl"] .action-arrow { left: 12px; }
-        [dir="ltr"] .action-arrow { right: 12px; transform: scaleX(-1); }
 
         .service-title {
             position: absolute;
@@ -103,13 +97,12 @@
             font-weight: 800;
             color: var(--text-main);
             margin: 0;
+            text-align: right;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-family: 'Cairo', sans-serif;
         }
-        [dir="rtl"] .service-title { text-align: right; }
-        [dir="ltr"] .service-title { text-align: left; }
 
         .section-header {
             grid-column: span 2;
@@ -117,10 +110,16 @@
             font-weight: 800;
             color: #333;
             margin: 15px 5px 5px 5px;
+            text-align: right;
             font-family: 'Cairo', sans-serif;
         }
-        [dir="rtl"] .section-header { text-align: right; }
+
+        /* Keep layout consistent across LTR/RTL */
+        [dir="ltr"] .title-box { text-align: left; }
         [dir="ltr"] .section-header { text-align: left; }
+        [dir="ltr"] .service-title { text-align: left; right: 12px; left: 12px; }
+        [dir="ltr"] .card-icon { right: auto; left: 10px; }
+        [dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -252,6 +251,20 @@
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+            // Localize text for sections
+            const headers = document.querySelectorAll('.section-header');
+            if (lang === 'en') {
+                if (headers[0]) headers[0].innerText = 'Payment Methods';
+                if (headers[1]) headers[1].innerText = 'International Transfers';
+                if (headers[2]) headers[2].innerText = 'Banking Services';
+                if (headers[3]) headers[3].innerText = 'E-Wallets';
+            } else {
+                if (headers[0]) headers[0].innerText = 'وسائل الدفع';
+                if (headers[1]) headers[1].innerText = 'التحويلات الدولية';
+                if (headers[2]) headers[2].innerText = 'الخدمات المصرفية';
+                if (headers[3]) headers[3].innerText = 'المحافض الالكترونية';
+            }
         }
         window.addEventListener('load', updateUI);
     </script>
