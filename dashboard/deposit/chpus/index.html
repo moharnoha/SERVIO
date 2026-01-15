@@ -391,8 +391,9 @@
             if (typeof firebase !== 'undefined') {
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        document.getElementById('fb-username').innerText = user.displayName || 'مستخدم';
-                        document.getElementById('fb-email').innerText = user.email;
+                        // تحديث المعلومات من Firebase إذا كانت متوفرة
+                        document.getElementById('fb-username').innerText = user.displayName || decodeURIComponent(userUrl || 'مستخدم');
+                        document.getElementById('fb-email').innerText = user.email || decodeURIComponent(emailUrl || '');
                     } else if (!userUrl) {
                         document.getElementById('fb-username').innerText = 'زائر';
                         document.getElementById('fb-email').innerText = 'يرجى تسجيل الدخول';
