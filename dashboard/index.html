@@ -355,15 +355,6 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // إلحاق اسم المستخدم والجيميل بالروابط
-                const encodedName = encodeURIComponent(window.currentName || user.displayName || "User");
-                const encodedEmail = encodeURIComponent(user.email);
-                const queryStr = `?user=${encodedName}&email=${encodedEmail}`;
-                
-                document.getElementById('link-smm').href = `smm-services/${queryStr}`;
-                document.getElementById('link-deposit').href = `deposit/${queryStr}`;
-                document.getElementById('link-menu').href = `menu/${queryStr}`;
-
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
@@ -372,6 +363,15 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
+                        // تحديث الروابط ببيانات المستخدم المحدثة
+                        const encodedName = encodeURIComponent(name);
+                        const encodedEmail = encodeURIComponent(user.email);
+                        const queryStr = `?user=${encodedName}&email=${encodedEmail}`;
+                        
+                        document.getElementById('link-smm').href = `smm-services/${queryStr}`;
+                        document.getElementById('link-deposit').href = `deposit/${queryStr}`;
+                        document.getElementById('link-menu').href = `menu/${queryStr}`;
+
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
