@@ -356,6 +356,38 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userUrl = urlParams.get('user');
+            const emailUrl = urlParams.get('email');
+
+            if (user) {
+                document.getElementById('fb-username').innerText = user.displayName || decodeURIComponent(userUrl || 'مستخدم');
+                document.getElementById('fb-email').innerText = user.email || decodeURIComponent(emailUrl || '');
+            } else {
+                if (!userUrl && !emailUrl) {
+                    window.location.href = "../";
+                } else {
+                    document.getElementById('fb-username').innerText = decodeURIComponent(userUrl || 'مستخدم');
+                    document.getElementById('fb-email').innerText = decodeURIComponent(emailUrl || '');
+                }
+            }
+        });
+    </script>
+
     <script>
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
@@ -375,34 +407,6 @@
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
-
-        function listenToAuth() {
-            // أولاً: محاولة استخراج البيانات من الرابط (URL)
-            const urlParams = new URLSearchParams(window.location.search);
-            const userUrl = urlParams.get('user');
-            const emailUrl = urlParams.get('email');
-
-            if (userUrl || emailUrl) {
-                if (userUrl) document.getElementById('fb-username').innerText = decodeURIComponent(userUrl);
-                if (emailUrl) document.getElementById('fb-email').innerText = decodeURIComponent(emailUrl);
-            } 
-            
-            // ثانياً: منطق Firebase (كاحتياط أو لتحديث البيانات)
-            if (typeof firebase !== 'undefined') {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        // تحديث المعلومات من Firebase إذا كانت متوفرة
-                        document.getElementById('fb-username').innerText = user.displayName || decodeURIComponent(userUrl || 'مستخدم');
-                        document.getElementById('fb-email').innerText = user.email || decodeURIComponent(emailUrl || '');
-                    } else if (!userUrl) {
-                        document.getElementById('fb-username').innerText = 'زائر';
-                        document.getElementById('fb-email').innerText = 'يرجى تسجيل الدخول';
-                    }
-                });
-            } else if (!userUrl) {
-                document.getElementById('fb-email').innerText = 'بانتظار البيانات...';
-            }
-        }
 
         function copyText(id) {
             const text = document.getElementById(id).innerText;
@@ -468,7 +472,6 @@
         
         window.addEventListener('load', () => {
             updateUI();
-            listenToAuth();
         });
     </script>
 </body>
