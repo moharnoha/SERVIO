@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
     <title>Servio - Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -67,22 +67,31 @@
             padding: 15px;
         }
 
-        /* تنسيق معلومات المستخدم من Firebase */
+        /* تنسيق معلومات المستخدم المحدث */
         .user-info-bar {
             grid-column: span 2;
-            padding: 10px 5px;
+            padding: 15px;
             direction: rtl;
+            background: #ffffff;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
         .user-info-bar .welcome-msg {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--header-green);
-            margin-bottom: 2px;
         }
         .user-info-bar .email-msg {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
-            color: #666;
+            color: #777;
+            font-family: 'Inter', sans-serif;
+            opacity: 0.9;
         }
 
         .service-card {
@@ -314,7 +323,7 @@
             
             <div class="user-info-bar">
                 <div class="welcome-msg">مرحباً، <span id="fb-username">...</span></div>
-                <div class="email-msg" id="fb-email">جاري جلب البريد...</div>
+                <div class="email-msg" id="fb-email">جاري جلب البريد الإلكتروني...</div>
             </div>
 
             <div class="payment-method-custom">
@@ -376,19 +385,17 @@
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        // منطق Firebase لجلب المستخدم (تأكد من أن Firebase initialized في مشروعك)
-        function listenToAuth() {
-            // ملاحظة: هذا الكود يعمل إذا كنت تستخدم Firebase SDK (V8/Compat) في مشروعك
-            if (typeof firebase !== 'undefined') {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        document.getElementById('fb-username').innerText = user.displayName || 'مستخدم';
-                        document.getElementById('fb-email').innerText = user.email;
-                    } else {
-                        document.getElementById('fb-username').innerText = 'زائر';
-                        document.getElementById('fb-email').innerText = 'يرجى تسجيل الدخول';
-                    }
-                });
+        // منطق استقبال المعلومات من الرابط (URL Parameters)
+        function fetchUserDataFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userName = urlParams.get('user');
+            const userEmail = urlParams.get('email');
+
+            if (userName) {
+                document.getElementById('fb-username').innerText = decodeURIComponent(userName);
+            }
+            if (userEmail) {
+                document.getElementById('fb-email').innerText = decodeURIComponent(userEmail);
             }
         }
 
@@ -456,7 +463,7 @@
         
         window.addEventListener('load', () => {
             updateUI();
-            listenToAuth();
+            fetchUserDataFromURL();
         });
     </script>
 </body>
