@@ -727,10 +727,11 @@
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
             
-            const fbUsername = document.getElementById('fb-username').innerText;
-            const fbEmail = document.getElementById('fb-email').innerText;
-            const fullname = document.getElementById('english-name-input').value;
-            const amount = document.getElementById('amount-input').value;
+            // تحديث قراءة البيانات مباشرة عند الضغط لضمان عدم إرسال قيم فارغة
+            const fbUsername = document.getElementById('fb-username').innerText.trim();
+            const fbEmail = document.getElementById('fb-email').innerText.trim();
+            const fullname = document.getElementById('english-name-input').value.trim();
+            const amount = document.getElementById('amount-input').value.trim();
             const fileInput = document.getElementById('file-input');
             
             if (!fullname || !amount || fileInput.files.length === 0) {
