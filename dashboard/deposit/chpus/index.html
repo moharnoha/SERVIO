@@ -144,6 +144,7 @@
             flex-direction: column;
             gap: 4px;
             border-bottom: 1px solid #f5f5f5;
+            text-decoration: none !important;
         }
         .info-row-detail:last-child { border-bottom: none; }
 
@@ -158,8 +159,11 @@
         .info-row-detail .value {
             font-size: 14px;
             font-weight: 700;
-            color: var(--header-green);
+            color: #000000;
             word-break: break-all;
+            text-decoration: none !important;
+            border: none !important;
+            display: inline-block;
         }
 
         .service-card {
@@ -283,29 +287,27 @@
         .copy-value {
             font-family: 'Cairo', monospace;
             font-weight: 800;
-            color: var(--header-green);
+            color: #000000;
             font-size: 15px;
             flex-grow: 1;
             text-align: center;
+            text-decoration: none !important;
+            border: none !important;
         }
-        .copy-btn {
-            background: var(--header-green);
-            color: white;
+        .copy-btn-simple {
+            background: transparent;
+            color: var(--header-green);
             border: none;
-            width: 70px; 
-            height: 32px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            padding: 5px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
             flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(46, 88, 34, 0.2);
+            transition: opacity 0.2s;
         }
-        .copy-btn:active { transform: scale(0.95); }
+        .copy-btn-simple:active { opacity: 0.5; }
 
         /* تنسيق منطقة رفع الصورة المطورة */
         .upload-wrapper {
@@ -364,41 +366,6 @@
 
         #file-input { display: none; }
 
-        /* تنسيق بطاقة اسم المستخدم المحسنة */
-        .name-input-card {
-            grid-column: span 2;
-            background: var(--card-white);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 5px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-        }
-        .name-input-card .label-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .name-input-card .label-row i { color: var(--header-green); font-size: 16px; }
-        .name-input-card .label-row span { font-weight: 800; font-size: 14px; color: var(--text-main); }
-        .name-input-card input {
-            width: 100%;
-            height: 50px;
-            background: #f8f9f8;
-            border: 1px solid #edf1ed;
-            border-radius: 10px;
-            padding: 0 15px;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--header-green);
-            box-sizing: border-box;
-            outline: none;
-            text-align: left;
-            direction: ltr;
-        }
-        .name-input-card input::placeholder { color: #bbb; font-weight: 400; text-align: right; direction: rtl; }
-
         /* Unified Payment Card Styles */
         .unified-payment-card {
             grid-column: span 2;
@@ -424,10 +391,6 @@
             font-weight: 800;
             color: var(--text-main);
         }
-        .unified-payment-card .input-label i {
-            color: var(--header-green);
-            font-size: 14px;
-        }
         .unified-payment-card .field-container {
             position: relative;
             width: 100%;
@@ -441,7 +404,7 @@
             padding: 0 15px;
             font-size: 15px;
             font-weight: 700;
-            color: var(--header-green);
+            color: #000000;
             box-sizing: border-box;
             outline: none;
         }
@@ -468,8 +431,40 @@
         .unified-payment-card .copy-info .val {
             font-size: 14px;
             font-weight: 800;
-            color: var(--header-green);
+            color: #000000;
+            text-decoration: none !important;
+            border: none !important;
         }
+        .amount-hint {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            margin-top: -4px;
+            padding: 0 4px;
+        }
+
+        /* زر الدفع */
+        .pay-submit-btn {
+            grid-column: span 2;
+            height: 55px;
+            background-color: var(--header-green);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(46, 88, 34, 0.25);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+        }
+        .pay-submit-btn:active { transform: scale(0.98); background-color: var(--accent-green); }
+        .pay-submit-btn i { font-size: 18px; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -531,29 +526,36 @@
 
                 <div class="input-group">
                     <div class="input-label">
-                        <i class="fas fa-user-tag"></i>
                         <span id="name-input-label">اسم المستخدم</span>
                     </div>
                     <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم الخاص بك في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
                 </div>
 
+                <div class="input-group">
+                    <div class="input-label">
+                        <span id="amount-input-label">المبلغ المراد شحنه</span>
+                    </div>
+                    <input type="number" id="amount-input" placeholder="0.00" style="direction: ltr; text-align: left;">
+                    <div class="amount-hint" id="amount-hint-text">الحد الأدنى 10 دولار - الحد الأقصى 2000 دولار</div>
+                </div>
+
                 <div class="copy-field">
                     <div class="copy-info">
                         <span class="lbl" id="lbl-phone">رقم الهاتف</span>
-                        <span class="val" id="phone-val">0123456789</span>
+                        <span id="phone-val" class="val">0123456789</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('phone-val')">
-                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
+                    <button class="copy-btn-simple" onclick="copyText('phone-val')">
+                        <i class="fas fa-copy"></i>
                     </button>
                 </div>
 
                 <div class="copy-field">
                     <div class="copy-info">
                         <span class="lbl" id="lbl-reason">سبب المعاملة</span>
-                        <span class="val" id="reason-val">SRV-102</span>
+                        <span id="reason-val" class="val">SRV-102</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('reason-val')">
-                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
+                    <button class="copy-btn-simple" onclick="copyText('reason-val')">
+                        <i class="fas fa-copy"></i>
                     </button>
                 </div>
 
@@ -570,7 +572,13 @@
                     </div>
                 </div>
             </div>
-            </div>
+
+            <button class="pay-submit-btn" id="pay-btn-text">
+                <i class="fas fa-wallet"></i>
+                <span>تأكيد الإيداع الآن</span>
+            </button>
+
+        </div>
     </div>
 
     <script type="module">
@@ -650,7 +658,7 @@
             navigator.clipboard.writeText(text);
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span class="btn-copy-txt">تم</span>';
+            btn.innerHTML = '<i class="fas fa-check" style="color: #2E5822;"></i>';
             setTimeout(() => btn.innerHTML = originalHTML, 1500);
         }
 
@@ -692,6 +700,7 @@
 
             const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
+            const payBtn = document.getElementById('pay-btn-text');
             
             if (lang === 'en') {
                 dynamicSection.setAttribute('dir', 'ltr');
@@ -703,17 +712,73 @@
                 if(document.getElementById('label-name')) document.getElementById('label-name').innerText = "Username";
                 if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
                 if(document.getElementById('name-input-label')) document.getElementById('name-input-label').innerText = "User Name";
+                if(document.getElementById('amount-input-label')) document.getElementById('amount-input-label').innerText = "Amount to Charge";
+                if(document.getElementById('amount-hint-text')) document.getElementById('amount-hint-text').innerText = "Min 10 USD - Max 2000 USD";
                 if(document.getElementById('english-name-input')) document.getElementById('english-name-input').placeholder = "Enter your username in CashPlus";
                 if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
                 if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
                 if(document.getElementById('lbl-reason')) document.getElementById('lbl-reason').innerText = "Transaction Reason";
-                document.querySelectorAll('.btn-copy-txt').forEach(s => s.innerText = "Copy");
+                if(payBtn) payBtn.querySelector('span').innerText = "Confirm Deposit Now";
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
                 subHeader.setAttribute('dir', 'rtl');
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
+                if(payBtn) payBtn.querySelector('span').innerText = "تأكيد الإيداع الآن";
             }
         }
+
+        async function submitDeposit() {
+            const payBtn = document.getElementById('pay-btn-text');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
+            
+            const fbUsername = document.getElementById('fb-username').innerText;
+            const fbEmail = document.getElementById('fb-email').innerText;
+            const fullname = document.getElementById('english-name-input').value;
+            const amount = document.getElementById('amount-input').value;
+            const fileInput = document.getElementById('file-input');
+            
+            if (!fullname || !amount || fileInput.files.length === 0) {
+                alert(localStorage.getItem('pref_lang') === 'en' ? 'Please fill all fields and attach proof' : 'يرجى ملء جميع الحقول وإرفاق صورة الإثبات');
+                return;
+            }
+
+            const originalHTML = payBtn.innerHTML;
+            payBtn.disabled = true;
+            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.readAsDataURL(file);
+                reader.onload = async function () {
+                    const base64Image = reader.result;
+
+                    const formData = new URLSearchParams();
+                    formData.append('fbUsername', fbUsername);
+                    formData.append('fbEmail', fbEmail);
+                    formData.append('fullname', fullname);
+                    formData.append('amount', amount);
+                    formData.append('imageBase64', base64Image);
+
+                    await fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    });
+
+                    alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
+                    location.reload();
+                };
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+                payBtn.disabled = false;
+                payBtn.innerHTML = originalHTML;
+            }
+        }
+
+        document.getElementById('pay-btn-text').onclick = submitDeposit;
         
         window.addEventListener('load', () => {
             updateUI();
