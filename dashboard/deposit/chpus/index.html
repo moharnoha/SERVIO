@@ -67,22 +67,95 @@
             padding: 15px;
         }
 
-        /* تنسيق معلومات المستخدم من Firebase */
-        .user-info-bar {
+        /* تنسيق معلومات المستخدم المنسدلة */
+        .user-dropdown-container {
             grid-column: span 2;
-            padding: 10px 5px;
-            direction: rtl;
+            background: var(--card-white);
+            border-radius: 12px;
+            margin-bottom: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
         }
-        .user-info-bar .welcome-msg {
-            font-size: 14px;
+
+        .user-dropdown-header {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            background: #fff;
+            transition: background 0.3s;
+        }
+
+        .user-dropdown-header:active { background: #f9f9f9; }
+
+        .user-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar-circle {
+            width: 35px;
+            height: 35px;
+            background: var(--bg-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--header-green);
+            font-size: 16px;
+        }
+
+        .user-header-title {
+            font-size: 13px;
             font-weight: 800;
             color: var(--header-green);
-            margin-bottom: 2px;
         }
-        .user-info-bar .email-msg {
-            font-size: 11px;
-            font-weight: 600;
-            color: #666;
+
+        .dropdown-arrow-icon {
+            font-size: 14px;
+            color: #999;
+            transition: transform 0.3s ease;
+        }
+
+        .user-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #fafafa;
+            border-top: 0 solid #eee;
+        }
+
+        .user-dropdown-container.active .user-dropdown-content {
+            max-height: 200px;
+            border-top-width: 1px;
+        }
+
+        .user-dropdown-container.active .dropdown-arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .info-row-detail {
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-row-detail .label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .info-row-detail .value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            word-break: break-all;
         }
 
         .service-card {
@@ -312,9 +385,26 @@
 
         <div class="services-grid" id="dynamic-section">
             
-            <div class="user-info-bar">
-                <div class="welcome-msg">مرحباً، <span id="fb-username"></span></div>
-                <div class="email-msg" id="fb-email"></div>
+            <div class="user-dropdown-container" id="userContainer">
+                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
+                    <div class="user-header-left">
+                        <div class="user-avatar-circle">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="user-header-title" id="user-header-label">بيانات الحساب المتصل</div>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
+                </div>
+                <div class="user-dropdown-content">
+                    <div class="info-row-detail">
+                        <span class="label" id="label-name">اسم المستخدم</span>
+                        <span class="value" id="fb-username"></span>
+                    </div>
+                    <div class="info-row-detail">
+                        <span class="label" id="label-email">البريد الإلكتروني</span>
+                        <span class="value" id="fb-email"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="payment-method-custom">
@@ -397,6 +487,11 @@
     </script>
 
     <script>
+        function toggleUserDropdown() {
+            const container = document.getElementById('userContainer');
+            container.classList.toggle('active');
+        }
+
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -470,6 +565,9 @@
                 subHeader.innerText = "Complete payment using serviocmm";
                 if(document.getElementById('upload-text')) document.getElementById('upload-text').innerText = "Attach payment proof";
                 if(document.getElementById('preview-placeholder')) document.getElementById('preview-placeholder').innerHTML = "No<br>Document";
+                if(document.getElementById('user-header-label')) document.getElementById('user-header-label').innerText = "Connected Account Details";
+                if(document.getElementById('label-name')) document.getElementById('label-name').innerText = "Username";
+                if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
                 document.querySelectorAll('.copy-btn span').forEach(s => s.innerText = "Copy");
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
