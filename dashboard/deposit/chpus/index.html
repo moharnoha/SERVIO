@@ -144,6 +144,7 @@
             flex-direction: column;
             gap: 4px;
             border-bottom: 1px solid #f5f5f5;
+            text-decoration: none !important;
         }
         .info-row-detail:last-child { border-bottom: none; }
 
@@ -158,9 +159,11 @@
         .info-row-detail .value {
             font-size: 14px;
             font-weight: 700;
-            color: var(--text-main); /* تم التغيير للأسود */
+            color: #000000;
             word-break: break-all;
-            text-decoration: none !important; /* إزالة الخط تحت الجيمايل */
+            text-decoration: none !important;
+            border: none !important;
+            display: inline-block;
         }
 
         .service-card {
@@ -284,30 +287,27 @@
         .copy-value {
             font-family: 'Cairo', monospace;
             font-weight: 800;
-            color: var(--text-main); /* تم التغيير للأسود */
+            color: #000000;
             font-size: 15px;
             flex-grow: 1;
             text-align: center;
-            text-decoration: none !important; /* معالجة مشكلة الخط تحت رقم الهاتف */
+            text-decoration: none !important;
+            border: none !important;
         }
-        .copy-btn {
-            background: var(--header-green);
-            color: white;
+        .copy-btn-simple {
+            background: transparent;
+            color: var(--header-green);
             border: none;
-            width: 70px; 
-            height: 32px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            padding: 5px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
             flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(46, 88, 34, 0.2);
+            transition: opacity 0.2s;
         }
-        .copy-btn:active { transform: scale(0.95); }
+        .copy-btn-simple:active { opacity: 0.5; }
 
         /* تنسيق منطقة رفع الصورة المطورة */
         .upload-wrapper {
@@ -391,9 +391,9 @@
             font-weight: 800;
             color: var(--text-main);
         }
-        .unified-payment-card .input-label i {
-            color: var(--header-green);
-            font-size: 14px;
+        .unified-payment-card .field-container {
+            position: relative;
+            width: 100%;
         }
         .unified-payment-card input {
             width: 100%;
@@ -404,7 +404,7 @@
             padding: 0 15px;
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-main); /* تم التغيير للأسود */
+            color: #000000;
             box-sizing: border-box;
             outline: none;
         }
@@ -431,8 +431,9 @@
         .unified-payment-card .copy-info .val {
             font-size: 14px;
             font-weight: 800;
-            color: var(--text-main); /* تم التغيير للأسود */
+            color: #000000;
             text-decoration: none !important;
+            border: none !important;
         }
         .amount-hint {
             font-size: 11px;
@@ -520,8 +521,8 @@
                         <span class="lbl" id="lbl-phone">رقم الهاتف</span>
                         <span class="val" id="phone-val">0123456789</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('phone-val')">
-                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
+                    <button class="copy-btn-simple" onclick="copyText('phone-val')">
+                        <i class="fas fa-copy"></i>
                     </button>
                 </div>
 
@@ -530,8 +531,8 @@
                         <span class="lbl" id="lbl-reason">سبب المعاملة</span>
                         <span class="val" id="reason-val">SRV-102</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('reason-val')">
-                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
+                    <button class="copy-btn-simple" onclick="copyText('reason-val')">
+                        <i class="fas fa-copy"></i>
                     </button>
                 </div>
 
@@ -629,7 +630,7 @@
             navigator.clipboard.writeText(text);
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span class="btn-copy-txt">تم</span>';
+            btn.innerHTML = '<i class="fas fa-check" style="color: #2E5822;"></i>';
             setTimeout(() => btn.innerHTML = originalHTML, 1500);
         }
 
@@ -688,7 +689,6 @@
                 if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
                 if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
                 if(document.getElementById('lbl-reason')) document.getElementById('lbl-reason').innerText = "Transaction Reason";
-                document.querySelectorAll('.btn-copy-txt').forEach(s => s.innerText = "Copy");
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
                 subHeader.setAttribute('dir', 'rtl');
