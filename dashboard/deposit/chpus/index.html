@@ -460,9 +460,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            letter-spacing: 0.5px;
         }
         .pay-submit-btn:active { transform: scale(0.98); background-color: var(--accent-green); }
+        .pay-submit-btn i { font-size: 18px; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -572,8 +574,8 @@
             </div>
 
             <button class="pay-submit-btn" id="pay-btn-text">
-                <i class="fas fa-paper-plane"></i>
-                <span>إرسال طلب الشحن</span>
+                <i class="fas fa-wallet"></i>
+                <span>تأكيد الإيداع الآن</span>
             </button>
 
         </div>
@@ -716,12 +718,12 @@
                 if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
                 if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
                 if(document.getElementById('lbl-reason')) document.getElementById('lbl-reason').innerText = "Transaction Reason";
-                if(payBtn) payBtn.querySelector('span').innerText = "Send Payment Request";
+                if(payBtn) payBtn.querySelector('span').innerText = "Confirm Deposit Now";
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
                 subHeader.setAttribute('dir', 'rtl');
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
-                if(payBtn) payBtn.querySelector('span').innerText = "إرسال طلب الشحن";
+                if(payBtn) payBtn.querySelector('span').innerText = "تأكيد الإيداع الآن";
             }
         }
         
