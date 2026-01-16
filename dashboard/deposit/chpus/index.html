@@ -374,16 +374,17 @@
             const userUrl = urlParams.get('user');
             const emailUrl = urlParams.get('email');
 
+            const updateFields = (name, email) => {
+                document.getElementById('fb-username').innerText = name;
+                document.getElementById('fb-email').innerText = email;
+            };
+
             if (user) {
-                document.getElementById('fb-username').innerText = user.displayName || decodeURIComponent(userUrl || 'مستخدم');
-                document.getElementById('fb-email').innerText = user.email || decodeURIComponent(emailUrl || '');
+                updateFields(user.displayName || decodeURIComponent(userUrl || 'مستخدم'), user.email || decodeURIComponent(emailUrl || ''));
+            } else if (userUrl || emailUrl) {
+                updateFields(decodeURIComponent(userUrl || 'مستخدم'), decodeURIComponent(emailUrl || ''));
             } else {
-                if (!userUrl && !emailUrl) {
-                    window.location.href = "../";
-                } else {
-                    document.getElementById('fb-username').innerText = decodeURIComponent(userUrl || 'مستخدم');
-                    document.getElementById('fb-email').innerText = decodeURIComponent(emailUrl || '');
-                }
+                window.location.href = "../";
             }
         });
     </script>
