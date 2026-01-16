@@ -730,6 +730,60 @@
         window.addEventListener('load', () => {
             updateUI();
         });
+
+        async function submitDeposit() {
+            const payBtn = document.getElementById('pay-btn-text');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
+            
+            const fbUsername = document.getElementById('fb-username').innerText;
+            const fbEmail = document.getElementById('fb-email').innerText;
+            const fullname = document.getElementById('english-name-input').value;
+            const amount = document.getElementById('amount-input').value;
+            const fileInput = document.getElementById('file-input');
+            
+            if (!fullname || !amount || fileInput.files.length === 0) {
+                alert(localStorage.getItem('pref_lang') === 'en' ? 'Please fill all fields and attach proof' : 'يرجى ملء جميع الحقول وإرفاق صورة الإثبات');
+                return;
+            }
+
+            const originalHTML = payBtn.innerHTML;
+            payBtn.disabled = true;
+            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.readAsDataURL(file);
+                reader.onload = async function () {
+                    const base64Image = reader.result;
+
+                    const formData = new URLSearchParams();
+                    formData.append('fbUsername', fbUsername);
+                    formData.append('fbEmail', fbEmail);
+                    formData.append('fullname', fullname);
+                    formData.append('amount', amount);
+                    formData.append('imageBase64', base64Image);
+
+                    await fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    });
+
+                    alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
+                    location.reload();
+                };
+
+            } catch (error) {
+                console.error('Error!', error.message);
+                alert('Error: ' + error.message);
+                payBtn.disabled = false;
+                payBtn.innerHTML = originalHTML;
+            }
+        }
+
+        document.getElementById('pay-btn-text').onclick = submitDeposit;
     </script>
 </body>
 </html>
