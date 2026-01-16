@@ -16,8 +16,6 @@
             --text-main: #000000;
             --accent-green: #386E2C; 
             --sub-header: #396E2D;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --border-light: #ececec;
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
@@ -50,6 +48,26 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
+        /* أيقونة المستخدم البيضاء الجديدة */
+        .user-header-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            color: var(--header-green);
+            padding: 0 12px;
+            height: 32px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-right: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 120px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
         /* الهيدر الفرعي الجديد */
         .sub-header-bar {
             background-color: var(--sub-header);
@@ -65,7 +83,7 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
-            gap: 15px;
+            gap: 10px;
             padding: 15px;
         }
 
@@ -73,15 +91,15 @@
         .user-dropdown-container {
             grid-column: span 2;
             background: var(--card-white);
-            border-radius: 16px;
+            border-radius: 12px;
             margin-bottom: 5px;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             overflow: hidden;
-            border: 1px solid var(--border-light);
+            border: 1px solid #e0e0e0;
         }
 
         .user-dropdown-header {
-            padding: 15px;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -95,43 +113,44 @@
         .user-header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .user-avatar-circle {
-            width: 40px;
-            height: 40px;
-            background: #f0f4ef;
-            border-radius: 12px;
+            width: 35px;
+            height: 35px;
+            background: var(--bg-gray);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--header-green);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .user-header-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--header-green);
         }
 
         .dropdown-arrow-icon {
             font-size: 14px;
-            color: #ccc;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #999;
+            transition: transform 0.3s ease;
         }
 
         .user-dropdown-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-out;
-            background: #fcfcfc;
+            background: #fafafa;
+            border-top: 0 solid #eee;
         }
 
         .user-dropdown-container.active .user-dropdown-content {
             max-height: 200px;
-            border-top: 1px solid #f0f0f0;
+            border-top-width: 1px;
         }
 
         .user-dropdown-container.active .dropdown-arrow-icon {
@@ -139,26 +158,23 @@
         }
 
         .info-row-detail {
-            padding: 12px 15px;
+            padding: 10px 15px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            border-bottom: 1px solid #f5f5f5;
+            gap: 2px;
         }
-        .info-row-detail:last-child { border-bottom: none; }
 
         .info-row-detail .label {
             font-size: 10px;
-            font-weight: 800;
-            color: #999;
+            font-weight: 700;
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .info-row-detail .value {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--header-green);
+            color: #333;
             word-break: break-all;
         }
 
@@ -239,52 +255,50 @@
         .payment-method-custom {
             grid-column: span 2;
             background: var(--card-white);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 10px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .payment-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f0f0f0;
+            gap: 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
         }
         .payment-header img {
-            height: 28px;
-            border-radius: 4px;
+            height: 25px;
         }
         .payment-header span {
             font-weight: 800;
-            font-size: 15px;
-            color: var(--text-main);
+            font-size: 14px;
+            color: var(--header-green);
         }
         .copy-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f8f9f8;
-            padding: 12px 14px;
-            border-radius: 10px;
-            margin-top: 10px;
-            border: 1px solid #edf1ed;
-            height: 50px; 
+            background: #f9f9f9;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            border: 1px dashed #ccc;
+            height: 45px; 
             box-sizing: border-box;
         }
         .copy-label {
-            font-size: 11px;
-            font-weight: 800;
-            color: #777;
+            font-size: 12px;
+            font-weight: 700;
+            color: #666;
             flex-shrink: 0;
         }
         .copy-value {
-            font-family: 'Cairo', monospace;
-            font-weight: 800;
-            color: var(--header-green);
-            font-size: 15px;
+            font-family: monospace;
+            font-weight: 700;
+            color: #000;
+            font-size: 14px;
             flex-grow: 1;
             text-align: center;
         }
@@ -292,18 +306,16 @@
             background: var(--header-green);
             color: white;
             border: none;
-            width: 70px; 
-            height: 32px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            width: 65px; 
+            height: 28px;
+            border-radius: 5px;
+            font-size: 11px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
             flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(46, 88, 34, 0.2);
         }
         .copy-btn:active { transform: scale(0.95); }
 
@@ -311,9 +323,9 @@
         .upload-wrapper {
             display: flex;
             align-items: stretch;
-            gap: 12px;
-            margin-top: 20px;
-            height: 90px; 
+            gap: 10px;
+            margin-top: 15px;
+            height: 80px; 
         }
 
         .upload-section {
@@ -322,29 +334,29 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #fff;
-            border: 2px dashed #d1d9d1;
-            border-radius: 12px;
+            background: #fdfdfd;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            padding: 8px;
+            transition: 0.3s;
+            padding: 5px;
             overflow: hidden;
         }
 
-        .upload-section:hover { border-color: var(--header-green); background: #f0f4ef; }
-        .upload-section i { font-size: 24px; color: var(--header-green); margin-bottom: 6px; }
-        .upload-section p { font-size: 12px; font-weight: 800; color: #444; margin: 0; text-align: center; line-height: 1.2; }
+        .upload-section:hover { border-color: var(--header-green); }
+        .upload-section i { font-size: 20px; color: var(--header-green); margin-bottom: 4px; }
+        .upload-section p { font-size: 11px; font-weight: 700; color: #555; margin: 0; text-align: center; line-height: 1.2; }
 
         .preview-container {
-            width: 90px;
-            height: 90px;
-            background: #f5f5f5;
-            border-radius: 12px;
+            width: 80px;
+            height: 80px;
+            background: #f0f0f0;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 1px solid var(--border-light);
+            border: 1px solid #eee;
         }
 
         .preview-img { 
@@ -355,11 +367,10 @@
         }
 
         .preview-placeholder {
-            font-size: 11px;
-            color: #bbb;
+            font-size: 10px;
+            color: #999;
             text-align: center;
-            font-weight: 700;
-            line-height: 1.4;
+            font-weight: 600;
         }
 
         #file-input { display: none; }
@@ -378,12 +389,15 @@
                     <span>Digital Services Center</span>
                 </div>
             </div>
-            <div class="region-badge">
-                <div id="flag-ui"></div>
-                <div class="region-text">
-                    <span id="reg-name">---</span>
-                    <span style="opacity:0.3">|</span>
-                    <span id="lang-name">--</span>
+            <div style="display: flex; align-items: center;">
+                <div class="user-header-badge" id="header-user-badge">...</div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text">
+                        <span id="reg-name">---</span>
+                        <span style="opacity:0.3">|</span>
+                        <span id="lang-name">--</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -472,16 +486,23 @@
         const userUrl = urlParams.get('user');
         const emailUrl = urlParams.get('email');
 
-        const initialUser = decodeURIComponent(userUrl || 'مستخدم');
+        const filterEnglish = (text) => {
+            return text.replace(/[^a-zA-Z0-9\s._-]/g, '').trim();
+        };
+
+        const initialUser = decodeURIComponent(userUrl || 'User');
         const initialEmail = decodeURIComponent(emailUrl || '');
         
+        const filteredInitial = filterEnglish(initialUser) || 'User';
         document.getElementById('fb-username').innerText = initialUser;
         document.getElementById('fb-email').innerText = initialEmail;
+        document.getElementById('header-user-badge').innerText = filteredInitial;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const newUsername = user.displayName || initialUser;
                 const newEmail = user.email || initialEmail;
+                const filteredNew = filterEnglish(newUsername) || 'User';
                 
                 if (document.getElementById('fb-username').innerText !== newUsername) {
                     document.getElementById('fb-username').innerText = newUsername;
@@ -489,6 +510,7 @@
                 if (document.getElementById('fb-email').innerText !== newEmail) {
                     document.getElementById('fb-email').innerText = newEmail;
                 }
+                document.getElementById('header-user-badge').innerText = filteredNew;
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
