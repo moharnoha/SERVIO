@@ -509,11 +509,11 @@
                 <div class="user-dropdown-content">
                     <div class="info-row-detail">
                         <span class="label" id="label-name">اسم المستخدم</span>
-                        <span class="value" id="fb-username"></span>
+                        <span class="value" id="fb-username">جاري التحميل...</span>
                     </div>
                     <div class="info-row-detail">
                         <span class="label" id="label-email">البريد الإلكتروني</span>
-                        <span class="value" id="fb-email"></span>
+                        <span class="value" id="fb-email">جاري التحميل...</span>
                     </div>
                 </div>
             </div>
@@ -606,15 +606,8 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const newUsername = user.displayName || initialUser;
-                const newEmail = user.email || initialEmail;
-                
-                if (document.getElementById('fb-username').innerText !== newUsername) {
-                    document.getElementById('fb-username').innerText = newUsername;
-                }
-                if (document.getElementById('fb-email').innerText !== newEmail) {
-                    document.getElementById('fb-email').innerText = newEmail;
-                }
+                document.getElementById('fb-username').innerText = user.displayName || initialUser;
+                document.getElementById('fb-email').innerText = user.email || initialEmail;
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
