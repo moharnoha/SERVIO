@@ -398,6 +398,78 @@
             direction: ltr;
         }
         .name-input-card input::placeholder { color: #bbb; font-weight: 400; text-align: right; direction: rtl; }
+
+        /* Unified Payment Card Styles */
+        .unified-payment-card {
+            grid-column: span 2;
+            background: var(--card-white);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .unified-payment-card .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .unified-payment-card .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .unified-payment-card .input-label i {
+            color: var(--header-green);
+            font-size: 14px;
+        }
+        .unified-payment-card .field-container {
+            position: relative;
+            width: 100%;
+        }
+        .unified-payment-card input {
+            width: 100%;
+            height: 50px;
+            background: #f8f9f8;
+            border: 1px solid #edf1ed;
+            border-radius: 12px;
+            padding: 0 15px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--header-green);
+            box-sizing: border-box;
+            outline: none;
+        }
+        .unified-payment-card .copy-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9f8;
+            border: 1px solid #edf1ed;
+            border-radius: 12px;
+            height: 50px;
+            padding: 0 12px;
+        }
+        .unified-payment-card .copy-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .unified-payment-card .copy-info .lbl {
+            font-size: 9px;
+            font-weight: 800;
+            color: #999;
+            text-transform: uppercase;
+        }
+        .unified-payment-card .copy-info .val {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--header-green);
+        }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -451,37 +523,41 @@
                 </div>
             </div>
 
-            <div class="name-input-card">
-                <div class="label-row">
-                    <i class="fas fa-user-tag"></i>
-                    <span id="name-input-label">اسم المستخدم</span>
-                </div>
-                <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم الخاص بك في كاش بليس" oninput="validateEnglish(this)">
-            </div>
-
-            <div class="payment-method-custom">
+            <div class="unified-payment-card">
                 <div class="payment-header">
                     <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment Methods">
-                    <span>الدفع عبر البطاقة البنكية</span>
+                    <span id="card-main-title">الدفع عبر البطاقة البنكية</span>
                 </div>
-                
-                <div class="copy-row">
-                    <span class="copy-label">رقم الهاتف:</span>
-                    <span class="copy-value" id="phone-val">0123456789</span>
+
+                <div class="input-group">
+                    <div class="input-label">
+                        <i class="fas fa-user-tag"></i>
+                        <span id="name-input-label">اسم المستخدم</span>
+                    </div>
+                    <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم الخاص بك في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
+                </div>
+
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-phone">رقم الهاتف</span>
+                        <span class="val" id="phone-val">0123456789</span>
+                    </div>
                     <button class="copy-btn" onclick="copyText('phone-val')">
-                        <i class="fas fa-copy"></i> <span>نسخ</span>
+                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
                     </button>
                 </div>
 
-                <div class="copy-row">
-                    <span class="copy-label">سبب المعاملة:</span>
-                    <span class="copy-value" id="reason-val">SRV-102</span>
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-reason">سبب المعاملة</span>
+                        <span class="val" id="reason-val">SRV-102</span>
+                    </div>
                     <button class="copy-btn" onclick="copyText('reason-val')">
-                        <i class="fas fa-copy"></i> <span>نسخ</span>
+                        <i class="fas fa-copy"></i> <span class="btn-copy-txt">نسخ</span>
                     </button>
                 </div>
 
-                <div class="upload-wrapper">
+                <div class="upload-wrapper" style="margin-top: 5px;">
                     <div class="preview-container">
                         <img id="file-preview" class="preview-img">
                         <div id="preview-placeholder" class="preview-placeholder">لا توجد<br>وثيقة</div>
@@ -494,8 +570,7 @@
                     </div>
                 </div>
             </div>
-
-        </div>
+            </div>
     </div>
 
     <script type="module">
@@ -545,7 +620,6 @@
         }
 
         function validateEnglish(input) {
-            // يسمح فقط بالحروف الإنجليزية والمسافات والنقاط (بدون أرقام أو رموز أخرى)
             const regex = /^[a-zA-Z\s.]*$/;
             if (!regex.test(input.value)) {
                 input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
@@ -576,7 +650,7 @@
             navigator.clipboard.writeText(text);
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> <span>تم</span>';
+            btn.innerHTML = '<i class="fas fa-check"></i> <span class="btn-copy-txt">تم</span>';
             setTimeout(() => btn.innerHTML = originalHTML, 1500);
         }
 
@@ -630,7 +704,10 @@
                 if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
                 if(document.getElementById('name-input-label')) document.getElementById('name-input-label').innerText = "User Name";
                 if(document.getElementById('english-name-input')) document.getElementById('english-name-input').placeholder = "Enter your username in CashPlus";
-                document.querySelectorAll('.copy-btn span').forEach(s => s.innerText = "Copy");
+                if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
+                if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
+                if(document.getElementById('lbl-reason')) document.getElementById('lbl-reason').innerText = "Transaction Reason";
+                document.querySelectorAll('.btn-copy-txt').forEach(s => s.innerText = "Copy");
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
                 subHeader.setAttribute('dir', 'rtl');
