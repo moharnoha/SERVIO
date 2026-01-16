@@ -369,38 +369,29 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // وظيفة التحديث الفوري للبيانات لضمان عدم الاختفاء
-        function updateUserDataUI() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const userUrl = urlParams.get('user');
-            const emailUrl = urlParams.get('email');
+        const urlParams = new URLSearchParams(window.location.search);
+        const userUrl = urlParams.get('user');
+        const emailUrl = urlParams.get('email');
 
-            const nameElement = document.getElementById('fb-username');
-            const emailElement = document.getElementById('fb-email');
-
-            const finalUser = userUrl ? decodeURIComponent(userUrl) : 'مستخدم';
-            const finalEmail = emailUrl ? decodeURIComponent(emailUrl) : '';
-
-            if (nameElement) nameElement.innerText = finalUser;
-            if (emailElement) emailElement.innerText = finalEmail;
-            
-            return { finalUser, finalEmail };
-        }
-
-        // تنفيذ فوري عند التحميل
-        updateUserDataUI();
+        const initialUser = decodeURIComponent(userUrl || 'مستخدم');
+        const initialEmail = decodeURIComponent(emailUrl || '');
+        
+        document.getElementById('fb-username').innerText = initialUser;
+        document.getElementById('fb-email').innerText = initialEmail;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const nameElement = document.getElementById('fb-username');
-                const emailElement = document.getElementById('fb-email');
-                if (nameElement) nameElement.innerText = user.displayName || nameElement.innerText;
-                if (emailElement) emailElement.innerText = user.email || emailElement.innerText;
-            } else {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (!urlParams.get('user') && !urlParams.get('email')) {
-                    window.location.href = "../";
+                const newUsername = user.displayName || initialUser;
+                const newEmail = user.email || initialEmail;
+                
+                if (document.getElementById('fb-username').innerText !== newUsername) {
+                    document.getElementById('fb-username').innerText = newUsername;
                 }
+                if (document.getElementById('fb-email').innerText !== newEmail) {
+                    document.getElementById('fb-email').innerText = newEmail;
+                }
+            } else if (!userUrl && !emailUrl) {
+                window.location.href = "../";
             }
         });
     </script>
