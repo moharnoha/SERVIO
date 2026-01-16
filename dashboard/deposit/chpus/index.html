@@ -609,12 +609,8 @@
                 const newUsername = user.displayName || initialUser;
                 const newEmail = user.email || initialEmail;
                 
-                if (document.getElementById('fb-username').innerText !== newUsername) {
-                    document.getElementById('fb-username').innerText = newUsername;
-                }
-                if (document.getElementById('fb-email').innerText !== newEmail) {
-                    document.getElementById('fb-email').innerText = newEmail;
-                }
+                document.getElementById('fb-username').innerText = newUsername;
+                document.getElementById('fb-email').innerText = newEmail;
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
@@ -726,7 +722,7 @@
                 if(payBtn) payBtn.querySelector('span').innerText = "تأكيد الإيداع الآن";
             }
         }
-
+        
         async function submitDeposit() {
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
@@ -761,14 +757,16 @@
                     formData.append('amount', amount);
                     formData.append('imageBase64', base64Image);
 
-                    await fetch(scriptURL, {
+                    fetch(scriptURL, {
                         method: 'POST',
                         mode: 'no-cors',
                         body: formData
+                    }).then(() => {
+                        alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
+                        location.reload();
+                    }).catch(err => {
+                        throw err;
                     });
-
-                    alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
-                    location.reload();
                 };
 
             } catch (error) {
@@ -779,7 +777,7 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        
+
         window.addEventListener('load', () => {
             updateUI();
         });
