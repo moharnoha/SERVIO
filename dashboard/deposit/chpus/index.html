@@ -16,6 +16,8 @@
             --text-main: #000000;
             --accent-green: #386E2C; 
             --sub-header: #396E2D;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --border-light: #ececec;
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
@@ -48,26 +50,6 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        /* أيقونة المستخدم البيضاء الجديدة */
-        .user-header-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            color: var(--header-green);
-            padding: 0 12px;
-            height: 32px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 800;
-            margin-right: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            max-width: 120px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
         /* الهيدر الفرعي الجديد */
         .sub-header-bar {
             background-color: var(--sub-header);
@@ -83,7 +65,7 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
-            gap: 10px;
+            gap: 15px;
             padding: 15px;
         }
 
@@ -91,15 +73,15 @@
         .user-dropdown-container {
             grid-column: span 2;
             background: var(--card-white);
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            box-shadow: var(--card-shadow);
             overflow: hidden;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-light);
         }
 
         .user-dropdown-header {
-            padding: 12px 15px;
+            padding: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -113,44 +95,43 @@
         .user-header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .user-avatar-circle {
-            width: 35px;
-            height: 35px;
-            background: var(--bg-gray);
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background: #f0f4ef;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--header-green);
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .user-header-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
-            color: var(--header-green);
+            color: var(--text-main);
         }
 
         .dropdown-arrow-icon {
             font-size: 14px;
-            color: #999;
-            transition: transform 0.3s ease;
+            color: #ccc;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .user-dropdown-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-out;
-            background: #fafafa;
-            border-top: 0 solid #eee;
+            background: #fcfcfc;
         }
 
         .user-dropdown-container.active .user-dropdown-content {
             max-height: 200px;
-            border-top-width: 1px;
+            border-top: 1px solid #f0f0f0;
         }
 
         .user-dropdown-container.active .dropdown-arrow-icon {
@@ -158,23 +139,26 @@
         }
 
         .info-row-detail {
-            padding: 10px 15px;
+            padding: 12px 15px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
+            border-bottom: 1px solid #f5f5f5;
         }
+        .info-row-detail:last-child { border-bottom: none; }
 
         .info-row-detail .label {
             font-size: 10px;
-            font-weight: 700;
-            color: #888;
+            font-weight: 800;
+            color: #999;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-row-detail .value {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
-            color: #333;
+            color: var(--header-green);
             word-break: break-all;
         }
 
@@ -255,50 +239,52 @@
         .payment-method-custom {
             grid-column: span 2;
             background: var(--card-white);
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
         }
         .payment-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
         }
         .payment-header img {
-            height: 25px;
+            height: 28px;
+            border-radius: 4px;
         }
         .payment-header span {
             font-weight: 800;
-            font-size: 14px;
-            color: var(--header-green);
+            font-size: 15px;
+            color: var(--text-main);
         }
         .copy-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f9f9f9;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            border: 1px dashed #ccc;
-            height: 45px; 
+            background: #f8f9f8;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 1px solid #edf1ed;
+            height: 50px; 
             box-sizing: border-box;
         }
         .copy-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #666;
+            font-size: 11px;
+            font-weight: 800;
+            color: #777;
             flex-shrink: 0;
         }
         .copy-value {
-            font-family: monospace;
-            font-weight: 700;
-            color: #000;
-            font-size: 14px;
+            font-family: 'Cairo', monospace;
+            font-weight: 800;
+            color: var(--header-green);
+            font-size: 15px;
             flex-grow: 1;
             text-align: center;
         }
@@ -306,16 +292,18 @@
             background: var(--header-green);
             color: white;
             border: none;
-            width: 65px; 
-            height: 28px;
-            border-radius: 5px;
-            font-size: 11px;
+            width: 70px; 
+            height: 32px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(46, 88, 34, 0.2);
         }
         .copy-btn:active { transform: scale(0.95); }
 
@@ -323,9 +311,9 @@
         .upload-wrapper {
             display: flex;
             align-items: stretch;
-            gap: 10px;
-            margin-top: 15px;
-            height: 80px; 
+            gap: 12px;
+            margin-top: 20px;
+            height: 90px; 
         }
 
         .upload-section {
@@ -334,29 +322,29 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #fdfdfd;
-            border: 2px dashed #ddd;
-            border-radius: 10px;
+            background: #fff;
+            border: 2px dashed #d1d9d1;
+            border-radius: 12px;
             cursor: pointer;
-            transition: 0.3s;
-            padding: 5px;
+            transition: all 0.3s;
+            padding: 8px;
             overflow: hidden;
         }
 
-        .upload-section:hover { border-color: var(--header-green); }
-        .upload-section i { font-size: 20px; color: var(--header-green); margin-bottom: 4px; }
-        .upload-section p { font-size: 11px; font-weight: 700; color: #555; margin: 0; text-align: center; line-height: 1.2; }
+        .upload-section:hover { border-color: var(--header-green); background: #f0f4ef; }
+        .upload-section i { font-size: 24px; color: var(--header-green); margin-bottom: 6px; }
+        .upload-section p { font-size: 12px; font-weight: 800; color: #444; margin: 0; text-align: center; line-height: 1.2; }
 
         .preview-container {
-            width: 80px;
-            height: 80px;
-            background: #f0f0f0;
-            border-radius: 10px;
+            width: 90px;
+            height: 90px;
+            background: #f5f5f5;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 1px solid #eee;
+            border: 1px solid var(--border-light);
         }
 
         .preview-img { 
@@ -367,13 +355,49 @@
         }
 
         .preview-placeholder {
-            font-size: 10px;
-            color: #999;
+            font-size: 11px;
+            color: #bbb;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
+            line-height: 1.4;
         }
 
         #file-input { display: none; }
+
+        /* تنسيق بطاقة الاسم الإنجليزي الجديدة */
+        .name-input-card {
+            grid-column: span 2;
+            background: var(--card-white);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 5px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-light);
+        }
+        .name-input-card .label-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .name-input-card .label-row i { color: var(--header-green); font-size: 16px; }
+        .name-input-card .label-row span { font-weight: 800; font-size: 14px; color: var(--text-main); }
+        .name-input-card input {
+            width: 100%;
+            height: 50px;
+            background: #f8f9f8;
+            border: 1px solid #edf1ed;
+            border-radius: 10px;
+            padding: 0 15px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--header-green);
+            box-sizing: border-box;
+            outline: none;
+            text-align: left;
+            direction: ltr;
+        }
+        .name-input-card input::placeholder { color: #bbb; font-weight: 400; text-align: right; direction: rtl; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -389,15 +413,12 @@
                     <span>Digital Services Center</span>
                 </div>
             </div>
-            <div style="display: flex; align-items: center;">
-                <div class="user-header-badge" id="header-user-badge">...</div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+            <div class="region-badge">
+                <div id="flag-ui"></div>
+                <div class="region-text">
+                    <span id="reg-name">---</span>
+                    <span style="opacity:0.3">|</span>
+                    <span id="lang-name">--</span>
                 </div>
             </div>
         </div>
@@ -428,6 +449,14 @@
                         <span class="value" id="fb-email"></span>
                     </div>
                 </div>
+            </div>
+
+            <div class="name-input-card">
+                <div class="label-row">
+                    <i class="fas fa-id-card"></i>
+                    <span id="name-input-label">أدخل اسم المستخدم بالإنجليزية</span>
+                </div>
+                <input type="text" id="english-name-input" placeholder="Enter Full Name (English Only)" oninput="validateEnglish(this)">
             </div>
 
             <div class="payment-method-custom">
@@ -486,23 +515,16 @@
         const userUrl = urlParams.get('user');
         const emailUrl = urlParams.get('email');
 
-        const filterEnglish = (text) => {
-            return text.replace(/[^a-zA-Z0-9\s._-]/g, '').trim();
-        };
-
-        const initialUser = decodeURIComponent(userUrl || 'User');
+        const initialUser = decodeURIComponent(userUrl || 'مستخدم');
         const initialEmail = decodeURIComponent(emailUrl || '');
         
-        const filteredInitial = filterEnglish(initialUser) || 'User';
         document.getElementById('fb-username').innerText = initialUser;
         document.getElementById('fb-email').innerText = initialEmail;
-        document.getElementById('header-user-badge').innerText = filteredInitial;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const newUsername = user.displayName || initialUser;
                 const newEmail = user.email || initialEmail;
-                const filteredNew = filterEnglish(newUsername) || 'User';
                 
                 if (document.getElementById('fb-username').innerText !== newUsername) {
                     document.getElementById('fb-username').innerText = newUsername;
@@ -510,7 +532,6 @@
                 if (document.getElementById('fb-email').innerText !== newEmail) {
                     document.getElementById('fb-email').innerText = newEmail;
                 }
-                document.getElementById('header-user-badge').innerText = filteredNew;
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
@@ -521,6 +542,13 @@
         function toggleUserDropdown() {
             const container = document.getElementById('userContainer');
             container.classList.toggle('active');
+        }
+
+        function validateEnglish(input) {
+            const regex = /^[a-zA-Z\s]*$/;
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+            }
         }
 
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
@@ -535,7 +563,7 @@
             { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
             { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
             { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
             { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
@@ -599,6 +627,7 @@
                 if(document.getElementById('user-header-label')) document.getElementById('user-header-label').innerText = "Connected Account Details";
                 if(document.getElementById('label-name')) document.getElementById('label-name').innerText = "Username";
                 if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
+                if(document.getElementById('name-input-label')) document.getElementById('name-input-label').innerText = "Enter your username in English";
                 document.querySelectorAll('.copy-btn span').forEach(s => s.innerText = "Copy");
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
@@ -612,4 +641,4 @@
         });
     </script>
 </body>
-</html>
+</html>```
