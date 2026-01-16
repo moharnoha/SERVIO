@@ -727,10 +727,6 @@
             }
         }
         
-        window.addEventListener('load', () => {
-            updateUI();
-        });
-
         async function submitDeposit() {
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
@@ -776,7 +772,6 @@
                 };
 
             } catch (error) {
-                console.error('Error!', error.message);
                 alert('Error: ' + error.message);
                 payBtn.disabled = false;
                 payBtn.innerHTML = originalHTML;
@@ -784,6 +779,10 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
+
+        window.addEventListener('load', () => {
+            updateUI();
+        });
     </script>
 </body>
 </html>
