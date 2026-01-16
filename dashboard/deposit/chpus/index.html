@@ -313,8 +313,8 @@
         <div class="services-grid" id="dynamic-section">
             
             <div class="user-info-bar">
-                <div class="welcome-msg">مرحباً، <span id="fb-username">...</span></div>
-                <div class="email-msg" id="fb-email">جاري التحقق من البيانات...</div>
+                <div class="welcome-msg">مرحباً، <span id="fb-username"></span></div>
+                <div class="email-msg" id="fb-email"></div>
             </div>
 
             <div class="payment-method-custom">
@@ -369,21 +369,21 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const userUrl = urlParams.get('user');
+        const emailUrl = urlParams.get('email');
+
+        // إظهار البيانات فوراً من الرابط لتعزيز الثقة
+        if (userUrl || emailUrl) {
+            document.getElementById('fb-username').innerText = decodeURIComponent(userUrl || 'مستخدم');
+            document.getElementById('fb-email').innerText = decodeURIComponent(emailUrl || '');
+        }
+
         onAuthStateChanged(auth, (user) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const userUrl = urlParams.get('user');
-            const emailUrl = urlParams.get('email');
-
-            const updateFields = (name, email) => {
-                document.getElementById('fb-username').innerText = name;
-                document.getElementById('fb-email').innerText = email;
-            };
-
             if (user) {
-                updateFields(user.displayName || decodeURIComponent(userUrl || 'مستخدم'), user.email || decodeURIComponent(emailUrl || ''));
-            } else if (userUrl || emailUrl) {
-                updateFields(decodeURIComponent(userUrl || 'مستخدم'), decodeURIComponent(emailUrl || ''));
-            } else {
+                document.getElementById('fb-username').innerText = user.displayName || decodeURIComponent(userUrl || 'مستخدم');
+                document.getElementById('fb-email').innerText = user.email || decodeURIComponent(emailUrl || '');
+            } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
         });
