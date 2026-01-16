@@ -594,23 +594,26 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // متغيرات عالمية لحفظ بيانات المستخدم فور تحميلها
+        window.currentFirebaseUser = { name: '', email: '' };
+
         const urlParams = new URLSearchParams(window.location.search);
         const userUrl = urlParams.get('user');
         const emailUrl = urlParams.get('email');
 
-        const initialUser = decodeURIComponent(userUrl || 'مستخدم');
-        const initialEmail = decodeURIComponent(emailUrl || '');
+        window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
+        window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
         
-        document.getElementById('fb-username').innerText = initialUser;
-        document.getElementById('fb-email').innerText = initialEmail;
+        document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
+        document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const newUsername = user.displayName || initialUser;
-                const newEmail = user.email || initialEmail;
+                window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
+                window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
                 
-                document.getElementById('fb-username').innerText = newUsername;
-                document.getElementById('fb-email').innerText = newEmail;
+                document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
+                document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
@@ -727,11 +730,12 @@
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
             
-            // تحديث قراءة البيانات مباشرة عند الضغط لضمان عدم إرسال قيم فارغة
-            const fbUsername = document.getElementById('fb-username').innerText.trim();
-            const fbEmail = document.getElementById('fb-email').innerText.trim();
-            const fullname = document.getElementById('english-name-input').value.trim();
-            const amount = document.getElementById('amount-input').value.trim();
+            // جلب البيانات من المتغير العالمي لضمان عدم وجودها فارغة
+            const fbUsername = window.currentFirebaseUser.name;
+            const fbEmail = window.currentFirebaseUser.email;
+            
+            const fullname = document.getElementById('english-name-input').value;
+            const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
             
             if (!fullname || !amount || fileInput.files.length === 0) {
@@ -739,9 +743,15 @@
                 return;
             }
 
+            // منع الإرسال إذا كانت بيانات الحساب مفقودة (لم يتم تحميل فايربيز بعد)
+            if (!fbEmail || fbEmail === "") {
+                alert(localStorage.getItem('pref_lang') === 'en' ? 'Account info not ready. Please wait.' : 'بيانات الحساب لم تكتمل بعد، انتظر لحظة.');
+                return;
+            }
+
             const originalHTML = payBtn.innerHTML;
             payBtn.disabled = true;
-            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
             try {
                 const file = fileInput.files[0];
@@ -758,16 +768,14 @@
                     formData.append('amount', amount);
                     formData.append('imageBase64', base64Image);
 
-                    fetch(scriptURL, {
+                    await fetch(scriptURL, {
                         method: 'POST',
                         mode: 'no-cors',
                         body: formData
-                    }).then(() => {
-                        alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
-                        location.reload();
-                    }).catch(err => {
-                        throw err;
                     });
+
+                    alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
+                    location.reload();
                 };
 
             } catch (error) {
