@@ -364,41 +364,6 @@
 
         #file-input { display: none; }
 
-        /* تنسيق بطاقة اسم المستخدم المحسنة */
-        .name-input-card {
-            grid-column: span 2;
-            background: var(--card-white);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 5px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-        }
-        .name-input-card .label-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .name-input-card .label-row i { color: var(--header-green); font-size: 16px; }
-        .name-input-card .label-row span { font-weight: 800; font-size: 14px; color: var(--text-main); }
-        .name-input-card input {
-            width: 100%;
-            height: 50px;
-            background: #f8f9f8;
-            border: 1px solid #edf1ed;
-            border-radius: 10px;
-            padding: 0 15px;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--header-green);
-            box-sizing: border-box;
-            outline: none;
-            text-align: left;
-            direction: ltr;
-        }
-        .name-input-card input::placeholder { color: #bbb; font-weight: 400; text-align: right; direction: rtl; }
-
         /* Unified Payment Card Styles */
         .unified-payment-card {
             grid-column: span 2;
@@ -470,6 +435,13 @@
             font-weight: 800;
             color: var(--header-green);
         }
+        .amount-hint {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            margin-top: -4px;
+            padding: 0 4px;
+        }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -531,10 +503,17 @@
 
                 <div class="input-group">
                     <div class="input-label">
-                        <i class="fas fa-user-tag"></i>
                         <span id="name-input-label">اسم المستخدم</span>
                     </div>
                     <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم الخاص بك في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
+                </div>
+
+                <div class="input-group">
+                    <div class="input-label">
+                        <span id="amount-input-label">المبلغ المراد شحنه</span>
+                    </div>
+                    <input type="number" id="amount-input" placeholder="0.00" style="direction: ltr; text-align: left;">
+                    <div class="amount-hint" id="amount-hint-text">الحد الأدنى 10 دولار - الحد الأقصى 2000 دولار</div>
                 </div>
 
                 <div class="copy-field">
@@ -570,7 +549,8 @@
                     </div>
                 </div>
             </div>
-            </div>
+
+        </div>
     </div>
 
     <script type="module">
@@ -703,6 +683,8 @@
                 if(document.getElementById('label-name')) document.getElementById('label-name').innerText = "Username";
                 if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
                 if(document.getElementById('name-input-label')) document.getElementById('name-input-label').innerText = "User Name";
+                if(document.getElementById('amount-input-label')) document.getElementById('amount-input-label').innerText = "Amount to Charge";
+                if(document.getElementById('amount-hint-text')) document.getElementById('amount-hint-text').innerText = "Min 10 USD - Max 2000 USD";
                 if(document.getElementById('english-name-input')) document.getElementById('english-name-input').placeholder = "Enter your username in CashPlus";
                 if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
                 if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
