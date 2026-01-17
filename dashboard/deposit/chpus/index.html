@@ -148,13 +148,48 @@
 
         .copy-btn-simple { background: none; border: none; color: var(--header-green); cursor: pointer; padding: 5px; }
 
-        .upload-wrapper { display: flex; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; }
-        .preview-container { width: 50px; height: 50px; background: #f0f0f0; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        /* تعديلات خانة ارفاق الوثيقة */
+        .upload-wrapper { 
+            display: flex; 
+            gap: 12px; 
+            align-items: center; 
+            background: #ffffff; 
+            border: 1px solid var(--border-light); 
+            border-radius: 10px; 
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .upload-wrapper:hover { border-color: #000; }
+        
+        .preview-container { 
+            width: 55px; 
+            height: 55px; 
+            background: #f4f6f8; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border: 1px dashed #ced4da;
+        }
         .preview-img { width: 100%; height: 100%; object-fit: cover; }
-        .preview-placeholder { font-size: 8px; color: #bbb; text-align: center; }
-        .upload-section { flex: 1; display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .upload-section i { color: var(--header-green); font-size: 18px; }
-        .upload-section p { font-size: 13px; font-weight: 700; color: #333; margin: 0; }
+        .preview-placeholder { 
+            font-size: 18px; 
+            color: #909399; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .upload-section { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column;
+            gap: 2px;
+        }
+        .upload-section i { color: #606266; font-size: 14px; display: none; } /* تم اخفاء الايقونة القديمة */
+        .upload-text-main { font-size: 14px; font-weight: 700; color: #303133; margin: 0; }
+        .upload-text-sub { font-size: 11px; font-weight: 500; color: #909399; margin: 0; }
 
         .pay-submit-btn {
             width: 100%;
@@ -265,11 +300,13 @@
                 <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
                     <div class="preview-container">
                         <img id="file-preview" class="preview-img" style="display:none;">
-                        <div id="preview-placeholder" class="preview-placeholder">إرفاق<br>صورة</div>
+                        <div id="preview-placeholder" class="preview-placeholder">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
                     </div>
                     <div class="upload-section">
-                        <i class="fas fa-camera"></i>
-                        <p id="upload-text">ارفق وثيقة الدفع</p>
+                        <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
+                        <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
                         <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
                     </div>
                 </div>
@@ -364,7 +401,8 @@
                 preview.src = reader.result;
                 preview.style.display = 'block';
                 placeholder.style.display = 'none';
-                document.getElementById('upload-text').innerText = "تم الإرفاق";
+                document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
             }
             if (file) reader.readAsDataURL(file);
         }
@@ -386,7 +424,7 @@
                 dynamicSection.style.direction = 'ltr';
                 subHeader.innerText = "Complete payment using serviocmm";
                 document.getElementById('upload-text').innerText = "Attach payment proof";
-                document.getElementById('preview-placeholder').innerHTML = "No<br>File";
+                document.getElementById('upload-sub-text').innerText = "Click to select image file";
                 document.getElementById('user-header-label').innerText = "Account Details";
                 document.getElementById('label-name').innerText = "Username";
                 document.getElementById('label-email').innerText = "Email";
