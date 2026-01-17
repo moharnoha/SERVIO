@@ -67,40 +67,46 @@
             box-sizing: border-box;
         }
 
-        /* تحسين بيانات الحساب لتشبه Stripe Checkout */
         .user-dropdown-container {
-            background: #f4f6f8;
-            border-radius: 8px;
+            background: var(--card-white);
+            border-radius: 12px;
+            overflow: hidden;
             border: 1px solid var(--border-light);
             width: 100%;
             box-sizing: border-box;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
         }
 
-        .info-row-detail { 
-            display: flex; 
-            align-items: center; 
+        .user-dropdown-header {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
             justify-content: space-between;
-            width: 100%;
+            cursor: pointer;
         }
-        
-        .info-row-detail .label { 
-            font-size: 13px; 
-            font-weight: 600; 
-            color: #666; 
-            flex-shrink: 0;
+
+        .user-header-left { display: flex; align-items: center; gap: 10px; }
+        .user-avatar-circle { color: var(--header-green); font-size: 16px; }
+        .user-header-title { font-size: 13px; font-weight: 700; color: #666; }
+        .dropdown-arrow-icon { font-size: 12px; color: #ccc; transition: 0.3s; }
+
+        .user-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
         }
-        
+
+        .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
+        .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
+
+        .info-row-detail { padding: 10px 15px; display: flex; flex-direction: column; }
+        .info-row-detail .label { font-size: 10px; font-weight: 700; color: #999; }
         .info-row-detail .value { 
             font-size: 14px; 
-            font-weight: 700; 
-            color: #1a1f36; 
-            text-decoration: none !important;
-            word-break: break-all;
-            text-align: left;
+            font-weight: 600; 
+            color: #000; 
+            text-decoration: none !important; 
+            border: none !important;
+            display: inline-block;
         }
 
         .unified-payment-card {
@@ -252,13 +258,22 @@
         <div class="services-grid" id="dynamic-section">
             
             <div class="user-dropdown-container" id="userContainer">
-                <div class="info-row-detail">
-                    <span class="label" id="label-name">اسم المستخدم</span>
-                    <span class="value" id="fb-username"></span>
+                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
+                    <div class="user-header-left">
+                        <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
+                        <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
                 </div>
-                <div class="info-row-detail">
-                    <span class="label" id="label-email">البريد الإلكتروني</span>
-                    <span class="value" id="fb-email"></span>
+                <div class="user-dropdown-content">
+                    <div class="info-row-detail">
+                        <span class="label" id="label-name">اسم المستخدم</span>
+                        <span class="value" id="fb-username"></span>
+                    </div>
+                    <div class="info-row-detail">
+                        <span class="label" id="label-email">البريد الإلكتروني</span>
+                        <span class="value" id="fb-email"></span>
+                    </div>
                 </div>
             </div>
 
@@ -359,6 +374,10 @@
     </script>
 
     <script>
+        function toggleUserDropdown() {
+            document.getElementById('userContainer').classList.toggle('active');
+        }
+
         function validateEnglish(input) {
             input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
         }
@@ -423,6 +442,7 @@
                 subHeader.innerText = "Complete payment using serviocmm";
                 document.getElementById('upload-text').innerText = "Attach payment proof";
                 document.getElementById('upload-sub-text').innerText = "Click to select image file";
+                document.getElementById('user-header-label').innerText = "Account Details";
                 document.getElementById('label-name').innerText = "Username";
                 document.getElementById('label-email').innerText = "Email";
                 document.getElementById('name-input-label').innerText = "Full Name";
