@@ -98,9 +98,18 @@
         .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
         .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
 
-        .info-row-detail { padding: 10px 15px; display: flex; flex-direction: column; }
-        .info-row-detail .label { font-size: 10px; font-weight: 700; color: #999; }
-        .info-row-detail .value { font-size: 14px; font-weight: 600; color: #000; }
+        .info-row-detail { padding: 10px 15px; display: flex; flex-direction: column; border-bottom: 1px solid #f9f9f9; }
+        .info-row-detail:last-child { border-bottom: none; }
+        .info-row-detail .label { font-size: 10px; font-weight: 700; color: #999; margin-bottom: 2px; }
+        /* إزالة مظهر الرابط من القيمة */
+        .info-row-detail .value { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #000; 
+            text-decoration: none !important;
+            pointer-events: none;
+            display: block;
+        }
 
         .unified-payment-card {
             background: transparent;
@@ -261,11 +270,11 @@
                 <div class="user-dropdown-content">
                     <div class="info-row-detail">
                         <span class="label" id="label-name">اسم المستخدم</span>
-                        <span class="value" id="fb-username"></span>
+                        <span class="value" id="fb-username">---</span>
                     </div>
                     <div class="info-row-detail">
                         <span class="label" id="label-email">البريد الإلكتروني</span>
-                        <span class="value" id="fb-email"></span>
+                        <span class="value" id="fb-email">---</span>
                     </div>
                 </div>
             </div>
