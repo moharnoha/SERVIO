@@ -11,21 +11,20 @@
     <style>
         :root { 
             --header-green: #2E5822; 
-            --bg-gray: #F2F2F2; 
+            --bg-gray: #ffffff; 
             --card-white: #ffffff;
             --text-main: #000000;
-            --accent-green: #386E2C; 
-            --sub-header: #396E2D;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --border-light: #ececec;
+            --accent-green: #000000; 
+            --sub-header: #ffffff;
+            --card-shadow: none;
+            --border-light: #e6e6e6;
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* الهيدر ثابت دائماً باتجاه اليمين */
         .top-header { 
-            height: 70px; background-color: var(--header-green); 
+            height: 70px; background-color: #000; 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
@@ -50,47 +49,38 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        /* الهيدر الفرعي الجديد */
         .sub-header-bar {
             background-color: var(--sub-header);
-            color: #ffffff;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: 700;
+            color: #000;
+            padding: 20px 15px 5px 15px;
+            font-size: 18px;
+            font-weight: 800;
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* الجزء الرمادي (البطاقات والأقسام) هو الذي يتغير اتجاهه */
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             padding: 15px;
         }
 
-        /* تنسيق معلومات المستخدم المنسدلة */
         .user-dropdown-container {
-            grid-column: span 2;
-            background: var(--card-white);
-            border-radius: 16px;
+            background: #f8f9f8;
+            border-radius: 10px;
             margin-bottom: 5px;
-            box-shadow: var(--card-shadow);
             overflow: hidden;
             border: 1px solid var(--border-light);
         }
 
         .user-dropdown-header {
-            padding: 15px;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            background: #fff;
-            transition: background 0.3s;
         }
-
-        .user-dropdown-header:active { background: #f9f9f9; }
 
         .user-header-left {
             display: flex;
@@ -99,39 +89,38 @@
         }
 
         .user-avatar-circle {
-            width: 40px;
-            height: 40px;
-            background: #f0f4ef;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--header-green);
-            font-size: 18px;
+            color: #000;
+            font-size: 14px;
+            border: 1px solid #eee;
         }
 
         .user-header-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
         }
 
         .dropdown-arrow-icon {
-            font-size: 14px;
-            color: #ccc;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 12px;
+            color: #999;
+            transition: transform 0.3s;
         }
 
         .user-dropdown-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-out;
-            background: #fcfcfc;
         }
 
         .user-dropdown-container.active .user-dropdown-content {
             max-height: 200px;
-            border-top: 1px solid #f0f0f0;
         }
 
         .user-dropdown-container.active .dropdown-arrow-icon {
@@ -139,183 +128,93 @@
         }
 
         .info-row-detail {
-            padding: 12px 15px;
+            padding: 10px 15px;
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            border-bottom: 1px solid #f5f5f5;
-            text-decoration: none !important;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
         }
-        .info-row-detail:last-child { border-bottom: none; }
 
         .info-row-detail .label {
-            font-size: 10px;
-            font-weight: 800;
+            font-size: 12px;
+            font-weight: 700;
             color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .info-row-detail .value {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
-            color: #000000;
-            word-break: break-all;
-            text-decoration: none !important;
-            border: none !important;
-            display: inline-block;
+            color: #000;
         }
 
-        .service-card {
-            background-color: var(--card-white);
-            border-radius: 12px; 
-            height: 85px; 
-            text-decoration: none;
-            position: relative; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            transition: 0.2s;
-            overflow: hidden;
-            display: block;
-        }
-
-        .service-card:active { transform: scale(0.97); }
-
-        /* تنسيق العناصر داخل البطاقة ليدعم الاتجاهين */
-        .card-icon {
-            position: absolute;
-            top: 10px;
-            width: 42px;
-            height: 42px;
+        .unified-payment-card {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border-radius: 8px;
+            flex-direction: column;
+            gap: 20px;
         }
         
-        /* الحالة الافتراضية للبطاقة (العربية/يمين) */
-        [dir="rtl"] .card-icon { right: 10px; left: auto; }
-        [dir="rtl"] .action-arrow { left: 12px; right: auto; transform: none; }
-        [dir="rtl"] .service-title { text-align: right; right: 12px; left: 12px; }
-        [dir="rtl"] .section-header { text-align: right; }
-        [dir="rtl"].sub-header-bar { text-align: right; direction: rtl; }
-
-        /* حالة الانجليزية (يسار) للجزء الرمادي فقط */
-        [dir="ltr"] .card-icon { left: 10px; right: auto; }
-        [dir="ltr"] .action-arrow { right: 12px; left: auto; transform: scaleX(-1); }
-        [dir="ltr"] .service-title { text-align: left; left: 12px; right: 12px; }
-        [dir="ltr"] .section-header { text-align: left; }
-        [dir="ltr"].sub-header-bar { text-align: left; direction: ltr; }
-
-        .card-icon img { width: 85%; height: 85%; object-fit: contain; }
-
-        .action-arrow {
-            position: absolute;
-            top: 12px;
-            font-size: 11px;
-            color: var(--accent-green);
-            opacity: 0.7;
-        }
-
-        .service-title {
-            position: absolute;
-            bottom: 10px;
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--text-main);
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .section-header {
-            grid-column: span 2;
-            font-size: 16px;
-            font-weight: 800;
-            color: #333;
-            margin: 15px 5px 5px 5px;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        /* تنسيق كتل الدفع المخصصة */
-        .payment-method-custom {
-            grid-column: span 2;
-            background: var(--card-white);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 10px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-        }
-        .payment-header {
+        .unified-payment-card .input-group {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f0f0f0;
+            flex-direction: column;
+            gap: 8px;
         }
-        .payment-header img {
-            height: 28px;
-            border-radius: 4px;
+        
+        .unified-payment-card .input-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #30313d;
         }
-        .payment-header span {
-            font-weight: 800;
+        
+        .unified-payment-card input {
+            width: 100%;
+            height: 48px;
+            background: #ffffff;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            padding: 0 12px;
             font-size: 15px;
-            color: var(--text-main);
+            font-weight: 500;
+            color: #000000;
+            box-sizing: border-box;
+            outline: none;
         }
-        .copy-row {
+        
+        .unified-payment-card input:focus {
+            border-color: #000;
+        }
+
+        .unified-payment-card .copy-field {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f8f9f8;
-            padding: 12px 14px;
-            border-radius: 10px;
-            margin-top: 10px;
-            border: 1px solid #edf1ed;
-            height: 50px; 
-            box-sizing: border-box;
+            background: #ffffff;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            height: 48px;
+            padding: 0 12px;
         }
-        .copy-label {
-            font-size: 11px;
-            font-weight: 800;
-            color: #777;
-            flex-shrink: 0;
-        }
-        .copy-value {
-            font-family: 'Cairo', monospace;
-            font-weight: 800;
-            color: #000000;
-            font-size: 15px;
-            flex-grow: 1;
-            text-align: center;
-            text-decoration: none !important;
-            border: none !important;
-        }
-        .copy-btn-simple {
-            background: transparent;
-            color: var(--header-green);
-            border: none;
-            padding: 5px;
-            font-size: 16px;
-            cursor: pointer;
+        
+        .unified-payment-card .copy-info {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: opacity 0.2s;
+            flex-direction: column;
         }
-        .copy-btn-simple:active { opacity: 0.5; }
+        
+        .unified-payment-card .copy-info .lbl {
+            font-size: 10px;
+            font-weight: 700;
+            color: #a3acb9;
+        }
+        
+        .unified-payment-card .copy-info .val {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000;
+        }
 
-        /* تنسيق منطقة رفع الصورة المطورة */
         .upload-wrapper {
             display: flex;
             align-items: stretch;
             gap: 12px;
-            margin-top: 20px;
-            height: 90px; 
+            height: 80px; 
         }
 
         .upload-section {
@@ -324,147 +223,55 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #fff;
-            border: 2px dashed #d1d9d1;
-            border-radius: 12px;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
-            padding: 8px;
-            overflow: hidden;
         }
 
-        .upload-section:hover { border-color: var(--header-green); background: #f0f4ef; }
-        .upload-section i { font-size: 24px; color: var(--header-green); margin-bottom: 6px; }
-        .upload-section p { font-size: 12px; font-weight: 800; color: #444; margin: 0; text-align: center; line-height: 1.2; }
+        .upload-section i { font-size: 20px; color: #000; margin-bottom: 4px; }
+        .upload-section p { font-size: 12px; font-weight: 700; color: #000; margin: 0; }
 
         .preview-container {
-            width: 90px;
-            height: 90px;
-            background: #f5f5f5;
-            border-radius: 12px;
+            width: 80px;
+            height: 80px;
+            background: #f8f9f8;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 1px solid var(--border-light);
+            border: 1px solid #e6e6e6;
         }
 
-        .preview-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: none; 
-        }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .preview-placeholder { font-size: 10px; color: #ccc; text-align: center; font-weight: 700; }
 
-        .preview-placeholder {
-            font-size: 11px;
-            color: #bbb;
-            text-align: center;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-
-        #file-input { display: none; }
-
-        /* Unified Payment Card Styles */
-        .unified-payment-card {
-            grid-column: span 2;
-            background: var(--card-white);
-            border-radius: 20px;
-            padding: 18px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .unified-payment-card .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .unified-payment-card .input-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-        .unified-payment-card .field-container {
-            position: relative;
-            width: 100%;
-        }
-        .unified-payment-card input {
-            width: 100%;
-            height: 50px;
-            background: #f8f9f8;
-            border: 1px solid #edf1ed;
-            border-radius: 12px;
-            padding: 0 15px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #000000;
-            box-sizing: border-box;
-            outline: none;
-        }
-        .unified-payment-card .copy-field {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8f9f8;
-            border: 1px solid #edf1ed;
-            border-radius: 12px;
-            height: 50px;
-            padding: 0 12px;
-        }
-        .unified-payment-card .copy-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .unified-payment-card .copy-info .lbl {
-            font-size: 9px;
-            font-weight: 800;
-            color: #999;
-            text-transform: uppercase;
-        }
-        .unified-payment-card .copy-info .val {
-            font-size: 14px;
-            font-weight: 800;
-            color: #000000;
-            text-decoration: none !important;
-            border: none !important;
-        }
-        .amount-hint {
-            font-size: 11px;
-            font-weight: 700;
-            color: #666;
-            margin-top: -4px;
-            padding: 0 4px;
-        }
-
-        /* زر الدفع */
         .pay-submit-btn {
-            grid-column: span 2;
-            height: 55px;
-            background-color: var(--header-green);
+            height: 50px;
+            background-color: #000000;
             color: #ffffff;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
-            box-shadow: 0 4px 10px rgba(46, 88, 34, 0.25);
-            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            letter-spacing: 0.5px;
+            gap: 10px;
         }
-        .pay-submit-btn:active { transform: scale(0.98); background-color: var(--accent-green); }
-        .pay-submit-btn i { font-size: 18px; }
+        .pay-submit-btn:active { opacity: 0.8; }
+
+        #file-input { display: none; }
+        .payment-header { display: none; }
+        .amount-hint { font-size: 11px; color: #a3acb9; margin-top: 4px; font-weight: 600;}
+
+        /* Alignment Fixes */
+        [dir="ltr"] .unified-payment-card input { text-align: left; }
+        [dir="rtl"] .unified-payment-card input { text-align: right; }
+        [dir="ltr"] .sub-header-bar { text-align: left; }
+        [dir="rtl"] .sub-header-bar { text-align: right; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -500,42 +307,29 @@
                 <div class="user-dropdown-header" onclick="toggleUserDropdown()">
                     <div class="user-header-left">
                         <div class="user-avatar-circle">
-                            <i class="fas fa-user-shield"></i>
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="user-header-title" id="user-header-label">بيانات الحساب المتصل</div>
+                        <div class="user-header-title" id="fb-email">البريد الإلكتروني</div>
                     </div>
                     <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
                 </div>
                 <div class="user-dropdown-content">
                     <div class="info-row-detail">
-                        <span class="label" id="label-name">اسم المستخدم</span>
+                        <span class="label" id="label-name">اسم الحساب</span>
                         <span class="value" id="fb-username"></span>
-                    </div>
-                    <div class="info-row-detail">
-                        <span class="label" id="label-email">البريد الإلكتروني</span>
-                        <span class="value" id="fb-email"></span>
                     </div>
                 </div>
             </div>
 
             <div class="unified-payment-card">
-                <div class="payment-header">
-                    <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment Methods">
-                    <span id="card-main-title">الدفع عبر البطاقة البنكية</span>
+                <div class="input-group">
+                    <div class="input-label" id="name-input-label">اسم المستخدم</div>
+                    <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم" oninput="validateEnglish(this)">
                 </div>
 
                 <div class="input-group">
-                    <div class="input-label">
-                        <span id="name-input-label">اسم المستخدم</span>
-                    </div>
-                    <input type="text" id="english-name-input" placeholder="ادخل اسم المستخدم الخاص بك في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
-                </div>
-
-                <div class="input-group">
-                    <div class="input-label">
-                        <span id="amount-input-label">المبلغ المراد شحنه</span>
-                    </div>
-                    <input type="number" id="amount-input" placeholder="0.00" style="direction: ltr; text-align: left;">
+                    <div class="input-label" id="amount-input-label">المبلغ</div>
+                    <input type="number" id="amount-input" placeholder="0.00">
                     <div class="amount-hint" id="amount-hint-text">الحد الأدنى 10 دولار - الحد الأقصى 2000 دولار</div>
                 </div>
 
@@ -544,7 +338,7 @@
                         <span class="lbl" id="lbl-phone">رقم الهاتف</span>
                         <span id="phone-val" class="val">0123456789</span>
                     </div>
-                    <button class="copy-btn-simple" onclick="copyText('phone-val')">
+                    <button style="background:none; border:none; color:#000; cursor:pointer;" onclick="copyText('phone-val')">
                         <i class="fas fa-copy"></i>
                     </button>
                 </div>
@@ -554,27 +348,25 @@
                         <span class="lbl" id="lbl-reason">سبب المعاملة</span>
                         <span id="reason-val" class="val">SRV-102</span>
                     </div>
-                    <button class="copy-btn-simple" onclick="copyText('reason-val')">
+                    <button style="background:none; border:none; color:#000; cursor:pointer;" onclick="copyText('reason-val')">
                         <i class="fas fa-copy"></i>
                     </button>
                 </div>
 
-                <div class="upload-wrapper" style="margin-top: 5px;">
+                <div class="upload-wrapper">
+                    <div class="upload-section" onclick="document.getElementById('file-input').click()">
+                        <i class="fas fa-plus"></i>
+                        <p id="upload-text">ارفق الوثيقة</p>
+                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()">
+                    </div>
                     <div class="preview-container">
                         <img id="file-preview" class="preview-img">
-                        <div id="preview-placeholder" class="preview-placeholder">لا توجد<br>وثيقة</div>
-                    </div>
-
-                    <div class="upload-section" onclick="document.getElementById('file-input').click()">
-                        <i class="fas fa-camera"></i>
-                        <p id="upload-text">ارفق وثيقة الدفع</p>
-                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()">
+                        <div id="preview-placeholder" class="preview-placeholder">لا توجد وثيقة</div>
                     </div>
                 </div>
             </div>
 
             <button class="pay-submit-btn" id="pay-btn-text">
-                <i class="fas fa-wallet"></i>
                 <span>تأكيد الإيداع الآن</span>
             </button>
 
@@ -593,25 +385,18 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-
-        // متغيرات عالمية لحفظ بيانات المستخدم فور تحميلها
         window.currentFirebaseUser = { name: '', email: '' };
-
         const urlParams = new URLSearchParams(window.location.search);
         const userUrl = urlParams.get('user');
         const emailUrl = urlParams.get('email');
-
         window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
         window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
-        
         document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
         document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
                 window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
-                
                 document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
                 document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
             } else if (!userUrl && !emailUrl) {
@@ -622,20 +407,13 @@
 
     <script>
         function toggleUserDropdown() {
-            const container = document.getElementById('userContainer');
-            container.classList.toggle('active');
+            document.getElementById('userContainer').classList.toggle('active');
         }
-
         function validateEnglish(input) {
-            const regex = /^[a-zA-Z\s.]*$/;
-            if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
-            }
+            input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
         }
-
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -651,145 +429,85 @@
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
-
         function copyText(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check" style="color: #2E5822;"></i>';
+            btn.innerHTML = '<i class="fas fa-check"></i>';
             setTimeout(() => btn.innerHTML = originalHTML, 1500);
         }
-
         function previewFile() {
             const preview = document.getElementById('file-preview');
             const placeholder = document.getElementById('preview-placeholder');
             const file = document.getElementById('file-input').files[0];
             const text = document.getElementById('upload-text');
             const reader = new FileReader();
-
             reader.onloadend = function () {
                 preview.src = reader.result;
                 preview.style.display = 'block';
                 placeholder.style.display = 'none';
-                text.innerText = "تغيير الوثيقة";
+                text.innerText = "تغيير";
             }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = "";
-                preview.style.display = 'none';
-                placeholder.style.display = 'block';
-            }
+            if (file) reader.readAsDataURL(file);
         }
-
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx] || regionConfigs[0];
-            
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = lang.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[lang];
-            
-            const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
-            }
-
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
             const payBtn = document.getElementById('pay-btn-text');
-            
             if (lang === 'en') {
                 dynamicSection.setAttribute('dir', 'ltr');
                 subHeader.setAttribute('dir', 'ltr');
-                subHeader.innerText = "Complete payment using serviocmm";
-                if(document.getElementById('upload-text')) document.getElementById('upload-text').innerText = "Attach payment proof";
-                if(document.getElementById('preview-placeholder')) document.getElementById('preview-placeholder').innerHTML = "No<br>Document";
-                if(document.getElementById('user-header-label')) document.getElementById('user-header-label').innerText = "Connected Account Details";
-                if(document.getElementById('label-name')) document.getElementById('label-name').innerText = "Username";
-                if(document.getElementById('label-email')) document.getElementById('label-email').innerText = "Email Address";
-                if(document.getElementById('name-input-label')) document.getElementById('name-input-label').innerText = "User Name";
-                if(document.getElementById('amount-input-label')) document.getElementById('amount-input-label').innerText = "Amount to Charge";
-                if(document.getElementById('amount-hint-text')) document.getElementById('amount-hint-text').innerText = "Min 10 USD - Max 2000 USD";
-                if(document.getElementById('english-name-input')) document.getElementById('english-name-input').placeholder = "Enter your username in CashPlus";
-                if(document.getElementById('card-main-title')) document.getElementById('card-main-title').innerText = "Payment via Bank Card";
-                if(document.getElementById('lbl-phone')) document.getElementById('lbl-phone').innerText = "Phone Number";
-                if(document.getElementById('lbl-reason')) document.getElementById('lbl-reason').innerText = "Transaction Reason";
-                if(payBtn) payBtn.querySelector('span').innerText = "Confirm Deposit Now";
+                subHeader.innerText = "Complete payment";
+                document.getElementById('upload-text').innerText = "Add file";
+                document.getElementById('preview-placeholder').innerText = "No file";
+                document.getElementById('label-name').innerText = "Account Name";
+                document.getElementById('name-input-label').innerText = "User Name";
+                document.getElementById('amount-input-label').innerText = "Amount";
+                document.getElementById('amount-hint-text').innerText = "Min 10 USD - Max 2000 USD";
+                document.getElementById('english-name-input').placeholder = "Enter CashPlus user";
+                document.getElementById('lbl-phone').innerText = "Phone";
+                document.getElementById('lbl-reason').innerText = "Reason";
+                payBtn.querySelector('span').innerText = "Confirm Now";
             } else {
                 dynamicSection.setAttribute('dir', 'rtl');
                 subHeader.setAttribute('dir', 'rtl');
-                subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
-                if(payBtn) payBtn.querySelector('span').innerText = "تأكيد الإيداع الآن";
             }
         }
-        
         async function submitDeposit() {
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
-            
-            // جلب البيانات من المتغير العالمي لضمان عدم وجودها فارغة
-            const fbUsername = window.currentFirebaseUser.name;
-            const fbEmail = window.currentFirebaseUser.email;
-            
             const fullname = document.getElementById('english-name-input').value;
             const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
-            
             if (!fullname || !amount || fileInput.files.length === 0) {
-                alert(localStorage.getItem('pref_lang') === 'en' ? 'Please fill all fields and attach proof' : 'يرجى ملء جميع الحقول وإرفاق صورة الإثبات');
+                alert(localStorage.getItem('pref_lang') === 'en' ? 'Please fill all fields' : 'يرجى ملء جميع الحقول');
                 return;
             }
-
-            // منع الإرسال إذا كانت بيانات الحساب مفقودة (لم يتم تحميل فايربيز بعد)
-            if (!fbEmail || fbEmail === "") {
-                alert(localStorage.getItem('pref_lang') === 'en' ? 'Account info not ready. Please wait.' : 'بيانات الحساب لم تكتمل بعد، انتظر لحظة.');
-                return;
-            }
-
-            const originalHTML = payBtn.innerHTML;
             payBtn.disabled = true;
-            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-            try {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                
-                reader.readAsDataURL(file);
-                reader.onload = async function () {
-                    const base64Image = reader.result;
-
-                    const formData = new URLSearchParams();
-                    formData.append('fbUsername', fbUsername);
-                    formData.append('fbEmail', fbEmail);
-                    formData.append('fullname', fullname);
-                    formData.append('amount', amount);
-                    formData.append('imageBase64', base64Image);
-
-                    await fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: formData
-                    });
-
-                    alert(localStorage.getItem('pref_lang') === 'en' ? 'Deposit Request Sent Successfully!' : 'تم إرسال طلب الإيداع بنجاح!');
-                    location.reload();
-                };
-
-            } catch (error) {
-                alert('Error: ' + error.message);
-                payBtn.disabled = false;
-                payBtn.innerHTML = originalHTML;
-            }
+            payBtn.innerHTML = 'Sending...';
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async function () {
+                const formData = new URLSearchParams();
+                formData.append('fbUsername', window.currentFirebaseUser.name);
+                formData.append('fbEmail', window.currentFirebaseUser.email);
+                formData.append('fullname', fullname);
+                formData.append('amount', amount);
+                formData.append('imageBase64', reader.result);
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
+                alert(localStorage.getItem('pref_lang') === 'en' ? 'Sent!' : 'تم الإرسال!');
+                location.reload();
+            };
         }
-
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-
-        window.addEventListener('load', () => {
-            updateUI();
-        });
+        window.addEventListener('load', updateUI);
     </script>
 </body>
 </html>
