@@ -63,6 +63,8 @@
             flex-direction: column;
             gap: 20px;
             padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .user-dropdown-container {
@@ -70,6 +72,8 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-light);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .user-dropdown-header {
@@ -103,6 +107,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .payment-header {
@@ -114,23 +120,23 @@
         .payment-header img { height: 24px; }
         .payment-header span { font-weight: 800; font-size: 18px; color: var(--text-main); }
 
-        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; }
         .input-label { font-size: 14px; font-weight: 700; color: #30313d; }
         
         .field-container input {
             width: 100%;
-            height: 48px;
+            height: 52px;
             background: #fff;
             border: 1px solid var(--border-light);
             border-radius: 8px;
-            padding: 0 12px;
+            padding: 0 15px;
             font-size: 16px;
             font-weight: 500;
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .field-container input:focus { border-color: #000; }
+        .field-container input:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
 
         .copy-field {
             display: flex;
@@ -139,16 +145,17 @@
             background: #fff;
             border: 1px solid var(--border-light);
             border-radius: 8px;
-            height: 50px;
-            padding: 0 12px;
+            height: 55px;
+            padding: 0 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .copy-info { display: flex; flex-direction: column; }
         .copy-info .lbl { font-size: 10px; font-weight: 700; color: #999; }
-        .copy-info .val { font-size: 14px; font-weight: 700; }
+        .copy-info .val { font-size: 15px; font-weight: 700; }
 
         .copy-btn-simple { background: none; border: none; color: var(--header-green); cursor: pointer; padding: 5px; }
 
-        /* تعديلات خانة ارفاق الوثيقة */
         .upload-wrapper { 
             display: flex; 
             gap: 12px; 
@@ -156,9 +163,11 @@
             background: #ffffff; 
             border: 1px solid var(--border-light); 
             border-radius: 10px; 
-            padding: 12px;
+            padding: 15px;
             cursor: pointer;
             transition: 0.2s;
+            width: 100%;
+            box-sizing: border-box;
         }
         .upload-wrapper:hover { border-color: #000; }
         
@@ -172,6 +181,7 @@
             align-items: center; 
             justify-content: center;
             border: 1px dashed #ced4da;
+            flex-shrink: 0;
         }
         .preview-img { width: 100%; height: 100%; object-fit: cover; }
         .preview-placeholder { 
@@ -187,13 +197,12 @@
             flex-direction: column;
             gap: 2px;
         }
-        .upload-section i { color: #606266; font-size: 14px; display: none; } /* تم اخفاء الايقونة القديمة */
         .upload-text-main { font-size: 14px; font-weight: 700; color: #303133; margin: 0; }
         .upload-text-sub { font-size: 11px; font-weight: 500; color: #909399; margin: 0; }
 
         .pay-submit-btn {
             width: 100%;
-            height: 50px;
+            height: 55px;
             background-color: #000;
             color: #fff;
             border: none;
@@ -206,9 +215,10 @@
             justify-content: center;
             gap: 10px;
             transition: 0.2s;
+            margin-bottom: 20px;
         }
         .pay-submit-btn:active { opacity: 0.8; }
-        .amount-hint { font-size: 11px; color: #888; margin-top: -5px; }
+        .amount-hint { font-size: 11px; color: #888; margin-top: -5px; padding: 0 2px; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -435,7 +445,7 @@
                 document.getElementById('card-main-title').innerText = "Payment Method";
                 document.getElementById('lbl-phone').innerText = "Phone";
                 document.getElementById('lbl-reason').innerText = "Code";
-                payBtn.innerText = "Confirm Deposit";
+                payBtn.querySelector('span').innerText = "Confirm Deposit";
             } else {
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
