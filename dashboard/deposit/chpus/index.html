@@ -100,13 +100,15 @@
 
         .info-row-detail { padding: 10px 15px; display: flex; flex-direction: column; }
         .info-row-detail .label { font-size: 10px; font-weight: 700; color: #999; }
-        .info-row-detail .value { 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #000; 
-            text-decoration: none !important; 
-            border: none !important;
-            display: inline-block;
+        .info-row-detail .value { font-size: 14px; font-weight: 600; color: #000; }
+
+        /* Loader inside user details */
+        #user-details-loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--header-green);
+            font-size: 20px;
         }
 
         .unified-payment-card {
@@ -266,13 +268,16 @@
                     <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
                 </div>
                 <div class="user-dropdown-content">
-                    <div class="info-row-detail">
-                        <span class="label" id="label-name">اسم المستخدم</span>
-                        <span class="value" id="fb-username"></span>
-                    </div>
-                    <div class="info-row-detail">
-                        <span class="label" id="label-email">البريد الإلكتروني</span>
-                        <span class="value" id="fb-email"></span>
+                    <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
+                    <div id="user-details-body">
+                        <div class="info-row-detail">
+                            <span class="label" id="label-name">اسم المستخدم</span>
+                            <span class="value" id="fb-username"></span>
+                        </div>
+                        <div class="info-row-detail">
+                            <span class="label" id="label-email">البريد الإلكتروني</span>
+                            <span class="value" id="fb-email"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -375,7 +380,25 @@
 
     <script>
         function toggleUserDropdown() {
-            document.getElementById('userContainer').classList.toggle('active');
+            const container = document.getElementById('userContainer');
+            const loader = document.getElementById('user-details-loader');
+            const body = document.getElementById('user-details-body');
+
+            if (!container.classList.contains('active')) {
+                // Showing: Start with loader
+                body.style.display = 'none';
+                loader.style.display = 'block';
+                container.classList.add('active');
+
+                // Simulate brief data fetch/load
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }, 600); 
+            } else {
+                // Hiding
+                container.classList.remove('active');
+            }
         }
 
         function validateEnglish(input) {
