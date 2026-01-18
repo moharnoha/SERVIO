@@ -57,6 +57,7 @@
             font-weight: 700;
             width: 100%;
             box-sizing: border-box;
+            text-align: right;
         }
 
         .services-grid {
@@ -526,10 +527,14 @@
             const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
             const payBtnLabel = document.getElementById('btn-label');
+            const overlay = document.getElementById('success-overlay');
             
             if (lang === 'en') {
                 dynamicSection.style.direction = 'ltr';
                 subHeader.innerText = "Complete payment using serviocmm";
+                subHeader.style.textAlignment = 'left';
+                subHeader.style.textAlign = 'left';
+                overlay.style.textAlign = 'left';
                 document.getElementById('upload-text').innerText = "Attach payment proof";
                 document.getElementById('upload-sub-text').innerText = "Click to select image file";
                 document.getElementById('user-header-label').innerText = "Account Details";
@@ -548,6 +553,9 @@
             } else {
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
+                subHeader.style.textAlignment = 'right';
+                subHeader.style.textAlign = 'right';
+                overlay.style.textAlign = 'center';
                 document.getElementById('bank-title').innerText = "تم إرسال الطلب";
                 document.getElementById('bank-sub').innerText = "قيد المعالجة...";
             }
