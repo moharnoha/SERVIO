@@ -71,6 +71,21 @@
             justify-content: center;
             text-align: center;
         }
+        .close-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f1f5f9;
+        }
         .status-icon-box {
             width: 100px;
             height: 100px;
@@ -122,6 +137,7 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <div id="status-overlay">
+        <div class="close-status" onclick="closeStatusOverlay()"><i class="fas fa-times"></i></div>
         <div class="status-icon-box" id="status-icon-bg">
             <i class="fas" id="status-icon"></i>
         </div>
@@ -357,6 +373,11 @@
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             location.href = `../Category/`;
         }
+
+        function closeStatusOverlay() {
+            document.getElementById('status-overlay').style.display = 'none';
+            window.location.href = "../../dashboard/";
+        }
         
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', function(event) { updateUI(); });
@@ -386,10 +407,6 @@
             }
             
             overlay.style.display = 'flex';
-            
-            setTimeout(() => {
-                window.location.href = "../../dashboard/";
-            }, 2500);
         }
     </script>
 
@@ -505,8 +522,12 @@
                 }
             } catch (e) {
                 showFinalStatus(t.error_msg, t.error_sub, false);
+            } finally {
+                this.classList.remove('loading');
+                this.disabled = false;
             }
         };
     </script>
 </body>
 </html>
+
