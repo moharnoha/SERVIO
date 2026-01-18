@@ -71,20 +71,22 @@
             justify-content: center;
             text-align: center;
         }
-        .close-status {
+        .close-status-btn {
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 24px;
-            color: #64748b;
-            cursor: pointer;
             width: 40px;
             height: 40px;
-            display: flex;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 50%;
+            color: #64748b;
+            font-size: 20px;
+            display: none;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: #f1f5f9;
+            cursor: pointer;
+            z-index: 10000;
         }
         .status-icon-box {
             width: 100px;
@@ -137,7 +139,7 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <div id="status-overlay">
-        <div class="close-status" onclick="closeStatusOverlay()"><i class="fas fa-times"></i></div>
+        <button class="close-status-btn" id="closeStatusBtn" onclick="closeOverlay()"><i class="fas fa-times"></i></button>
         <div class="status-icon-box" id="status-icon-bg">
             <i class="fas" id="status-icon"></i>
         </div>
@@ -374,9 +376,10 @@
             location.href = `../Category/`;
         }
 
-        function closeStatusOverlay() {
+        function closeOverlay() {
             document.getElementById('status-overlay').style.display = 'none';
-            window.location.href = "../../dashboard/";
+            document.getElementById('payBtn').classList.remove('loading');
+            document.getElementById('payBtn').disabled = false;
         }
         
         window.addEventListener('load', updateUI);
@@ -394,6 +397,7 @@
             const subEl = document.getElementById('status-sub');
             const iconBg = document.getElementById('status-icon-bg');
             const icon = document.getElementById('status-icon');
+            const closeBtn = document.getElementById('closeStatusBtn');
             
             titleEl.innerText = message;
             subEl.innerText = subMessage;
@@ -401,12 +405,17 @@
             if (isSuccess) {
                 iconBg.className = 'status-icon-box success';
                 icon.className = 'fas fa-check';
+                closeBtn.style.display = 'none';
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    window.location.href = "../../dashboard/";
+                }, 2500);
             } else {
                 iconBg.className = 'status-icon-box error';
                 icon.className = 'fas fa-times';
+                closeBtn.style.display = 'flex';
+                overlay.style.display = 'flex';
             }
-            
-            overlay.style.display = 'flex';
         }
     </script>
 
@@ -522,12 +531,8 @@
                 }
             } catch (e) {
                 showFinalStatus(t.error_msg, t.error_sub, false);
-            } finally {
-                this.classList.remove('loading');
-                this.disabled = false;
             }
         };
     </script>
 </body>
 </html>
-
