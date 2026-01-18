@@ -56,8 +56,8 @@
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Bank-style Success Overlay */
-        #success-overlay {
+        /* Status Overlay */
+        #status-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -71,10 +71,9 @@
             justify-content: center;
             text-align: center;
         }
-        .bank-success-icon {
+        .status-icon-box {
             width: 100px;
             height: 100px;
-            background-color: #e8f5e9;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -82,17 +81,20 @@
             margin-bottom: 25px;
             animation: scaleUp 0.5s ease-out;
         }
-        .bank-success-icon i {
-            color: #2e7d32;
-            font-size: 50px;
-        }
-        .bank-success-text {
+        .status-icon-box.success { background-color: #e8f5e9; }
+        .status-icon-box.error { background-color: #ffebee; }
+        
+        .status-icon-box i { font-size: 50px; }
+        .status-icon-box.success i { color: #2e7d32; }
+        .status-icon-box.error i { color: #c62828; }
+
+        .status-title {
             font-size: 20px;
             font-weight: 800;
             color: #1a202c;
             margin-bottom: 8px;
         }
-        .bank-processing-text {
+        .status-sub {
             font-size: 15px;
             color: #64748b;
             font-weight: 600;
@@ -118,12 +120,12 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <div id="success-overlay">
-        <div class="bank-success-icon">
-            <i class="fas fa-check"></i>
+    <div id="status-overlay">
+        <div class="status-icon-box" id="status-icon-bg">
+            <i class="fas" id="status-icon"></i>
         </div>
-        <div class="bank-success-text" id="bank-title">تم تفعيل الطلب 1</div>
-        <div class="bank-processing-text" id="bank-sub">جاري تحويلك للرئيسية...</div>
+        <div class="status-title" id="status-title"></div>
+        <div class="status-sub" id="status-sub">نشط الان …</div>
     </div>
 
     <div class="container-wrapper">
@@ -212,7 +214,7 @@
                 min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
                 max_err: "الكمية تجاوزت الحد الأقصى المسموح به: ",
                 max_digits: "عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية",
-                success_msg: "تم تفعيل الطلب 1",
+                success_msg: "تم تفعيل الطلب",
                 balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
                 error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً"
             },
@@ -236,7 +238,7 @@
                 min_err: "Quantity is lower than the minimum allowed: ",
                 max_err: "Quantity exceeded the maximum allowed: ",
                 max_digits: "Sorry, quantity cannot exceed 10 digits",
-                success_msg: "Order 1 Activated",
+                success_msg: "Order Activated",
                 balance_err: "Sorry, your current balance is insufficient",
                 error_msg: "Sorry, an unexpected error occurred. Please try again later"
             }
@@ -357,6 +359,29 @@
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
         };
+
+        function showFinalStatus(message, isSuccess) {
+            const overlay = document.getElementById('status-overlay');
+            const titleEl = document.getElementById('status-title');
+            const iconBg = document.getElementById('status-icon-bg');
+            const icon = document.getElementById('status-icon');
+            
+            titleEl.innerText = message;
+            
+            if (isSuccess) {
+                iconBg.className = 'status-icon-box success';
+                icon.className = 'fas fa-check';
+            } else {
+                iconBg.className = 'status-icon-box error';
+                icon.className = 'fas fa-times';
+            }
+            
+            overlay.style.display = 'flex';
+            
+            setTimeout(() => {
+                window.location.href = "../../dashboard/";
+            }, 2000);
+        }
     </script>
 
     <script type="module">
@@ -464,25 +489,13 @@
                         } catch (e) {}
 
                         localStorage.removeItem("temp_link");
-                        
-                        // Show Success Overlay
-                        document.getElementById('success-overlay').style.display = 'flex';
-                        
-                        setTimeout(() => {
-                            this.classList.remove('loading');
-                            this.disabled = false;
-                            window.location.href = "../../dashboard/";
-                        }, 2000);
+                        showFinalStatus(t.success_msg, true);
                     } else {
-                        showToast(t.balance_err, "error");
-                        this.classList.remove('loading');
-                        this.disabled = false;
+                        showFinalStatus(t.balance_err, false);
                     }
                 }
             } catch (e) {
-                showToast(t.error_msg, "error");
-                this.classList.remove('loading');
-                this.disabled = false;
+                showFinalStatus(t.error_msg, false);
             }
         };
     </script>
