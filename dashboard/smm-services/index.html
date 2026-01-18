@@ -71,19 +71,6 @@
             justify-content: center;
             text-align: center;
         }
-        .close-status {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: #64748b;
-            cursor: pointer;
-            display: none;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-        }
         .status-icon-box {
             width: 100px;
             height: 100px;
@@ -135,9 +122,6 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <div id="status-overlay">
-        <div class="close-status" id="close-status-btn" onclick="closeOverlay()">
-            <i class="fas fa-times"></i>
-        </div>
         <div class="status-icon-box" id="status-icon-bg">
             <i class="fas" id="status-icon"></i>
         </div>
@@ -234,7 +218,7 @@
                 success_msg: "تم تفعيل الطلب",
                 success_sub: "نشط الان …",
                 balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                balance_sub: "قم بإضافة رصيد",
+                balance_sub: "قم بتعبئة الحساب",
                 error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
                 error_sub: "يرجى المحاولة لاحقاً"
             },
@@ -261,7 +245,7 @@
                 success_msg: "Order Activated",
                 success_sub: "Active now ...",
                 balance_err: "Sorry, your current balance is insufficient",
-                balance_sub: "Please add balance",
+                balance_sub: "Please top up your account",
                 error_msg: "Sorry, an unexpected error occurred",
                 error_sub: "Please try again later"
             }
@@ -383,19 +367,12 @@
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
         };
 
-        function closeOverlay() {
-            document.getElementById('status-overlay').style.display = 'none';
-            document.getElementById("payBtn").classList.remove('loading');
-            document.getElementById("payBtn").disabled = false;
-        }
-
         function showFinalStatus(message, subMessage, isSuccess) {
             const overlay = document.getElementById('status-overlay');
             const titleEl = document.getElementById('status-title');
             const subEl = document.getElementById('status-sub');
             const iconBg = document.getElementById('status-icon-bg');
             const icon = document.getElementById('status-icon');
-            const closeBtn = document.getElementById('close-status-btn');
             
             titleEl.innerText = message;
             subEl.innerText = subMessage;
@@ -403,24 +380,23 @@
             if (isSuccess) {
                 iconBg.className = 'status-icon-box success';
                 icon.className = 'fas fa-check';
-                closeBtn.style.display = 'none';
-                overlay.style.display = 'flex';
-                setTimeout(() => {
-                    window.location.href = "../../dashboard/";
-                }, 2500);
             } else {
                 iconBg.className = 'status-icon-box error';
                 icon.className = 'fas fa-times';
-                closeBtn.style.display = 'flex';
-                overlay.style.display = 'flex';
             }
+            
+            overlay.style.display = 'flex';
+            
+            setTimeout(() => {
+                window.location.href = "../../dashboard/";
+            }, 2500);
         }
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -492,43 +468,53 @@
 
             try {
                 const userRef = doc(db, "users", currentUser.uid);
-                const userSnap = await getDoc(userRef);
+                
+                await runTransaction(db, async (transaction) => {
+                    const userSnap = await transaction.get(userRef);
+                    if (!userSnap.exists()) throw "User does not exist";
 
-                if (userSnap.exists()) {
                     const currentBalance = parseFloat(userSnap.data().balance || 0);
-                    if (currentBalance >= (finalCharge - 0.000000001)) {
-                        await updateDoc(userRef, {
-                            balance: increment(-finalCharge),
-                            total_spend: increment(finalCharge)
-                        });
-
-                        await addDoc(collection(db, "transactions"), {
-                            amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`,
-                            description: "شراء: " + service,
-                            status: "Active",
-                            link: link,
-                            quantity: qtyNum,
-                            timestamp: serverTimestamp(),
-                            userId: currentUser.uid,
-                            userEmail: email
-                        });
-
-                        try {
-                            await fetch(scriptURL, { 
-                                method: "POST", 
-                                mode: "no-cors", 
-                                body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: email, status: "Active" }) 
-                            });
-                        } catch (e) {}
-
-                        localStorage.removeItem("temp_link");
-                        showFinalStatus(t.success_msg, t.success_sub, true);
-                    } else {
-                        showFinalStatus(t.balance_err, t.balance_sub, false);
+                    if (currentBalance < (finalCharge - 0.000000001)) {
+                        throw "INSUFFICIENT_BALANCE";
                     }
-                }
+
+                    transaction.update(userRef, {
+                        balance: increment(-finalCharge),
+                        total_spend: increment(finalCharge)
+                    });
+
+                    const transRef = doc(collection(db, "transactions"));
+                    transaction.set(transRef, {
+                        amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`,
+                        description: "شراء: " + service,
+                        status: "Active",
+                        link: link,
+                        quantity: qtyNum,
+                        timestamp: serverTimestamp(),
+                        userId: currentUser.uid,
+                        userEmail: email
+                    });
+                });
+
+                try {
+                    fetch(scriptURL, { 
+                        method: "POST", 
+                        mode: "no-cors", 
+                        body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: email, status: "Active" }) 
+                    });
+                } catch (e) {}
+
+                localStorage.removeItem("temp_link");
+                showFinalStatus(t.success_msg, t.success_sub, true);
+
             } catch (e) {
-                showFinalStatus(t.error_msg, t.error_sub, false);
+                this.classList.remove('loading');
+                this.disabled = false;
+                if (e === "INSUFFICIENT_BALANCE") {
+                    showFinalStatus(t.balance_err, t.balance_sub, false);
+                } else {
+                    showFinalStatus(t.error_msg, t.error_sub, false);
+                }
             }
         };
     </script>
