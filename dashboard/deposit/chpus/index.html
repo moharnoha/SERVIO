@@ -229,41 +229,38 @@
         .pay-submit-btn:active { opacity: 0.8; }
         .amount-hint { font-size: 11px; color: #888; margin-top: -5px; padding: 0 2px; }
 
-        /* Error Message Style */
-        .error-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #FFF9E6;
-            border: 1px solid #FFD43B;
-            border-radius: 10px;
-            padding: 12px 20px;
-            width: 90%;
-            max-width: 400px;
+        /* Success Interface Styles */
+        #success-interface {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fff;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .success-icon-circle {
+            width: 80px;
+            height: 80px;
+            background: #e8f5e9;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 3000;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            justify-content: center;
+            margin-bottom: 20px;
         }
-        .error-toast.show { transform: translateX(-50%) translateY(0); }
-        .error-toast i { color: #F59E0B; font-size: 20px; }
-        .error-toast .error-content { display: flex; flex-direction: column; }
-        .error-toast .error-title { font-weight: 700; color: #92400E; font-size: 13px; }
-        .error-toast .error-msg { font-size: 11px; color: #B45309; font-weight: 500; }
+        .success-icon-circle i {
+            font-size: 40px;
+            color: #4caf50;
+        }
+        .success-title { font-size: 22px; font-weight: 800; color: #2e5822; margin-bottom: 10px; }
+        .success-msg { font-size: 14px; color: #666; font-weight: 600; line-height: 1.6; }
     </style>
 </head>
 <body class="notranslate" translate="no">
-
-    <div id="errorToast" class="error-toast">
-        <i class="fas fa-exclamation-triangle"></i>
-        <div class="error-content">
-            <span class="error-title" id="toastTitle">تنبيه المراجعة</span>
-            <span class="error-msg" id="toastMsg">يرجى التأكد من ملء جميع البيانات بشكل صحيح للمتابعة.</span>
-        </div>
-    </div>
 
     <div class="main-container">
 
@@ -372,6 +369,18 @@
             </button>
 
         </div>
+
+        <div id="success-interface">
+            <div class="success-icon-circle">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="success-title" id="success-title-text">تمت العملية بنجاح</div>
+            <div class="success-msg" id="success-msg-text">
+                لقد تم استلام طلب الإيداع الخاص بك.<br>
+                سيتم مراجعة البيانات وتحديث رصيدك قريباً.
+            </div>
+        </div>
+
     </div>
 
     <script type="module">
@@ -477,24 +486,6 @@
             if (file) reader.readAsDataURL(file);
         }
 
-        function showErrorToast() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const toast = document.getElementById('errorToast');
-            const title = document.getElementById('toastTitle');
-            const msg = document.getElementById('toastMsg');
-
-            if(lang === 'en') {
-                title.innerText = "Attention Required";
-                msg.innerText = "Please provide your username, amount, and payment proof to proceed.";
-            } else {
-                title.innerText = "تنبيه المراجعة";
-                msg.innerText = "يرجى إدخال اسم المستخدم، المبلغ، وإرفاق وثيقة الدفع للمتابعة.";
-            }
-
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4000);
-        }
-
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
@@ -524,6 +515,8 @@
                 document.getElementById('lbl-phone').innerText = "Phone";
                 document.getElementById('lbl-reason').innerText = "Code";
                 payBtn.querySelector('span').innerText = "Confirm Deposit";
+                document.getElementById('success-title-text').innerText = "Success!";
+                document.getElementById('success-msg-text').innerHTML = "Your deposit request has been received.<br>Your balance will be updated soon.";
             } else {
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
@@ -538,8 +531,8 @@
             const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
             
+            // If fields are empty, do nothing (no response/alert as requested)
             if (!fullname || !amount || fileInput.files.length === 0) {
-                showErrorToast();
                 return;
             }
 
@@ -556,9 +549,15 @@
                 formData.append('amount', amount);
                 formData.append('imageBase64', reader.result);
 
-                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
-                alert(localStorage.getItem('pref_lang') === 'en' ? 'Sent!' : 'تم الإرسال!');
-                location.reload();
+                try {
+                    await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
+                    // Switch interface to success view
+                    document.getElementById('dynamic-section').style.display = 'none';
+                    document.getElementById('success-interface').style.display = 'flex';
+                } catch (e) {
+                    payBtn.disabled = false;
+                    payBtn.innerHTML = '<span>تأكيد الإيداع</span>';
+                }
             };
         }
 
