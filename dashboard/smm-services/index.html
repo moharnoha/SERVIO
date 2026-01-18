@@ -382,7 +382,7 @@
         document.getElementById("verifyLinkBtn").onclick = function() {
             const link = document.getElementById("platformLink").value;
             if (link) {
-                window.open(link, '_blank');
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(link)}`, '_blank');
             } else {
                 const lang = localStorage.getItem('pref_lang') || 'ar';
                 showToast(translations[lang].link_err, "error");
