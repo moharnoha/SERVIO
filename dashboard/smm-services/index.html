@@ -122,11 +122,11 @@
             padding: 8px;
             cursor: pointer;
             color: #94a3b8;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
         }
-        .search-btn:hover { color: var(--primary-blue); }
+        .search-btn.active { color: var(--primary-blue); transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -377,6 +377,12 @@
 
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
+            const verifyBtn = document.getElementById("verifyLinkBtn");
+            if (this.value.trim().length > 0) {
+                verifyBtn.classList.add("active");
+            } else {
+                verifyBtn.classList.remove("active");
+            }
         };
 
         document.getElementById("verifyLinkBtn").onclick = function() {
