@@ -71,22 +71,18 @@
             justify-content: center;
             text-align: center;
         }
-        .close-status-btn {
+        .close-status {
             position: absolute;
             top: 20px;
             right: 20px;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+            display: none;
             width: 40px;
             height: 40px;
-            background: #f1f5f9;
-            border: none;
-            border-radius: 50%;
-            color: #64748b;
-            font-size: 20px;
-            display: none;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            z-index: 10000;
         }
         .status-icon-box {
             width: 100px;
@@ -139,7 +135,9 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <div id="status-overlay">
-        <button class="close-status-btn" id="closeStatusBtn" onclick="closeOverlay()"><i class="fas fa-times"></i></button>
+        <div class="close-status" id="close-status-btn" onclick="closeOverlay()">
+            <i class="fas fa-times"></i>
+        </div>
         <div class="status-icon-box" id="status-icon-bg">
             <i class="fas" id="status-icon"></i>
         </div>
@@ -236,7 +234,7 @@
                 success_msg: "تم تفعيل الطلب",
                 success_sub: "نشط الان …",
                 balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                balance_sub: "قم بتعبئة الحساب",
+                balance_sub: "قم بإضافة رصيد",
                 error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
                 error_sub: "يرجى المحاولة لاحقاً"
             },
@@ -263,7 +261,7 @@
                 success_msg: "Order Activated",
                 success_sub: "Active now ...",
                 balance_err: "Sorry, your current balance is insufficient",
-                balance_sub: "Please top up your account",
+                balance_sub: "Please add balance",
                 error_msg: "Sorry, an unexpected error occurred",
                 error_sub: "Please try again later"
             }
@@ -375,12 +373,6 @@
             localStorage.setItem("temp_link", document.getElementById("platformLink").value);
             location.href = `../Category/`;
         }
-
-        function closeOverlay() {
-            document.getElementById('status-overlay').style.display = 'none';
-            document.getElementById('payBtn').classList.remove('loading');
-            document.getElementById('payBtn').disabled = false;
-        }
         
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', function(event) { updateUI(); });
@@ -391,13 +383,19 @@
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
         };
 
+        function closeOverlay() {
+            document.getElementById('status-overlay').style.display = 'none';
+            document.getElementById("payBtn").classList.remove('loading');
+            document.getElementById("payBtn").disabled = false;
+        }
+
         function showFinalStatus(message, subMessage, isSuccess) {
             const overlay = document.getElementById('status-overlay');
             const titleEl = document.getElementById('status-title');
             const subEl = document.getElementById('status-sub');
             const iconBg = document.getElementById('status-icon-bg');
             const icon = document.getElementById('status-icon');
-            const closeBtn = document.getElementById('closeStatusBtn');
+            const closeBtn = document.getElementById('close-status-btn');
             
             titleEl.innerText = message;
             subEl.innerText = subMessage;
