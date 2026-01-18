@@ -93,6 +93,7 @@
             font-weight: 800;
             color: #1a202c;
             margin-bottom: 8px;
+            padding: 0 20px;
         }
         .status-sub {
             font-size: 15px;
@@ -125,7 +126,7 @@
             <i class="fas" id="status-icon"></i>
         </div>
         <div class="status-title" id="status-title"></div>
-        <div class="status-sub" id="status-sub">نشط الان …</div>
+        <div class="status-sub" id="status-sub"></div>
     </div>
 
     <div class="container-wrapper">
@@ -215,8 +216,11 @@
                 max_err: "الكمية تجاوزت الحد الأقصى المسموح به: ",
                 max_digits: "عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية",
                 success_msg: "تم تفعيل الطلب",
+                success_sub: "نشط الان …",
                 balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً"
+                balance_sub: "قم بتعبئة الحساب",
+                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
+                error_sub: "يرجى المحاولة لاحقاً"
             },
             en: {
                 order_details: "Order Details",
@@ -239,8 +243,11 @@
                 max_err: "Quantity exceeded the maximum allowed: ",
                 max_digits: "Sorry, quantity cannot exceed 10 digits",
                 success_msg: "Order Activated",
+                success_sub: "Active now ...",
                 balance_err: "Sorry, your current balance is insufficient",
-                error_msg: "Sorry, an unexpected error occurred. Please try again later"
+                balance_sub: "Please top up your account",
+                error_msg: "Sorry, an unexpected error occurred",
+                error_sub: "Please try again later"
             }
         };
 
@@ -360,13 +367,15 @@
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
         };
 
-        function showFinalStatus(message, isSuccess) {
+        function showFinalStatus(message, subMessage, isSuccess) {
             const overlay = document.getElementById('status-overlay');
             const titleEl = document.getElementById('status-title');
+            const subEl = document.getElementById('status-sub');
             const iconBg = document.getElementById('status-icon-bg');
             const icon = document.getElementById('status-icon');
             
             titleEl.innerText = message;
+            subEl.innerText = subMessage;
             
             if (isSuccess) {
                 iconBg.className = 'status-icon-box success';
@@ -380,7 +389,7 @@
             
             setTimeout(() => {
                 window.location.href = "../../dashboard/";
-            }, 2000);
+            }, 2500);
         }
     </script>
 
@@ -489,13 +498,13 @@
                         } catch (e) {}
 
                         localStorage.removeItem("temp_link");
-                        showFinalStatus(t.success_msg, true);
+                        showFinalStatus(t.success_msg, t.success_sub, true);
                     } else {
-                        showFinalStatus(t.balance_err, false);
+                        showFinalStatus(t.balance_err, t.balance_sub, false);
                     }
                 }
             } catch (e) {
-                showFinalStatus(t.error_msg, false);
+                showFinalStatus(t.error_msg, t.error_sub, false);
             }
         };
     </script>
