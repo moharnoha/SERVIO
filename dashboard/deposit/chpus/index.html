@@ -504,13 +504,20 @@
             const preview = document.getElementById('file-preview');
             const placeholder = document.getElementById('preview-placeholder');
             const file = document.getElementById('file-input').files[0];
+            const lang = localStorage.getItem('pref_lang') || 'ar';
             const reader = new FileReader();
             reader.onloadend = () => {
                 preview.src = reader.result;
                 preview.style.display = 'block';
                 placeholder.style.display = 'none';
-                document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
-                document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                
+                if (lang === 'en') {
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
+                } else {
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                }
             }
             if (file) reader.readAsDataURL(file);
         }
@@ -532,8 +539,16 @@
                 dynamicSection.style.direction = 'ltr';
                 subHeader.innerText = "Complete payment using serviocmm";
                 subHeader.style.textAlign = 'left';
-                document.getElementById('upload-text').innerText = "Attach payment proof";
-                document.getElementById('upload-sub-text').innerText = "Click to select image file";
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
+                } else {
+                    document.getElementById('upload-text').innerText = "Attach payment proof";
+                    document.getElementById('upload-sub-text').innerText = "Click to select image file";
+                }
+
                 document.getElementById('user-header-label').innerText = "Account Details";
                 document.getElementById('label-name').innerText = "Username";
                 document.getElementById('label-email').innerText = "Email";
@@ -551,6 +566,16 @@
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
                 subHeader.style.textAlign = 'right';
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                } else {
+                    document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع";
+                    document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
+                }
+
                 document.getElementById('bank-title').innerText = "تم إرسال الطلب";
                 document.getElementById('bank-sub').innerText = "قيد المعالجة...";
             }
@@ -595,4 +620,4 @@
         window.addEventListener('load', updateUI);
     </script>
 </body>
-</html>```
+</html>
