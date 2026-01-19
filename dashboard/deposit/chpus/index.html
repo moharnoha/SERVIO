@@ -366,7 +366,7 @@
                 <div class="input-group">
                     <label class="input-label" id="amount-input-label">المبلغ</label>
                     <div class="field-container">
-                        <input type="number" id="amount-input" placeholder="10.00" step="1" min="10" max="2000" oninput="validateAmount(this)" style="direction: ltr; text-align: left;">
+                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left;">
                     </div>
                     <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
                 </div>
@@ -638,4 +638,4 @@
         window.addEventListener('load', updateUI);
     </script>
 </body>
-</html>
+</html>```
