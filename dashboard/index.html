@@ -66,7 +66,7 @@
         .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; }
         
-        .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; }
+        .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; width: 100%; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
         .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; min-width: 50px; }
         
@@ -81,9 +81,10 @@
             border-radius: 4px;
             z-index: 5;
             display: none;
+            width: 100px;
         }
         
-        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; position: relative; }
+        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; position: relative; width: 100%; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; position: relative; min-width: 80px; }
         
         .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; z-index: 10; }
@@ -232,12 +233,16 @@
                         <div class="name-stack">
                             <div class="welcome-row">
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                <span class="full-name-val" id="user-full-name">---</span>
-                                <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
+                                <div style="position: relative; flex: 1; min-height: 16px;">
+                                    <span class="full-name-val" id="user-full-name">---</span>
+                                    <div id="name-skeleton" class="skeleton-overlay"></div>
+                                </div>
                             </div>
                             <div class="email-privacy-row">
-                                <span class="user-email-val" id="user-email">---</span>
-                                <div id="email-skeleton" class="skeleton-overlay" style="width: 120px; right: 0; left: auto;"></div>
+                                <div style="position: relative; flex: 1; min-height: 14px; text-align: left;">
+                                    <span class="user-email-val" id="user-email">---</span>
+                                    <div id="email-skeleton" class="skeleton-overlay" style="right: 0; left: auto; width: 140px;"></div>
+                                </div>
                                 <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
