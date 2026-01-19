@@ -412,9 +412,9 @@
                         const encodedEmail = encodeURIComponent(user.email);
                         const queryStr = `?user=${encodedName}&email=${encodedEmail}`;
                         
-                        document.getElementById('link-smm').href = `smm-services/${queryStr}`;
-                        document.getElementById('link-deposit').href = `deposit/${queryStr}`;
-                        document.getElementById('link-menu').href = `menu/${queryStr}`;
+                        document.getElementById('link-smm').href = `../smm-services/${queryStr}`;
+                        document.getElementById('link-deposit').href = `../deposit/${queryStr}`;
+                        document.getElementById('link-menu').href = `../menu/${queryStr}`;
 
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
