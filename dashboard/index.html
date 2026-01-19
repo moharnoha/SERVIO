@@ -84,7 +84,7 @@
         }
         
         .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; width: 100%; height: 18px; overflow: hidden; justify-content: flex-start; flex-direction: row-reverse; }
-        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
+        .welcome-label { display: none; }
         .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .email-privacy-row { display: flex; align-items: center; position: relative; width: 100%; height: 14px; overflow: hidden; justify-content: flex-end; }
@@ -259,7 +259,7 @@
                         </div>
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <span class="welcome-label" id="txt-welcome"></span>
                                 <span class="full-name-val" id="user-full-name">---</span>
                                 <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
                             </div>
@@ -548,7 +548,7 @@
             const welcomeTxt = document.getElementById('txt-welcome');
             const balLbl = document.getElementById('txt-balance-label');
             const transTitle = document.getElementById('txt-trans-title');
-            if(welcomeTxt) welcomeTxt.innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            if(welcomeTxt) welcomeTxt.innerText = '';
             if(balLbl) balLbl.innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             if(transTitle) transTitle.innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
             
