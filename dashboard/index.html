@@ -24,7 +24,6 @@
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
         body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
         
-        /* منع أي حركات أو انتقالات نهائياً */
         * { 
             transition: none !important; 
             animation: none !important; 
@@ -33,7 +32,6 @@
 
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
-        /* --- الهيدر الأول (ثابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -48,7 +46,6 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* --- الهيدر الثاني (ثابت) --- */
         .bottom-header {
             background-color: var(--sub-green);
             padding: 15px; box-sizing: border-box;
@@ -80,7 +77,7 @@
             gap: 2px; 
             overflow: hidden; 
             justify-content: center;
-            text-align: left; /* جعل النصوص محاذية لجهة أيقونة الإخفاء */
+            text-align: left;
         }
         
         .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; width: 100%; height: 18px; overflow: hidden; justify-content: flex-start; flex-direction: row-reverse; }
@@ -90,11 +87,10 @@
         .email-privacy-row { display: flex; align-items: center; position: relative; width: 100%; height: 14px; overflow: hidden; justify-content: flex-end; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         
-        /* Skeleton Style Professional Placeholder */
         .skeleton-overlay {
             position: absolute;
             top: 50%;
-            left: 0; /* ثابت في جهة الإخفاء */
+            left: 0;
             transform: translateY(-50%);
             height: 8px;
             background: rgba(255, 255, 255, 0.15);
@@ -133,7 +129,6 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* --- الهيدر الثالث --- */
         .new-header-container {
             background: var(--bg-gradient); padding: 25px 20px 30px 20px;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
@@ -145,7 +140,6 @@
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        /* --- قسم المعاملات --- */
         .transactions-header { 
             padding: 25px 20px; 
             background: #ffffff; 
@@ -175,7 +169,6 @@
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
-        /* Modal Structure (Improved UI) */
         .modal-overlay {
             position: fixed; 
             top: 0; 
@@ -225,7 +218,6 @@
             border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
         }
 
-        /* Detail Rows for Modal */
         .detail-row {
             display: flex; align-items: flex-start; justify-content: space-between;
             padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
@@ -282,15 +274,15 @@
 
         <div class="new-header-container">
             <div class="shortcuts-scroll-wrapper">
-                <a href="smm-services/" id="link-smm" class="shortcut-item">
+                <a href="javascript:void(0)" onclick="navigateTo('smm-services/')" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
                     <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
                 </a>
-                <a href="deposit/" id="link-deposit" class="shortcut-item">
+                <a href="javascript:void(0)" onclick="navigateTo('deposit/')" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
                     <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
                 </a>
-                <a href="menu/" id="link-menu" class="shortcut-item">
+                <a href="javascript:void(0)" onclick="navigateTo('menu/')" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
                     <span class="shortcut-label" id="txt-menu">القائمة</span>
                 </a>
@@ -336,6 +328,15 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // دالة التنقل الذكية لضمان عمل الروابط على GitHub Pages دائماً
+        window.navigateTo = (path) => {
+            const currentUrl = new URL(window.location.href);
+            // بناء المسار الجديد مع الحفاظ على البارامترات الحالية
+            const targetUrl = new URL(path, window.location.origin + window.location.pathname);
+            targetUrl.search = currentUrl.search;
+            window.location.href = targetUrl.toString();
+        };
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
@@ -408,17 +409,6 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        const encodedName = encodeURIComponent(name);
-                        const encodedEmail = encodeURIComponent(user.email);
-                        const currentParams = new URLSearchParams(window.location.search);
-                        currentParams.set('user', name);
-                        currentParams.set('email', user.email);
-                        const queryStr = `?${currentParams.toString()}`;
-                        
-                        document.getElementById('link-smm').href = `smm-services/${queryStr}`;
-                        document.getElementById('link-deposit').href = `deposit/${queryStr}`;
-                        document.getElementById('link-menu').href = `menu/${queryStr}`;
-
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
