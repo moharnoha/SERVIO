@@ -284,7 +284,13 @@
             font-size: 15px;
             color: #64748b;
             font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
         }
+        [dir="rtl"] .bank-processing-text {
+            direction: rtl;
+        }
+
         @keyframes scaleUp {
             0% { transform: scale(0); opacity: 0; }
             80% { transform: scale(1.1); }
@@ -360,7 +366,7 @@
                 <div class="input-group">
                     <label class="input-label" id="amount-input-label">المبلغ</label>
                     <div class="field-container">
-                        <input type="number" id="amount-input" placeholder="0.00" style="direction: ltr; text-align: left;">
+                        <input type="number" id="amount-input" placeholder="10.00" step="1" min="10" max="2000" oninput="validateAmount(this)" style="direction: ltr; text-align: left;">
                     </div>
                     <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
                 </div>
@@ -473,6 +479,12 @@
             input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
         }
 
+        function validateAmount(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+            let val = parseInt(input.value);
+            if (val > 2000) input.value = "2000";
+        }
+
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -536,6 +548,7 @@
             const payBtnLabel = document.getElementById('btn-label');
             
             if (lang === 'en') {
+                document.body.classList.remove('rtl');
                 dynamicSection.style.direction = 'ltr';
                 subHeader.innerText = "Complete payment using serviocmm";
                 subHeader.style.textAlign = 'left';
@@ -556,13 +569,16 @@
                 document.getElementById('amount-input-label').innerText = "Amount";
                 document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
                 document.getElementById('english-name-input').placeholder = "Your CashPlus username";
+                document.getElementById('amount-input').placeholder = "10.00";
                 document.getElementById('card-main-title').innerText = "Payment Method";
                 document.getElementById('lbl-phone').innerText = "Phone";
                 document.getElementById('lbl-reason').innerText = "Code";
                 payBtnLabel.innerText = "Confirm Deposit";
                 document.getElementById('bank-title').innerText = "Request Sent";
                 document.getElementById('bank-sub').innerText = "Processing...";
+                document.getElementById('bank-sub').style.direction = "ltr";
             } else {
+                document.body.classList.add('rtl');
                 dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
                 subHeader.style.textAlign = 'right';
@@ -576,8 +592,10 @@
                     document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
                 }
 
+                document.getElementById('amount-input').placeholder = "10.00";
                 document.getElementById('bank-title').innerText = "تم إرسال الطلب";
                 document.getElementById('bank-sub').innerText = "قيد المعالجة...";
+                document.getElementById('bank-sub').style.direction = "rtl";
             }
         }
         
@@ -589,7 +607,7 @@
             const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
             
-            if (!fullname || !amount || fileInput.files.length === 0) {
+            if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
                 return;
             }
 
