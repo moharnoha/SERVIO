@@ -96,11 +96,13 @@
             top: 50%;
             left: 0; /* ثابت في جهة الإخفاء */
             transform: translateY(-50%);
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 4px;
             z-index: 5;
             display: none;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .toggle-visibility { 
@@ -261,11 +263,11 @@
                             <div class="welcome-row">
                                 <span class="welcome-label" id="txt-welcome"></span>
                                 <span class="full-name-val" id="user-full-name">---</span>
-                                <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
+                                <div id="name-skeleton" class="skeleton-overlay" style="width: 100px;"></div>
                             </div>
                             <div class="email-privacy-row">
                                 <span class="user-email-val" id="user-email">---</span>
-                                <div id="email-skeleton" class="skeleton-overlay" style="width: 130px;"></div>
+                                <div id="email-skeleton" class="skeleton-overlay" style="width: 150px;"></div>
                             </div>
                         </div>
                         <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
@@ -576,23 +578,23 @@
             const hideUser = localStorage.getItem('hide_username') === "true";
             
             if (nameEl && nameSk) {
-                if (hideUser) {
+                if (hideUser || !window.currentName) {
                     nameEl.style.visibility = "hidden";
                     nameSk.style.display = "block";
                 } else {
                     nameEl.style.visibility = "visible";
-                    nameEl.innerText = window.currentName || "---";
+                    nameEl.innerText = window.currentName;
                     nameSk.style.display = "none";
                 }
             }
 
             if (emailEl && emailSk) {
-                if (hideEmail) {
+                if (hideEmail || !window.currentEmail) {
                     emailEl.style.visibility = "hidden";
                     emailSk.style.display = "block";
                 } else {
                     emailEl.style.visibility = "visible";
-                    emailEl.innerText = window.currentEmail || "---";
+                    emailEl.innerText = window.currentEmail;
                     emailSk.style.display = "none";
                 }
             }
