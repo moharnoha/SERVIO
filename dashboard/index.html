@@ -80,20 +80,21 @@
             gap: 2px; 
             overflow: hidden; 
             justify-content: center;
+            text-align: left; /* جعل النصوص محاذية لجهة أيقونة الإخفاء */
         }
         
-        .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; width: 100%; height: 18px; overflow: hidden; justify-content: flex-start; }
-        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; order: 2; }
-        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; order: 1; }
+        .welcome-row { display: flex; align-items: center; gap: 6px; position: relative; width: 100%; height: 18px; overflow: hidden; justify-content: flex-start; flex-direction: row-reverse; }
+        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
+        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .email-privacy-row { display: flex; align-items: center; position: relative; width: 100%; height: 14px; overflow: hidden; }
+        .email-privacy-row { display: flex; align-items: center; position: relative; width: 100%; height: 14px; overflow: hidden; justify-content: flex-end; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         
         /* Skeleton Style Professional Placeholder */
         .skeleton-overlay {
             position: absolute;
             top: 50%;
-            left: 0;
+            left: 0; /* ثابت في جهة الإخفاء */
             transform: translateY(-50%);
             height: 10px;
             background: rgba(255, 255, 255, 0.2);
@@ -258,8 +259,8 @@
                         </div>
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="full-name-val" id="user-full-name">---</span>
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <span class="full-name-val" id="user-full-name">---</span>
                                 <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
                             </div>
                             <div class="email-privacy-row">
