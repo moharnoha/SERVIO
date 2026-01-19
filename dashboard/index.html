@@ -282,15 +282,15 @@
 
         <div class="new-header-container">
             <div class="shortcuts-scroll-wrapper">
-                <a href="../smm-services/" id="link-smm" class="shortcut-item">
+                <a href="smm-services/" id="link-smm" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
                     <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
                 </a>
-                <a href="../deposit/" id="link-deposit" class="shortcut-item">
+                <a href="deposit/" id="link-deposit" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
                     <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
                 </a>
-                <a href="../menu/" id="link-menu" class="shortcut-item">
+                <a href="menu/" id="link-menu" class="shortcut-item">
                     <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
                     <span class="shortcut-label" id="txt-menu">القائمة</span>
                 </a>
@@ -412,9 +412,9 @@
                         const encodedEmail = encodeURIComponent(user.email);
                         const queryStr = `?user=${encodedName}&email=${encodedEmail}`;
                         
-                        document.getElementById('link-smm').href = `../smm-services/${queryStr}`;
-                        document.getElementById('link-deposit').href = `../deposit/${queryStr}`;
-                        document.getElementById('link-menu').href = `../menu/${queryStr}`;
+                        document.getElementById('link-smm').href = `smm-services/${queryStr}`;
+                        document.getElementById('link-deposit').href = `deposit/${queryStr}`;
+                        document.getElementById('link-menu').href = `menu/${queryStr}`;
 
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
