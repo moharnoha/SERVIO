@@ -259,8 +259,10 @@
                         <div class="name-stack">
                             <div class="welcome-row">
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                <span class="full-name-val" id="user-full-name">---</span>
-                                <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
+                                <div style="position: relative; display: flex; align-items: center; flex: 1;">
+                                    <span class="full-name-val" id="user-full-name">---</span>
+                                    <div id="name-skeleton" class="skeleton-overlay" style="width: 80px;"></div>
+                                </div>
                             </div>
                             <div class="email-privacy-row">
                                 <span class="user-email-val" id="user-email">---</span>
@@ -576,10 +578,9 @@
             
             if (nameEl && nameSk) {
                 if (hideUser) {
-                    nameEl.style.visibility = "hidden";
+                    nameEl.innerText = "";
                     nameSk.style.display = "block";
                 } else {
-                    nameEl.style.visibility = "visible";
                     nameEl.innerText = window.currentName || "---";
                     nameSk.style.display = "none";
                 }
@@ -587,10 +588,9 @@
 
             if (emailEl && emailSk) {
                 if (hideEmail) {
-                    emailEl.style.visibility = "hidden";
+                    emailEl.innerText = "";
                     emailSk.style.display = "block";
                 } else {
-                    emailEl.style.visibility = "visible";
                     emailEl.innerText = window.currentEmail || "---";
                     emailSk.style.display = "none";
                 }
