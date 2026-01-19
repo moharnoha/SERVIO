@@ -271,19 +271,19 @@
 
         <div class="new-header-container">
             <div class="shortcuts-scroll-wrapper">
-                <a href="smm-services/" id="link-smm" class="shortcut-item">
+                <a href="smm-services/index.html" id="link-smm" class="shortcut-item">
                     <div class="icon-box">
                         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
                     </div>
                     <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
                 </a>
-                <a href="deposit/" id="link-deposit" class="shortcut-item">
+                <a href="deposit/index.html" id="link-deposit" class="shortcut-item">
                     <div class="icon-box">
                         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
                     </div>
                     <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
                 </a>
-                <a href="menu/" id="link-menu" class="shortcut-item">
+                <a href="menu/index.html" id="link-menu" class="shortcut-item">
                     <div class="icon-box">
                         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
                     </div>
@@ -342,21 +342,15 @@
 
         // دالة آمنة لتحديث الروابط مع الحفاظ على البيانات
         const updateSafeLinks = (userName, userEmail) => {
-            const params = new URLSearchParams(window.location.search);
-            if(userName) params.set('user', userName);
-            if(userEmail) params.set('email', userEmail);
-            const queryStr = `?${params.toString()}`;
+            const queryStr = `?user=${encodeURIComponent(userName || '')}&email=${encodeURIComponent(userEmail || '')}`;
 
-            const targets = {
-                'link-smm': 'smm-services/',
-                'link-deposit': 'deposit/',
-                'link-menu': 'menu/'
-            };
+            const smmLink = document.getElementById('link-smm');
+            const depLink = document.getElementById('link-deposit');
+            const menuLink = document.getElementById('link-menu');
 
-            for (const [id, path] of Object.entries(targets)) {
-                const el = document.getElementById(id);
-                if (el) el.href = `${path}${queryStr}`;
-            }
+            if (smmLink) smmLink.href = `smm-services/index.html${queryStr}`;
+            if (depLink) depLink.href = `deposit/index.html${queryStr}`;
+            if (menuLink) menuLink.href = `menu/index.html${queryStr}`;
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
@@ -498,7 +492,7 @@
                     container.innerHTML = htmlContent;
                     localStorage.setItem('trans_cache', htmlContent);
                 });
-            } else { window.location.href = "../"; }
+            } else { window.location.href = "../index.html"; }
         });
 
         window.handleLogout = () => { 
