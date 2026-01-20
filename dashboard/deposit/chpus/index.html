@@ -664,7 +664,7 @@
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     document.getElementById('success-overlay').style.display = 'flex';
-                    // تغيير الكود فوراً بعد الإرسال الناجح ليكون جاهزاً للطلب القادم
+                    // التغيير هنا: الكود يتغير فقط عند نجاح الإرسال وليس عند التحميل
                     generateRandomCode();
                 } catch (e) {
                     payBtn.classList.remove('loading');
@@ -674,11 +674,7 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', () => {
-            updateUI();
-            // توليد الكود لأول مرة عند فتح الصفحة
-            generateRandomCode();
-        });
+        window.addEventListener('load', updateUI);
     </script>
 </body>
 </html>
