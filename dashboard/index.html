@@ -30,6 +30,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
+        /* Adjusted Sticky Header for wide screen expansion */
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
         .top-header { 
@@ -37,6 +38,8 @@
             display: flex; align-items: center; justify-content: center; 
             width: 100%;
         }
+
+        /* Matching the reference expansion logic */
         .top-header-content {
             width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
@@ -45,6 +48,18 @@
             .top-header-content {
                 max-width: 100%;
                 padding: 0 40px;
+            }
+            .bottom-header-content {
+                max-width: 100%;
+                padding: 15px 40px;
+            }
+            .new-header-content {
+                max-width: 100%;
+                padding: 25px 40px 30px 40px;
+            }
+            .transactions-content {
+                max-width: 100%;
+                padding: 25px 40px;
             }
         }
 
@@ -108,21 +123,8 @@
             box-shadow: var(--shadow-soft);
         }
         .new-header-content {
-            width: 100%; 
-            max-width: 480px; 
-            padding: 25px 20px 30px 20px; 
-            box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
-
-        @media (min-width: 481px) {
-            .bottom-header-content,
-            .new-header-content {
-                max-width: 100%;
-                padding-left: 40px;
-                padding-right: 40px;
-            }
-        }
-
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
@@ -138,15 +140,6 @@
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
         }
-        
-        @media (min-width: 481px) {
-            .transactions-content {
-                max-width: 100%;
-                padding-left: 40px;
-                padding-right: 40px;
-            }
-        }
-
         .trans-list { 
             display: flex; 
             flex-direction: column; 
