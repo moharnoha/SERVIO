@@ -4,26 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Services</title>
+    <title>Servio - All Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
             --header-green: #2E5822; 
-            --bg-gray: #E4ECE3; 
-            --card-white: #ffffff;
-            --text-main: #1a202c;
-            --accent-green: #386E2C; 
-            --sub-header: #396E2D;
-            --border-light: #E4ECE3;
-            --primary-blue: #2563eb;
+            --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c;
+            --primary-blue: #2563eb; --text-light: #64748b; --bg-gray: #E5ECE4;
+            --card-bg: #ffffff; --fb-color: #1877F2; --ig-color: #E4405F; 
+            --tt-color: #000000; --dc-color: #5865F2; --tw-color: #9146FF;
+            --price-color: #10b981; --qty-color: #94a3b8;
+            --search-bg: #386E2C;
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
         /* Updated Container */
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; align-items: center; }
+        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: var(--bg-gray); align-items: center; }
 
         /* Expanded Top Header */
         .top-header { 
@@ -42,302 +41,93 @@
             justify-content: space-between;
         }
 
-        /* Expanded Sub Header Bar */
-        .sub-header-bar {
-            background-color: var(--sub-header);
-            color: #ffffff;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 700;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .sub-header-content {
-            width: 100%;
-            max-width: 480px;
-            text-align: right;
-        }
-
-        /* Responsive Expansion for larger screens */
-        @media (min-width: 481px) {
-            .header-content { max-width: 100%; padding: 0 40px; }
-            .sub-header-content { max-width: 100%; padding: 0 40px; }
-        }
-
-        .brand-section { display: flex; align-items: center; direction: rtl !important; }
+        .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-        
-        .region-badge { 
-            display: flex; align-items: center; 
-            background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
-            direction: rtl !important;
-        }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        .services-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-            width: 100%;
-            max-width: 480px;
-            box-sizing: border-box;
+        /* Full Width Search Bar Background */
+        .search-sticky { 
+            position: sticky; top: 70px; z-index: 1000; 
+            background: var(--search-bg); padding: 12px 0; 
+            width: 100%; display: flex; justify-content: center;
         }
-
-        .user-dropdown-container {
-            background: var(--card-white);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-
-        .user-dropdown-header {
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-
-        .user-header-left { display: flex; align-items: center; gap: 12px; }
-        .user-avatar-circle { color: var(--header-green); font-size: 20px; }
-        .user-header-title { font-size: 14px; font-weight: 800; color: #64748b; }
-        .dropdown-arrow-icon { font-size: 12px; color: #94a3b8; transition: 0.3s; }
-
-        .user-dropdown-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-
-        .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
-        .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
-
-        .info-row-detail { padding: 12px 20px; display: flex; flex-direction: column; }
-        .info-row-detail .label { font-size: 11px; font-weight: 700; color: #94a3b8; }
-        .info-row-detail .value { font-size: 14px; font-weight: 700; color: var(--text-main); }
-
-        #user-details-loader {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: var(--header-green);
-            font-size: 20px;
-        }
-
-        .unified-payment-card {
-            background: #ffffff;
-            border-radius: 24px;
-            border: 1px solid var(--border-light);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            padding: 24px;
-            box-sizing: border-box;
-        }
-
-        .payment-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 5px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .payment-header img { height: 28px; border-radius: 6px; }
-        .payment-header span { font-weight: 800; font-size: 17px; color: var(--text-main); letter-spacing: -0.5px; }
-
-        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-        .input-label { font-size: 12px; font-weight: 700; color: #64748b; }
-        
-        .field-container { position: relative; width: 100%; }
-        .field-container input {
-            width: 100%;
-            height: 52px;
-            background: #ffffff;
-            border: 1.5px solid var(--border-light);
-            border-radius: 14px;
-            padding: 0 45px 0 15px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-main);
-            box-sizing: border-box;
-            outline: none;
+        .search-wrapper { position: relative; width: 100%; max-width: 480px; padding: 0 16px; box-sizing: border-box; }
+        .search-input { 
+            width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px; border: 1.5px solid transparent; 
+            background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.05); outline: none; font-size: 14px; box-sizing: border-box;
             transition: all 0.3s ease;
+            font-family: inherit;
         }
-        .field-container input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
+        .search-input:focus { border-color: var(--primary-blue); box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1); }
+        .search-icon { position: absolute; left: 31px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
-        .toggle-password {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10;
+        /* Content Area centered */
+        .content-area { 
+            padding: 0 16px 110px 16px; 
+            background-color: var(--bg-gray); 
+            width: 100%; max-width: 480px; box-sizing: border-box;
         }
 
-        .copy-field {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #ffffff;
-            border: 1.5px solid var(--border-light);
-            border-radius: 14px;
-            height: 55px;
-            padding: 0 15px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .copy-info { display: flex; flex-direction: column; }
-        .copy-info .lbl { font-size: 10px; font-weight: 700; color: #94a3b8; }
-        .copy-info .val { font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 25px 0 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .category-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #cbd5e0, transparent); }
 
-        .copy-btn-simple { background: none; border: none; color: var(--primary-blue); cursor: pointer; padding: 5px; font-size: 16px; }
-
-        .upload-wrapper { 
-            display: flex; 
-            gap: 12px; 
-            align-items: center; 
-            background: #ffffff; 
-            border: 1.5px solid var(--border-light); 
-            border-radius: 14px; 
-            padding: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-            box-sizing: border-box;
+        .service-item { 
+            background: var(--card-bg); padding: 14px; border-radius: 18px; border: 2px solid transparent; 
+            cursor: pointer; display: flex; flex-direction: column; margin-bottom: 12px; 
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .upload-wrapper:hover { border-color: var(--primary-blue); }
+        .service-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .service-item.selected { border-color: var(--primary-blue); background-color: #f0f7ff; }
+
+        .service-main { display: flex; align-items: center; width: 100%; }
+
+        .platform-logo { 
+            width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; 
+            justify-content: center; font-size: 20px; margin-inline-end: 14px; color: white; flex-shrink: 0;
+        }
+        .bg-fb { background: var(--fb-color); }
+        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-tt { background: var(--tt-color); }
+        .bg-dc { background: var(--dc-color); }
+        .bg-tw { background: var(--tw-color); }
         
-        .preview-container { 
-            width: 50px; 
-            height: 50px; 
-            background: #f8fbff; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border: 1.5px dashed #cbd5e1;
-            flex-shrink: 0;
-        }
-        .preview-img { width: 100%; height: 100%; object-fit: cover; }
-        .preview-placeholder { 
-            font-size: 20px; 
-            color: #94a3b8; 
-        }
-        .upload-section { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column;
-            gap: 2px;
-        }
-        .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
-        .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
-
-        .pay-submit-btn {
-            width: 100%;
-            height: 56px;
-            background-color: var(--header-green);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(46, 88, 34, 0.2);
-            position: relative;
-        }
-        .pay-submit-btn:active { transform: scale(0.98); opacity: 0.9; }
-        .pay-submit-btn:disabled { background-color: #E4ECE3; cursor: not-allowed; }
+        .service-info { flex: 1; display: flex; flex-direction: column; text-align: start; }
+        .service-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); line-height: 1.4; margin-bottom: 2px; }
         
-        .spinner { position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%; display: none; }
-        .loading .spinner { display: block; animation: spin 0.8s linear infinite; }
-        .loading span { opacity: 0; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .price-row { display: flex; align-items: center; gap: 8px; }
+        .service-price { font-size: 13px; font-weight: 800; color: var(--price-color); font-family: 'Inter', sans-serif; }
+        .qty-label { font-size: 10px; font-weight: 600; color: var(--qty-color); background: #f1f5f9; padding: 2px 8px; border-radius: 6px; }
 
-        .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
-
-        #success-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .bank-success-icon {
-            width: 100px;
-            height: 100px;
-            background-color: #e8f5e9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            animation: scaleUp 0.5s ease-out;
-        }
-        .bank-success-icon i {
-            color: #2e7d32;
-            font-size: 50px;
-        }
-        .bank-success-text {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 8px;
-        }
-        .bank-processing-text {
-            font-size: 15px;
-            color: #64748b;
-            font-weight: 600;
-            direction: ltr;
-            unicode-bidi: bidi-override;
-        }
-        [dir="rtl"] .bank-processing-text {
-            direction: rtl;
+        .limits-row { 
+            margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0;
+            display: flex; gap: 15px; font-size: 10.5px; color: #64748b; font-weight: 600;
         }
 
-        @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+        .check-icon { color: var(--primary-blue); font-size: 22px; display: none; margin-inline-start: 10px; }
+        .service-item.selected .check-icon { display: block; animation: scaleIn 0.3s ease; }
+
+        @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .back-fab {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(120px);
+            background: var(--primary-blue); color: white; padding: 16px 40px; border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); font-weight: 700; font-size: 15px; 
+            z-index: 2000; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: none; display: flex; align-items: center; gap: 12px;
+            font-family: inherit;
         }
+        .back-fab.visible { transform: translateX(-50%) translateY(0); }
+        .hidden { display: none !important; }
     </style>
 </head>
-<body class="notranslate" translate="no">
+<body>
 
     <div class="main-container">
 
@@ -346,217 +136,49 @@
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
-                    </div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
             </div>
         </div>
-
-        <div class="sub-header-bar">
-            <div class="sub-header-content" id="sub-header-text">
-                إتمام الدفع بإستخدام serviocmm
-            </div>
-        </div>
-
-        <div class="services-grid" id="dynamic-section">
-            
-            <div class="user-dropdown-container" id="userContainer">
-                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
-                    <div class="user-header-left">
-                        <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
-                        <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
-                    </div>
-                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
-                </div>
-                <div class="user-dropdown-content">
-                    <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
-                    <div id="user-details-body">
-                        <div class="info-row-detail">
-                            <span class="label" id="label-name">اسم المستخدم</span>
-                            <span class="value" id="fb-username"></span>
-                        </div>
-                        <div class="info-row-detail">
-                            <span class="label" id="label-email">البريد الإلكتروني</span>
-                            <span class="value" id="fb-email"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="unified-payment-card">
-                <div class="payment-header">
-                    <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment">
-                    <span id="card-main-title">طريقة الدفع</span>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label" id="name-input-label">اسم المستخدم</label>
-                    <div class="field-container">
-                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
-                        <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label" id="amount-input-label">المبلغ</label>
-                    <div class="field-container">
-                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
-                    </div>
-                    <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
-                </div>
-
-                <div class="copy-field">
-                    <div class="copy-info">
-                        <span class="lbl" id="lbl-phone">رقم الهاتف</span>
-                        <span id="phone-val" class="val">0123456789</span>
-                    </div>
-                    <button class="copy-btn-simple" onclick="copyText('phone-val')"><i class="fas fa-copy"></i></button>
-                </div>
-
-                <div class="copy-field">
-                    <div class="copy-info">
-                        <span class="lbl" id="lbl-reason">الرمز</span>
-                        <span id="reason-val" class="val">SRV-102</span>
-                    </div>
-                    <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
-                </div>
-
-                <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
-                    <div class="preview-container">
-                        <img id="file-preview" class="preview-img" style="display:none;">
-                        <div id="preview-placeholder" class="preview-placeholder">
-                            <i class="fas fa-file-invoice"></i>
-                        </div>
-                    </div>
-                    <div class="upload-section">
-                        <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
-                        <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
-                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
-                    </div>
-                </div>
-            </div>
-
-            <button class="pay-submit-btn" id="pay-btn-text">
-                <span id="btn-label">تأكيد الإيداع</span>
-                <div class="spinner"></div>
-            </button>
-
-        </div>
-    </div>
-
-    <div id="success-overlay">
-        <div class="bank-success-icon">
-            <i class="fas fa-check"></i>
-        </div>
-        <div class="bank-success-text" id="bank-title">تم إرسال الطلب</div>
-        <div class="bank-processing-text" id="bank-sub">قيد المعالجة...</div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        window.currentFirebaseUser = { name: '', email: '' };
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userUrl = urlParams.get('user');
-        const emailUrl = urlParams.get('email');
-
-        window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
-        window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
         
-        document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
-        document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
+        <div class="search-sticky">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="serviceSearch" class="search-input">
+            </div>
+        </div>
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
-                window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
-                document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
-                document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
-            } else if (!userUrl && !emailUrl) {
-                window.location.href = "../";
-            }
-        });
-    </script>
+        <div class="content-area" id="servicesList"></div>
+
+        <button class="back-fab" id="confirmBtn" onclick="window.history.back()">
+            <span id="btn-text">تأكيد الاختيار</span>
+            <i class="fa-solid fa-arrow-left-long" style="rotate: 180deg;"></i>
+        </button>
+    </div>
 
     <script>
-        function generateRandomCode() {
-            const randomNum = Math.floor(100 + Math.random() * 900);
-            const newCode = 'SRV-' + randomNum;
-            document.getElementById('reason-val').innerText = newCode;
-            localStorage.setItem('persistent_srv_code', newCode);
+        function formatWithCommas(n) {
+            if (!n) return n;
+            let clean = n.toString().replace(/,/g, '');
+            return clean.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        function loadPersistentCode() {
-            const savedCode = localStorage.getItem('persistent_srv_code');
-            if (savedCode) {
-                document.getElementById('reason-val').innerText = savedCode;
-            } else {
-                generateRandomCode();
+        const translations = {
+            ar: { 
+                navT1: "مركز الشحن", navT2: "الرسمي",
+                search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
+                qty: "الكمية: 1", min: "أدنى:", max: "أقصى:"
+            },
+            en: { 
+                navT1: "Official Top Up", navT2: "Center",
+                search: "Search service...", btn: "Confirm Selection",
+                qty: "Qty: 1", min: "Min:", max: "Max:"
             }
-        }
-
-        function toggleUserDropdown() {
-            const container = document.getElementById('userContainer');
-            const loader = document.getElementById('user-details-loader');
-            const body = document.getElementById('user-details-body');
-
-            if (!container.classList.contains('active')) {
-                body.style.display = 'none';
-                loader.style.display = 'block';
-                container.classList.add('active');
-
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    body.style.display = 'block';
-                }, 600); 
-            } else {
-                container.classList.remove('active');
-            }
-        }
-
-        function toggleVisibility(inputId, icon) {
-            const input = document.getElementById(inputId);
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            } else {
-                input.type = "password";
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            }
-        }
-
-        function validateEnglish(input) {
-            input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
-        }
-
-        function validateAmount(input) {
-            input.value = input.value.replace(/[^0-9]/g, '');
-            let val = parseInt(input.value);
-            if (val > 2000) input.value = "2000";
-        }
+        };
 
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
@@ -570,156 +192,183 @@
             { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
             { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
             { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
             { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        function copyText(id) {
-            navigator.clipboard.writeText(document.getElementById(id).innerText);
-            const btn = event.currentTarget;
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(() => btn.innerHTML = originalHTML, 1500);
-        }
+        const servicesData = [
+            { cat: ["Facebook", "فيسبوك"], icon: "bg-fb", fa: "fa-facebook-f", items: [
+                ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "0.0002592", "100", "10000"],
+                ["Facebook - Followers [Bot Quality]", "فيسبوك - متابعون [جودة بوت]", "0.000476", "100", "100000"],
+                ["Facebook - Followers Count [Real]", "فيسبوك - عدد المتابعين [حقيقي]", "0.00088", "10", "1000000"],
+                ["Facebook - Post Reactions [Global]", "فيسبوك - ردود الفعل على المنشورات [عالمي]", "0.0016936", "10", "30000"],
+                ["Facebook - Followers", "فيسبوك - المتابعون", "0.0010048", "50", "1000000"],
+                ["Facebook - Page Likes + Followers [Cheapest]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "0.0004972", "10", "1000000"],
+                ["Facebook - Likes & Followers Count", "فيسبوك - عدد الإعجابات والمتابعين", "0.001485", "10", "500000"],
+                ["Facebook - Post Likes", "فيسبوك - الإعجابات على المنشورات", "0.00054", "20", "500000"],
+                ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972", "20", "500000"],
+                ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648", "10", "100000"],
+                ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [ لكل 1 في الكمية 60 ألف دقيقة ]", "1.728", null, null],
+                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542", "100", "2147483647"],
+                ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457", "100", "10000"],
+                ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026", "10", "50000"],
+                ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104", "100", "100000000"],
+                ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125", "10", "1000000"],
+                ["Facebook - Live Views (Duplicate)", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316", "500", "15000"],
+                ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096", "500", "10000"]
+            ]},
+            { cat: ["Instagram", "إنستغرام"], icon: "bg-ig", fa: "fa-instagram", items: [
+                ["Instagram - Followers", "إنستغرام - المتابعون", "0.002943", "10", "5000000"],
+                ["Instagram - Followers [Old Accounts]", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "0.0054", "10", "5000000"],
+                ["Instagram - Likes", "إنستغرام - الإعجابات", "0.000486", "10", "500000"],
+                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات", "0.0000018", "100", "2147483647"],
+                ["Instagram - Saves", "إنستغرام - يحفظ", "0.0000946", "10", "400000"],
+                ["Instagram - Comments [MENA Support]", "إنستغرام - التعليقات [ الشرق الأوسط دعم اسطوري]", "0.00945", "10", "10000"],
+                ["Instagram - Comments [Targeted]", "إنستغرام - التعليقات [ البلد المستهدف ]", "0.00945", "10", "10000"],
+                ["Instagram - Story Views", "إنستغرام - مشاهدات القصص", "0.000162", "100", "200000"],
+                ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة", "0.000513", "100", "50000"],
+                ["Instagram - Live Views", "إنستغرام - مشاهدات مباشرة", "0.002025", "5", "500"]
+            ]},
+            { cat: ["TikTok", "تيك توك"], icon: "bg-tt", fa: "fa-tiktok", items: [
+                ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074", "50", "1000000"],
+                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324", "10", "100000"],
+                ["TikTok - Ultra Fast Views", "تيك توك - المشاهدات سريعة للغاية", "0.000001", "50", "217545811"],
+                ["TikTok - Video Views", "تيك توك - المشاهدات", "0.000001", "100", "2147483647"],
+                ["TikTok - HQ Views [MENA]", "تيك توك - مشاهدات [جودة عالية شرق اوسط ]", "0.000017", "50", "2147483647"],
+                ["TikTok - HQ Views (Global)", "تيك توك - مشاهدات [جودة عالية ]", "0.000017", "50", "2147483647"],
+                ["TikTok - Targeted Views", "تيك توك - المشاهدات [البلد المستهدف]", "0.0001336", "500", "5000000"],
+                ["TikTok - Fast Likes", "تيك توك - [الإعجابات سريعة]", "0.000055", "10", "1000000"],
+                ["TikTok - Ultra Fast Likes", "تيك توك - [الإعجابات سريعة للغاية ]", "0.000045", "10", "5000000"],
+                ["TikTok - Likes", "تيك توك - الإعجابات", "0.0001536", "10", "1000000"],
+                ["TikTok - Hidden Profile Likes", "تيك توك - الإعجابات [ملف تعريف مخفي]", "0.000045", "10", "1000000"],
+                ["TikTok - Likes + Views", "تيك توك - الإعجابات + المشاهدات", "0.0003876", "10", "1000000"],
+                ["TikTok - Real Comments", "تيك توك - التعليقات [ داعمين حسب دولتك حقيقي ]", "0.0028", "1", "5000"],
+                ["TikTok - Saves", "تيك توك - يحفظ", "0.0000432", "100", "2147483647"],
+                ["TikTok - Shares", "تيك توك - أسهم", "0.000132", "10", "2147483647"],
+                ["TikTok - Live Views", "تيك توك - مشاهدات مباشرة", "0.000972", "100", "100000"],
+                ["TikTok - Live Likes", "تيك توك - الإعجابات المباشرة", "0.000033", "10", "2147483647"],
+                ["TikTok - Live Comments", "تيك توك - ( التعليقات المباشرة )", "0.000924", "1", "1000"],
+                ["TikTok - Live Shares", "تيك توك - مشاركات مباشرة", "0.0000114", "10", "2147483647"]
+            ]},
+            { cat: ["Discord", "ديسكورد"], icon: "bg-dc", fa: "fa-discord", items: [
+                ["Discord - Members [Online]", "دیسكورد - الأعضاء [متصلون بالإنترنت]", "0.0110566", "50", "20000"],
+                ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]", "0.0095684", "50", "100000"],
+                ["Discord - Reaction", "دیسكورد - رد فعل", "0.0106314", "50", "3000"],
+                ["Discord - Token", "دیسكورد - رمز مميز", "0.8979246", "50", "10000"],
+                ["Discord - Server Boost [1 Month]", "دیسكورد - تعزيز الخادم [ شهر واحد =1 في الكمية]", "8.6306", null, null]
+            ]},
+            { cat: ["Twitch", "تويتش"], icon: "bg-tw", fa: "fa-twitch", items: [
+                ["Twitch - Video Views", "تويتش - المشاهدات", "0.00027", "10", "10000000"],
+                ["Twitch - Followers", "تويتش - المتابعون", "0.000324", "9", "500000"],
+                ["Twitch - Live Views [Low Quality]", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "0.0006198", "5", "500"],
+                ["Twitch - Live Views [Medium Quality]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "0.0016136", "5", "10000"],
+                ["Twitch - Live Views [High Quality]", "تويتش - مشاهدات مباشرة [جودة عالية]", "0.0027784", "5", "10000"],
+                ["Twitch - Live Views [HQ | USA]", "تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | MENA]", "تويتش - مشاهدات مباشرة جودة عالية | الشرق الاوسط شمال افريقيا ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | EU]", "تويتش - مشاهدات مباشرة جودة عالية | الاتحاد الأوروبي ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | Region]", "تويتش - مشاهدات مباشرة جودة عالية | حسب المنطقة ]", "0.0044214", "5", "4000"]
+            ]}
+        ];
 
-        function previewFile() {
-            const preview = document.getElementById('file-preview');
-            const placeholder = document.getElementById('preview-placeholder');
-            const file = document.getElementById('file-input').files[0];
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                preview.src = reader.result;
-                preview.style.display = 'block';
-                placeholder.style.display = 'none';
-                
-                if (lang === 'en') {
-                    document.getElementById('upload-text').innerText = "Attached Successfully";
-                    document.getElementById('upload-sub-text').innerText = "Click to Change";
-                } else {
-                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
-                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
-                }
-            }
-            if (file) reader.readAsDataURL(file);
-        }
-
-        function updateUI() {
+        function init() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const t = translations[lang];
+            const isAr = lang === 'ar';
+            const savedServiceId = localStorage.getItem('chosen_service_id'); 
+
             const reg = regionConfigs[regIdx] || regionConfigs[0];
-            
             document.getElementById('lang-name').innerText = lang.toUpperCase();
             document.getElementById('reg-name').innerText = reg[lang];
-            document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
-            const dynamicSection = document.getElementById('dynamic-section');
-            const subHeader = document.getElementById('sub-header-text');
-            const payBtnLabel = document.getElementById('btn-label');
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             
-            if (lang === 'en') {
-                document.body.classList.remove('rtl');
-                dynamicSection.style.direction = 'ltr';
-                subHeader.innerText = "Complete payment using serviocmm";
-                subHeader.style.textAlign = 'left';
-                
-                const file = document.getElementById('file-input').files[0];
-                if (file) {
-                    document.getElementById('upload-text').innerText = "Attached Successfully";
-                    document.getElementById('upload-sub-text').innerText = "Click to Change";
-                } else {
-                    document.getElementById('upload-text').innerText = "Attach payment proof";
-                    document.getElementById('upload-sub-text').innerText = "Click to select image file";
-                }
+            document.getElementById('serviceSearch').placeholder = t.search;
+            document.getElementById('btn-text').innerText = t.btn;
 
-                document.getElementById('user-header-label').innerText = "Account Details";
-                document.getElementById('label-name').innerText = "Username";
-                document.getElementById('label-email').innerText = "Email";
-                document.getElementById('name-input-label').innerText = "Full Name";
-                document.getElementById('amount-input-label').innerText = "Amount";
-                document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
-                document.getElementById('english-name-input').placeholder = "Your CashPlus username";
-                document.getElementById('amount-input').placeholder = "10.00";
-                document.getElementById('card-main-title').innerText = "Payment Method";
-                document.getElementById('lbl-phone').innerText = "Phone";
-                document.getElementById('lbl-reason').innerText = "Code";
-                payBtnLabel.innerText = "Confirm Deposit";
-                document.getElementById('bank-title').innerText = "Request Sent";
-                document.getElementById('bank-sub').innerText = "Processing...";
-                document.getElementById('bank-sub').style.direction = "ltr";
-                document.getElementById('toggleNameVisibility').style.right = "15px";
-                document.getElementById('toggleNameVisibility').style.left = "auto";
-            } else {
-                document.body.classList.add('rtl');
-                dynamicSection.style.direction = 'rtl';
-                subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
-                subHeader.style.textAlign = 'right';
-                
-                const file = document.getElementById('file-input').files[0];
-                if (file) {
-                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
-                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
-                } else {
-                    document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع";
-                    document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
-                }
+            const list = document.getElementById('servicesList');
+            list.innerHTML = "";
 
-                document.getElementById('amount-input').placeholder = "10.00";
-                document.getElementById('bank-title').innerText = "تم إرسال الطلب";
-                document.getElementById('bank-sub').innerText = "قيد المعالجة...";
-                document.getElementById('bank-sub').style.direction = "rtl";
-                document.getElementById('toggleNameVisibility').style.right = "15px";
-                document.getElementById('toggleNameVisibility').style.left = "auto";
-            }
-        }
-        
-        async function submitDeposit() {
-            const payBtn = document.getElementById('pay-btn-text');
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbx-N43SHtpbuFVX3J-b01BjC1RDNzuTq1KgS2mI0ejqmaeXvbZ90hX7_SLXHZadPDPTpA/exec';
-            
-            const fullname = document.getElementById('english-name-input').value;
-            const amount = document.getElementById('amount-input').value;
-            const fileInput = document.getElementById('file-input');
-            
-            if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
-                return;
-            }
+            servicesData.forEach((group, gIdx) => {
+                const label = document.createElement('div');
+                label.className = 'category-label';
+                label.innerText = isAr ? group.cat[1] : group.cat[0];
+                list.appendChild(label);
 
-            const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode();
+                group.items.forEach((data, sIdx) => {
+                    const nameToShow = isAr ? data[1] : data[0];
+                    const price = data[2];
+                    const min = data[3];
+                    const max = data[4];
+                    const serviceId = `srv-${gIdx}-${sIdx}`;
 
-            payBtn.classList.add('loading');
-            payBtn.disabled = true;
+                    const item = document.createElement('div');
+                    item.className = 'service-item';
+                    if (savedServiceId === serviceId) item.classList.add('selected');
 
-            const reader = new FileReader();
-            reader.readAsDataURL(fileInput.files[0]);
-            reader.onload = async function () {
-                const formData = new URLSearchParams();
-                formData.append('fbUsername', window.currentFirebaseUser.name);
-                formData.append('fbEmail', window.currentFirebaseUser.email);
-                formData.append('fullname', fullname);
-                formData.append('amount', amount);
-                formData.append('code', oldCode);
-                formData.append('imageBase64', reader.result);
+                    let limitsHtml = (min && max) ? 
+                        `<div class="limits-row">
+                            <span>${t.min} ${formatWithCommas(min)}</span>
+                            <span>${t.max} ${formatWithCommas(max)}</span>
+                        </div>` : '';
 
-                try {
-                    await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
-                    document.getElementById('success-overlay').style.display = 'flex';
-                } catch (e) {
-                    payBtn.classList.remove('loading');
-                    payBtn.disabled = false;
-                }
-            };
+                    item.onclick = function() {
+                        document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        localStorage.setItem('chosen_service_id', serviceId);
+                        localStorage.setItem('chosen_service', nameToShow);
+                        localStorage.setItem('service_price', price);
+                        localStorage.setItem('service_min', min || "1");
+                        localStorage.setItem('service_max', max || "999999");
+                        
+                        document.getElementById('confirmBtn').classList.add('visible');
+                    };
+
+                    item.innerHTML = `
+                        <div class="service-main">
+                            <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
+                            <div class="service-info">
+                                <span class="service-name">${nameToShow}</span>
+                                <div class="price-row">
+                                    <span class="service-price">${price} $</span>
+                                    <span class="qty-label">${t.qty}</span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-circle-check check-icon"></i>
+                        </div>
+                        ${limitsHtml}
+                    `;
+                    list.appendChild(item);
+                });
+            });
+            if(savedServiceId) document.getElementById('confirmBtn').classList.add('visible');
         }
 
-        document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', () => {
-            updateUI();
-            loadPersistentCode();
+        document.getElementById('serviceSearch').addEventListener('input', function(e) {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.service-item').forEach(el => {
+                const text = el.querySelector('.service-name').innerText.toLowerCase();
+                el.classList.toggle('hidden', !text.includes(val));
+            });
+            document.querySelectorAll('.category-label').forEach(label => {
+                let n = label.nextElementSibling, visible = false;
+                while(n && !n.classList.contains('category-label')) {
+                    if(!n.classList.contains('hidden')) { visible = true; break; }
+                    n = n.nextElementSibling;
+                }
+                label.classList.toggle('hidden', !visible);
+            });
         });
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
