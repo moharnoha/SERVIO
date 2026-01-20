@@ -20,15 +20,46 @@
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
-        .main-container { width: 100%; max-width: 480px; background-color: var(--bg-gray); display: flex; flex-direction: column; min-height: 100vh; position: relative; }
-
-        .top-header { 
-            height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; width: 100%;
-            position: sticky; top: 0; z-index: 2000;
-            direction: rtl !important; 
+        
+        /* تعديل تمديد الخلفية الرمادية في الحاسوب بحواف حادة */
+        .main-container { 
+            width: 100%; 
+            max-width: 100%; 
+            background-color: var(--bg-gray); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            position: relative; 
+            align-items: center;
         }
+
+        /* تعديل الهيدر ليمتد بعرض الشاشة بالكامل وبحواف حادة */
+        .top-header { 
+            height: 70px; 
+            background-color: var(--header-green); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; /* توسيط المحتوى داخله */
+            padding: 0; 
+            box-sizing: border-box; 
+            width: 100%;
+            position: sticky; 
+            top: 0; 
+            z-index: 2000;
+            direction: rtl !important; 
+            border-radius: 0; /* حواف حادة */
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -40,8 +71,18 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        .search-sticky { position: sticky; top: 70px; z-index: 1000; background: var(--search-bg); padding: 12px 16px; }
-        .search-wrapper { position: relative; width: 100%; }
+        /* تعديل منطقة البحث لتمتد بالكامل */
+        .search-sticky { 
+            position: sticky; 
+            top: 70px; 
+            z-index: 1000; 
+            background: var(--search-bg); 
+            padding: 12px 0; 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .search-wrapper { position: relative; width: 100%; max-width: 450px; padding: 0 16px; box-sizing: border-box; }
         .search-input { 
             width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px; border: 1.5px solid transparent; 
             background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.05); outline: none; font-size: 14px; box-sizing: border-box;
@@ -49,9 +90,17 @@
             font-family: inherit;
         }
         .search-input:focus { border-color: var(--primary-blue); box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        .search-icon { position: absolute; left: 31px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
-        .content-area { padding: 0 16px 110px 16px; background-color: var(--bg-gray); }
+        /* الحفاظ على الجزء الأبيض/المحتوى في المنتصف بمقاس ثابت */
+        .content-area { 
+            padding: 0 16px 110px 16px; 
+            background-color: var(--bg-gray); 
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
+        }
+        
         .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 25px 0 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
         .category-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #cbd5e0, transparent); }
 
@@ -109,14 +158,16 @@
     <div class="main-container">
 
         <div class="top-header">
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
-            </div>
-            <div class="region-badge">
-                <div id="flag-ui"></div>
-                <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+            <div class="header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
+                </div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+                </div>
             </div>
         </div>
         
