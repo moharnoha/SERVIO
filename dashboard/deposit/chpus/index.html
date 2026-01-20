@@ -469,6 +469,11 @@
     </script>
 
     <script>
+        function generateNewCode() {
+            const randomNum = Math.floor(100 + Math.random() * 900);
+            document.getElementById('reason-val').innerText = 'SRV-' + randomNum;
+        }
+
         function toggleUserDropdown() {
             const container = document.getElementById('userContainer');
             const loader = document.getElementById('user-details-loader');
@@ -635,6 +640,7 @@
             
             const fullname = document.getElementById('english-name-input').value;
             const amount = document.getElementById('amount-input').value;
+            const currentCode = document.getElementById('reason-val').innerText;
             const fileInput = document.getElementById('file-input');
             
             if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
@@ -652,11 +658,13 @@
                 formData.append('fbEmail', window.currentFirebaseUser.email);
                 formData.append('fullname', fullname);
                 formData.append('amount', amount);
+                formData.append('code', currentCode);
                 formData.append('imageBase64', reader.result);
 
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     document.getElementById('success-overlay').style.display = 'flex';
+                    generateNewCode();
                 } catch (e) {
                     payBtn.classList.remove('loading');
                     payBtn.disabled = false;
@@ -665,7 +673,10 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', updateUI);
+        window.addEventListener('load', () => {
+            updateUI();
+            generateNewCode();
+        });
     </script>
 </body>
 </html>
