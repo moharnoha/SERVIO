@@ -30,7 +30,7 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            padding-bottom: 100px; 
+            padding-bottom: 150px; 
         }
 
         header { 
@@ -85,45 +85,46 @@
         .welcome-msg { color: #ffffff; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .welcome-icon { width: 24px; height: 24px; fill: #ffffff; opacity: 0.9; }
 
-        /* Modified Layout: Compact Auth Bar */
+        /* Modified Layout: Centered Auth Bar */
         .login-sticky-sheet {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background: #ffffff;
-            padding: 12px 20px;
+            padding: 20px;
             box-sizing: border-box;
             z-index: 9998;
             display: flex;
             align-items: center;
             justify-content: center;
             border-top: 1px solid #cbd5e1;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
         }
 
         .auth-flex-container {
             display: flex;
+            flex-direction: column;
             width: 100%;
-            max-width: 1200px;
+            max-width: 400px;
             align-items: center;
-            justify-content: space-between;
-            gap: 15px;
+            justify-content: center;
+            gap: 12px;
         }
 
         .sheet-header-text {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 800;
             color: #1a202c;
-            text-align: right;
+            text-align: center;
             margin: 0;
-            flex: 1;
         }
 
         .google-btn {
             background-color: #ffffff; 
             border-radius: 8px; 
             height: 48px;
-            padding: 0 20px;
+            padding: 0 24px;
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -132,7 +133,7 @@
             border: 1px solid #d1d5db; 
             cursor: pointer;
             transition: all 0.2s ease;
-            white-space: nowrap;
+            width: 100%;
         }
         
         .google-btn:active {
@@ -145,9 +146,6 @@
             font-size: 15px; 
             font-weight: 600; 
         }
-
-        /* Hide pill in this flat layout */
-        .sheet-pill { display: none; }
 
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
@@ -304,7 +302,7 @@
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
             document.getElementById('welcome-text').innerText = lang === 'ar' ? "أهلاً بك في عالم التميز الرقمي" : "Welcome to digital excellence";
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "سجّل الدخول باستخدام حساب جوجل" : "Sign up with Google";
+            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "سجّل الدخول باستخدام حساب جوجل" : "Sign in with Google";
             document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحبًا بعودتك" : "Welcome back";
             
             const promo = {
