@@ -66,6 +66,7 @@
             gap: 20px;
             padding: 20px;
             width: 100%;
+            max-width: 480px;
             box-sizing: border-box;
         }
 
@@ -256,6 +257,7 @@
 
         .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
 
+        /* Bank-style Success Overlay */
         #success-overlay {
             position: fixed;
             top: 0;
@@ -306,12 +308,6 @@
             0% { transform: scale(0); opacity: 0; }
             80% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
-        }
-
-        @media (min-width: 481px) {
-            .services-grid {
-                max-width: 100%;
-            }
         }
     </style>
 </head>
@@ -663,7 +659,7 @@
             }
 
             const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode(); 
+            generateRandomCode(); // تغيير الكود وحفظه فور الضغط
 
             payBtn.classList.add('loading');
             payBtn.disabled = true;
