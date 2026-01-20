@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.gstatic.com https://*.firebasejs.io https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://i.postimg.cc https://flagcdn.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.gstatic.com https://*.firebasejs.io; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://script.google.com https://script.googleusercontent.com;">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <title>Servio - Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,7 +21,7 @@
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
-        .main-container { width: 100%; max-width: 480px; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; }
+        .main-container { width: 100%; max-width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; }
 
         .top-header { 
             height: 70px; background-color: var(--header-green); 
@@ -259,6 +256,7 @@
 
         .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
 
+        /* Bank-style Success Overlay */
         #success-overlay {
             position: fixed;
             top: 0;
@@ -437,7 +435,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Firebase Configuration - Standard credentials for Client-side
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
             projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
@@ -472,170 +469,226 @@
     </script>
 
     <script>
-        (function() {
-            "use strict";
-            // Security: Disable Source Maps indirectly by avoiding Debugging comments
-            // Security: Production Logic isolation
-            
-            const _0x4f2a = {
-                v: (el) => el.value = el.value.replace(/[^a-zA-Z\s.]/g, ''),
-                a: (el) => {
-                    el.value = el.value.replace(/[^0-9]/g, '');
-                    if (parseInt(el.value) > 2000) el.value = "2000";
-                }
-            };
+        function generateRandomCode() {
+            const randomNum = Math.floor(100 + Math.random() * 900);
+            const newCode = 'SRV-' + randomNum;
+            document.getElementById('reason-val').innerText = newCode;
+            localStorage.setItem('persistent_srv_code', newCode);
+        }
 
-            window.validateEnglish = _0x4f2a.v;
-            window.validateAmount = _0x4f2a.a;
-
-            function _0x82b1() {
-                const r = Math.floor(100 + Math.random() * 900);
-                const c = 'SRV-' + r;
-                document.getElementById('reason-val').innerText = c;
-                localStorage.setItem('persistent_srv_code', c);
+        function loadPersistentCode() {
+            const savedCode = localStorage.getItem('persistent_srv_code');
+            if (savedCode) {
+                document.getElementById('reason-val').innerText = savedCode;
+            } else {
+                generateRandomCode();
             }
-            window.generateRandomCode = _0x82b1;
+        }
 
-            window.loadPersistentCode = function() {
-                const s = localStorage.getItem('persistent_srv_code');
-                if (s) document.getElementById('reason-val').innerText = s;
-                else _0x82b1();
-            };
+        function toggleUserDropdown() {
+            const container = document.getElementById('userContainer');
+            const loader = document.getElementById('user-details-loader');
+            const body = document.getElementById('user-details-body');
 
-            window.toggleUserDropdown = function() {
-                const c = document.getElementById('userContainer');
-                const l = document.getElementById('user-details-loader');
-                const b = document.getElementById('user-details-body');
-                if (!c.classList.contains('active')) {
-                    b.style.display = 'none'; l.style.display = 'block'; c.classList.add('active');
-                    setTimeout(() => { l.style.display = 'none'; b.style.display = 'block'; }, 600); 
-                } else c.classList.remove('active');
-            };
+            if (!container.classList.contains('active')) {
+                body.style.display = 'none';
+                loader.style.display = 'block';
+                container.classList.add('active');
 
-            window.toggleVisibility = function(i, ic) {
-                const input = document.getElementById(i);
-                if (input.type === "password") {
-                    input.type = "text"; ic.classList.replace('fa-eye-slash', 'fa-eye');
-                } else {
-                    input.type = "password"; ic.classList.replace('fa-eye', 'fa-eye-slash');
-                }
-            };
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }, 600); 
+            } else {
+                container.classList.remove('active');
+            }
+        }
 
-            const _mS = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
-            const _gS = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+        function toggleVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
 
-            const regionConfigs = [
-                { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: _mS },
-                { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
-                { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
-                { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
-                { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
-                { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
-                { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
-                { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-                { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
-                { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
-                { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
-                { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
-                { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: _gS }
-            ];
+        function validateEnglish(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
+        }
 
-            window.copyText = function(id) {
-                navigator.clipboard.writeText(document.getElementById(id).innerText);
-                const btn = event.currentTarget; const old = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => btn.innerHTML = old, 1500);
-            };
+        function validateAmount(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+            let val = parseInt(input.value);
+            if (val > 2000) input.value = "2000";
+        }
 
-            window.previewFile = function() {
-                const p = document.getElementById('file-preview'), ph = document.getElementById('preview-placeholder'), f = document.getElementById('file-input').files[0], l = localStorage.getItem('pref_lang') || 'ar';
-                const r = new FileReader();
-                r.onloadend = () => {
-                    p.src = r.result; p.style.display = 'block'; ph.style.display = 'none';
-                    if (l === 'en') { document.getElementById('upload-text').innerText = "Attached Successfully"; document.getElementById('upload-sub-text').innerText = "Click to Change"; }
-                    else { document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح"; document.getElementById('upload-sub-text').innerText = "انقر للتغيير"; }
-                };
-                if (f) r.readAsDataURL(f);
-            };
+        const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+        const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
-            window.updateUI = function() {
-                const lang = localStorage.getItem('pref_lang') || 'ar';
-                const rIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-                const reg = regionConfigs[rIdx] || regionConfigs[0];
-                document.getElementById('lang-name').innerText = lang.toUpperCase();
-                document.getElementById('reg-name').innerText = reg[lang];
-                document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
+            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
+            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
+            { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
+            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
+            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
+            { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
+        ];
 
-                const ds = document.getElementById('dynamic-section'), sh = document.getElementById('sub-header-text'), pl = document.getElementById('btn-label');
+        function copyText(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
+            const btn = event.currentTarget;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => btn.innerHTML = originalHTML, 1500);
+        }
+
+        function previewFile() {
+            const preview = document.getElementById('file-preview');
+            const placeholder = document.getElementById('preview-placeholder');
+            const file = document.getElementById('file-input').files[0];
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                
                 if (lang === 'en') {
-                    document.body.classList.remove('rtl'); ds.style.direction = 'ltr'; sh.innerText = "Complete payment using serviocmm"; sh.style.textAlign = 'left';
-                    const file = document.getElementById('file-input').files[0];
-                    if (file) { document.getElementById('upload-text').innerText = "Attached Successfully"; document.getElementById('upload-sub-text').innerText = "Click to Change"; }
-                    else { document.getElementById('upload-text').innerText = "Attach payment proof"; document.getElementById('upload-sub-text').innerText = "Click to select image file"; }
-                    document.getElementById('user-header-label').innerText = "Account Details";
-                    document.getElementById('label-name').innerText = "Username"; document.getElementById('label-email').innerText = "Email";
-                    document.getElementById('name-input-label').innerText = "Full Name"; document.getElementById('amount-input-label').innerText = "Amount";
-                    document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
-                    document.getElementById('english-name-input').placeholder = "Your CashPlus username";
-                    document.getElementById('card-main-title').innerText = "Payment Method";
-                    document.getElementById('lbl-phone').innerText = "Phone"; document.getElementById('lbl-reason').innerText = "Code";
-                    pl.innerText = "Confirm Deposit";
-                    document.getElementById('bank-title').innerText = "Request Sent"; document.getElementById('bank-sub').innerText = "Processing...";
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
                 } else {
-                    document.body.classList.add('rtl'); ds.style.direction = 'rtl'; sh.innerText = "إتمام الدفع بإستخدام serviocmm"; sh.style.textAlign = 'right';
-                    const file = document.getElementById('file-input').files[0];
-                    if (file) { document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح"; document.getElementById('upload-sub-text').innerText = "انقر للتغيير"; }
-                    else { document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع"; document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة"; }
-                    document.getElementById('bank-title').innerText = "تم إرسال الطلب"; document.getElementById('bank-sub').innerText = "قيد المعالجة...";
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                }
+            }
+            if (file) reader.readAsDataURL(file);
+        }
+
+        function updateUI() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+
+            const dynamicSection = document.getElementById('dynamic-section');
+            const subHeader = document.getElementById('sub-header-text');
+            const payBtnLabel = document.getElementById('btn-label');
+            
+            if (lang === 'en') {
+                document.body.classList.remove('rtl');
+                dynamicSection.style.direction = 'ltr';
+                subHeader.innerText = "Complete payment using serviocmm";
+                subHeader.style.textAlign = 'left';
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
+                } else {
+                    document.getElementById('upload-text').innerText = "Attach payment proof";
+                    document.getElementById('upload-sub-text').innerText = "Click to select image file";
+                }
+
+                document.getElementById('user-header-label').innerText = "Account Details";
+                document.getElementById('label-name').innerText = "Username";
+                document.getElementById('label-email').innerText = "Email";
+                document.getElementById('name-input-label').innerText = "Full Name";
+                document.getElementById('amount-input-label').innerText = "Amount";
+                document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
+                document.getElementById('english-name-input').placeholder = "Your CashPlus username";
+                document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('card-main-title').innerText = "Payment Method";
+                document.getElementById('lbl-phone').innerText = "Phone";
+                document.getElementById('lbl-reason').innerText = "Code";
+                payBtnLabel.innerText = "Confirm Deposit";
+                document.getElementById('bank-title').innerText = "Request Sent";
+                document.getElementById('bank-sub').innerText = "Processing...";
+                document.getElementById('bank-sub').style.direction = "ltr";
+                document.getElementById('toggleNameVisibility').style.right = "15px";
+                document.getElementById('toggleNameVisibility').style.left = "auto";
+            } else {
+                document.body.classList.add('rtl');
+                dynamicSection.style.direction = 'rtl';
+                subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
+                subHeader.style.textAlign = 'right';
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                } else {
+                    document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع";
+                    document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
+                }
+
+                document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('bank-title').innerText = "تم إرسال الطلب";
+                document.getElementById('bank-sub').innerText = "قيد المعالجة...";
+                document.getElementById('bank-sub').style.direction = "rtl";
+                document.getElementById('toggleNameVisibility').style.right = "15px";
+                document.getElementById('toggleNameVisibility').style.left = "auto";
+            }
+        }
+        
+        async function submitDeposit() {
+            const payBtn = document.getElementById('pay-btn-text');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
+            
+            const fullname = document.getElementById('english-name-input').value;
+            const amount = document.getElementById('amount-input').value;
+            const fileInput = document.getElementById('file-input');
+            
+            if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
+                return;
+            }
+
+            const oldCode = document.getElementById('reason-val').innerText;
+            generateRandomCode(); // تغيير الكود وحفظه فور الضغط
+
+            payBtn.classList.add('loading');
+            payBtn.disabled = true;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(fileInput.files[0]);
+            reader.onload = async function () {
+                const formData = new URLSearchParams();
+                formData.append('fbUsername', window.currentFirebaseUser.name);
+                formData.append('fbEmail', window.currentFirebaseUser.email);
+                formData.append('fullname', fullname);
+                formData.append('amount', amount);
+                formData.append('code', oldCode);
+                formData.append('imageBase64', reader.result);
+
+                try {
+                    await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
+                    document.getElementById('success-overlay').style.display = 'flex';
+                } catch (e) {
+                    payBtn.classList.remove('loading');
+                    payBtn.disabled = false;
                 }
             };
+        }
 
-            // Enhanced Security Submission with basic Bot Defense simulation
-            let _lastSub = 0;
-            window.submitDeposit = async function() {
-                const now = Date.now();
-                if (now - _lastSub < 5000) return; // Rate limiting client-side
-                
-                const btn = document.getElementById('pay-btn-text');
-                const sURL = 'https://script.google.com/macros/s/AKfycbx0jttf5vvxuM32SijHlVaPvkHb_qj4lGeg4nGcc5FSeRD5pgmEWrsqNxLLPr0946ioAg/exec';
-                
-                const n = document.getElementById('english-name-input').value;
-                const a = document.getElementById('amount-input').value;
-                const fI = document.getElementById('file-input');
-                
-                // Strict Validation
-                if (!n || n.length < 3 || !a || parseInt(a) < 10 || fI.files.length === 0) return;
-
-                const oC = document.getElementById('reason-val').innerText;
-                _0x82b1(); 
-
-                btn.classList.add('loading'); btn.disabled = true;
-                _lastSub = now;
-
-                const r = new FileReader();
-                r.readAsDataURL(fI.files[0]);
-                r.onload = async function () {
-                    const fd = new URLSearchParams();
-                    fd.append('fbUsername', window.currentFirebaseUser.name);
-                    fd.append('fbEmail', window.currentFirebaseUser.email);
-                    fd.append('fullname', n);
-                    fd.append('amount', a);
-                    fd.append('code', oC);
-                    fd.append('imageBase64', r.result);
-
-                    try {
-                        // Use fetch with no-cors as requested by original logic, but wrapped in security-conscious try-catch
-                        await fetch(sURL, { method: 'POST', mode: 'no-cors', body: fd, cache: 'no-store' });
-                        document.getElementById('success-overlay').style.display = 'flex';
-                    } catch (e) {
-                        btn.classList.remove('loading'); btn.disabled = false;
-                    }
-                };
-            };
-
-            document.getElementById('pay-btn-text').onclick = window.submitDeposit;
-            window.addEventListener('load', () => { window.updateUI(); window.loadPersistentCode(); });
-        })();
+        document.getElementById('pay-btn-text').onclick = submitDeposit;
+        window.addEventListener('load', () => {
+            updateUI();
+            loadPersistentCode();
+        });
     </script>
 </body>
 </html>
