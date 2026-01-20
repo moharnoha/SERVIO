@@ -20,7 +20,7 @@
         .main-container { width: 100%; max-width: 100%; min-height: 100vh; background-color: #f7fafc; display: flex; flex-direction: column; }
 
         @media (min-width: 481px) {
-            .main-container { max-width: 800px; margin: 20px; border-radius: 20px; min-height: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .main-container { max-width: 100%; margin: 0; border-radius: 0; min-height: 100vh; box-shadow: none; }
         }
 
         .content-area { padding: 20px 16px; flex: 1; }
@@ -45,17 +45,16 @@
 
         #email { direction: ltr; text-align: left; }
 
-        /* تعديل الجزء الرمادي ليتمدد بحواف حادة */
         .price-container { 
             background: #E4ECE3; 
-            margin: 0 -24px; /* لإلغاء البادينج الخاص بالكارد وجعله يتمدد */
+            margin: 0 -24px; 
             padding: 16px 24px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             border-top: 1px solid #D1D9D0;
             border-bottom: 1px solid #D1D9D0;
-            border-radius: 0; /* حواف حادة */
+            border-radius: 0;
         }
         
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
