@@ -21,15 +21,53 @@
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        
+        /* Updated Container */
         .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; align-items: center; }
 
+        /* Expanded Top Header */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
+            display: flex; align-items: center; justify-content: center; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
             direction: rtl !important;
         }
+
+        .header-content {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Expanded Sub Header Bar */
+        .sub-header-bar {
+            background-color: var(--sub-header);
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sub-header-content {
+            width: 100%;
+            max-width: 480px;
+            text-align: right;
+        }
+
+        /* Responsive Expansion for larger screens */
+        @media (min-width: 481px) {
+            .header-content { max-width: 100%; padding: 0 40px; }
+            .sub-header-content { max-width: 100%; padding: 0 40px; }
+        }
+
         .brand-section { display: flex; align-items: center; direction: rtl !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -48,17 +86,6 @@
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
-
-        .sub-header-bar {
-            background-color: var(--sub-header);
-            color: #ffffff;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 700;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: right;
-        }
 
         .services-grid {
             display: flex;
@@ -257,7 +284,6 @@
 
         .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
 
-        /* Bank-style Success Overlay */
         #success-overlay {
             position: fixed;
             top: 0;
@@ -316,26 +342,30 @@
     <div class="main-container">
 
         <div class="top-header">
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box">
-                    <span>مركز الخدمات الرقمية</span>
-                    <span>Digital Services Center</span>
+            <div class="header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box">
+                        <span>مركز الخدمات الرقمية</span>
+                        <span>Digital Services Center</span>
+                    </div>
                 </div>
-            </div>
-            <div class="region-badge">
-                <div id="flag-ui"></div>
-                <div class="region-text">
-                    <span id="reg-name">---</span>
-                    <span style="opacity:0.3">|</span>
-                    <span id="lang-name">--</span>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text">
+                        <span id="reg-name">---</span>
+                        <span style="opacity:0.3">|</span>
+                        <span id="lang-name">--</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="sub-header-bar" id="sub-header-text">
-            إتمام الدفع بإستخدام serviocmm
+        <div class="sub-header-bar">
+            <div class="sub-header-content" id="sub-header-text">
+                إتمام الدفع بإستخدام serviocmm
+            </div>
         </div>
 
         <div class="services-grid" id="dynamic-section">
@@ -659,7 +689,7 @@
             }
 
             const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode(); // تغيير الكود وحفظه فور الضغط
+            generateRandomCode();
 
             payBtn.classList.add('loading');
             payBtn.disabled = true;
