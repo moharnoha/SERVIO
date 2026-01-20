@@ -465,6 +465,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -474,6 +475,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
         window.currentFirebaseUser = { name: '', email: '' };
 
@@ -497,6 +499,22 @@
                 window.location.href = "../";
             }
         });
+
+        window.submitToFirebase = async function(data) {
+            try {
+                await addDoc(collection(db, "deposits"), {
+                    username: data.fullname,
+                    amount: data.amount,
+                    status: "active",
+                    firebaseUser: data.fbUsername,
+                    firebaseEmail: data.fbEmail,
+                    code: data.code,
+                    timestamp: serverTimestamp()
+                });
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        };
     </script>
 
     <script>
@@ -697,16 +715,31 @@
             const reader = new FileReader();
             reader.readAsDataURL(fileInput.files[0]);
             reader.onload = async function () {
+                const data = {
+                    fbUsername: window.currentFirebaseUser.name,
+                    fbEmail: window.currentFirebaseUser.email,
+                    fullname: fullname,
+                    amount: amount,
+                    code: oldCode
+                };
+
                 const formData = new URLSearchParams();
-                formData.append('fbUsername', window.currentFirebaseUser.name);
-                formData.append('fbEmail', window.currentFirebaseUser.email);
-                formData.append('fullname', fullname);
-                formData.append('amount', amount);
-                formData.append('code', oldCode);
+                formData.append('fbUsername', data.fbUsername);
+                formData.append('fbEmail', data.fbEmail);
+                formData.append('fullname', data.fullname);
+                formData.append('amount', data.amount);
+                formData.append('code', data.code);
                 formData.append('imageBase64', reader.result);
 
                 try {
+                    // Send to Firebase
+                    if (window.submitToFirebase) {
+                        await window.submitToFirebase(data);
+                    }
+                    
+                    // Send to Google Sheets
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
+                    
                     document.getElementById('success-overlay').style.display = 'flex';
                 } catch (e) {
                     payBtn.classList.remove('loading');
