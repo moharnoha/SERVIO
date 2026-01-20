@@ -90,52 +90,17 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* --- الهيدر الثالث (تم التحديث للتصحيح الكامل) --- */
+        /* --- الهيدر الثالث --- */
         .new-header-container {
-            background: var(--bg-gradient); 
-            padding: 25px 20px 30px 20px;
-            border-bottom-left-radius: 35px; 
-            border-bottom-right-radius: 35px;
+            background: var(--bg-gradient); padding: 25px 20px 30px 20px;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
         }
-        .shortcuts-scroll-wrapper { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 10px; 
-        }
-        .shortcut-item { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            flex: 1; 
-            gap: 12px; 
-            text-decoration: none; 
-            cursor: pointer; 
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        .icon-box { 
-            width: 70px; 
-            height: 70px; 
-            background: var(--card-white); 
-            border-radius: 22px; 
-            box-shadow: var(--shadow-soft); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        .shortcut-label { 
-            font-size: 9px; 
-            font-weight: 700; 
-            color: #3d4a3c; 
-            text-align: center; 
-            white-space: nowrap; 
-        }
-        .icon-svg { 
-            width: 24px; 
-            height: 24px; 
-            fill: var(--brand-green); 
-        }
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
+        .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
+        .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
         /* --- قسم المعاملات --- */
         .transactions-header { 
@@ -167,7 +132,7 @@
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
-        /* Modal Structure */
+        /* Modal Structure (Improved UI) */
         .modal-overlay {
             position: fixed; 
             top: 0; 
@@ -181,7 +146,7 @@
             z-index: 9999; 
             padding: 20px;
             box-sizing: border-box;
-            backdrop-filter: none;
+            backdrop-filter: none; /* إزالة الضبابية */
         }
         .modal-card {
             background: #fff; 
@@ -193,7 +158,7 @@
             position: relative; 
             overflow: hidden;
             border: none;
-            margin: auto;
+            margin: auto; /* لضمان التوسيط التلقائي */
         }
         .modal-header-accent {
             background: var(--header-green); color: white; padding: 25px 20px; text-align: center;
@@ -217,6 +182,7 @@
             border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
         }
 
+        /* Detail Rows for Modal */
         .detail-row {
             display: flex; align-items: flex-start; justify-content: space-between;
             padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
@@ -271,28 +237,20 @@
 
         <div class="new-header-container">
             <div class="shortcuts-scroll-wrapper">
-                <a href="smm-services/index.html" id="link-smm" class="shortcut-item">
-                    <div class="icon-box">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
-                    </div>
+                <a href="smm-services/" class="shortcut-item">
+                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
                     <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
                 </a>
-                <a href="deposit/index.html" id="link-deposit" class="shortcut-item">
-                    <div class="icon-box">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
-                    </div>
+                <a href="deposit/" class="shortcut-item">
+                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
                     <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
                 </a>
-                <a href="menu/index.html" id="link-menu" class="shortcut-item">
-                    <div class="icon-box">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                    </div>
+                <a href="menu/" class="shortcut-item">
+                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
                     <span class="shortcut-label" id="txt-menu">القائمة</span>
                 </a>
-                <div class="shortcut-item" onclick="handleLogout()" role="button">
-                    <div class="icon-box">
-                        <svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                    </div>
+                <div class="shortcut-item" onclick="handleLogout()">
+                    <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
                     <span class="shortcut-label" id="txt-logout">خروج</span>
                 </div>
             </div>
@@ -340,25 +298,10 @@
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        // دالة آمنة لتحديث الروابط مع الحفاظ على البيانات
-        const updateSafeLinks = (userName, userEmail) => {
-            const queryStr = `?user=${encodeURIComponent(userName || '')}&email=${encodeURIComponent(userEmail || '')}`;
-
-            const smmLink = document.getElementById('link-smm');
-            const depLink = document.getElementById('link-deposit');
-            const menuLink = document.getElementById('link-menu');
-
-            if (smmLink) smmLink.href = `smm-services/index.html${queryStr}`;
-            if (depLink) depLink.href = `deposit/index.html${queryStr}`;
-            if (menuLink) menuLink.href = `menu/index.html${queryStr}`;
-        };
-
         window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const modalTitle = document.getElementById('modal-title');
-            const modalCloseTxt = document.getElementById('modal-close-txt');
-            if(modalTitle) modalTitle.innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
-            if(modalCloseTxt) modalCloseTxt.innerText = isAr ? 'إغلاق' : 'Close';
+            document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
+            document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
             const isStatusActive = status.toLowerCase() === 'active';
             const statusStyle = isStatusActive ? 'is-active' : '';
@@ -388,15 +331,12 @@
                 </div>
             `;
             
-            const content = document.getElementById('modal-content');
-            if(content) content.innerHTML = html;
-            const modal = document.getElementById('trans-modal');
-            if(modal) modal.style.display = 'flex';
+            document.getElementById('modal-content').innerHTML = html;
+            document.getElementById('trans-modal').style.display = 'flex';
         };
 
         window.closeModal = () => {
-            const modal = document.getElementById('trans-modal');
-            if(modal) modal.style.display = 'none';
+            document.getElementById('trans-modal').style.display = 'none';
         };
 
         const loadCache = () => {
@@ -405,14 +345,11 @@
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
-                const balEl = document.getElementById('user-balance');
-                if(balEl) balEl.innerText = formatBalance(cache.balance) + " USD";
+                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + " USD";
                 window.renderUserData();
-                updateSafeLinks(cache.name, cache.email);
             }
             if (transCache) {
-                const container = document.getElementById('trans-container');
-                if(container) container.innerHTML = transCache;
+                document.getElementById('trans-container').innerHTML = transCache;
             }
         };
 
@@ -426,8 +363,6 @@
                         window.currentName = name;
                         window.currentEmail = user.email;
                         
-                        updateSafeLinks(name, user.email);
-
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
                         isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
@@ -445,7 +380,6 @@
                 
                 onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
                     const container = document.getElementById('trans-container');
-                    if(!container) return;
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
                     if (snap.empty) {
@@ -492,7 +426,7 @@
                     container.innerHTML = htmlContent;
                     localStorage.setItem('trans_cache', htmlContent);
                 });
-            } else { window.location.href = "../index.html"; }
+            } else { window.location.href = "../"; }
         });
 
         window.handleLogout = () => { 
@@ -503,11 +437,17 @@
         window.togglePrivacy = async function() { 
             const user = auth.currentUser;
             if (!user) return;
+            
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
+            
             try {
                 const userRef = doc(db, "users", user.uid);
-                await updateDoc(userRef, { hide_email: val, hide_username: val });
+                await updateDoc(userRef, {
+                    hide_email: val,
+                    hide_username: val
+                });
+                
                 localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
@@ -578,16 +518,26 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
-            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
+            if (nameEl) {
+                if (hideUser) nameEl.innerText = "••••••••";
+                else nameEl.innerText = window.currentName || "---";
+            }
+
+            if (emailEl) {
+                if (hideEmail) emailEl.innerText = "••••••••••••";
+                else emailEl.innerText = window.currentEmail || "---";
+            }
 
             if (eyeIcon) {
-                eyeIcon.innerHTML = (hideEmail || hideUser) 
-                ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>'
-                : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                if (hideEmail || hideUser) {
+                    eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+                } else {
+                    eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                }
             }
         };
 
