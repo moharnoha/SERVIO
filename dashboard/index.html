@@ -22,7 +22,7 @@
         }
 
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-        body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; }
+        body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; align-items: center; }
         
         /* منع أي حركات أو انتقالات نهائياً */
         * { 
@@ -36,12 +36,15 @@
         /* --- الهيدر الأول (ثابت) --- */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center; 
+            width: 100%;
+        }
+        .top-header-content {
+            width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0; margin-right: 12px; margin-left: 12px; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
@@ -51,7 +54,10 @@
         /* --- الهيدر الثاني (ثابت) --- */
         .bottom-header {
             background-color: var(--sub-green);
-            padding: 15px; box-sizing: border-box;
+            width: 100%; display: flex; justify-content: center;
+        }
+        .bottom-header-content {
+            width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box;
         }
 
         .wallet-card {
@@ -92,9 +98,13 @@
 
         /* --- الهيدر الثالث --- */
         .new-header-container {
-            background: var(--bg-gradient); padding: 25px 20px 30px 20px;
+            background: var(--bg-gradient); 
+            width: 100%; display: flex; justify-content: center;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
+        }
+        .new-header-content {
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
@@ -104,10 +114,13 @@
 
         /* --- قسم المعاملات --- */
         .transactions-header { 
-            padding: 25px 20px; 
+            width: 100%; display: flex; justify-content: center;
             background: #ffffff; 
             margin-top: 10px;
             min-height: 500px;
+        }
+        .transactions-content {
+            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
         }
         .trans-list { 
             display: flex; 
@@ -146,7 +159,6 @@
             z-index: 9999; 
             padding: 20px;
             box-sizing: border-box;
-            backdrop-filter: none; /* إزالة الضبابية */
         }
         .modal-card {
             background: #fff; 
@@ -158,7 +170,7 @@
             position: relative; 
             overflow: hidden;
             border: none;
-            margin: auto; /* لضمان التوسيط التلقائي */
+            margin: auto;
         }
         .modal-header-accent {
             background: var(--header-green); color: white; padding: 25px 20px; text-align: center;
@@ -182,7 +194,6 @@
             border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
         }
 
-        /* Detail Rows for Modal */
         .detail-row {
             display: flex; align-items: flex-start; justify-content: space-between;
             padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
@@ -192,6 +203,8 @@
         .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
         .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
         .detail-value.m-red { color: #ef4444; }
+
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body class="notranslate">
@@ -199,66 +212,74 @@
     <div class="page-wrapper">
         <div class="sticky-header-container">
             <div class="top-header">
-                <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                    <div class="v-line"></div>
-                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
-                </div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+                <div class="top-header-content">
+                    <div class="brand-section">
+                        <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                        <div class="v-line"></div>
+                        <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
+                    </div>
+                    <div class="region-badge">
+                        <div id="flag-ui"></div>
+                        <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+                    </div>
                 </div>
             </div>
 
             <div class="bottom-header">
-                <div class="wallet-card">
-                    <div class="user-meta-info">
-                        <div class="avatar-box">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                        </div>
-                        <div class="name-stack">
-                            <div class="welcome-row">
-                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                <span class="full-name-val" id="user-full-name">---</span>
+                <div class="bottom-header-content">
+                    <div class="wallet-card">
+                        <div class="user-meta-info">
+                            <div class="avatar-box">
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                             </div>
-                            <div class="email-privacy-row">
-                                <span class="user-email-val" id="user-email">---</span>
-                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                            <div class="name-stack">
+                                <div class="welcome-row">
+                                    <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                    <span class="full-name-val" id="user-full-name">---</span>
+                                </div>
+                                <div class="email-privacy-row">
+                                    <span class="user-email-val" id="user-email">---</span>
+                                    <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="balance-stack">
-                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0 USD</span>
+                        <div class="balance-stack">
+                            <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
+                            <span class="bal-amount" id="user-balance">0 USD</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="new-header-container">
-            <div class="shortcuts-scroll-wrapper">
-                <a href="smm-services/" class="shortcut-item">
-                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
-                    <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
-                </a>
-                <a href="deposit/" class="shortcut-item">
-                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
-                    <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
-                </a>
-                <a href="menu/" class="shortcut-item">
-                    <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
-                    <span class="shortcut-label" id="txt-menu">القائمة</span>
-                </a>
-                <div class="shortcut-item" onclick="handleLogout()">
-                    <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
-                    <span class="shortcut-label" id="txt-logout">خروج</span>
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
+                        <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
+                        <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
+                    </a>
+                    <a href="menu/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
+                        <span class="shortcut-label" id="txt-menu">القائمة</span>
+                    </a>
+                    <div class="shortcut-item" onclick="handleLogout()">
+                        <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
+                        <span class="shortcut-label" id="txt-logout">خروج</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="transactions-header">
-            <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
-            <div id="trans-container" class="trans-list"></div>
+            <div class="transactions-content">
+                <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
+                <div id="trans-container" class="trans-list"></div>
+            </div>
         </div>
     </div>
 
