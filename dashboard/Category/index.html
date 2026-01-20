@@ -60,6 +60,18 @@
             box-sizing: border-box;
         }
 
+        /* تعديلات الشاشات الكبيرة لتوسيع الهيدر فقط */
+        @media (min-width: 481px) {
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+            .search-wrapper {
+                max-width: 100% !important;
+                padding: 0 40px !important;
+            }
+        }
+
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -262,7 +274,7 @@
             ]},
             { cat: ["TikTok", "تيك توك"], icon: "bg-tt", fa: "fa-tiktok", items: [
                 ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074", "50", "1000000"],
-                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324", "10", "100000"],
+                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324", "10", "10000"],
                 ["TikTok - Ultra Fast Views", "تيك توك - المشاهدات سريعة للغاية", "0.000001", "50", "217545811"],
                 ["TikTok - Video Views", "تيك توك - المشاهدات", "0.000001", "100", "2147483647"],
                 ["TikTok - HQ Views [MENA]", "تيك توك - مشاهدات [جودة عالية شرق اوسط ]", "0.000017", "50", "2147483647"],
