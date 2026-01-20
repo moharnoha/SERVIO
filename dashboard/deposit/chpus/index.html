@@ -640,12 +640,15 @@
             
             const fullname = document.getElementById('english-name-input').value;
             const amount = document.getElementById('amount-input').value;
-            const currentCode = document.getElementById('reason-val').innerText;
             const fileInput = document.getElementById('file-input');
             
             if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
                 return;
             }
+
+            // يتم تغيير الكود بمجرد بدء المعاملة وظهور علامة التحميل
+            generateRandomCode();
+            const currentCode = document.getElementById('reason-val').innerText;
 
             payBtn.classList.add('loading');
             payBtn.disabled = true;
@@ -664,8 +667,6 @@
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     document.getElementById('success-overlay').style.display = 'flex';
-                    // التغيير هنا: الكود يتغير فقط عند نجاح الإرسال وليس عند التحميل
-                    generateRandomCode();
                 } catch (e) {
                     payBtn.classList.remove('loading');
                     payBtn.disabled = false;
