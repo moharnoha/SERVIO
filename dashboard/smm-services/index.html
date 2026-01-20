@@ -17,10 +17,32 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
         .container-wrapper { width: 100%; display: flex; justify-content: center; }
-        .main-container { width: 100%; max-width: 100%; min-height: 100vh; background-color: #f7fafc; display: flex; flex-direction: column; }
+        
+        /* التعديل المطلوب: تمديد الجزء الخلفي في الحاسوب بحواف حادة */
+        .main-container { 
+            width: 100%; 
+            max-width: 100%; 
+            min-height: 100vh; 
+            background-color: #f7fafc; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* لضمان بقاء الجزء الأبيض في الوسط */
+        }
 
         @media (min-width: 481px) {
-            .main-container { max-width: 100%; margin: 0; border-radius: 0; min-height: 100vh; box-shadow: none; }
+            .main-container { 
+                max-width: 100%; /* تمديد العرض ليشمل الشاشة كاملة في الحاسوب */
+                margin: 0; 
+                border-radius: 0; /* حواف حادة للجزء الخلفي */
+                min-height: 100vh; 
+                box-shadow: none; 
+            }
+            /* الحفاظ على الجزء الأبيض ثابتًا في الوسط دون تمديد */
+            .content-area {
+                width: 100%;
+                max-width: 500px; /* تحديد عرض الجزء الأبيض في الحاسوب */
+                margin: 0 auto;
+            }
         }
 
         .content-area { padding: 20px 16px; flex: 1; }
@@ -54,7 +76,7 @@
             align-items: center; 
             border-top: 1px solid #D1D9D0;
             border-bottom: 1px solid #D1D9D0;
-            border-radius: 0;
+            border-radius: 0; 
         }
         
         .price-label { font-size: 14px; font-weight: 700; color: #475569; }
@@ -68,7 +90,6 @@
         .loading #btn-text { opacity: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Status Overlay */
         #status-overlay {
             position: fixed;
             top: 0;
@@ -118,7 +139,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Modern & Minimalist Toast Notification Style */
         .toast-container { 
             position: fixed; 
             top: 25px; 
