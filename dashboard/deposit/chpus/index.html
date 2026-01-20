@@ -469,7 +469,7 @@
     </script>
 
     <script>
-        function generateNewCode() {
+        function generateRandomCode() {
             const randomNum = Math.floor(100 + Math.random() * 900);
             document.getElementById('reason-val').innerText = 'SRV-' + randomNum;
         }
@@ -664,7 +664,7 @@
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     document.getElementById('success-overlay').style.display = 'flex';
-                    generateNewCode();
+                    generateRandomCode();
                 } catch (e) {
                     payBtn.classList.remove('loading');
                     payBtn.disabled = false;
@@ -673,10 +673,7 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', () => {
-            updateUI();
-            generateNewCode();
-        });
+        window.addEventListener('load', updateUI);
     </script>
 </body>
 </html>
