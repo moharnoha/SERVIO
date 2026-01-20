@@ -36,10 +36,29 @@
         header { 
             width: 100%; height: 70px; 
             background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; position: sticky; 
+            display: flex; align-items: center; justify-content: center; 
+            position: sticky; 
             top: 0; z-index: 1000;
         }
+
+        .header-content {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 481px) {
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+        }
+
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; display: block; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 15px; }
@@ -167,21 +186,23 @@
 
     <div class="mobile-container">
         <header>
-            <div class="brand-section">
-                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                <div class="v-line"></div>
-                <div class="title-box">
-                    <span>مركز الخدمات الرقمية</span>
-                    <span>Digital Services Center</span>
+            <div class="header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box">
+                        <span>مركز الخدمات الرقمية</span>
+                        <span>Digital Services Center</span>
+                    </div>
                 </div>
-            </div>
-            <div class="header-left-group">
-                <div class="info-display-wrapper" onclick="openSelection()">
-                    <div id="flag-display"></div>
-                    <div class="display-text">
-                        <span id="label-reg">---</span>
-                        <span style="color:rgba(255,255,255,0.3);">|</span>
-                        <span id="label-lng">--</span>
+                <div class="header-left-group">
+                    <div class="info-display-wrapper" onclick="openSelection()">
+                        <div id="flag-display"></div>
+                        <div class="display-text">
+                            <span id="label-reg">---</span>
+                            <span style="color:rgba(255,255,255,0.3);">|</span>
+                            <span id="label-lng">--</span>
+                        </div>
                     </div>
                 </div>
             </div>
