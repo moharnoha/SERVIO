@@ -21,25 +21,15 @@
         }
 
         body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; }
+        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; align-items: center; }
 
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: center; 
-            padding: 0; box-sizing: border-box; width: 100%;
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
             direction: rtl !important;
         }
-        .header-content {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
-
         .brand-section { display: flex; align-items: center; direction: rtl !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -62,25 +52,12 @@
         .sub-header-bar {
             background-color: var(--sub-header);
             color: #ffffff;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .sub-header-content {
-            width: 100%;
-            max-width: 480px;
             padding: 12px 20px;
             font-size: 14px;
             font-weight: 700;
+            width: 100%;
             box-sizing: border-box;
             text-align: right;
-        }
-
-        .content-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            flex: 1;
         }
 
         .services-grid {
@@ -339,117 +316,111 @@
     <div class="main-container">
 
         <div class="top-header">
-            <div class="header-content">
-                <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                    <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
-                    </div>
+            <div class="brand-section">
+                <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                <div class="v-line"></div>
+                <div class="title-box">
+                    <span>مركز الخدمات الرقمية</span>
+                    <span>Digital Services Center</span>
                 </div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+            </div>
+            <div class="region-badge">
+                <div id="flag-ui"></div>
+                <div class="region-text">
+                    <span id="reg-name">---</span>
+                    <span style="opacity:0.3">|</span>
+                    <span id="lang-name">--</span>
                 </div>
             </div>
         </div>
 
-        <div class="sub-header-bar">
-            <div class="sub-header-content" id="sub-header-text">
-                إتمام الدفع بإستخدام serviocmm
-            </div>
+        <div class="sub-header-bar" id="sub-header-text">
+            إتمام الدفع بإستخدام serviocmm
         </div>
 
-        <div class="content-wrapper">
-            <div class="services-grid" id="dynamic-section">
-                
-                <div class="user-dropdown-container" id="userContainer">
-                    <div class="user-dropdown-header" onclick="toggleUserDropdown()">
-                        <div class="user-header-left">
-                            <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
-                            <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
-                        </div>
-                        <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
+        <div class="services-grid" id="dynamic-section">
+            
+            <div class="user-dropdown-container" id="userContainer">
+                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
+                    <div class="user-header-left">
+                        <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
+                        <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
                     </div>
-                    <div class="user-dropdown-content">
-                        <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
-                        <div id="user-details-body">
-                            <div class="info-row-detail">
-                                <span class="label" id="label-name">اسم المستخدم</span>
-                                <span class="value" id="fb-username"></span>
-                            </div>
-                            <div class="info-row-detail">
-                                <span class="label" id="label-email">البريد الإلكتروني</span>
-                                <span class="value" id="fb-email"></span>
-                            </div>
+                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
+                </div>
+                <div class="user-dropdown-content">
+                    <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
+                    <div id="user-details-body">
+                        <div class="info-row-detail">
+                            <span class="label" id="label-name">اسم المستخدم</span>
+                            <span class="value" id="fb-username"></span>
+                        </div>
+                        <div class="info-row-detail">
+                            <span class="label" id="label-email">البريد الإلكتروني</span>
+                            <span class="value" id="fb-email"></span>
                         </div>
                     </div>
                 </div>
-
-                <div class="unified-payment-card">
-                    <div class="payment-header">
-                        <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment">
-                        <span id="card-main-title">طريقة الدفع</span>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="input-label" id="name-input-label">اسم المستخدم</label>
-                        <div class="field-container">
-                            <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
-                            <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="input-label" id="amount-input-label">المبلغ</label>
-                        <div class="field-container">
-                            <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
-                        </div>
-                        <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
-                    </div>
-
-                    <div class="copy-field">
-                        <div class="copy-info">
-                            <span class="lbl" id="lbl-phone">رقم الهاتف</span>
-                            <span id="phone-val" class="val">0123456789</span>
-                        </div>
-                        <button class="copy-btn-simple" onclick="copyText('phone-val')"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <div class="copy-field">
-                        <div class="copy-info">
-                            <span class="lbl" id="lbl-reason">الرمز</span>
-                            <span id="reason-val" class="val">SRV-102</span>
-                        </div>
-                        <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
-                    </div>
-
-                    <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
-                        <div class="preview-container">
-                            <img id="file-preview" class="preview-img" style="display:none;">
-                            <div id="preview-placeholder" class="preview-placeholder">
-                                <i class="fas fa-file-invoice"></i>
-                            </div>
-                        </div>
-                        <div class="upload-section">
-                            <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
-                            <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
-                            <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="pay-submit-btn" id="pay-btn-text">
-                    <span id="btn-label">تأكيد الإيداع</span>
-                    <div class="spinner"></div>
-                </button>
-
             </div>
+
+            <div class="unified-payment-card">
+                <div class="payment-header">
+                    <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment">
+                    <span id="card-main-title">طريقة الدفع</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" id="name-input-label">اسم المستخدم</label>
+                    <div class="field-container">
+                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
+                        <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" id="amount-input-label">المبلغ</label>
+                    <div class="field-container">
+                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
+                    </div>
+                    <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
+                </div>
+
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-phone">رقم الهاتف</span>
+                        <span id="phone-val" class="val">0123456789</span>
+                    </div>
+                    <button class="copy-btn-simple" onclick="copyText('phone-val')"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-reason">الرمز</span>
+                        <span id="reason-val" class="val">SRV-102</span>
+                    </div>
+                    <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
+                    <div class="preview-container">
+                        <img id="file-preview" class="preview-img" style="display:none;">
+                        <div id="preview-placeholder" class="preview-placeholder">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                    </div>
+                    <div class="upload-section">
+                        <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
+                        <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
+                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
+                    </div>
+                </div>
+            </div>
+
+            <button class="pay-submit-btn" id="pay-btn-text">
+                <span id="btn-label">تأكيد الإيداع</span>
+                <div class="spinner"></div>
+            </button>
+
         </div>
     </div>
 
@@ -615,13 +586,13 @@
             document.getElementById('reg-name').innerText = reg[lang];
             document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
+            const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
             const payBtnLabel = document.getElementById('btn-label');
-            const contentGrid = document.getElementById('dynamic-section');
             
             if (lang === 'en') {
                 document.body.classList.remove('rtl');
-                contentGrid.style.direction = 'ltr';
+                dynamicSection.style.direction = 'ltr';
                 subHeader.innerText = "Complete payment using serviocmm";
                 subHeader.style.textAlign = 'left';
                 
@@ -653,7 +624,7 @@
                 document.getElementById('toggleNameVisibility').style.left = "auto";
             } else {
                 document.body.classList.add('rtl');
-                contentGrid.style.direction = 'rtl';
+                dynamicSection.style.direction = 'rtl';
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
                 subHeader.style.textAlign = 'right';
                 
@@ -688,7 +659,7 @@
             }
 
             const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode(); 
+            generateRandomCode(); // تغيير الكود وحفظه فور الضغط
 
             payBtn.classList.add('loading');
             payBtn.disabled = true;
@@ -721,4 +692,4 @@
         });
     </script>
 </body>
-</html>
+</html>```
