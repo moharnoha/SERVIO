@@ -471,7 +471,18 @@
     <script>
         function generateRandomCode() {
             const randomNum = Math.floor(100 + Math.random() * 900);
-            document.getElementById('reason-val').innerText = 'SRV-' + randomNum;
+            const newCode = 'SRV-' + randomNum;
+            document.getElementById('reason-val').innerText = newCode;
+            localStorage.setItem('persistent_srv_code', newCode);
+        }
+
+        function loadPersistentCode() {
+            const savedCode = localStorage.getItem('persistent_srv_code');
+            if (savedCode) {
+                document.getElementById('reason-val').innerText = savedCode;
+            } else {
+                generateRandomCode();
+            }
         }
 
         function toggleUserDropdown() {
@@ -646,9 +657,8 @@
                 return;
             }
 
-            // يتم تغيير الكود بمجرد بدء المعاملة وظهور علامة التحميل
-            generateRandomCode();
-            const currentCode = document.getElementById('reason-val').innerText;
+            const oldCode = document.getElementById('reason-val').innerText;
+            generateRandomCode(); // تغيير الكود وحفظه فور الضغط
 
             payBtn.classList.add('loading');
             payBtn.disabled = true;
@@ -661,7 +671,7 @@
                 formData.append('fbEmail', window.currentFirebaseUser.email);
                 formData.append('fullname', fullname);
                 formData.append('amount', amount);
-                formData.append('code', currentCode);
+                formData.append('code', oldCode);
                 formData.append('imageBase64', reader.result);
 
                 try {
@@ -675,7 +685,10 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', updateUI);
+        window.addEventListener('load', () => {
+            updateUI();
+            loadPersistentCode();
+        });
     </script>
 </body>
 </html>
