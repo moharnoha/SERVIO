@@ -160,12 +160,11 @@
         .toggle-password {
             position: absolute;
             top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
             color: #94a3b8;
             cursor: pointer;
             font-size: 18px;
             z-index: 10;
+            transform: translateY(-50%);
         }
 
         .copy-field {
@@ -572,6 +571,7 @@
             const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
             const payBtnLabel = document.getElementById('btn-label');
+            const toggleIcon = document.getElementById('toggleNameVisibility');
             
             if (lang === 'en') {
                 document.body.classList.remove('rtl');
@@ -603,8 +603,9 @@
                 document.getElementById('bank-title').innerText = "Request Sent";
                 document.getElementById('bank-sub').innerText = "Processing...";
                 document.getElementById('bank-sub').style.direction = "ltr";
-                document.getElementById('toggleNameVisibility').style.right = "15px";
-                document.getElementById('toggleNameVisibility').style.left = "auto";
+                
+                toggleIcon.style.right = "15px";
+                toggleIcon.style.left = "auto";
             } else {
                 document.body.classList.add('rtl');
                 dynamicSection.style.direction = 'rtl';
@@ -620,12 +621,24 @@
                     document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
                 }
 
+                document.getElementById('user-header-label').innerText = "بيانات الحساب";
+                document.getElementById('label-name').innerText = "اسم المستخدم";
+                document.getElementById('label-email').innerText = "البريد الإلكتروني";
+                document.getElementById('name-input-label').innerText = "اسم المستخدم";
+                document.getElementById('amount-input-label').innerText = "المبلغ";
+                document.getElementById('amount-hint-text').innerText = "الأدنى 10$ - الأقصى 2000$";
+                document.getElementById('english-name-input').placeholder = "اسم المستخدم في كاش بليس";
                 document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('card-main-title').innerText = "طريقة الدفع";
+                document.getElementById('lbl-phone').innerText = "رقم الهاتف";
+                document.getElementById('lbl-reason').innerText = "الرمز";
+                payBtnLabel.innerText = "تأكيد الإيداع";
                 document.getElementById('bank-title').innerText = "تم إرسال الطلب";
                 document.getElementById('bank-sub').innerText = "قيد المعالجة...";
                 document.getElementById('bank-sub').style.direction = "rtl";
-                document.getElementById('toggleNameVisibility').style.left = "15px";
-                document.getElementById('toggleNameVisibility').style.right = "auto";
+
+                toggleIcon.style.left = "15px";
+                toggleIcon.style.right = "auto";
             }
         }
         
