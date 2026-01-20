@@ -4,33 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Servio - All Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
             --header-green: #2E5822; 
-            --bg-gray: #F2F2F2; 
-            --card-white: #ffffff;
-            --text-main: #000000;
-            --accent-green: #386E2C; 
+            --bg-light: #f8fbff; --border-gray: #e2e8f0; --text-dark: #1a202c;
+            --primary-blue: #2563eb; --text-light: #64748b; --bg-gray: #F2F2F2;
+            --card-bg: #ffffff; --fb-color: #1877F2; --ig-color: #E4405F; 
+            --tt-color: #000000; --dc-color: #5865F2; --tw-color: #9146FF;
+            --price-color: #10b981; --qty-color: #94a3b8;
+            --search-bg: #386E2C;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Modified for Expansion on Large Screens */
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-        
+        /* Unified Container for Expansion */
+        .main-container { 
+            width: 100%; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        /* Top Header Expansion */
         .top-header { 
-            height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; width: 100%;
-            position: sticky; top: 0; z-index: 2000;
-            direction: rtl !important;
+            height: 70px; 
+            background-color: var(--header-green); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 15px; 
+            box-sizing: border-box; 
+            width: 100%;
+            position: sticky; 
+            top: 0; 
+            z-index: 2000;
+            direction: rtl !important; 
         }
 
-        /* Container for inner header content to maintain alignment */
         .header-content {
             width: 100%;
             max-width: 480px;
@@ -40,18 +55,6 @@
             justify-content: space-between;
         }
 
-        /* Mobile specific constraint for grid only */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px;
-            padding: 15px;
-            width: 100%;
-            max-width: 480px;
-            box-sizing: border-box;
-        }
-
-        /* Desktop expansion rules for Header */
         @media (min-width: 481px) {
             .header-content {
                 max-width: 100%;
@@ -62,96 +65,113 @@
         .brand-section { display: flex; align-items: center; flex-direction: row !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        
         .title-box { display: flex; flex-direction: column; text-align: right !important; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-        
-        .region-badge { 
-            display: flex; align-items: center; 
-            background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
-            flex-direction: row !important;
-        }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; flex-direction: row !important; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; flex-direction: row !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        /* Default (Arabic/RTL) Card Styles */
-        .service-card {
-            background-color: var(--card-white);
-            border-radius: 12px; 
-            height: 85px; 
-            text-decoration: none;
-            position: relative; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            transition: 0.2s;
-            overflow: hidden;
-            display: block;
-        }
-
-        .service-card:active { transform: scale(0.97); }
-
-        /* Positioning for RTL (Default) */
-        .card-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 42px;
-            height: 42px;
+        /* Search Section Expansion */
+        .search-sticky { 
+            position: sticky; 
+            top: 70px; 
+            z-index: 1000; 
+            background: var(--search-bg); 
+            padding: 12px 0; 
+            width: 100%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            background: #f8f9fa;
-            border-radius: 8px;
         }
-        .card-icon img { width: 85%; height: 85%; object-fit: contain; }
-
-        .action-arrow {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            font-size: 11px;
-            color: var(--accent-green);
-            opacity: 0.7;
+        .search-wrapper { position: relative; width: 100%; max-width: 480px; padding: 0 16px; box-sizing: border-box; }
+        
+        @media (min-width: 481px) {
+            .search-wrapper { max-width: 100%; padding: 0 40px; }
         }
 
-        .service-title {
-            position: absolute;
-            bottom: 10px;
-            right: 12px;
-            left: 12px;
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--text-main);
-            margin: 0;
-            text-align: right;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: 'Cairo', sans-serif;
+        .search-input { 
+            width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px; border: 1.5px solid transparent; 
+            background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.05); outline: none; font-size: 14px; box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .search-input:focus { border-color: var(--primary-blue); box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1); }
+        .search-icon { position: absolute; left: 31px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+
+        /* Content Area Expansion */
+        .content-area { 
+            padding: 0 16px 110px 16px; 
+            background-color: var(--bg-gray); 
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
         }
 
-        .section-header {
-            grid-column: span 2;
-            font-size: 16px;
-            font-weight: 800;
-            color: #333;
-            margin: 15px 5px 5px 5px;
-            text-align: right;
-            font-family: 'Cairo', sans-serif;
+        @media (min-width: 481px) {
+            .content-area { max-width: 100%; padding: 0 40px 110px 40px; }
+        }
+        
+        .category-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 25px 0 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .category-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #cbd5e0, transparent); }
+
+        .service-item { 
+            background: var(--card-bg); padding: 14px; border-radius: 18px; border: 2px solid transparent; 
+            cursor: pointer; display: flex; flex-direction: column; margin-bottom: 12px; 
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .service-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .service-item.selected { border-color: var(--primary-blue); background-color: #f0f7ff; }
+
+        .service-main { display: flex; align-items: center; width: 100%; }
+
+        .platform-logo { 
+            width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; 
+            justify-content: center; font-size: 20px; margin-inline-end: 14px; color: white; flex-shrink: 0;
+        }
+        .bg-fb { background: var(--fb-color); }
+        .bg-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-tt { background: var(--tt-color); }
+        .bg-dc { background: var(--dc-color); }
+        .bg-tw { background: var(--tw-color); }
+        
+        .service-info { flex: 1; display: flex; flex-direction: column; text-align: start; }
+        .service-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); line-height: 1.4; margin-bottom: 2px; }
+        
+        .price-row { display: flex; align-items: center; gap: 8px; }
+        .service-price { font-size: 13px; font-weight: 800; color: var(--price-color); font-family: 'Inter', sans-serif; }
+        .qty-label { font-size: 10px; font-weight: 600; color: var(--qty-color); background: #f1f5f9; padding: 2px 8px; border-radius: 6px; }
+
+        .limits-row { 
+            margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0;
+            display: flex; gap: 15px; font-size: 10.5px; color: #64748b; font-weight: 600;
         }
 
-        /* LTR Overrides for Grid Content ONLY */
-        html[dir="ltr"] .services-grid { direction: ltr; }
-        html[dir="ltr"] .section-header { text-align: left; }
-        html[dir="ltr"] .service-title { text-align: left; }
-        html[dir="ltr"] .card-icon { right: auto; left: 10px; }
-        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        .check-icon { color: var(--primary-blue); font-size: 22px; display: none; margin-inline-start: 10px; }
+        .service-item.selected .check-icon { display: block; animation: scaleIn 0.3s ease; }
+
+        @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .back-fab {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(120px);
+            background: var(--primary-blue); color: white; padding: 16px 40px; border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); font-weight: 700; font-size: 15px; 
+            z-index: 2000; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: none; display: flex; align-items: center; gap: 12px;
+            font-family: inherit;
+        }
+        .back-fab.visible { transform: translateX(-50%) translateY(0); }
+        .hidden { display: none !important; }
+
+        /* RTL/LTR Logic for dynamic layout */
+        html[dir="ltr"] .search-icon { left: auto; right: 31px; }
+        html[dir="ltr"] .search-input { padding: 12px 42px 12px 15px; }
+        html[dir="ltr"] .service-info { text-align: left; }
+        html[dir="ltr"] .platform-logo { margin-inline-end: 0; margin-inline-start: 14px; }
+        html[dir="ltr"] .category-label { text-align: left; }
     </style>
 </head>
-<body class="notranslate" translate="no">
+<body>
 
     <div class="main-container">
 
@@ -160,96 +180,50 @@
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
-                    </div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
             </div>
         </div>
-
-        <div class="services-grid">
-            <div class="section-header" data-ar="وسائل الدفع" data-en="Payment Methods">وسائل الدفع</div>
-            <a href="chpus/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Cash Plus</h3>
-            </a>
-            <a href="ormo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Orange Money Maroc</h3>
-            </a>
-            <a href="cihm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/y6SBz00y/IMG-2747.jpg" alt="cih mobile"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">cih mobile</h3>
-            </a>
-            <div class="section-header" data-ar="التحويلات الدولية" data-en="International Transfers">التحويلات الدولية</div>
-            <a href="weun/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/9Q0wbRH3/IMG-2738.jpg" alt="WU"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Western Union</h3>
-            </a>
-            <a href="tase/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/c4nLLRWn/IMG-2741.png" alt="Taptapsend"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Taptapsend</h3>
-            </a>
-            <a href="smwo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/NjPt8LB4/IMG-2743.jpg" alt="smallworldfs"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">smallworldfs</h3>
-            </a>
-            <a href="sewa/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/ZqVdx8Cv/IMG-2744.png" alt="Sendwave"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Sendwave</h3>
-            </a>
-            <a href="botm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/wBZsr6Qz/IMG-2745.png" alt="botim"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">botim</h3>
-            </a>
-            <a href="remy/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/GhWVbY3T/IMG-2746.jpg" alt="remitly"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">remitly</h3>
-            </a>
-            <div class="section-header" data-ar="الخدمات المصرفية" data-en="Banking Services">الخدمات المصرفية</div>
-            <a href="atmo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/cJbmZmHS/IMG-2794.jpg" alt="Attijari Mobile"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Attijari Mobile</h3>
-            </a>
-            <div class="section-header" data-ar="المحافض الالكترونية" data-en="E-Wallets">المحافض الالكترونية</div>
-            <a href="bina/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/T2SLJ37F/IMG-2799.jpg" alt="Binance"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Binance</h3>
-            </a>
-            <a href="skri/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/3xd3rJSd/IMG-2825.jpg" alt="skrill"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">skrill</h3>
-            </a>
-            <a href="rdpy/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/QMFPWF1B/IMG-2828.jpg" alt="redotpay"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">redotpay</h3>
-            </a>
+        
+        <div class="search-sticky">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="serviceSearch" class="search-input">
+            </div>
         </div>
+
+        <div class="content-area" id="servicesList"></div>
+
+        <button class="back-fab" id="confirmBtn" onclick="window.history.back()">
+            <span id="btn-text">تأكيد الاختيار</span>
+            <i class="fa-solid fa-arrow-left-long" style="rotate: 180deg;"></i>
+        </button>
     </div>
 
     <script>
+        function formatWithCommas(n) {
+            if (!n) return n;
+            let clean = n.toString().replace(/,/g, '');
+            return clean.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        const translations = {
+            ar: { 
+                navT1: "مركز الشحن", navT2: "الرسمي",
+                search: "ابحث عن خدمة...", btn: "تأكيد الاختيار",
+                qty: "الكمية: 1", min: "أدنى:", max: "أقصى:"
+            },
+            en: { 
+                navT1: "Official Top Up", navT2: "Center",
+                search: "Search service...", btn: "Confirm Selection",
+                qty: "Qty: 1", min: "Min:", max: "Max:"
+            }
+        };
+
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -269,28 +243,178 @@
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        function updateUI() {
+        const servicesData = [
+            { cat: ["Facebook", "فيسبوك"], icon: "bg-fb", fa: "fa-facebook-f", items: [
+                ["Facebook - Followers [Bot Data] [Cheapest]", "فيسبوك - المتابعون [بيانات البوت] [الأرخص]", "0.0002592", "100", "10000"],
+                ["Facebook - Followers [Bot Quality]", "فيسبوك - متابعون [جودة بوت]", "0.000476", "100", "100000"],
+                ["Facebook - Followers Count [Real]", "فيسبوك - عدد المتابعين [حقيقي]", "0.00088", "10", "1000000"],
+                ["Facebook - Post Reactions [Global]", "فيسبوك - ردود الفعل على المنشورات [عالمي]", "0.0016936", "10", "30000"],
+                ["Facebook - Followers", "فيسبوك - المتابعون", "0.0010048", "50", "1000000"],
+                ["Facebook - Page Likes + Followers [Cheapest]", "فيسبوك - إعجابات الصفحة + المتابعين [الأرخص]", "0.0004972", "10", "1000000"],
+                ["Facebook - Likes & Followers Count", "فيسبوك - عدد الإعجابات والمتابعين", "0.001485", "10", "500000"],
+                ["Facebook - Post Likes", "فيسبوك - الإعجابات على المنشورات", "0.00054", "20", "500000"],
+                ["Facebook - Post Reactions [Cheap]", "فيسبوك - ردود الفعل على المنشورات [رخيصة]", "0.0001972", "20", "500000"],
+                ["Facebook - Post Reactions", "فيسبوك - ردود الفعل على المنشور", "0.000648", "10", "100000"],
+                ["Facebook - Watch Time [60k Mins]", "فيسبوك - وقت المشاهدة [ لكل 1 في الكمية 60 ألف دقيقة ]", "1.728", null, null],
+                ["Facebook - Live Views", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Video Views", "فيسبوك - المشاهدات", "0.0000542", "100", "2147483647"],
+                ["Facebook - Story Views", "فيسبوك - مشاهدات القصص", "0.002457", "100", "10000"],
+                ["Facebook - Story Reactions", "فيسبوك - ردود الفعل على القصة", "0.001026", "10", "50000"],
+                ["Facebook - Post Shares", "فيسبوك - مشاركة المنشور", "0.000104", "100", "100000000"],
+                ["Facebook - Group Members", "فيسبوك - أعضاء المجموعة", "0.00125", "10", "1000000"],
+                ["Facebook - Live Views (Duplicate)", "فيسبوك - مشاهدات مباشرة", "0.0018114", "10", "30000"],
+                ["Facebook - Services [Global | Real]", "فيسبوك - خدمات [ عالمي | حقيقي ]", "0.01316", "500", "15000"],
+                ["Facebook - Services [Global | HQ]", "فيسبوك - خدمات [ عالمي | جودة عالية ]", "0.0096", "500", "10000"]
+            ]},
+            { cat: ["Instagram", "إنستغرام"], icon: "bg-ig", fa: "fa-instagram", items: [
+                ["Instagram - Followers", "إنستغرام - المتابعون", "0.002943", "10", "5000000"],
+                ["Instagram - Followers [Old Accounts]", "إنستغرام - المتابعون [حسابات 100% متوسطها أكثر من 15 شهرًا]", "0.0054", "10", "5000000"],
+                ["Instagram - Likes", "إنستغرام - الإعجابات", "0.000486", "10", "500000"],
+                ["Instagram - Video Views", "إنستغرام - عدد المشاهدات", "0.0000018", "100", "2147483647"],
+                ["Instagram - Saves", "إنستغرام - يحفظ", "0.0000946", "10", "400000"],
+                ["Instagram - Comments [MENA Support]", "إنستغرام - التعليقات [ الشرق الأوسط دعم اسطوري]", "0.00945", "10", "10000"],
+                ["Instagram - Comments [Targeted]", "إنستغرام - التعليقات [ البلد المستهدف ]", "0.00945", "10", "10000"],
+                ["Instagram - Story Views", "إنستغرام - مشاهدات القصص", "0.000162", "100", "200000"],
+                ["Instagram - Live Likes", "إنستغرام - الإعجابات المباشرة", "0.000513", "100", "50000"],
+                ["Instagram - Live Views", "إنستغرام - مشاهدات مباشرة", "0.002025", "5", "500"]
+            ]},
+            { cat: ["TikTok", "تيك توك"], icon: "bg-tt", fa: "fa-tiktok", items: [
+                ["TikTok - Followers [Bot Data]", "تيك توك - المتابعون [بيانات البوت] [الأرخص]", "0.0008074", "50", "1000000"],
+                ["TikTok - Real Followers", "تيك توك - متابعون جودة حقيقية", "0.00324", "10", "100000"],
+                ["TikTok - Ultra Fast Views", "تيك توك - المشاهدات سريعة للغاية", "0.000001", "50", "217545811"],
+                ["TikTok - Video Views", "تيك توك - المشاهدات", "0.000001", "100", "2147483647"],
+                ["TikTok - HQ Views [MENA]", "تيك توك - مشاهدات [جودة عالية شرق اوسط ]", "0.000017", "50", "2147483647"],
+                ["TikTok - HQ Views (Global)", "تيك توك - مشاهدات [جودة عالية ]", "0.000017", "50", "2147483647"],
+                ["TikTok - Targeted Views", "تيك توك - المشاهدات [البلد المستهدف]", "0.0001336", "500", "5000000"],
+                ["TikTok - Fast Likes", "تيك توك - [الإعجابات سريعة]", "0.000055", "10", "1000000"],
+                ["TikTok - Ultra Fast Likes", "تيك توك - [الإعجابات سريعة للغاية ]", "0.000045", "10", "5000000"],
+                ["TikTok - Likes", "تيك توك - الإعجابات", "0.0001536", "10", "1000000"],
+                ["TikTok - Hidden Profile Likes", "تيك توك - الإعجابات [ملف تعريف مخفي]", "0.000045", "10", "1000000"],
+                ["TikTok - Likes + Views", "تيك توك - الإعجابات + المشاهدات", "0.0003876", "10", "1000000"],
+                ["TikTok - Real Comments", "تيك توك - التعليقات [ داعمين حسب دولتك حقيقي ]", "0.0028", "1", "5000"],
+                ["TikTok - Saves", "تيك توك - يحفظ", "0.0000432", "100", "2147483647"],
+                ["TikTok - Shares", "تيك توك - أسهم", "0.000132", "10", "2147483647"],
+                ["TikTok - Live Views", "تيك توك - مشاهدات مباشرة", "0.000972", "100", "100000"],
+                ["TikTok - Live Likes", "تيك توك - الإعجابات المباشرة", "0.000033", "10", "2147483647"],
+                ["TikTok - Live Comments", "تيك توك - ( التعليقات المباشرة )", "0.000924", "1", "1000"],
+                ["TikTok - Live Shares", "تيك توك - مشاركات مباشرة", "0.0000114", "10", "2147483647"]
+            ]},
+            { cat: ["Discord", "ديسكورد"], icon: "bg-dc", fa: "fa-discord", items: [
+                ["Discord - Members [Online]", "دیسكورد - الأعضاء [متصلون بالإنترنت]", "0.0110566", "50", "20000"],
+                ["Discord - Members [Offline]", "ديسكورد - الأعضاء [غير متصلين]", "0.0095684", "50", "100000"],
+                ["Discord - Reaction", "دیسكورد - رد فعل", "0.0106314", "50", "3000"],
+                ["Discord - Token", "دیسكورد - رمز مميز", "0.8979246", "50", "10000"],
+                ["Discord - Server Boost [1 Month]", "دیسكورد - تعزيز الخادم [ شهر واحد =1 في الكمية]", "8.6306", null, null]
+            ]},
+            { cat: ["Twitch", "تويتش"], icon: "bg-tw", fa: "fa-twitch", items: [
+                ["Twitch - Video Views", "تويتش - المشاهدات", "0.00027", "10", "10000000"],
+                ["Twitch - Followers", "تويتش - المتابعون", "0.000324", "9", "500000"],
+                ["Twitch - Live Views [Low Quality]", "تويتش - مشاهدات مباشرة [جودة منخفضة]", "0.0006198", "5", "500"],
+                ["Twitch - Live Views [Medium Quality]", "تويتش - مشاهدات مباشرة [جودة متوسطة]", "0.0016136", "5", "10000"],
+                ["Twitch - Live Views [High Quality]", "تويتش - مشاهدات مباشرة [جودة عالية]", "0.0027784", "5", "10000"],
+                ["Twitch - Live Views [HQ | USA]", "تويتش - مشاهدات مباشرة جودة عالية | الولايات المتحدة الأمريكية ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | MENA]", "تويتش - مشاهدات مباشرة جودة عالية | الشرق الاوسط شمال افريقيا ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | EU]", "تويتش - مشاهدات مباشرة جودة عالية | الاتحاد الأوروبي ]", "0.0044214", "5", "4000"],
+                ["Twitch - Live Views [HQ | Region]", "تويتش - مشاهدات مباشرة جودة عالية | حسب المنطقة ]", "0.0044214", "5", "4000"]
+            ]}
+        ];
+
+        function init() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const t = translations[lang];
+            const isAr = lang === 'ar';
+            const savedServiceId = localStorage.getItem('chosen_service_id'); 
+
             const reg = regionConfigs[regIdx] || regionConfigs[0];
-            
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = lang.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[lang];
-            
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
             const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
-            }
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
-            // Update Section Headers text based on language
-            document.querySelectorAll('.section-header').forEach(header => {
-                header.innerText = header.getAttribute(`data-${lang}`);
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            
+            document.getElementById('serviceSearch').placeholder = t.search;
+            document.getElementById('btn-text').innerText = t.btn;
+
+            const list = document.getElementById('servicesList');
+            list.innerHTML = "";
+
+            servicesData.forEach((group, gIdx) => {
+                const label = document.createElement('div');
+                label.className = 'category-label';
+                label.innerText = isAr ? group.cat[1] : group.cat[0];
+                list.appendChild(label);
+
+                group.items.forEach((data, sIdx) => {
+                    const nameToShow = isAr ? data[1] : data[0];
+                    const price = data[2];
+                    const min = data[3];
+                    const max = data[4];
+                    const serviceId = `srv-${gIdx}-${sIdx}`;
+
+                    const item = document.createElement('div');
+                    item.className = 'service-item';
+                    if (savedServiceId === serviceId) item.classList.add('selected');
+
+                    let limitsHtml = (min && max) ? 
+                        `<div class="limits-row">
+                            <span>${t.min} ${formatWithCommas(min)}</span>
+                            <span>${t.max} ${formatWithCommas(max)}</span>
+                        </div>` : '';
+
+                    item.onclick = function() {
+                        document.querySelectorAll('.service-item').forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        localStorage.setItem('chosen_service_id', serviceId);
+                        localStorage.setItem('chosen_service', nameToShow);
+                        localStorage.setItem('service_price', price);
+                        localStorage.setItem('service_min', min || "1");
+                        localStorage.setItem('service_max', max || "999999");
+                        
+                        document.getElementById('confirmBtn').classList.add('visible');
+                    };
+
+                    item.innerHTML = `
+                        <div class="service-main">
+                            <div class="platform-logo ${group.icon}"><i class="fa-brands ${group.fa}"></i></div>
+                            <div class="service-info">
+                                <span class="service-name">${nameToShow}</span>
+                                <div class="price-row">
+                                    <span class="service-price">${price} $</span>
+                                    <span class="qty-label">${t.qty}</span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-circle-check check-icon"></i>
+                        </div>
+                        ${limitsHtml}
+                    `;
+                    list.appendChild(item);
+                });
             });
-
-            // Change Direction of the document (Headers/Cards) but Keep Top-Header RTL via CSS
-            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            if(savedServiceId) document.getElementById('confirmBtn').classList.add('visible');
         }
-        window.addEventListener('load', updateUI);
+
+        document.getElementById('serviceSearch').addEventListener('input', function(e) {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.service-item').forEach(el => {
+                const text = el.querySelector('.service-name').innerText.toLowerCase();
+                el.classList.toggle('hidden', !text.includes(val));
+            });
+            document.querySelectorAll('.category-label').forEach(label => {
+                let n = label.nextElementSibling, visible = false;
+                while(n && !n.classList.contains('category-label')) {
+                    if(!n.classList.contains('hidden')) { visible = true; break; }
+                    n = n.nextElementSibling;
+                }
+                label.classList.toggle('hidden', !visible);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
+
+Would you like me to adjust any other specific section to match this expansion logic?
