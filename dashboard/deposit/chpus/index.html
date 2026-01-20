@@ -469,6 +469,7 @@
     </script>
 
     <script>
+        // وظيفة توليد الكود العشوائي وتحديث الواجهة
         function generateRandomCode() {
             const randomNum = Math.floor(100 + Math.random() * 900);
             document.getElementById('reason-val').innerText = 'SRV-' + randomNum;
@@ -640,7 +641,7 @@
             
             const fullname = document.getElementById('english-name-input').value;
             const amount = document.getElementById('amount-input').value;
-            const currentCode = document.getElementById('reason-val').innerText;
+            const currentCode = document.getElementById('reason-val').innerText; // جلب الكود الحالي للإرسال
             const fileInput = document.getElementById('file-input');
             
             if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
@@ -658,13 +659,16 @@
                 formData.append('fbEmail', window.currentFirebaseUser.email);
                 formData.append('fullname', fullname);
                 formData.append('amount', amount);
-                formData.append('code', currentCode);
+                formData.append('code', currentCode); // إرسال الكود المستخدم
                 formData.append('imageBase64', reader.result);
 
                 try {
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
-                    document.getElementById('success-overlay').style.display = 'flex';
+                    
+                    // توليد كود جديد فور نجاح الإرسال وتحديث الخانة قبل ظهور النافذة
                     generateRandomCode();
+                    
+                    document.getElementById('success-overlay').style.display = 'flex';
                 } catch (e) {
                     payBtn.classList.remove('loading');
                     payBtn.disabled = false;
@@ -673,7 +677,12 @@
         }
 
         document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', updateUI);
+        
+        // عند التحميل، نقوم بتحديث الواجهة وتوليد الكود الأول
+        window.addEventListener('load', () => {
+            updateUI();
+            generateRandomCode(); 
+        });
     </script>
 </body>
 </html>
