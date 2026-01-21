@@ -4,468 +4,335 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Services</title>
+    <title>serviocmm - Pro Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
             --header-green: #2E5822; 
-            --bg-gray: #E4ECE3; 
-            --card-white: #ffffff;
-            --text-main: #1a202c;
-            --accent-green: #386E2C; 
-            --sub-header: #396E2D;
-            --border-light: #E4ECE3;
-            --primary-blue: #2563eb;
+            --sub-green: #386E2C; 
+            --platform-bg: #f7fafc;
+            --bg-gradient: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --text-dark: #1A2419;
+            --brand-green: #2E5822;
+            --brand-red: #C62828;
+            --brand-deposit: #10b981; 
+            --card-white: #FFFFFF;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+        body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; align-items: center; }
         
-        /* Updated Container */
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; align-items: center; }
+        * { 
+            transition: none !important; 
+            animation: none !important; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
-        /* Expanded Top Header */
+        /* Adjusted Sticky Header for wide screen expansion */
+        .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
+
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: center; 
-            padding: 0 15px; box-sizing: border-box; width: 100%;
-            position: sticky; top: 0; z-index: 2000;
-            direction: rtl !important;
-        }
-
-        .header-content {
             width: 100%;
-            max-width: 480px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
-        /* Expanded Sub Header Bar */
-        .sub-header-bar {
-            background-color: var(--sub-header);
-            color: #ffffff;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 700;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-            display: flex;
-            justify-content: center;
+        /* Matching the reference expansion logic */
+        .top-header-content {
+            width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
 
-        .sub-header-content {
-            width: 100%;
-            max-width: 480px;
-            text-align: right;
-        }
-
-        /* Responsive Expansion for larger screens */
         @media (min-width: 481px) {
-            .header-content { max-width: 100%; padding: 0 40px; }
-            .sub-header-content { max-width: 100%; padding: 0 40px; }
+            .top-header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+            .bottom-header-content {
+                max-width: 100%;
+                padding: 15px 40px;
+            }
+            .new-header-content {
+                max-width: 100%;
+                padding: 25px 40px 30px 40px;
+            }
+            .transactions-content {
+                max-width: 100%;
+                padding: 25px 40px;
+            }
         }
 
-        .brand-section { display: flex; align-items: center; direction: rtl !important; }
+        .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
+        .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+
+        .bottom-header {
+            background-color: var(--sub-green);
+            width: 100%; display: flex; justify-content: center;
+        }
+        .bottom-header-content {
+            width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box;
+        }
+
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px; padding: 18px 20px;
+            display: flex; flex-direction: column; gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px); min-height: 90px;
+        }
+
+        .user-meta-info { display: flex; align-items: center; gap: 12px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; }
         
-        .region-badge { 
-            display: flex; align-items: center; 
-            background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
-            direction: rtl !important;
-        }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
-        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
-
-        .services-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-            width: 100%;
-            max-width: 480px;
-            box-sizing: border-box;
-        }
-
-        .user-dropdown-container {
-            background: var(--card-white);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-
-        .user-dropdown-header {
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-
-        .user-header-left { display: flex; align-items: center; gap: 12px; }
-        .user-avatar-circle { color: var(--header-green); font-size: 20px; }
-        .user-header-title { font-size: 14px; font-weight: 800; color: #64748b; }
-        .dropdown-arrow-icon { font-size: 12px; color: #94a3b8; transition: 0.3s; }
-
-        .user-dropdown-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-
-        .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
-        .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
-
-        .info-row-detail { padding: 12px 20px; display: flex; flex-direction: column; }
-        .info-row-detail .label { font-size: 11px; font-weight: 700; color: #94a3b8; }
-        .info-row-detail .value { font-size: 14px; font-weight: 700; color: var(--text-main); }
-
-        #user-details-loader {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: var(--header-green);
-            font-size: 20px;
-        }
-
-        .unified-payment-card {
-            background: #ffffff;
-            border-radius: 24px;
-            border: 1px solid var(--border-light);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            padding: 24px;
-            box-sizing: border-box;
-        }
-
-        .payment-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 5px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .payment-header img { height: 28px; border-radius: 6px; }
-        .payment-header span { font-weight: 800; font-size: 17px; color: var(--text-main); letter-spacing: -0.5px; }
-
-        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-        .input-label { font-size: 12px; font-weight: 700; color: #64748b; }
+        .welcome-row { display: flex; align-items: center; gap: 6px; }
+        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
+        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .field-container { position: relative; width: 100%; }
-        .field-container input {
-            width: 100%;
-            height: 52px;
-            background: #ffffff;
-            border: 1.5px solid var(--border-light);
-            border-radius: 14px;
-            padding: 0 45px 0 15px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-main);
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        .field-container input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
+        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; }
+        
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; }
+        .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; }
 
-        .toggle-password {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10;
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
+        .bal-title { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        
+        .bal-amount { 
+            font-size: 24px; 
+            color: #ffffff; 
+            font-weight: 900; 
+            line-height: 1; 
+            font-family: 'Inter', sans-serif;
+            font-feature-settings: "zero" 1, "tnum" 1;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .copy-field {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #ffffff;
-            border: 1.5px solid var(--border-light);
-            border-radius: 14px;
-            height: 55px;
-            padding: 0 15px;
-            width: 100%;
-            box-sizing: border-box;
+        .new-header-container {
+            background: var(--bg-gradient); 
+            width: 100%; display: flex; justify-content: center;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: var(--shadow-soft);
         }
-        .copy-info { display: flex; flex-direction: column; }
-        .copy-info .lbl { font-size: 10px; font-weight: 700; color: #94a3b8; }
-        .copy-info .val { font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .new-header-content {
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
+        }
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
+        .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
+        .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
-        .copy-btn-simple { background: none; border: none; color: var(--primary-blue); cursor: pointer; padding: 5px; font-size: 16px; }
-
-        .upload-wrapper { 
-            display: flex; 
-            gap: 12px; 
-            align-items: center; 
+        .transactions-header { 
+            width: 100%; display: flex; justify-content: center;
             background: #ffffff; 
-            border: 1.5px solid var(--border-light); 
-            border-radius: 14px; 
-            padding: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
+            margin-top: 10px;
+            min-height: 500px;
+        }
+        .transactions-content {
+            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+        }
+        
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn {
+            padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
+            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+        }
+        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+
+        .trans-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 5px;
+            min-height: 100px;
+        }
+        .trans-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
+            contain: content; cursor: pointer;
+        }
+        
+        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #e2e8f0; color: #475569; }
+        .status-badge.active { background: #dcfce7; color: #166534; }
+        .trans-date { font-size: 10px; color: #888; direction: ltr; text-align: right; display: block; }
+        .trans-val { font-size: 14px; font-weight: 800; direction: ltr; }
+        
+        .empty-state { text-align: center; padding: 30px 10px; color: #aaa; font-size: 12px; font-weight: 500; }
+        svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+
+        .modal-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.6); 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 9999; 
+            padding: 20px;
             box-sizing: border-box;
         }
-        .upload-wrapper:hover { border-color: var(--primary-blue); }
-        
-        .preview-container { 
-            width: 50px; 
-            height: 50px; 
-            background: #f8fbff; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border: 1.5px dashed #cbd5e1;
-            flex-shrink: 0;
-        }
-        .preview-img { width: 100%; height: 100%; object-fit: cover; }
-        .preview-placeholder { 
-            font-size: 20px; 
-            color: #94a3b8; 
-        }
-        .upload-section { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column;
-            gap: 2px;
-        }
-        .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
-        .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
-
-        .pay-submit-btn {
-            width: 100%;
-            height: 56px;
-            background-color: var(--header-green);
-            color: #fff;
+        .modal-card {
+            background: #fff; 
+            width: 100%; 
+            max-width: 360px; 
+            border-radius: 24px; 
+            padding: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            position: relative; 
+            overflow: hidden;
             border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(46, 88, 34, 0.2);
-            position: relative;
+            margin: auto;
         }
-        .pay-submit-btn:active { transform: scale(0.98); opacity: 0.9; }
-        .pay-submit-btn:disabled { background-color: #E4ECE3; cursor: not-allowed; }
-        
-        .spinner { position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%; display: none; }
-        .loading .spinner { display: block; animation: spin 0.8s linear infinite; }
-        .loading span { opacity: 0; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
-
-        #success-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        .modal-header-accent {
+            background: var(--header-green); color: white; padding: 25px 20px; text-align: center;
         }
-        .bank-success-icon {
-            width: 100px;
-            height: 100px;
-            background-color: #e8f5e9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            animation: scaleUp 0.5s ease-out;
+        .modal-icon-circle {
+            width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
         }
-        .bank-success-icon i {
-            color: #2e7d32;
-            font-size: 50px;
+        .modal-title-text { 
+            font-weight: 800; font-size: 16px; margin: 0;
         }
-        .bank-success-text {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 8px;
+        .modal-body { 
+            padding: 20px; font-size: 13px; color: var(--text-dark); 
+            background: #fff;
         }
-        .bank-processing-text {
-            font-size: 15px;
-            color: #64748b;
-            font-weight: 600;
-            direction: ltr;
-            unicode-bidi: bidi-override;
+        .modal-footer {
+            padding: 0 20px 20px; text-align: center; background: #fff;
         }
-        [dir="rtl"] .bank-processing-text {
-            direction: rtl;
+        .modal-close-btn {
+            background: #f1f5f9; color: #475569; border: none; padding: 12px 0;
+            border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
         }
 
-        @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+        .detail-row {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
         }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
+        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
+        .detail-value.m-red { color: #ef4444; }
+
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
-<body class="notranslate" translate="no">
+<body class="notranslate">
 
-    <div class="main-container">
-
-        <div class="top-header">
-            <div class="header-content">
-                <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                    <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
+    <div class="page-wrapper">
+        <div class="sticky-header-container">
+            <div class="top-header">
+                <div class="top-header-content">
+                    <div class="brand-section">
+                        <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                        <div class="v-line"></div>
+                        <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
+                    </div>
+                    <div class="region-badge">
+                        <div id="flag-ui"></div>
+                        <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                     </div>
                 </div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
+            </div>
+
+            <div class="bottom-header">
+                <div class="bottom-header-content">
+                    <div class="wallet-card">
+                        <div class="user-meta-info">
+                            <div class="avatar-box">
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            </div>
+                            <div class="name-stack">
+                                <div class="welcome-row">
+                                    <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                    <span class="full-name-val" id="user-full-name">---</span>
+                                </div>
+                                <div class="email-privacy-row">
+                                    <span class="user-email-val" id="user-email">---</span>
+                                    <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="balance-stack">
+                            <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
+                            <span class="bal-amount" id="user-balance">0 USD</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="sub-header-bar">
-            <div class="sub-header-content" id="sub-header-text">
-                إتمام الدفع بإستخدام serviocmm
+        <div class="new-header-container">
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
+                        <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
+                        <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
+                    </a>
+                    <a href="menu/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
+                        <span class="shortcut-label" id="txt-menu">القائمة</span>
+                    </a>
+                    <div class="shortcut-item" onclick="handleLogout()">
+                        <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
+                        <span class="shortcut-label" id="txt-logout">خروج</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="services-grid" id="dynamic-section">
-            
-            <div class="user-dropdown-container" id="userContainer">
-                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
-                    <div class="user-header-left">
-                        <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
-                        <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
-                    </div>
-                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
+        <div class="transactions-header">
+            <div class="transactions-content">
+                <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
+                
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
+                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep">deposits</button>
                 </div>
-                <div class="user-dropdown-content">
-                    <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
-                    <div id="user-details-body">
-                        <div class="info-row-detail">
-                            <span class="label" id="label-name">اسم المستخدم</span>
-                            <span class="value" id="fb-username"></span>
-                        </div>
-                        <div class="info-row-detail">
-                            <span class="label" id="label-email">البريد الإلكتروني</span>
-                            <span class="value" id="fb-email"></span>
-                        </div>
-                    </div>
-                </div>
+
+                <div id="trans-container" class="trans-list"></div>
             </div>
-
-            <div class="unified-payment-card">
-                <div class="payment-header">
-                    <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment">
-                    <span id="card-main-title">طريقة الدفع</span>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label" id="name-input-label">اسم المستخدم</label>
-                    <div class="field-container">
-                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
-                        <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label" id="amount-input-label">المبلغ</label>
-                    <div class="field-container">
-                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
-                    </div>
-                    <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
-                </div>
-
-                <div class="copy-field">
-                    <div class="copy-info">
-                        <span class="lbl" id="lbl-phone">رقم الهاتف</span>
-                        <span id="phone-val" class="val">0123456789</span>
-                    </div>
-                    <button class="copy-btn-simple" onclick="copyText('phone-val')"><i class="fas fa-copy"></i></button>
-                </div>
-
-                <div class="copy-field">
-                    <div class="copy-info">
-                        <span class="lbl" id="lbl-reason">الرمز</span>
-                        <span id="reason-val" class="val">SRV-102</span>
-                    </div>
-                    <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
-                </div>
-
-                <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
-                    <div class="preview-container">
-                        <img id="file-preview" class="preview-img" style="display:none;">
-                        <div id="preview-placeholder" class="preview-placeholder">
-                            <i class="fas fa-file-invoice"></i>
-                        </div>
-                    </div>
-                    <div class="upload-section">
-                        <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
-                        <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
-                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
-                    </div>
-                </div>
-            </div>
-
-            <button class="pay-submit-btn" id="pay-btn-text">
-                <span id="btn-label">تأكيد الإيداع</span>
-                <div class="spinner"></div>
-            </button>
-
         </div>
     </div>
 
-    <div id="success-overlay">
-        <div class="bank-success-icon">
-            <i class="fas fa-check"></i>
+    <div id="trans-modal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header-accent">
+                <div class="modal-icon-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:white"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <h3 class="modal-title-text" id="modal-title">التفاصيل</h3>
+            </div>
+            <div class="modal-body" id="modal-content"></div>
+            <div class="modal-footer">
+                <button class="modal-close-btn" onclick="closeModal()" id="modal-close-txt">إغلاق</button>
+            </div>
         </div>
-        <div class="bank-success-text" id="bank-title">تم إرسال الطلب</div>
-        <div class="bank-processing-text" id="bank-sub">قيد المعالجة...</div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -477,128 +344,169 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        window.currentFirebaseUser = { userId: '', name: '', email: '' };
+        let activeFilter = 'SMM Services';
+        let smmTransactions = [];
+        let depositTransactions = [];
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const userUrl = urlParams.get('user');
-        const emailUrl = urlParams.get('email');
+        const formatBalance = (val) => {
+            if (val === undefined || val === null || isNaN(val)) return "0";
+            const num = Number(val);
+            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
+        };
 
-        window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
-        window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
-        
-        document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
-        document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
+        window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
+            document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
+            
+            const isStatusActive = status.toLowerCase() === 'active';
+            const statusStyle = isStatusActive ? 'is-active' : '';
+            const isPositive = amount.includes('+');
+            const amountStyle = !isPositive ? 'm-red' : '';
+
+            const html = `
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'الخدمة/المصدر' : 'Service/Source'}</span>
+                    <span class="detail-value">${fullDesc}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
+                    <span class="detail-value ${isPositive ? 'is-active' : amountStyle}" style="direction:ltr">${amount}</span>
+                </div>
+                ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
+                    <span class="detail-value ${statusStyle}">${status}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
+                    <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
+                </div>
+            `;
+            
+            document.getElementById('modal-content').innerHTML = html;
+            document.getElementById('trans-modal').style.display = 'flex';
+        };
+
+        window.closeModal = () => {
+            document.getElementById('trans-modal').style.display = 'none';
+        };
+
+        window.switchFilter = (type, btn) => {
+            activeFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderUI();
+        };
+
+        const renderUI = () => {
+            const container = document.getElementById('trans-container');
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            
+            if (data.length === 0) {
+                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد بيانات' : 'No data found'}</div>`;
+                return;
+            }
+
+            let html = "";
+            data.forEach(t => {
+                const isDep = activeFilter === 'deposits';
+                const status = t.status || 'active';
+                const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
+                const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
+
+                html += `
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}')">
+                        <div style="display:flex; flex-direction:column">
+                            <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                            <div class="trans-date-container">
+                                <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
+                                <span class="trans-date">${dateStr}</span>
+                            </div>
+                        </div>
+                        <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        };
+
+        const loadCache = () => {
+            const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
+            if (cache.name) {
+                window.currentName = cache.name;
+                window.currentEmail = cache.email;
+                const balEl = document.getElementById('user-balance');
+                if (balEl) balEl.innerText = formatBalance(cache.balance) + " USD";
+                window.renderUserData();
+            }
+        };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.currentFirebaseUser.userId = user.uid;
-                window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
-                window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
-                document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
-                document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
-            } else if (!userUrl && !emailUrl) {
-                window.location.href = "../";
-            }
+                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
+                    if (snap.exists()) {
+                        const d = snap.data();
+                        const bal = d.balance || 0; 
+                        const name = d.fullName || d.name || "User";
+                        window.currentName = name;
+                        window.currentEmail = user.email;
+                        
+                        localStorage.setItem('hide_email', d.hide_email || "false");
+                        localStorage.setItem('hide_username', d.hide_username || "false");
+                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
+                        localStorage.setItem('privacy_active', isPrivacyOn);
+
+                        const balElement = document.getElementById('user-balance');
+                        if (balElement) balElement.innerText = formatBalance(bal) + " USD";
+                        
+                        localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
+                        window.renderUserData();
+                    }
+                });
+
+                // Listen to SMM Transactions
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                onSnapshot(qSmm, (snap) => {
+                    smmTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'SMM Services') renderUI();
+                });
+
+                // Listen to Deposits based on userId
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                onSnapshot(qDep, (snap) => {
+                    depositTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'deposits') renderUI();
+                });
+            } else { window.location.href = "../"; }
         });
 
-        window.submitToFirebase = async function(data) {
-            try {
-                await addDoc(collection(db, "deposits"), {
-                    userId: window.currentFirebaseUser.userId || "guest",
-                    username: data.fullname,
-                    amount: data.amount,
-                    status: "active",
-                    firebaseUser: data.fbUsername,
-                    firebaseEmail: data.fbEmail,
-                    code: data.code,
-                    timestamp: serverTimestamp()
-                });
-            } catch (e) {
-                console.error("Error adding document: ", e);
-            }
+        window.handleLogout = () => { 
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            if(confirm(isAr ? "خروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
         };
 
-        window.getUserDeposits = async function() {
+        window.togglePrivacy = async function() { 
+            const user = auth.currentUser;
+            if (!user) return;
+            isPrivacyOn = !isPrivacyOn; 
+            const val = isPrivacyOn ? "true" : "false";
             try {
-                const userId = window.currentFirebaseUser.userId;
-                if (!userId) return [];
-                const q = query(
-                    collection(db, "deposits"),
-                    where("userId", "==", userId),
-                    orderBy("timestamp", "desc")
-                );
-                const querySnapshot = await getDocs(q);
-                const deposits = [];
-                querySnapshot.forEach((doc) => {
-                    deposits.push({ id: doc.id, ...doc.data() });
-                });
-                return deposits;
-            } catch (e) {
-                console.error("Error fetching deposits: ", e);
-                return [];
-            }
+                await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
+                localStorage.setItem('privacy_active', isPrivacyOn); 
+                localStorage.setItem('hide_email', val);
+                localStorage.setItem('hide_username', val);
+                window.renderUserData(); 
+            } catch (e) { console.error(e); }
         };
+
+        loadCache();
     </script>
 
     <script>
-        function generateRandomCode() {
-            const randomNum = Math.floor(100 + Math.random() * 900);
-            const newCode = 'SRV-' + randomNum;
-            document.getElementById('reason-val').innerText = newCode;
-            localStorage.setItem('persistent_srv_code', newCode);
-        }
-
-        function loadPersistentCode() {
-            const savedCode = localStorage.getItem('persistent_srv_code');
-            if (savedCode) {
-                document.getElementById('reason-val').innerText = savedCode;
-            } else {
-                generateRandomCode();
-            }
-        }
-
-        function toggleUserDropdown() {
-            const container = document.getElementById('userContainer');
-            const loader = document.getElementById('user-details-loader');
-            const body = document.getElementById('user-details-body');
-
-            if (!container.classList.contains('active')) {
-                body.style.display = 'none';
-                loader.style.display = 'block';
-                container.classList.add('active');
-
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    body.style.display = 'block';
-                }, 600); 
-            } else {
-                container.classList.remove('active');
-            }
-        }
-
-        function toggleVisibility(inputId, icon) {
-            const input = document.getElementById(inputId);
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            } else {
-                input.type = "password";
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            }
-        }
-
-        function validateEnglish(input) {
-            input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
-        }
-
-        function validateAmount(input) {
-            input.value = input.value.replace(/[^0-9]/g, '');
-            let val = parseInt(input.value);
-            if (val > 2000) input.value = "2000";
-        }
-
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -611,171 +519,69 @@
             { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
             { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
             { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
             { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
+        
+        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
 
-        function copyText(id) {
-            navigator.clipboard.writeText(document.getElementById(id).innerText);
-            const btn = event.currentTarget;
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(() => btn.innerHTML = originalHTML, 1500);
-        }
-
-        function previewFile() {
-            const preview = document.getElementById('file-preview');
-            const placeholder = document.getElementById('preview-placeholder');
-            const file = document.getElementById('file-input').files[0];
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                preview.src = reader.result;
-                preview.style.display = 'block';
-                placeholder.style.display = 'none';
-                
-                if (lang === 'en') {
-                    document.getElementById('upload-text').innerText = "Attached Successfully";
-                    document.getElementById('upload-sub-text').innerText = "Click to Change";
-                } else {
-                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
-                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
-                }
-            }
-            if (file) reader.readAsDataURL(file);
-        }
-
-        function updateUI() {
+        window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx] || regionConfigs[0];
+            const isAr = (lang === 'ar');
             
-            document.getElementById('lang-name').innerText = lang.toUpperCase();
-            document.getElementById('reg-name').innerText = reg[lang];
-            document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
-
-            const dynamicSection = document.getElementById('dynamic-section');
-            const subHeader = document.getElementById('sub-header-text');
-            const payBtnLabel = document.getElementById('btn-label');
+            const lName = document.getElementById('lang-name');
+            const rName = document.getElementById('reg-name');
+            if(lName) lName.innerText = lang.toUpperCase();
+            if(rName) rName.innerText = reg[lang];
             
-            if (lang === 'en') {
-                document.body.classList.remove('rtl');
-                dynamicSection.style.direction = 'ltr';
-                subHeader.innerText = "Complete payment using serviocmm";
-                subHeader.style.textAlign = 'left';
-                
-                const file = document.getElementById('file-input').files[0];
-                if (file) {
-                    document.getElementById('upload-text').innerText = "Attached Successfully";
-                    document.getElementById('upload-sub-text').innerText = "Click to Change";
-                } else {
-                    document.getElementById('upload-text').innerText = "Attach payment proof";
-                    document.getElementById('upload-sub-text').innerText = "Click to select image file";
-                }
+            const flagBox = document.getElementById('flag-ui');
+            if(flagBox) flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+            
+            const welcomeTxt = document.getElementById('txt-welcome');
+            const balLbl = document.getElementById('txt-balance-label');
+            const transTitle = document.getElementById('txt-trans-title');
+            if(welcomeTxt) welcomeTxt.innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            if(balLbl) balLbl.innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            if(transTitle) transTitle.innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
+            
+            const smmTxt = document.getElementById('txt-smm');
+            const depTxt = document.getElementById('txt-deposit');
+            const menuTxt = document.getElementById('txt-menu');
+            const logTxt = document.getElementById('txt-logout');
+            if(smmTxt) smmTxt.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            if(depTxt) depTxt.innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            if(menuTxt) menuTxt.innerText = isAr ? 'القائمة' : 'Menu';
+            if(logTxt) logTxt.innerText = isAr ? 'خروج' : 'Logout';
 
-                document.getElementById('user-header-label').innerText = "Account Details";
-                document.getElementById('label-name').innerText = "Username";
-                document.getElementById('label-email').innerText = "Email";
-                document.getElementById('name-input-label').innerText = "Full Name";
-                document.getElementById('amount-input-label').innerText = "Amount";
-                document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
-                document.getElementById('english-name-input').placeholder = "Your CashPlus username";
-                document.getElementById('amount-input').placeholder = "10.00";
-                document.getElementById('card-main-title').innerText = "Payment Method";
-                document.getElementById('lbl-phone').innerText = "Phone";
-                document.getElementById('lbl-reason').innerText = "Code";
-                payBtnLabel.innerText = "Confirm Deposit";
-                document.getElementById('bank-title').innerText = "Request Sent";
-                document.getElementById('bank-sub').innerText = "Processing...";
-                document.getElementById('bank-sub').style.direction = "ltr";
-                document.getElementById('toggleNameVisibility').style.right = "15px";
-                document.getElementById('toggleNameVisibility').style.left = "auto";
-            } else {
-                document.body.classList.add('rtl');
-                dynamicSection.style.direction = 'rtl';
-                subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
-                subHeader.style.textAlign = 'right';
-                
-                const file = document.getElementById('file-input').files[0];
-                if (file) {
-                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
-                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
-                } else {
-                    document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع";
-                    document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
-                }
+            const btnSmm = document.getElementById('btn-filter-smm');
+            const btnDep = document.getElementById('btn-filter-dep');
+            if(btnSmm) btnSmm.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            if(btnDep) btnDep.innerText = isAr ? 'الإيداعات' : 'Deposits';
 
-                document.getElementById('amount-input').placeholder = "10.00";
-                document.getElementById('bank-title').innerText = "تم إرسال الطلب";
-                document.getElementById('bank-sub').innerText = "قيد المعالجة...";
-                document.getElementById('bank-sub').style.direction = "rtl";
-                document.getElementById('toggleNameVisibility').style.right = "15px";
-                document.getElementById('toggleNameVisibility').style.left = "auto";
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            window.renderUserData();
+        };
+
+        window.renderUserData = function() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
+            const eyeIcon = document.getElementById('eye-icon');
+            const hideEmail = localStorage.getItem('hide_email') === "true";
+            const hideUser = localStorage.getItem('hide_username') === "true";
+            
+            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
+            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
+            if (eyeIcon) {
+                eyeIcon.innerHTML = (hideEmail || hideUser) ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
-        }
-        
-        async function submitDeposit() {
-            const payBtn = document.getElementById('pay-btn-text');
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbx-N43SHtpbuFVX3J-b01BjC1RDNzuTq1KgS2mI0ejqmaeXvbZ90hX7_SLXHZadPDPTpA/exec';
-            
-            const fullname = document.getElementById('english-name-input').value;
-            const amount = document.getElementById('amount-input').value;
-            const fileInput = document.getElementById('file-input');
-            
-            if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
-                return;
-            }
+        };
 
-            const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode();
-
-            payBtn.classList.add('loading');
-            payBtn.disabled = true;
-
-            const reader = new FileReader();
-            reader.readAsDataURL(fileInput.files[0]);
-            reader.onload = async function () {
-                const data = {
-                    fbUsername: window.currentFirebaseUser.name,
-                    fbEmail: window.currentFirebaseUser.email,
-                    fullname: fullname,
-                    amount: amount,
-                    code: oldCode
-                };
-
-                const formData = new URLSearchParams();
-                formData.append('fbUsername', data.fbUsername);
-                formData.append('fbEmail', data.fbEmail);
-                formData.append('fullname', data.fullname);
-                formData.append('amount', data.amount);
-                formData.append('code', data.code);
-                formData.append('imageBase64', reader.result);
-
-                try {
-                    // Send to Firebase
-                    if (window.submitToFirebase) {
-                        await window.submitToFirebase(data);
-                    }
-                    
-                    // Send to Google Sheets
-                    await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
-                    
-                    document.getElementById('success-overlay').style.display = 'flex';
-                } catch (e) {
-                    payBtn.classList.remove('loading');
-                    payBtn.disabled = false;
-                }
-            };
-        }
-
-        document.getElementById('pay-btn-text').onclick = submitDeposit;
-        window.addEventListener('load', () => {
-            updateUI();
-            loadPersistentCode();
-        });
+        window.onload = window.sync;
     </script>
 </body>
 </html>
