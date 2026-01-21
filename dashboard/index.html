@@ -126,6 +126,33 @@
             width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        
+        @media (min-width: 1024px) {
+            .new-header-container {
+                position: fixed;
+                right: 20px;
+                top: 150px;
+                width: auto;
+                background: transparent;
+                box-shadow: none;
+                z-index: 1001;
+            }
+            .new-header-content {
+                padding: 0;
+            }
+            .shortcuts-scroll-wrapper {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .shortcut-label {
+                color: var(--header-green) !important;
+                background: white;
+                padding: 4px 8px;
+                border-radius: 8px;
+                box-shadow: var(--shadow-soft);
+            }
+        }
+
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
