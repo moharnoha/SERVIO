@@ -43,73 +43,6 @@
             width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
 
-        @media (min-width: 481px) {
-            .top-header-content {
-                max-width: 100%;
-                padding: 0 40px;
-            }
-            .page-wrapper {
-                display: grid;
-                grid-template-columns: 1fr 350px;
-                grid-template-rows: auto 1fr;
-                min-height: 100vh;
-                width: 100%;
-                background-color: var(--platform-bg);
-                align-items: stretch;
-            }
-            .sticky-header-container {
-                grid-column: 1 / span 2;
-                grid-row: 1;
-                position: relative;
-            }
-            .left-column {
-                grid-column: 1;
-                display: flex;
-                flex-direction: column;
-            }
-            .bottom-header {
-                width: 100% !important;
-                margin: 0 !important;
-            }
-            .bottom-header-content {
-                max-width: 100% !important;
-                padding: 30px 40px !important;
-            }
-            .new-header-container {
-                width: 100% !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-                border-bottom-left-radius: 0 !important;
-                border-bottom-right-radius: 0 !important;
-                background: transparent !important;
-            }
-            .new-header-content {
-                max-width: 100% !important;
-                padding: 20px 40px !important;
-            }
-            .shortcuts-scroll-wrapper {
-                flex-direction: row !important;
-                justify-content: flex-start !important;
-                gap: 20px !important;
-            }
-            .shortcut-item {
-                flex: 0 0 auto !important;
-                width: 160px !important;
-            }
-            .transactions-header {
-                grid-column: 2;
-                grid-row: 2;
-                margin-top: 0 !important;
-                border-right: 1px solid #edf2ed;
-                height: 100% !important;
-                background: #fff !important;
-            }
-            .transactions-content {
-                max-width: 100% !important;
-                padding: 30px 20px !important;
-            }
-        }
-
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -301,9 +234,7 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="left-column">
             <div class="bottom-header">
                 <div class="bottom-header-content">
                     <div class="wallet-card">
@@ -329,26 +260,26 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="new-header-container">
-                <div class="new-header-content">
-                    <div class="shortcuts-scroll-wrapper">
-                        <a href="smm-services/" class="shortcut-item">
-                            <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
-                            <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
-                        </a>
-                        <a href="deposit/" class="shortcut-item">
-                            <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
-                            <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
-                        </a>
-                        <a href="menu/" class="shortcut-item">
-                            <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
-                            <span class="shortcut-label" id="txt-menu">القائمة</span>
-                        </a>
-                        <div class="shortcut-item" onclick="handleLogout()">
-                            <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
-                            <span class="shortcut-label" id="txt-logout">خروج</span>
-                        </div>
+        <div class="new-header-container">
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
+                        <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
+                        <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
+                    </a>
+                    <a href="menu/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
+                        <span class="shortcut-label" id="txt-menu">القائمة</span>
+                    </a>
+                    <div class="shortcut-item" onclick="handleLogout()">
+                        <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
+                        <span class="shortcut-label" id="txt-logout">خروج</span>
                     </div>
                 </div>
             </div>
