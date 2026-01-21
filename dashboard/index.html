@@ -121,13 +121,13 @@
                 width: calc(100% - 260px) !important;
                 margin-top: 70px; /* Space for fixed top-header */
             }
-            /* Transactions Section Adjusted - Center and Half Page */
+            /* Transactions Section Adjusted - Center and Full Width */
             .transactions-header {
                 width: calc(100% - 260px) !important;
-                height: 50vh;
+                height: calc(100vh - 160px);
                 position: fixed;
                 left: 0;
-                top: 50%;
+                top: 160px;
                 background: #ffffff;
                 border-top: 1px solid #edf2ed;
                 margin-top: 0 !important;
@@ -135,31 +135,6 @@
                 z-index: 1050;
                 display: flex;
                 justify-content: center;
-            }
-            
-            /* Add informative placeholder for the empty top-left part */
-            .main-content-placeholder {
-                position: fixed;
-                top: 160px; /* Under wallet card */
-                left: 0;
-                width: calc(100% - 260px);
-                height: calc(50vh - 90px);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 40px;
-                box-sizing: border-box;
-                color: #64748b;
-                text-align: center;
-            }
-            
-            .placeholder-card {
-                background: #fff;
-                padding: 30px;
-                border-radius: 20px;
-                border: 2px dashed #e2e8f0;
-                max-width: 500px;
             }
 
             .transactions-content {
@@ -335,8 +310,6 @@
         .detail-value.m-red { color: #ef4444; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        
-        .main-content-placeholder { display: none; }
     </style>
 </head>
 <body class="notranslate">
@@ -404,17 +377,6 @@
                         <span class="shortcut-label" id="txt-logout">خروج</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="main-content-placeholder">
-            <div class="placeholder-card">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" style="margin-bottom:20px; opacity: 0.5;">
-                    <path d="M21 12V7H5a2 2 0 010-4h14v4M3 7v10a2 2 0 002 2h16v-5"></path>
-                    <path d="M18 12h4v4h-4z"></path>
-                </svg>
-                <h3 style="margin: 0 0 10px 0; color: #1e293b;">مرحباً بك في لوحة التحكم</h3>
-                <p style="font-size: 13px; line-height: 1.6;">يمكنك متابعة نشاطات حسابك وإدارة رصيدك من هنا. جميع المعاملات تظهر في القسم السفلي بدقة عالية.</p>
             </div>
         </div>
 
