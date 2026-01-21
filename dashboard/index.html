@@ -52,14 +52,6 @@
                 max-width: 100%;
                 padding: 15px 40px;
             }
-            .new-header-content {
-                max-width: 100%;
-                padding: 25px 40px 30px 40px;
-            }
-            .transactions-content {
-                max-width: 100%;
-                padding: 25px 40px;
-            }
             .page-wrapper {
                 display: flex;
                 flex-direction: row;
@@ -67,78 +59,77 @@
                 justify-content: flex-start;
                 min-height: 100vh;
             }
-            .new-header-container {
-                width: 260px !important;
-                height: 100vh !important;
-                position: fixed;
-                right: 0;
-                top: 0;
-                z-index: 1100;
-                border-radius: 0 !important;
-                background: #f1f5f9 !important;
-                box-shadow: -2px 0 10px rgba(0,0,0,0.05);
-                display: block !important;
-            }
-            .new-header-content {
-                padding: 40px 20px !important;
-                margin-top: 70px;
-            }
-            .shortcuts-scroll-wrapper {
-                flex-direction: column !important;
-                gap: 20px !important;
-            }
-            .shortcut-item {
-                flex-direction: row !important;
-                width: 100%;
-                justify-content: flex-start !important;
-                gap: 15px !important;
-                padding: 10px;
-                border-radius: 12px;
-            }
-            .shortcut-item:hover {
-                background: rgba(0,0,0,0.03);
-            }
-            .icon-box {
-                width: 45px !important;
-                height: 45px !important;
-                border-radius: 12px !important;
-            }
-            .shortcut-label {
-                font-size: 13px !important;
-                text-align: right !important;
-            }
             .top-header {
-                width: calc(100% - 260px) !important;
+                width: 100% !important;
                 position: fixed;
                 top: 0;
                 left: 0;
+                z-index: 1200;
             }
             .bottom-header {
-                margin-right: 260px;
-                width: calc(100% - 260px) !important;
+                width: 100% !important;
                 margin-top: 70px;
+                position: relative;
+                z-index: 1150;
+            }
+            .new-header-container {
+                width: calc(100% - 300px) !important;
+                height: auto !important;
+                position: absolute;
+                left: 0;
+                top: 230px;
+                background: var(--bg-gradient) !important;
+                border-radius: 0 0 35px 35px !important;
+                box-shadow: var(--shadow-soft);
+                display: flex !important;
+                z-index: 1000;
+            }
+            .new-header-content {
+                padding: 30px 40px !important;
+                max-width: 100% !important;
+            }
+            .shortcuts-scroll-wrapper {
+                flex-direction: row !important;
+                gap: 20px !important;
+                justify-content: center !important;
+            }
+            .shortcut-item {
+                flex-direction: column !important;
+                width: auto !important;
+                justify-content: center !important;
+                gap: 12px !important;
+            }
+            .icon-box {
+                width: 70px !important;
+                height: 70px !important;
+                border-radius: 22px !important;
+            }
+            .shortcut-label {
+                font-size: 11px !important;
+                text-align: center !important;
             }
             .transactions-header {
-                margin-right: 260px;
-                width: calc(100% - 260px) !important;
-                position: relative;
-                left: 0;
-                background: #ffffff;
-                border-top: 1px solid #edf2ed;
+                width: 300px !important;
+                height: calc(100vh - 230px) !important;
+                position: fixed;
+                right: 0;
+                top: 230px;
+                background: #f1f5f9 !important;
+                border-right: 1px solid #edf2ed;
                 margin-top: 0 !important;
-                z-index: 1050;
-                display: flex;
-                justify-content: center;
-                flex: 1;
+                z-index: 1100;
+                display: block !important;
                 overflow-y: auto !important;
-                height: calc(100vh - 230px);
+                box-shadow: -2px 0 10px rgba(0,0,0,0.05);
             }
-            
             .transactions-content {
                 padding: 20px !important;
-                max-width: 800px !important;
+                max-width: 100% !important;
                 width: 100%;
-                box-sizing: border-box;
+                background: transparent !important;
+            }
+            .trans-list {
+                flex-direction: column !important;
             }
         }
 
