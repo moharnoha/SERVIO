@@ -141,17 +141,12 @@
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
         }
         
-        /* Options Style for Filters */
-        .filter-options {
-            display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;
-        }
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .filter-btn {
             padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
             color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
         }
-        .filter-btn.active {
-            background: var(--brand-green); color: #fff; border-color: var(--brand-green);
-        }
+        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
 
         .trans-list { 
             display: flex; 
@@ -310,8 +305,8 @@
                 <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
                 
                 <div class="filter-options">
-                    <button class="filter-btn active" onclick="filterTransactions('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
-                    <button class="filter-btn" onclick="filterTransactions('deposits', this)" id="btn-filter-dep">deposits</button>
+                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
+                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep">deposits</button>
                 </div>
 
                 <div id="trans-container" class="trans-list"></div>
@@ -349,8 +344,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let allTransactions = [];
         let activeFilter = 'SMM Services';
+        let smmTransactions = [];
+        let depositTransactions = [];
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
@@ -365,22 +361,19 @@
             
             const isStatusActive = status.toLowerCase() === 'active';
             const statusStyle = isStatusActive ? 'is-active' : '';
-            const isNegative = amount.includes('-');
-            const amountStyle = isNegative ? 'm-red' : '';
+            const isPositive = amount.includes('+');
+            const amountStyle = !isPositive ? 'm-red' : '';
 
             const html = `
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الخدمة' : 'Service'}</span>
+                    <span class="detail-label">${isAr ? 'الخدمة/المصدر' : 'Service/Source'}</span>
                     <span class="detail-value">${fullDesc}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
-                    <span class="detail-value ${amountStyle}" style="direction:ltr">${amount}</span>
+                    <span class="detail-value ${isPositive ? 'is-active' : amountStyle}" style="direction:ltr">${amount}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span>
-                    <span class="detail-value" style="direction:ltr">${quantity || '---'}</span>
-                </div>
+                ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
                     <span class="detail-value ${statusStyle}">${status}</span>
@@ -399,81 +392,56 @@
             document.getElementById('trans-modal').style.display = 'none';
         };
 
-        const loadCache = () => {
-            const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
-            const transCache = localStorage.getItem('trans_cache');
-            if (cache.name) {
-                window.currentName = cache.name;
-                window.currentEmail = cache.email;
-                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + " USD";
-                window.renderUserData();
-            }
-            if (transCache) {
-                document.getElementById('trans-container').innerHTML = transCache;
-            }
-        };
-
-        window.filterTransactions = (type, btn) => {
+        window.switchFilter = (type, btn) => {
             activeFilter = type;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            renderTransactionsList();
+            renderUI();
         };
 
-        const renderTransactionsList = () => {
+        const renderUI = () => {
             const container = document.getElementById('trans-container');
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
-            // Filter logic: 'deposits' shows amount with '+', 'SMM Services' shows amount with '-' (transactions)
-            const filtered = allTransactions.filter(t => {
-                const amountStr = t.amount ? t.amount.toString() : "";
-                if (activeFilter === 'deposits') return amountStr.includes('+');
-                if (activeFilter === 'SMM Services') return amountStr.includes('-');
-                return true;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
+            if (data.length === 0) {
+                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد بيانات' : 'No data found'}</div>`;
                 return;
             }
 
-            let htmlContent = "";
-            filtered.forEach(t => {
-                const rawAmountStr = t.amount ? t.amount.toString() : "0";
-                const isDep = rawAmountStr.includes('+');
-                const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
-                const finalFormatted = formatBalance(cleanNum);
-                const status = t.status || 'Active';
-                const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
-                const quantity = t.quantity || '';
+            let html = "";
+            data.forEach(t => {
+                const isDep = activeFilter === 'deposits';
+                const status = t.status || 'active';
+                const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                 
-                const fullDesc = t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction');
-                const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
+                const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
 
-                let dateStr = "---";
-                if (t.timestamp) {
-                    const d = (typeof t.timestamp.toDate === 'function') ? t.timestamp.toDate() : new Date(t.timestamp);
-                    dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
-                }
-
-                const amountLabel = `${isDep?'+':'-'}${finalFormatted} USD`;
-
-                htmlContent += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${quantity}')">
+                html += `
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}')">
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px">${displayTitle}</span>
                             <div class="trans-date-container">
-                                <span class="status-badge ${statusClass}">${status}</span>
+                                <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
-                        <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountLabel}</span>
+                        <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
                     </div>`;
             });
-            
-            container.innerHTML = htmlContent;
-            if (activeFilter === 'SMM Services') {
-                localStorage.setItem('trans_cache', htmlContent);
+            container.innerHTML = html;
+        };
+
+        const loadCache = () => {
+            const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
+            if (cache.name) {
+                window.currentName = cache.name;
+                window.currentEmail = cache.email;
+                const balEl = document.getElementById('user-balance');
+                if (balEl) balEl.innerText = formatBalance(cache.balance) + " USD";
+                window.renderUserData();
             }
         };
 
@@ -500,14 +468,18 @@
                     }
                 });
 
-                const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(20));
-                
-                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
-                    allTransactions = [];
-                    snap.forEach(docSnap => {
-                        allTransactions.push(docSnap.data());
-                    });
-                    renderTransactionsList();
+                // Listen to SMM Transactions
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                onSnapshot(qSmm, (snap) => {
+                    smmTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'SMM Services') renderUI();
+                });
+
+                // Listen to Deposits based on Email
+                const qDep = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(10));
+                onSnapshot(qDep, (snap) => {
+                    depositTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'deposits') renderUI();
                 });
             } else { window.location.href = "../"; }
         });
@@ -520,17 +492,10 @@
         window.togglePrivacy = async function() { 
             const user = auth.currentUser;
             if (!user) return;
-            
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
-            
             try {
-                const userRef = doc(db, "users", user.uid);
-                await updateDoc(userRef, {
-                    hide_email: val,
-                    hide_username: val
-                });
-                
+                await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
                 localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
@@ -593,6 +558,11 @@
             if(menuTxt) menuTxt.innerText = isAr ? 'القائمة' : 'Menu';
             if(logTxt) logTxt.innerText = isAr ? 'خروج' : 'Logout';
 
+            const btnSmm = document.getElementById('btn-filter-smm');
+            const btnDep = document.getElementById('btn-filter-dep');
+            if(btnSmm) btnSmm.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            if(btnDep) btnDep.innerText = isAr ? 'الإيداعات' : 'Deposits';
+
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             window.renderUserData();
         };
@@ -601,26 +571,13 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            if (nameEl) {
-                if (hideUser) nameEl.innerText = "••••••••";
-                else nameEl.innerText = window.currentName || "---";
-            }
-
-            if (emailEl) {
-                if (hideEmail) emailEl.innerText = "••••••••••••";
-                else emailEl.innerText = window.currentEmail || "---";
-            }
-
+            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
+            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
             if (eyeIcon) {
-                if (hideEmail || hideUser) {
-                    eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
-                } else {
-                    eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-                }
+                eyeIcon.innerHTML = (hideEmail || hideUser) ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             }
         };
 
