@@ -477,14 +477,16 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        window.currentFirebaseUser = { name: '', email: '' };
+        window.currentFirebaseUser = { name: '', email: '', userId: '' };
 
         const urlParams = new URLSearchParams(window.location.search);
         const userUrl = urlParams.get('user');
         const emailUrl = urlParams.get('email');
+        const idUrl = urlParams.get('userId');
 
         window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
         window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
+        window.currentFirebaseUser.userId = decodeURIComponent(idUrl || '');
         
         document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
         document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
@@ -493,6 +495,7 @@
             if (user) {
                 window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
                 window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
+                window.currentFirebaseUser.userId = user.uid || window.currentFirebaseUser.userId;
                 document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
                 document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
             } else if (!userUrl && !emailUrl) {
@@ -508,6 +511,7 @@
                     status: "active",
                     firebaseUser: data.fbUsername,
                     firebaseEmail: data.fbEmail,
+                    userId: data.userId,
                     code: data.code,
                     timestamp: serverTimestamp()
                 });
@@ -718,6 +722,7 @@
                 const data = {
                     fbUsername: window.currentFirebaseUser.name,
                     fbEmail: window.currentFirebaseUser.email,
+                    userId: window.currentFirebaseUser.userId,
                     fullname: fullname,
                     amount: amount,
                     code: oldCode
@@ -726,6 +731,7 @@
                 const formData = new URLSearchParams();
                 formData.append('fbUsername', data.fbUsername);
                 formData.append('fbEmail', data.fbEmail);
+                formData.append('userId', data.userId);
                 formData.append('fullname', data.fullname);
                 formData.append('amount', data.amount);
                 formData.append('code', data.code);
