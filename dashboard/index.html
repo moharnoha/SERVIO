@@ -61,22 +61,6 @@
                 max-width: 100%;
                 padding: 25px 40px;
             }
-            /* المظهر الممزوج للحاسوب: جعل الأقسام ملتصقة كواجهة واحدة متينة */
-            .page-wrapper {
-                max-width: 1000px;
-                margin: 0 auto;
-                background: #fff;
-                box-shadow: 0 0 40px rgba(0,0,0,0.1);
-                min-height: 100vh;
-            }
-            .new-header-container {
-                border-radius: 0 !important;
-                box-shadow: none !important;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
-            }
-            .transactions-header {
-                margin-top: 0 !important;
-            }
         }
 
         .brand-section { display: flex; align-items: center; }
@@ -424,7 +408,6 @@
             if (data.length === 0) {
                 container.innerHTML = `<div class="empty-state">
                     ${isAr ? 'لا توجد بيانات حالياً' : 'No data found'}
-                    ${activeFilter === 'deposits' ? `<div style="font-size:10px; margin-top:10px; color:#ccc;">Email: ${window.currentEmail || 'none'}</div>` : ''}
                 </div>`;
                 return;
             }
@@ -496,17 +479,13 @@
                     if (activeFilter === 'SMM Services') renderUI();
                 });
 
-                // Listen to Deposits based on User Email - Enhanced with error tracking
-                const qDep = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(10));
+                // Corrected Deposit query filter (using 'email' field commonly used in deposit collections)
+                const qDep = query(collection(db, "deposits"), where("email", "==", user.email), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => ({...d.data(), docId: d.id}));
-                    console.log("Deposits for " + user.email + ":", depositTransactions.length);
                     if (activeFilter === 'deposits') renderUI();
                 }, (error) => {
-                    console.error("Firestore Deposit Error:", error);
-                    if (activeFilter === 'deposits') {
-                        document.getElementById('trans-container').innerHTML = `<div class="empty-state" style="color:red">Error: ${error.message}</div>`;
-                    }
+                    console.error("Deposit listener error:", error);
                 });
             } else { window.location.href = "../"; }
         });
