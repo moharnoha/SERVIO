@@ -19,6 +19,7 @@
             --brand-deposit: #10b981; 
             --card-white: #FFFFFF;
             --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
+            --sidebar-gray: #f1f5f9;
         }
 
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
@@ -60,6 +61,58 @@
             .transactions-content {
                 max-width: 100%;
                 padding: 25px 40px;
+            }
+            /* Computer Layout Modifications */
+            .page-wrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: flex-start;
+                min-height: 100vh;
+            }
+            .new-header-container {
+                width: 260px !important;
+                height: 100vh;
+                position: fixed;
+                right: 0;
+                top: 0;
+                z-index: 1100;
+                border-radius: 0 !important;
+                background: #f1f5f9 !important; /* Grey Background */
+                box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+                display: block !important;
+            }
+            .new-header-content {
+                padding: 40px 20px !important;
+            }
+            .shortcuts-scroll-wrapper {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            .shortcut-item {
+                flex-direction: row !important;
+                width: 100%;
+                justify-content: flex-start !important;
+                gap: 15px !important;
+                padding: 10px;
+                border-radius: 12px;
+            }
+            .shortcut-item:hover {
+                background: rgba(0,0,0,0.03);
+            }
+            .icon-box {
+                width: 45px !important;
+                height: 45px !important;
+                border-radius: 12px !important;
+            }
+            .shortcut-label {
+                font-size: 13px !important;
+                text-align: right !important;
+            }
+            /* Push main content to the left */
+            .sticky-header-container, .transactions-header {
+                margin-right: 260px;
+                width: calc(100% - 260px) !important;
             }
         }
 
@@ -126,33 +179,6 @@
             width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
-        
-        @media (min-width: 1024px) {
-            .new-header-container {
-                position: fixed;
-                right: 20px;
-                top: 150px;
-                width: auto;
-                background: transparent;
-                box-shadow: none;
-                z-index: 1001;
-            }
-            .new-header-content {
-                padding: 0;
-            }
-            .shortcuts-scroll-wrapper {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .shortcut-label {
-                color: var(--header-green) !important;
-                background: white;
-                padding: 4px 8px;
-                border-radius: 8px;
-                box-shadow: var(--shadow-soft);
-            }
-        }
-
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
