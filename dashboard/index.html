@@ -475,8 +475,8 @@
                     if (activeFilter === 'SMM Services') renderUI();
                 });
 
-                // Listen to Deposits based on userId
-                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                // Listen to Deposits based on User Email (matching image 1)
+                const qDep = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'deposits') renderUI();
