@@ -318,7 +318,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -336,17 +336,17 @@
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, type) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
-            const isStatusActive = status.toLowerCase() === 'active';
+            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'completed' || status.toLowerCase() === 'success';
             const statusStyle = isStatusActive ? 'is-active' : '';
             const isNegative = amount.includes('-');
             const amountStyle = isNegative ? 'm-red' : '';
 
-            const html = `
+            let html = `
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الخدمة' : 'Service'}</span>
                     <span class="detail-value">${fullDesc}</span>
@@ -354,11 +354,17 @@
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
                     <span class="detail-value ${amountStyle}" style="direction:ltr">${amount}</span>
-                </div>
+                </div>`;
+
+            if(type !== 'deposit') {
+                html += `
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span>
                     <span class="detail-value" style="direction:ltr">${quantity || '---'}</span>
-                </div>
+                </div>`;
+            }
+
+            html += `
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
                     <span class="detail-value ${statusStyle}">${status}</span>
@@ -391,7 +397,7 @@
             }
         };
 
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
@@ -414,25 +420,27 @@
                     }
                 });
 
-                const fetchAllData = async () => {
-                    const transQ = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
-                    const depositsQ = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
-                    
-                    const [transSnap, depositSnap] = await Promise.all([getDocs(transQ), getDocs(depositsQ)]);
-                    
-                    let combined = [];
-                    transSnap.forEach(d => combined.push({ ...d.data(), id: d.id, source: 'trans' }));
-                    depositSnap.forEach(d => combined.push({ ...d.data(), id: d.id, source: 'deposit' }));
+                // Fetch both Collections
+                const qTrans = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                const qDeps = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
 
-                    combined.sort((a, b) => {
-                        const dateA = a.timestamp ? a.timestamp.toDate() : 0;
-                        const dateB = b.timestamp ? b.timestamp.toDate() : 0;
-                        return dateB - dateA;
-                    });
+                let allData = [];
+                let transDone = false;
+                let depsDone = false;
 
-                    const finalItems = combined.slice(0, 8);
+                const mergeAndRender = () => {
+                    if(!transDone || !depsDone) return;
+                    
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+
+                    allData.sort((a, b) => {
+                        const timeA = a.timestamp?.toMillis() || 0;
+                        const timeB = b.timestamp?.toMillis() || 0;
+                        return timeB - timeA;
+                    });
+
+                    const finalItems = allData.slice(0, 8);
 
                     if (finalItems.length === 0) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
@@ -441,28 +449,29 @@
                     }
 
                     let htmlContent = "";
-                    finalItems.forEach(t => {
-                        const rawAmountStr = t.amount ? t.amount.toString() : "0";
-                        const isDep = t.source === 'deposit' || rawAmountStr.includes('+');
+                    finalItems.forEach(item => {
+                        const isDep = item._type === 'deposit';
+                        const rawAmountStr = item.amount ? item.amount.toString() : "0";
                         const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
                         const finalFormatted = formatBalance(cleanNum);
-                        const status = t.status || 'Active';
-                        const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
-                        const quantity = t.quantity || '';
                         
-                        const fullDesc = t.description || (isAr ? (t.source === 'deposit' ? 'عملية إيداع' : 'عملية محفظة') : 'Wallet Transaction');
-                        const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
+                        const status = item.status || 'Success';
+                        const statusClass = (status.toLowerCase() === 'active' || status.toLowerCase() === 'completed' || status.toLowerCase() === 'success') ? 'active' : '';
+                        
+                        const fullDesc = item.description || (isDep ? (isAr ? 'إيداع رصيد' : 'Deposit Balance') : (isAr ? 'عملية محفظة' : 'Wallet Transaction'));
+                        const displayTitle = isDep ? (isAr ? "إيداع ناجح" : "Successful Deposit") : "Marketing Services (CMM)";
 
                         let dateStr = "---";
-                        if (t.timestamp) {
-                            const d = t.timestamp.toDate();
+                        if (item.timestamp) {
+                            const d = item.timestamp.toDate();
                             dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
                         }
 
                         const amountLabel = `${isDep?'+':'-'}${finalFormatted} USD`;
+                        const typeKey = isDep ? 'deposit' : 'transaction';
 
                         htmlContent += `
-                            <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${quantity}')">
+                            <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${item.quantity || ''}', '${typeKey}')">
                                 <div style="display:flex; flex-direction:column">
                                     <span style="font-weight:700; font-size:13px">${displayTitle}</span>
                                     <div class="trans-date-container">
@@ -478,9 +487,21 @@
                     localStorage.setItem('trans_cache', htmlContent);
                 };
 
-                fetchAllData();
-                onSnapshot(collection(db, "transactions"), () => fetchAllData());
-                onSnapshot(collection(db, "deposits"), () => fetchAllData());
+                onSnapshot(qTrans, (snap) => {
+                    const transList = [];
+                    snap.forEach(d => transList.push({...d.data(), id: d.id, _type: 'transaction'}));
+                    allData = allData.filter(x => x._type !== 'transaction').concat(transList);
+                    transDone = true;
+                    mergeAndRender();
+                });
+
+                onSnapshot(qDeps, (snap) => {
+                    const depList = [];
+                    snap.forEach(d => depList.push({...d.data(), id: d.id, _type: 'deposit'}));
+                    allData = allData.filter(x => x._type !== 'deposit').concat(depList);
+                    depsDone = true;
+                    mergeAndRender();
+                });
 
             } else { window.location.href = "../"; }
         });
