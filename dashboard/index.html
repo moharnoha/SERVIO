@@ -31,12 +31,15 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
+        .sticky-header-container { width: 100%; position: relative; z-index: 1000; }
 
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: center; 
             width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
         }
 
         .top-header-content {
@@ -67,6 +70,8 @@
                 width: 100% !important;
                 background: #ffffff;
                 border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
             }
             .top-header-content {
                 max-width: 100%;
@@ -80,7 +85,8 @@
             .nav-icon { fill: var(--header-green) !important; }
 
             .bottom-header {
-                display: none; /* Wallet moved to sidebar top */
+                display: block;
+                position: relative;
             }
 
             .new-header-container {
@@ -170,6 +176,7 @@
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
+            position: relative;
         }
         .bottom-header-content {
             width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box;
@@ -185,7 +192,6 @@
 
         /* Inject Wallet into Sidebar for Desktop */
         @media (min-width: 1024px) {
-            .bottom-header { display: none; }
             .sidebar-wallet-anchor {
                 position: absolute;
                 top: 40px;
@@ -240,6 +246,7 @@
             width: 100%; display: flex; justify-content: center;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
+            position: relative;
         }
         .new-header-content {
             width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
@@ -359,21 +366,21 @@
 <body class="notranslate">
 
     <div class="page-wrapper">
-        <div class="sticky-header-container">
-            <div class="top-header">
-                <div class="top-header-content">
-                    <div class="brand-section">
-                        <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                        <div class="v-line"></div>
-                        <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
-                    </div>
-                    <div class="region-badge">
-                        <div id="flag-ui"></div>
-                        <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
-                    </div>
+        <div class="top-header">
+            <div class="top-header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
+                </div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
             </div>
+        </div>
 
+        <div class="sticky-header-container">
             <div class="bottom-header">
                 <div class="bottom-header-content">
                     <div class="wallet-card" id="main-wallet-card">
