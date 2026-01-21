@@ -341,7 +341,7 @@
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
-            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'success';
+            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed';
             const statusStyle = isStatusActive ? 'is-active' : '';
             const isNegative = amount.includes('-');
             const amountStyle = isNegative ? 'm-red' : '';
@@ -352,7 +352,7 @@
                     <span class="detail-value" style="color:var(--brand-green)">${userName || '---'}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الخدمة' : 'Service'}</span>
+                    <span class="detail-label">${isAr ? 'الخدمة / الوصف' : 'Service / Desc'}</span>
                     <span class="detail-value">${fullDesc}</span>
                 </div>
                 <div class="detail-row">
@@ -397,59 +397,54 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
                         window.currentName = name;
                         window.currentEmail = user.email;
-                        
-                        localStorage.setItem('hide_email', d.hide_email || "false");
-                        localStorage.setItem('hide_username', d.hide_username || "false");
-                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
-                        localStorage.setItem('privacy_active', isPrivacyOn);
-
-                        const balElement = document.getElementById('user-balance');
-                        if (balElement) balElement.innerText = formatBalance(bal) + " USD";
-                        
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         window.renderUserData();
                     }
                 });
 
+                // Listen to Transactions
                 const qTrans = query(collection(db, "transactions"), where("userId", "==", user.uid));
+                // Listen to Deposits
                 const qDeps = query(collection(db, "deposits"), where("userId", "==", user.uid));
 
-                let combinedData = [];
-                let checks = { t: false, d: false };
+                let allItems = [];
+                let tDone = false;
+                let dDone = false;
 
-                const renderAll = () => {
-                    if (!checks.t || !checks.d) return;
-                    const container = document.getElementById('trans-container');
+                const updateList = () => {
+                    if (!tDone || !dDone) return;
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+                    const container = document.getElementById('trans-container');
 
-                    combinedData.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                    // Sort combined list by timestamp
+                    allItems.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
 
-                    if (combinedData.length === 0) {
+                    if (allItems.length === 0) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
-                        localStorage.removeItem('trans_cache');
                         return;
                     }
 
-                    let htmlContent = "";
-                    combinedData.slice(0, 15).forEach(item => {
-                        const isDep = item._src === 'd' || item.amount?.toString().includes('+');
-                        const userName = item.username || item.userName || "---";
-                        const rawAmountStr = item.amount ? item.amount.toString() : "0";
-                        const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
-                        const finalFormatted = formatBalance(cleanNum);
-                        const status = item.status || (isDep ? 'Success' : 'Active');
-                        const statusClass = (status.toLowerCase() === 'active' || status.toLowerCase() === 'success') ? 'active' : '';
-                        const quantity = item.quantity || '';
+                    let html = "";
+                    allItems.slice(0, 15).forEach(item => {
+                        const isDep = (item._type === 'deposit');
+                        const status = item.status || 'Success';
+                        const statusClass = (status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed') ? 'active' : '';
                         
-                        const fullDesc = item.description || (isDep ? (isAr ? 'إيداع' : 'Deposit') : (isAr ? 'طلب خدمات' : 'SMM Order'));
-                        const displayTitle = isDep ? (isAr ? 'إيداع رصيد' : 'Deposit') : "Marketing Services (CMM)";
+                        const amountVal = item.amount || 0;
+                        const formattedAmt = formatBalance(amountVal);
+                        const amountLabel = isDep ? `+${formattedAmt} USD` : `-${formattedAmt} USD`;
+                        
+                        const userName = item.username || item.userName || "User";
+                        const desc = item.description || (isDep ? (isAr ? 'شحن رصيد' : 'Deposit') : (isAr ? 'طلب خدمات' : 'SMM Order'));
+                        const title = isDep ? (isAr ? 'عملية إيداع' : 'Deposit Transaction') : "Marketing Services (CMM)";
 
                         let dateStr = "---";
                         if (item.timestamp) {
@@ -457,12 +452,10 @@
                             dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
                         }
 
-                        const amountLabel = `${isDep?'+':'-'}${finalFormatted} USD`;
-
-                        htmlContent += `
-                            <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${quantity}', '${userName}')">
+                        html += `
+                            <div class="trans-item" onclick="showDetails('${title.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${desc.replace(/'/g, "\\'")}', '${item.quantity || ''}', '${userName}')">
                                 <div style="display:flex; flex-direction:column">
-                                    <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                                    <span style="font-weight:700; font-size:13px">${title}</span>
                                     <div class="trans-date-container">
                                         <span class="status-badge ${statusClass}">${status}</span>
                                         <span class="trans-date">${dateStr}</span>
@@ -471,21 +464,21 @@
                                 <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}; font-weight:800; direction:ltr">${amountLabel}</span>
                             </div>`;
                     });
-                    
-                    container.innerHTML = htmlContent;
-                    localStorage.setItem('trans_cache', htmlContent);
+
+                    container.innerHTML = html;
+                    localStorage.setItem('trans_cache', html);
                 };
 
                 onSnapshot(qTrans, (snap) => {
-                    const data = []; snap.forEach(d => data.push({...d.data(), id: d.id, _src: 't'}));
-                    combinedData = combinedData.filter(x => x._src !== 't').concat(data);
-                    checks.t = true; renderAll();
+                    const list = []; snap.forEach(doc => list.push({...doc.data(), id: doc.id, _type: 'trans'}));
+                    allItems = allItems.filter(x => x._type !== 'trans').concat(list);
+                    tDone = true; updateList();
                 });
 
                 onSnapshot(qDeps, (snap) => {
-                    const data = []; snap.forEach(d => data.push({...d.data(), id: d.id, _src: 'd'}));
-                    combinedData = combinedData.filter(x => x._src !== 'd').concat(data);
-                    checks.d = true; renderAll();
+                    const list = []; snap.forEach(doc => list.push({...doc.data(), id: doc.id, _type: 'deposit'}));
+                    allItems = allItems.filter(x => x._type !== 'deposit').concat(list);
+                    dDone = true; updateList();
                 });
 
             } else { window.location.href = "../"; }
@@ -499,17 +492,10 @@
         window.togglePrivacy = async function() { 
             const user = auth.currentUser;
             if (!user) return;
-            
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
-            
             try {
-                const userRef = doc(db, "users", user.uid);
-                await updateDoc(userRef, {
-                    hide_email: val,
-                    hide_username: val
-                });
-                
+                await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
                 localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
@@ -580,19 +566,11 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            if (nameEl) {
-                if (hideUser) nameEl.innerText = "••••••••";
-                else nameEl.innerText = window.currentName || "---";
-            }
-
-            if (emailEl) {
-                if (hideEmail) emailEl.innerText = "••••••••••••";
-                else emailEl.innerText = window.currentEmail || "---";
-            }
+            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
+            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
 
             if (eyeIcon) {
                 if (hideEmail || hideUser) {
