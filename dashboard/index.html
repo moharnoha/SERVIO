@@ -72,10 +72,10 @@
             }
             .new-header-container {
                 width: 260px !important;
-                height: calc(100vh - 160px); /* Adjusted height to drop below headers */
+                height: calc(100vh - 70px);
                 position: fixed;
                 right: 0;
-                top: 160px; /* Moves gray part down to start after bottom-header */
+                top: 70px; /* Starts exactly under top-header */
                 z-index: 1100;
                 border-radius: 0 !important;
                 background: #f1f5f9 !important; /* Grey Background */
@@ -109,19 +109,19 @@
                 font-size: 13px !important;
                 text-align: right !important;
             }
-            /* Reset header constraints to allow full width stretching */
-            .sticky-header-container {
-                margin-right: 0 !important;
+            /* Reset header constraints for Top Header but keep others pushed */
+            .top-header {
                 width: 100% !important;
+                position: fixed;
+                top: 0;
+                right: 0;
             }
-            .transactions-header {
+            .bottom-header, .transactions-header {
                 margin-right: 260px;
                 width: calc(100% - 260px) !important;
             }
-            /* Fix Top Header on Computer to stay full width */
-            .top-header {
-                width: 100% !important;
-                position: relative;
+            .bottom-header {
+                margin-top: 70px; /* Space for fixed top-header */
             }
         }
 
@@ -137,7 +137,6 @@
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
-            height: 90px;
         }
         .bottom-header-content {
             width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box;
