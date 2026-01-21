@@ -414,35 +414,48 @@
                     }
                 });
 
-                const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
+                // Listening to transactions collection
+                const qTrans = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
                 
-                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
+                // Listening to deposits collection
+                const qDeps = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(6));
+
+                let allTrans = [];
+                let allDeps = [];
+
+                const updateUI = () => {
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
                     
-                    if (snap.empty) {
+                    let combined = [...allTrans, ...allDeps].sort((a, b) => {
+                        const timeA = a.timestamp?.toMillis() || 0;
+                        const timeB = b.timestamp?.toMillis() || 0;
+                        return timeB - timeA;
+                    }).slice(0, 6);
+
+                    if (combined.length === 0) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
                         localStorage.removeItem('trans_cache');
                         return;
                     }
                     
                     let htmlContent = "";
-                    snap.forEach(docSnap => {
-                        const t = docSnap.data();
-                        const rawAmountStr = t.amount ? t.amount.toString() : "0";
-                        const isDep = rawAmountStr.includes('+');
+                    combined.forEach(item => {
+                        const isFromDeps = item._isDeposit;
+                        const rawAmountStr = item.amount ? item.amount.toString() : "0";
+                        const isDep = isFromDeps || rawAmountStr.includes('+');
                         const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
                         const finalFormatted = formatBalance(cleanNum);
-                        const status = t.status || 'Active';
+                        const status = item.status || 'Active';
                         const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
-                        const quantity = t.quantity || '';
+                        const quantity = item.quantity || '';
                         
-                        const fullDesc = t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction');
+                        const fullDesc = item.description || (isFromDeps ? (isAr ? 'إيداع رصيد' : 'Deposit') : (isAr ? 'عملية محفظة' : 'Wallet Transaction'));
                         const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
 
                         let dateStr = "---";
-                        if (t.timestamp) {
-                            const d = t.timestamp.toDate();
+                        if (item.timestamp) {
+                            const d = item.timestamp.toDate();
                             dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
                         }
 
@@ -463,7 +476,20 @@
                     
                     container.innerHTML = htmlContent;
                     localStorage.setItem('trans_cache', htmlContent);
+                };
+
+                onSnapshot(qTrans, (snap) => {
+                    allTrans = [];
+                    snap.forEach(d => allTrans.push({...d.data(), _isDeposit: false}));
+                    updateUI();
                 });
+
+                onSnapshot(qDeps, (snap) => {
+                    allDeps = [];
+                    snap.forEach(d => allDeps.push({...d.data(), _isDeposit: true}));
+                    updateUI();
+                });
+
             } else { window.location.href = "../"; }
         });
 
