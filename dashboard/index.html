@@ -390,7 +390,9 @@
             document.getElementById('trans-modal').style.display = 'flex';
         };
 
-        window.closeModal = () => { document.getElementById('trans-modal').style.display = 'none'; };
+        window.closeModal = () => {
+            document.getElementById('trans-modal').style.display = 'none';
+        };
 
         window.switchFilter = (type, btn) => {
             activeFilter = type;
@@ -464,7 +466,7 @@
 
         window.handleLogout = () => { 
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            if(confirm(isAr ? "هل تريد الخروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
+            if(confirm(isAr ? "خروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
         };
 
         window.togglePrivacy = async function() { 
