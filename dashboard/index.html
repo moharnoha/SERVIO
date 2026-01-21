@@ -46,20 +46,36 @@
 
         @media (min-width: 481px) {
             .top-header-content {
-                max-width: 480px;
-                padding: 0 15px;
+                max-width: 100%;
+                padding: 0 40px;
             }
             .bottom-header-content {
-                max-width: 480px;
-                padding: 15px;
+                max-width: 100%;
+                padding: 15px 40px;
             }
             .new-header-content {
-                max-width: 480px;
-                padding: 25px 20px 30px 20px;
+                max-width: 100%;
+                padding: 25px 40px 30px 40px;
             }
             .transactions-content {
-                max-width: 480px;
-                padding: 25px 20px;
+                max-width: 100%;
+                padding: 25px 40px;
+            }
+            /* المظهر الممزوج للحاسوب: جعل الأقسام ملتصقة كواجهة واحدة متينة */
+            .page-wrapper {
+                max-width: 1000px;
+                margin: 0 auto;
+                background: #fff;
+                box-shadow: 0 0 40px rgba(0,0,0,0.1);
+                min-height: 100vh;
+            }
+            .new-header-container {
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+            }
+            .transactions-header {
+                margin-top: 0 !important;
             }
         }
 
