@@ -354,13 +354,13 @@
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity, errorMsg = null) => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, debugInfo = "") => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
-            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed';
-            const statusStyle = isStatusActive ? 'is-active' : (status.toLowerCase() === 'failed' ? 'm-red' : '');
+            const isStatusActive = status.toLowerCase() === 'active';
+            const statusStyle = isStatusActive ? 'is-active' : '';
             const isPositive = amount.includes('+');
             const amountStyle = !isPositive ? 'm-red' : '';
 
@@ -382,15 +382,8 @@
                     <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
                     <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
                 </div>
+                ${debugInfo ? `<div class="detail-row" style="background:#fff5f5; border-radius:8px; padding:10px; flex-direction:column; align-items:flex-start;"><span class="detail-label" style="color:#e53e3e">${isAr ? 'معلومات التقنية' : 'Debug Info'}</span><span class="detail-value" style="font-size:10px; word-break:break-all;">${debugInfo}</span></div>` : ''}
             `;
-
-            if (errorMsg) {
-                html += `
-                <div class="detail-row" style="background: #fff5f5; border-radius: 8px; padding: 10px; margin-top: 10px; border: 1px solid #feb2b2;">
-                    <span class="detail-label" style="color: #c53030;">${isAr ? 'رسالة الخطأ' : 'Error Log'}</span>
-                    <span class="detail-value" style="color: #c53030; font-family: monospace;">${errorMsg}</span>
-                </div>`;
-            }
             
             document.getElementById('modal-content').innerHTML = html;
             document.getElementById('trans-modal').style.display = 'flex';
@@ -413,7 +406,10 @@
             const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
             if (data.length === 0) {
-                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد بيانات' : 'No data found'}</div>`;
+                container.innerHTML = `<div class="empty-state">
+                    ${isAr ? 'لا توجد بيانات حالياً' : 'No data found'}
+                    ${activeFilter === 'deposits' ? `<div style="font-size:10px; margin-top:10px; color:#ccc;">Email: ${window.currentEmail || 'none'}</div>` : ''}
+                </div>`;
                 return;
             }
 
@@ -426,14 +422,14 @@
                 
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
                 const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
-                const errorLog = isDep && t.errorMessage ? t.errorMessage.replace(/'/g, "\\'") : null;
+                const debugData = isDep ? `ID: ${t.transactionId || 'N/A'} | Method: ${t.method || 'N/A'} | DocID: ${t.docId || ''}` : '';
 
                 html += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', ${errorLog ? `'${errorLog}'` : 'null'})">
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${debugData}')">
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px">${displayTitle}</span>
                             <div class="trans-date-container">
-                                <span class="status-badge ${status === 'active' || status === 'success' ? 'active' : ''}">${status}</span>
+                                <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
@@ -456,13 +452,13 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                window.currentEmail = user.email;
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
                         window.currentName = name;
-                        window.currentEmail = user.email;
                         
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
@@ -484,11 +480,17 @@
                     if (activeFilter === 'SMM Services') renderUI();
                 });
 
-                // Listen to Deposits based on User Email (matching image 1)
+                // Listen to Deposits based on User Email - Enhanced with error tracking
                 const qDep = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(qDep, (snap) => {
-                    depositTransactions = snap.docs.map(d => d.data());
+                    depositTransactions = snap.docs.map(d => ({...d.data(), docId: d.id}));
+                    console.log("Deposits for " + user.email + ":", depositTransactions.length);
                     if (activeFilter === 'deposits') renderUI();
+                }, (error) => {
+                    console.error("Firestore Deposit Error:", error);
+                    if (activeFilter === 'deposits') {
+                        document.getElementById('trans-container').innerHTML = `<div class="empty-state" style="color:red">Error: ${error.message}</div>`;
+                    }
                 });
             } else { window.location.href = "../"; }
         });
