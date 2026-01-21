@@ -121,25 +121,24 @@
                 width: calc(100% - 260px) !important;
                 margin-top: 70px; /* Space for fixed top-header */
             }
-            /* Transactions Section Adjusted - Center and Full Width */
+            /* Transactions Section Adjusted - Compressed and Centered */
             .transactions-header {
                 width: calc(100% - 260px) !important;
-                height: calc(100vh - 160px);
-                position: fixed;
+                position: relative;
                 left: 0;
-                top: 160px;
                 background: #ffffff;
                 border-top: 1px solid #edf2ed;
                 margin-top: 0 !important;
-                overflow-y: auto;
                 z-index: 1050;
                 display: flex;
                 justify-content: center;
+                flex: 1;
             }
-
+            
             .transactions-content {
                 padding: 20px !important;
                 max-width: 800px !important;
+                width: 100%;
             }
         }
 
@@ -215,7 +214,7 @@
             width: 100%; display: flex; justify-content: center;
             background: #ffffff; 
             margin-top: 10px;
-            min-height: 500px;
+            min-height: 200px;
         }
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
