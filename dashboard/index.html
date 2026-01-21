@@ -354,17 +354,17 @@
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, errorMsg = null) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
-            const isStatusActive = status.toLowerCase() === 'active';
-            const statusStyle = isStatusActive ? 'is-active' : '';
+            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed';
+            const statusStyle = isStatusActive ? 'is-active' : (status.toLowerCase() === 'failed' ? 'm-red' : '');
             const isPositive = amount.includes('+');
             const amountStyle = !isPositive ? 'm-red' : '';
 
-            const html = `
+            let html = `
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الخدمة/المصدر' : 'Service/Source'}</span>
                     <span class="detail-value">${fullDesc}</span>
@@ -383,6 +383,14 @@
                     <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
                 </div>
             `;
+
+            if (errorMsg) {
+                html += `
+                <div class="detail-row" style="background: #fff5f5; border-radius: 8px; padding: 10px; margin-top: 10px; border: 1px solid #feb2b2;">
+                    <span class="detail-label" style="color: #c53030;">${isAr ? 'رسالة الخطأ' : 'Error Log'}</span>
+                    <span class="detail-value" style="color: #c53030; font-family: monospace;">${errorMsg}</span>
+                </div>`;
+            }
             
             document.getElementById('modal-content').innerHTML = html;
             document.getElementById('trans-modal').style.display = 'flex';
@@ -418,13 +426,14 @@
                 
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
                 const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
+                const errorLog = isDep && t.errorMessage ? t.errorMessage.replace(/'/g, "\\'") : null;
 
                 html += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}')">
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', ${errorLog ? `'${errorLog}'` : 'null'})">
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px">${displayTitle}</span>
                             <div class="trans-date-container">
-                                <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
+                                <span class="status-badge ${status === 'active' || status === 'success' ? 'active' : ''}">${status}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
