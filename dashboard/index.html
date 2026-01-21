@@ -31,7 +31,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Adjusted Sticky Header for wide screen expansion */
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
         .top-header { 
@@ -40,7 +39,6 @@
             width: 100%;
         }
 
-        /* Matching the reference expansion logic */
         .top-header-content {
             width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
@@ -62,7 +60,6 @@
                 max-width: 100%;
                 padding: 25px 40px;
             }
-            /* Computer Layout Modifications */
             .page-wrapper {
                 display: flex;
                 flex-direction: row;
@@ -72,18 +69,19 @@
             }
             .new-header-container {
                 width: 260px !important;
-                height: calc(100vh - 70px);
+                height: 100vh !important;
                 position: fixed;
                 right: 0;
-                top: 70px; /* Starts exactly under top-header */
+                top: 0;
                 z-index: 1100;
                 border-radius: 0 !important;
-                background: #f1f5f9 !important; /* Grey Background */
+                background: #f1f5f9 !important;
                 box-shadow: -2px 0 10px rgba(0,0,0,0.05);
                 display: block !important;
             }
             .new-header-content {
                 padding: 40px 20px !important;
+                margin-top: 70px;
             }
             .shortcuts-scroll-wrapper {
                 flex-direction: column !important;
@@ -109,20 +107,19 @@
                 font-size: 13px !important;
                 text-align: right !important;
             }
-            /* Reset header constraints for Top Header but keep others pushed */
             .top-header {
-                width: 100% !important;
+                width: calc(100% - 260px) !important;
                 position: fixed;
                 top: 0;
-                right: 0;
+                left: 0;
             }
             .bottom-header {
                 margin-right: 260px;
                 width: calc(100% - 260px) !important;
-                margin-top: 70px; /* Space for fixed top-header */
+                margin-top: 70px;
             }
-            /* Transactions Section Adjusted - Compressed and Centered */
             .transactions-header {
+                margin-right: 260px;
                 width: calc(100% - 260px) !important;
                 position: relative;
                 left: 0;
@@ -133,12 +130,14 @@
                 display: flex;
                 justify-content: center;
                 flex: 1;
+                overflow: hidden;
             }
             
             .transactions-content {
                 padding: 20px !important;
                 max-width: 800px !important;
                 width: 100%;
+                box-sizing: border-box;
             }
         }
 
@@ -215,9 +214,11 @@
             background: #ffffff; 
             margin-top: 10px;
             min-height: 200px;
+            flex: 1;
         }
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+            background: #ffffff;
         }
         
         .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
@@ -238,6 +239,8 @@
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
             contain: content; cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
@@ -308,7 +311,7 @@
         .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
         .detail-value.m-red { color: #ef4444; }
 
-        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background-color: var(--platform-bg); }
     </style>
 </head>
 <body class="notranslate">
