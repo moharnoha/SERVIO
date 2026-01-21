@@ -318,7 +318,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
@@ -391,7 +391,7 @@
             }
         };
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
@@ -414,48 +414,48 @@
                     }
                 });
 
-                // Listening to transactions collection
-                const qTrans = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(6));
-                
-                // Listening to deposits collection
-                const qDeps = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(6));
+                const fetchAllData = async () => {
+                    const transQ = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                    const depositsQ = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                    
+                    const [transSnap, depositSnap] = await Promise.all([getDocs(transQ), getDocs(depositsQ)]);
+                    
+                    let combined = [];
+                    transSnap.forEach(d => combined.push({ ...d.data(), id: d.id, source: 'trans' }));
+                    depositSnap.forEach(d => combined.push({ ...d.data(), id: d.id, source: 'deposit' }));
 
-                let allTrans = [];
-                let allDeps = [];
+                    combined.sort((a, b) => {
+                        const dateA = a.timestamp ? a.timestamp.toDate() : 0;
+                        const dateB = b.timestamp ? b.timestamp.toDate() : 0;
+                        return dateB - dateA;
+                    });
 
-                const updateUI = () => {
+                    const finalItems = combined.slice(0, 8);
                     const container = document.getElementById('trans-container');
                     const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-                    
-                    let combined = [...allTrans, ...allDeps].sort((a, b) => {
-                        const timeA = a.timestamp?.toMillis() || 0;
-                        const timeB = b.timestamp?.toMillis() || 0;
-                        return timeB - timeA;
-                    }).slice(0, 6);
 
-                    if (combined.length === 0) {
+                    if (finalItems.length === 0) {
                         container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
                         localStorage.removeItem('trans_cache');
                         return;
                     }
-                    
+
                     let htmlContent = "";
-                    combined.forEach(item => {
-                        const isFromDeps = item._isDeposit;
-                        const rawAmountStr = item.amount ? item.amount.toString() : "0";
-                        const isDep = isFromDeps || rawAmountStr.includes('+');
+                    finalItems.forEach(t => {
+                        const rawAmountStr = t.amount ? t.amount.toString() : "0";
+                        const isDep = t.source === 'deposit' || rawAmountStr.includes('+');
                         const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
                         const finalFormatted = formatBalance(cleanNum);
-                        const status = item.status || 'Active';
+                        const status = t.status || 'Active';
                         const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
-                        const quantity = item.quantity || '';
+                        const quantity = t.quantity || '';
                         
-                        const fullDesc = item.description || (isFromDeps ? (isAr ? 'إيداع رصيد' : 'Deposit') : (isAr ? 'عملية محفظة' : 'Wallet Transaction'));
+                        const fullDesc = t.description || (isAr ? (t.source === 'deposit' ? 'عملية إيداع' : 'عملية محفظة') : 'Wallet Transaction');
                         const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
 
                         let dateStr = "---";
-                        if (item.timestamp) {
-                            const d = item.timestamp.toDate();
+                        if (t.timestamp) {
+                            const d = t.timestamp.toDate();
                             dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
                         }
 
@@ -473,22 +473,14 @@
                                 <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountLabel}</span>
                             </div>`;
                     });
-                    
+
                     container.innerHTML = htmlContent;
                     localStorage.setItem('trans_cache', htmlContent);
                 };
 
-                onSnapshot(qTrans, (snap) => {
-                    allTrans = [];
-                    snap.forEach(d => allTrans.push({...d.data(), _isDeposit: false}));
-                    updateUI();
-                });
-
-                onSnapshot(qDeps, (snap) => {
-                    allDeps = [];
-                    snap.forEach(d => allDeps.push({...d.data(), _isDeposit: true}));
-                    updateUI();
-                });
+                fetchAllData();
+                onSnapshot(collection(db, "transactions"), () => fetchAllData());
+                onSnapshot(collection(db, "deposits"), () => fetchAllData());
 
             } else { window.location.href = "../"; }
         });
