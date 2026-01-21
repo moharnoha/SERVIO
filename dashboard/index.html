@@ -140,11 +140,24 @@
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
         }
+        
+        /* Options Style for Filters */
+        .filter-options {
+            display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;
+        }
+        .filter-btn {
+            padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
+            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+        }
+        .filter-btn.active {
+            background: var(--brand-green); color: #fff; border-color: var(--brand-green);
+        }
+
         .trans-list { 
             display: flex; 
             flex-direction: column; 
             gap: 12px; 
-            margin-top: 15px;
+            margin-top: 5px;
             min-height: 100px;
         }
         .trans-item {
@@ -295,6 +308,12 @@
         <div class="transactions-header">
             <div class="transactions-content">
                 <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
+                
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterTransactions('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
+                    <button class="filter-btn" onclick="filterTransactions('deposits', this)" id="btn-filter-dep">deposits</button>
+                </div>
+
                 <div id="trans-container" class="trans-list"></div>
             </div>
         </div>
@@ -330,34 +349,33 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let allTransactions = [];
+        let activeFilter = 'SMM Services';
+
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity, userName) => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
-            const isStatusActive = status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed';
+            const isStatusActive = status.toLowerCase() === 'active';
             const statusStyle = isStatusActive ? 'is-active' : '';
             const isNegative = amount.includes('-');
             const amountStyle = isNegative ? 'm-red' : '';
 
             const html = `
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'اسم المستخدم' : 'Username'}</span>
-                    <span class="detail-value" style="color:var(--brand-green)">${userName || '---'}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الخدمة / الوصف' : 'Service / Desc'}</span>
+                    <span class="detail-label">${isAr ? 'الخدمة' : 'Service'}</span>
                     <span class="detail-value">${fullDesc}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
-                    <span class="detail-value ${amountStyle}" style="direction:ltr; font-weight:800">${amount}</span>
+                    <span class="detail-value ${amountStyle}" style="direction:ltr">${amount}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span>
@@ -395,92 +413,102 @@
             }
         };
 
+        window.filterTransactions = (type, btn) => {
+            activeFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTransactionsList();
+        };
+
+        const renderTransactionsList = () => {
+            const container = document.getElementById('trans-container');
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            
+            // Filter logic: 'deposits' shows amount with '+', 'SMM Services' shows amount with '-' (transactions)
+            const filtered = allTransactions.filter(t => {
+                const amountStr = t.amount ? t.amount.toString() : "";
+                if (activeFilter === 'deposits') return amountStr.includes('+');
+                if (activeFilter === 'SMM Services') return amountStr.includes('-');
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
+                return;
+            }
+
+            let htmlContent = "";
+            filtered.forEach(t => {
+                const rawAmountStr = t.amount ? t.amount.toString() : "0";
+                const isDep = rawAmountStr.includes('+');
+                const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
+                const finalFormatted = formatBalance(cleanNum);
+                const status = t.status || 'Active';
+                const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
+                const quantity = t.quantity || '';
+                
+                const fullDesc = t.description || (isAr ? 'عملية محفظة' : 'Wallet Transaction');
+                const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
+
+                let dateStr = "---";
+                if (t.timestamp) {
+                    const d = (typeof t.timestamp.toDate === 'function') ? t.timestamp.toDate() : new Date(t.timestamp);
+                    dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
+                }
+
+                const amountLabel = `${isDep?'+':'-'}${finalFormatted} USD`;
+
+                htmlContent += `
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${quantity}')">
+                        <div style="display:flex; flex-direction:column">
+                            <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                            <div class="trans-date-container">
+                                <span class="status-badge ${statusClass}">${status}</span>
+                                <span class="trans-date">${dateStr}</span>
+                            </div>
+                        </div>
+                        <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountLabel}</span>
+                    </div>`;
+            });
+            
+            container.innerHTML = htmlContent;
+            if (activeFilter === 'SMM Services') {
+                localStorage.setItem('trans_cache', htmlContent);
+            }
+        };
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                onSnapshot(doc(db, "users", user.uid), (snap) => {
+                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
                         window.currentName = name;
                         window.currentEmail = user.email;
+                        
+                        localStorage.setItem('hide_email', d.hide_email || "false");
+                        localStorage.setItem('hide_username', d.hide_username || "false");
+                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
+                        localStorage.setItem('privacy_active', isPrivacyOn);
+
+                        const balElement = document.getElementById('user-balance');
+                        if (balElement) balElement.innerText = formatBalance(bal) + " USD";
+                        
                         localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         window.renderUserData();
                     }
                 });
 
-                // Listen to Transactions
-                const qTrans = query(collection(db, "transactions"), where("userId", "==", user.uid));
-                // Listen to Deposits
-                const qDeps = query(collection(db, "deposits"), where("userId", "==", user.uid));
-
-                let allItems = [];
-                let tDone = false;
-                let dDone = false;
-
-                const updateList = () => {
-                    if (!tDone || !dDone) return;
-                    const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-                    const container = document.getElementById('trans-container');
-
-                    // Sort combined list by timestamp
-                    allItems.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-
-                    if (allItems.length === 0) {
-                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
-                        return;
-                    }
-
-                    let html = "";
-                    allItems.slice(0, 15).forEach(item => {
-                        const isDep = (item._type === 'deposit');
-                        const status = item.status || 'Success';
-                        const statusClass = (status.toLowerCase() === 'active' || status.toLowerCase() === 'success' || status.toLowerCase() === 'completed') ? 'active' : '';
-                        
-                        const amountVal = item.amount || 0;
-                        const formattedAmt = formatBalance(amountVal);
-                        const amountLabel = isDep ? `+${formattedAmt} USD` : `-${formattedAmt} USD`;
-                        
-                        const userName = item.username || item.userName || "User";
-                        const desc = item.description || (isDep ? (isAr ? 'شحن رصيد' : 'Deposit') : (isAr ? 'طلب خدمات' : 'SMM Order'));
-                        const title = isDep ? (isAr ? 'عملية إيداع' : 'Deposit Transaction') : "Marketing Services (CMM)";
-
-                        let dateStr = "---";
-                        if (item.timestamp) {
-                            const d = item.timestamp.toDate();
-                            dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
-                        }
-
-                        html += `
-                            <div class="trans-item" onclick="showDetails('${title.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${desc.replace(/'/g, "\\'")}', '${item.quantity || ''}', '${userName}')">
-                                <div style="display:flex; flex-direction:column">
-                                    <span style="font-weight:700; font-size:13px">${title}</span>
-                                    <div class="trans-date-container">
-                                        <span class="status-badge ${statusClass}">${status}</span>
-                                        <span class="trans-date">${dateStr}</span>
-                                    </div>
-                                </div>
-                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}; font-weight:800; direction:ltr">${amountLabel}</span>
-                            </div>`;
+                const q = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(20));
+                
+                onSnapshot(q, { includeMetadataChanges: true }, (snap) => {
+                    allTransactions = [];
+                    snap.forEach(docSnap => {
+                        allTransactions.push(docSnap.data());
                     });
-
-                    container.innerHTML = html;
-                    localStorage.setItem('trans_cache', html);
-                };
-
-                onSnapshot(qTrans, (snap) => {
-                    const list = []; snap.forEach(doc => list.push({...doc.data(), id: doc.id, _type: 'trans'}));
-                    allItems = allItems.filter(x => x._type !== 'trans').concat(list);
-                    tDone = true; updateList();
+                    renderTransactionsList();
                 });
-
-                onSnapshot(qDeps, (snap) => {
-                    const list = []; snap.forEach(doc => list.push({...doc.data(), id: doc.id, _type: 'deposit'}));
-                    allItems = allItems.filter(x => x._type !== 'deposit').concat(list);
-                    dDone = true; updateList();
-                });
-
             } else { window.location.href = "../"; }
         });
 
@@ -492,10 +520,17 @@
         window.togglePrivacy = async function() { 
             const user = auth.currentUser;
             if (!user) return;
+            
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
+            
             try {
-                await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
+                const userRef = doc(db, "users", user.uid);
+                await updateDoc(userRef, {
+                    hide_email: val,
+                    hide_username: val
+                });
+                
                 localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
@@ -566,11 +601,19 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
-            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
+            if (nameEl) {
+                if (hideUser) nameEl.innerText = "••••••••";
+                else nameEl.innerText = window.currentName || "---";
+            }
+
+            if (emailEl) {
+                if (hideEmail) emailEl.innerText = "••••••••••••";
+                else emailEl.innerText = window.currentEmail || "---";
+            }
 
             if (eyeIcon) {
                 if (hideEmail || hideUser) {
