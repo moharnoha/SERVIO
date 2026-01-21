@@ -19,6 +19,7 @@
             --brand-deposit: #10b981; 
             --card-white: #FFFFFF;
             --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
+            --sidebar-gray: #f1f5f9;
         }
 
         html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
@@ -30,7 +31,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Adjusted Sticky Header for wide screen expansion */
         .sticky-header-container { width: 100%; position: sticky; top: 0; z-index: 1000; }
 
         .top-header { 
@@ -39,7 +39,6 @@
             width: 100%;
         }
 
-        /* Matching the reference expansion logic */
         .top-header-content {
             width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
         }
@@ -60,6 +59,86 @@
             .transactions-content {
                 max-width: 100%;
                 padding: 25px 40px;
+            }
+            .page-wrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: flex-start;
+                min-height: 100vh;
+            }
+            .new-header-container {
+                width: 260px !important;
+                height: 100vh !important;
+                position: fixed;
+                right: 0;
+                top: 0;
+                z-index: 1100;
+                border-radius: 0 !important;
+                background: #f1f5f9 !important;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+                display: block !important;
+            }
+            .new-header-content {
+                padding: 40px 20px !important;
+                margin-top: 70px;
+            }
+            .shortcuts-scroll-wrapper {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            .shortcut-item {
+                flex-direction: row !important;
+                width: 100%;
+                justify-content: flex-start !important;
+                gap: 15px !important;
+                padding: 10px;
+                border-radius: 12px;
+            }
+            .shortcut-item:hover {
+                background: rgba(0,0,0,0.03);
+            }
+            .icon-box {
+                width: 45px !important;
+                height: 45px !important;
+                border-radius: 12px !important;
+            }
+            .shortcut-label {
+                font-size: 13px !important;
+                text-align: right !important;
+            }
+            .top-header {
+                width: calc(100% - 260px) !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+            .bottom-header {
+                margin-right: 260px;
+                width: calc(100% - 260px) !important;
+                margin-top: 70px;
+            }
+            .transactions-header {
+                margin-right: 260px;
+                width: calc(100% - 260px) !important;
+                position: relative;
+                left: 0;
+                background: #ffffff;
+                border-top: 1px solid #edf2ed;
+                margin-top: 0 !important;
+                z-index: 1050;
+                display: flex;
+                justify-content: center;
+                flex: 1;
+                overflow-y: auto !important;
+                height: calc(100vh - 230px);
+            }
+            
+            .transactions-content {
+                padding: 20px !important;
+                max-width: 800px !important;
+                width: 100%;
+                box-sizing: border-box;
             }
         }
 
@@ -135,10 +214,13 @@
             width: 100%; display: flex; justify-content: center;
             background: #ffffff; 
             margin-top: 10px;
-            min-height: 500px;
+            min-height: 200px;
+            flex: 1;
+            overflow-y: auto;
         }
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+            background: #ffffff;
         }
         
         .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
@@ -159,6 +241,8 @@
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
             contain: content; cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
@@ -229,7 +313,7 @@
         .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
         .detail-value.m-red { color: #ef4444; }
 
-        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background-color: var(--platform-bg); }
     </style>
 </head>
 <body class="notranslate">
@@ -354,7 +438,7 @@
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity, debugInfo = "") => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
@@ -366,14 +450,16 @@
 
             let html = `
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الخدمة/المصدر' : 'Service/Source'}</span>
+                    <span class="detail-label">${isAr ? 'نوع العملية' : 'Transaction Type'}</span>
                     <span class="detail-value">${fullDesc}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
+                    <span class="detail-label">${isAr ? 'المبلغ المستحق' : 'Amount Due'}</span>
                     <span class="detail-value ${isPositive ? 'is-active' : amountStyle}" style="direction:ltr">${amount}</span>
                 </div>
                 ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
+                ${code ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكود' : 'Code'}</span><span class="detail-value" style="direction:ltr">${code}</span></div>` : ''}
+                ${username ? `<div class="detail-row"><span class="detail-label">${isAr ? 'اسم المستخدم' : 'Username'}</span><span class="detail-value" style="direction:ltr">${username}</span></div>` : ''}
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
                     <span class="detail-value ${statusStyle}">${status}</span>
@@ -382,7 +468,6 @@
                     <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
                     <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
                 </div>
-                ${debugInfo ? `<div class="detail-row" style="background:#fff5f5; border-radius:8px; padding:10px; flex-direction:column; align-items:flex-start;"><span class="detail-label" style="color:#e53e3e">${isAr ? 'معلومات التقنية' : 'Debug Info'}</span><span class="detail-value" style="font-size:10px; word-break:break-all;">${debugInfo}</span></div>` : ''}
             `;
             
             document.getElementById('modal-content').innerHTML = html;
@@ -406,9 +491,7 @@
             const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
             if (data.length === 0) {
-                container.innerHTML = `<div class="empty-state">
-                    ${isAr ? 'لا توجد بيانات حالياً' : 'No data found'}
-                </div>`;
+                container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد بيانات حالياً' : 'No data found'}</div>`;
                 return;
             }
 
@@ -421,10 +504,9 @@
                 
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
                 const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
-                const debugData = isDep ? `ID: ${t.transactionId || 'N/A'} | Method: ${t.method || 'N/A'} | DocID: ${t.docId || ''}` : '';
 
                 html += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${debugData}')">
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px">${displayTitle}</span>
                             <div class="trans-date-container">
@@ -438,54 +520,30 @@
             container.innerHTML = html;
         };
 
-        const loadCache = () => {
-            const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
-            if (cache.name) {
-                window.currentName = cache.name;
-                window.currentEmail = cache.email;
-                const balEl = document.getElementById('user-balance');
-                if (balEl) balEl.innerText = formatBalance(cache.balance) + " USD";
-                window.renderUserData();
-            }
-        };
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 window.currentEmail = user.email;
-                onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
-                        const name = d.fullName || d.name || "User";
-                        window.currentName = name;
-                        
-                        localStorage.setItem('hide_email', d.hide_email || "false");
-                        localStorage.setItem('hide_username', d.hide_username || "false");
-                        isPrivacyOn = (d.hide_email === "true" || d.hide_username === "true");
-                        localStorage.setItem('privacy_active', isPrivacyOn);
-
-                        const balElement = document.getElementById('user-balance');
-                        if (balElement) balElement.innerText = formatBalance(bal) + " USD";
-                        
-                        localStorage.setItem('user_cache', JSON.stringify({name, email: user.email, balance: bal}));
+                        window.currentName = d.fullName || d.name || "User";
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
+                        localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         window.renderUserData();
                     }
                 });
 
-                // Listen to SMM Transactions
-                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(15));
                 onSnapshot(qSmm, (snap) => {
                     smmTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'SMM Services') renderUI();
                 });
 
-                // Corrected Deposit query filter (using 'email' field commonly used in deposit collections)
-                const qDep = query(collection(db, "deposits"), where("email", "==", user.email), orderBy("timestamp", "desc"), limit(10));
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(15));
                 onSnapshot(qDep, (snap) => {
-                    depositTransactions = snap.docs.map(d => ({...d.data(), docId: d.id}));
+                    depositTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'deposits') renderUI();
-                }, (error) => {
-                    console.error("Deposit listener error:", error);
                 });
             } else { window.location.href = "../"; }
         });
@@ -502,14 +560,11 @@
             const val = isPrivacyOn ? "true" : "false";
             try {
                 await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
-                localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
                 window.renderUserData(); 
             } catch (e) { console.error(e); }
         };
-
-        loadCache();
     </script>
 
     <script>
@@ -532,7 +587,7 @@
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
         
-        let isPrivacyOn = localStorage.getItem('privacy_active') === 'true';
+        let isPrivacyOn = localStorage.getItem('hide_email') === 'true';
 
         window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -540,34 +595,21 @@
             const reg = regionConfigs[regIdx] || regionConfigs[0];
             const isAr = (lang === 'ar');
             
-            const lName = document.getElementById('lang-name');
-            const rName = document.getElementById('reg-name');
-            if(lName) lName.innerText = lang.toUpperCase();
-            if(rName) rName.innerText = reg[lang];
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
             
             const flagBox = document.getElementById('flag-ui');
-            if(flagBox) flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
-            const welcomeTxt = document.getElementById('txt-welcome');
-            const balLbl = document.getElementById('txt-balance-label');
-            const transTitle = document.getElementById('txt-trans-title');
-            if(welcomeTxt) welcomeTxt.innerText = isAr ? 'مرحباً بك' : 'Welcome';
-            if(balLbl) balLbl.innerText = isAr ? 'رصيدك الحالي' : 'Balance';
-            if(transTitle) transTitle.innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
-            
-            const smmTxt = document.getElementById('txt-smm');
-            const depTxt = document.getElementById('txt-deposit');
-            const menuTxt = document.getElementById('txt-menu');
-            const logTxt = document.getElementById('txt-logout');
-            if(smmTxt) smmTxt.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
-            if(depTxt) depTxt.innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
-            if(menuTxt) menuTxt.innerText = isAr ? 'القائمة' : 'Menu';
-            if(logTxt) logTxt.innerText = isAr ? 'خروج' : 'Logout';
-
-            const btnSmm = document.getElementById('btn-filter-smm');
-            const btnDep = document.getElementById('btn-filter-dep');
-            if(btnSmm) btnSmm.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
-            if(btnDep) btnDep.innerText = isAr ? 'الإيداعات' : 'Deposits';
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Recent Transactions';
+            document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
+            document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
+            document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             window.renderUserData();
