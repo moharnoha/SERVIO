@@ -82,7 +82,20 @@
                 box-shadow: -2px 0 10px rgba(0,0,0,0.05);
                 display: block !important;
             }
-            .new-header-content {
+            .transactions-header {
+                width: 260px !important;
+                height: calc(100vh - 70px);
+                position: fixed;
+                left: 0;
+                top: 70px;
+                z-index: 1100;
+                background: #ffffff !important;
+                border-right: 1px solid #edf2ed;
+                display: block !important;
+                margin-top: 0 !important;
+                overflow-y: auto;
+            }
+            .new-header-content, .transactions-content {
                 padding: 40px 20px !important;
             }
             .shortcuts-scroll-wrapper {
@@ -109,7 +122,7 @@
                 font-size: 13px !important;
                 text-align: right !important;
             }
-            /* Reset header constraints for Top Header but keep others pushed */
+            /* Push main content and top header */
             .top-header {
                 width: 100% !important;
                 position: fixed;
@@ -118,28 +131,13 @@
             }
             .bottom-header {
                 margin-right: 260px;
-                width: calc(100% - 260px) !important;
+                margin-left: 260px;
+                width: calc(100% - 520px) !important;
                 margin-top: 70px; /* Space for fixed top-header */
-            }
-            /* Transactions Section to the Left Side on Computer */
-            .transactions-header {
-                width: 320px !important;
-                height: calc(100vh - 70px);
-                position: fixed;
-                left: 0;
-                top: 70px;
-                background: #ffffff;
-                border-right: 1px solid #edf2ed;
-                margin-top: 0 !important;
-                overflow-y: auto;
-                z-index: 1050;
-            }
-            .transactions-content {
-                padding: 20px !important;
-            }
-            /* Adjust Middle content if necessary */
-            .bottom-header {
-                padding-left: 320px; /* To prevent overlap with transactions */
+                min-height: calc(100vh - 70px);
+                display: flex;
+                align-items: flex-start;
+                padding-top: 40px;
             }
         }
 
@@ -628,4 +626,4 @@
         window.onload = window.sync;
     </script>
 </body>
-</html>
+</html>```
