@@ -116,12 +116,30 @@
                 top: 0;
                 right: 0;
             }
-            .bottom-header, .transactions-header {
+            .bottom-header {
                 margin-right: 260px;
                 width: calc(100% - 260px) !important;
-            }
-            .bottom-header {
                 margin-top: 70px; /* Space for fixed top-header */
+            }
+            /* Transactions Section to the Left Side on Computer */
+            .transactions-header {
+                width: 320px !important;
+                height: calc(100vh - 70px);
+                position: fixed;
+                left: 0;
+                top: 70px;
+                background: #ffffff;
+                border-right: 1px solid #edf2ed;
+                margin-top: 0 !important;
+                overflow-y: auto;
+                z-index: 1050;
+            }
+            .transactions-content {
+                padding: 20px !important;
+            }
+            /* Adjust Middle content if necessary */
+            .bottom-header {
+                padding-left: 320px; /* To prevent overlap with transactions */
             }
         }
 
