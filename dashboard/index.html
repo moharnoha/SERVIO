@@ -140,19 +140,11 @@
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
         }
-        
-        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .filter-btn {
-            padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
-            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
-        }
-        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
-
         .trans-list { 
             display: flex; 
             flex-direction: column; 
             gap: 12px; 
-            margin-top: 5px;
+            margin-top: 15px;
             min-height: 100px;
         }
         .trans-item {
@@ -303,12 +295,6 @@
         <div class="transactions-header">
             <div class="transactions-content">
                 <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800; margin-bottom:15px">المعاملات الأخيرة</div>
-                
-                <div class="filter-options">
-                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
-                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep">deposits</button>
-                </div>
-
                 <div id="trans-container" class="trans-list"></div>
             </div>
         </div>
@@ -344,36 +330,35 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let activeFilter = 'SMM Services';
-        let smmTransactions = [];
-        let depositTransactions = [];
-
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
             return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
-        window.showDetails = (title, amount, status, date, fullDesc, quantity, debugInfo = "") => {
+        window.showDetails = (title, amount, status, date, fullDesc, quantity) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             document.getElementById('modal-title').innerText = isAr ? 'تفاصيل المعاملة' : 'Transaction Details';
             document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
             
             const isStatusActive = status.toLowerCase() === 'active';
             const statusStyle = isStatusActive ? 'is-active' : '';
-            const isPositive = amount.includes('+');
-            const amountStyle = !isPositive ? 'm-red' : '';
+            const isNegative = amount.includes('-');
+            const amountStyle = isNegative ? 'm-red' : '';
 
-            let html = `
+            const html = `
                 <div class="detail-row">
-                    <span class="detail-label">${isAr ? 'الخدمة/المصدر' : 'Service/Source'}</span>
+                    <span class="detail-label">${isAr ? 'الخدمة' : 'Service'}</span>
                     <span class="detail-value">${fullDesc}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'القيمة' : 'Amount'}</span>
-                    <span class="detail-value ${isPositive ? 'is-active' : amountStyle}" style="direction:ltr">${amount}</span>
+                    <span class="detail-value ${amountStyle}" style="direction:ltr">${amount}</span>
                 </div>
-                ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span>
+                    <span class="detail-value" style="direction:ltr">${quantity || '---'}</span>
+                </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
                     <span class="detail-value ${statusStyle}">${status}</span>
@@ -382,7 +367,6 @@
                     <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
                     <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
                 </div>
-                ${debugInfo ? `<div class="detail-row" style="background:#fff5f5; border-radius:8px; padding:10px; flex-direction:column; align-items:flex-start;"><span class="detail-label" style="color:#e53e3e">${isAr ? 'معلومات التقنية' : 'Debug Info'}</span><span class="detail-value" style="font-size:10px; word-break:break-all;">${debugInfo}</span></div>` : ''}
             `;
             
             document.getElementById('modal-content').innerHTML = html;
@@ -393,72 +377,29 @@
             document.getElementById('trans-modal').style.display = 'none';
         };
 
-        window.switchFilter = (type, btn) => {
-            activeFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderUI();
-        };
-
-        const renderUI = () => {
-            const container = document.getElementById('trans-container');
-            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
-            
-            if (data.length === 0) {
-                container.innerHTML = `<div class="empty-state">
-                    ${isAr ? 'لا توجد بيانات حالياً' : 'No data found'}
-                    ${activeFilter === 'deposits' ? `<div style="font-size:10px; margin-top:10px; color:#ccc;">Email: ${window.currentEmail || 'none'}</div>` : ''}
-                </div>`;
-                return;
-            }
-
-            let html = "";
-            data.forEach(t => {
-                const isDep = activeFilter === 'deposits';
-                const status = t.status || 'active';
-                const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
-                const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                
-                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
-                const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
-                const debugData = isDep ? `ID: ${t.transactionId || 'N/A'} | Method: ${t.method || 'N/A'} | DocID: ${t.docId || ''}` : '';
-
-                html += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${debugData}')">
-                        <div style="display:flex; flex-direction:column">
-                            <span style="font-weight:700; font-size:13px">${displayTitle}</span>
-                            <div class="trans-date-container">
-                                <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
-                                <span class="trans-date">${dateStr}</span>
-                            </div>
-                        </div>
-                        <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
-                    </div>`;
-            });
-            container.innerHTML = html;
-        };
-
         const loadCache = () => {
             const cache = JSON.parse(localStorage.getItem('user_cache') || '{}');
+            const transCache = localStorage.getItem('trans_cache');
             if (cache.name) {
                 window.currentName = cache.name;
                 window.currentEmail = cache.email;
-                const balEl = document.getElementById('user-balance');
-                if (balEl) balEl.innerText = formatBalance(cache.balance) + " USD";
+                document.getElementById('user-balance').innerText = formatBalance(cache.balance) + " USD";
                 window.renderUserData();
+            }
+            if (transCache) {
+                document.getElementById('trans-container').innerHTML = transCache;
             }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.currentEmail = user.email;
                 onSnapshot(doc(db, "users", user.uid), { includeMetadataChanges: false }, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         const name = d.fullName || d.name || "User";
                         window.currentName = name;
+                        window.currentEmail = user.email;
                         
                         localStorage.setItem('hide_email', d.hide_email || "false");
                         localStorage.setItem('hide_username', d.hide_username || "false");
@@ -473,25 +414,75 @@
                     }
                 });
 
-                // Listen to SMM Transactions
+                let smmItems = [];
+                let depItems = [];
+
+                const updateUI = () => {
+                    const container = document.getElementById('trans-container');
+                    const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+                    
+                    let combined = [...smmItems, ...depItems].sort((a, b) => {
+                        const tA = a.timestamp ? (a.timestamp.toDate ? a.timestamp.toDate() : new Date(a.timestamp)) : 0;
+                        const tB = b.timestamp ? (b.timestamp.toDate ? b.timestamp.toDate() : new Date(b.timestamp)) : 0;
+                        return tB - tA;
+                    }).slice(0, 10);
+
+                    if (combined.length === 0) {
+                        container.innerHTML = `<div class="empty-state">${isAr ? 'لا توجد معاملات' : 'No transactions found'}</div>`;
+                        localStorage.removeItem('trans_cache');
+                        return;
+                    }
+
+                    let htmlContent = "";
+                    combined.forEach(t => {
+                        const rawAmountStr = t.amount ? t.amount.toString() : "0";
+                        const isDep = t.type === 'deposit' || rawAmountStr.includes('+');
+                        const cleanNum = Number(rawAmountStr.replace(/[+-]/g, ''));
+                        const finalFormatted = formatBalance(cleanNum);
+                        const status = t.status || 'Active';
+                        const statusClass = status.toLowerCase() === 'active' ? 'active' : '';
+                        const quantity = t.quantity || '';
+                        
+                        const fullDesc = t.description || (isDep ? (isAr ? 'إيداع رصيد' : 'Deposit Credit') : (isAr ? 'عملية محفظة' : 'Wallet Transaction'));
+                        const displayTitle = isDep ? fullDesc : "Marketing Services (CMM)";
+
+                        let dateStr = "---";
+                        if (t.timestamp) {
+                            const d = t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp);
+                            dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} - ${d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
+                        }
+
+                        const amountLabel = `${isDep?'+':'-'}${finalFormatted} USD`;
+
+                        htmlContent += `
+                            <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${fullDesc.replace(/'/g, "\\'")}', '${quantity}')">
+                                <div style="display:flex; flex-direction:column">
+                                    <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                                    <div class="trans-date-container">
+                                        <span class="status-badge ${statusClass}">${status}</span>
+                                        <span class="trans-date">${dateStr}</span>
+                                    </div>
+                                </div>
+                                <span class="trans-val" style="color:${isDep?'#10b981':'#C62828'}">${amountLabel}</span>
+                            </div>`;
+                    });
+                    
+                    container.innerHTML = htmlContent;
+                    localStorage.setItem('trans_cache', htmlContent);
+                };
+
                 const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(qSmm, (snap) => {
-                    smmTransactions = snap.docs.map(d => d.data());
-                    if (activeFilter === 'SMM Services') renderUI();
+                    smmItems = snap.docs.map(d => ({ ...d.data(), type: 'transaction' }));
+                    updateUI();
                 });
 
-                // Listen to Deposits based on User Email - Enhanced with error tracking
-                const qDep = query(collection(db, "deposits"), where("firebaseEmail", "==", user.email), orderBy("timestamp", "desc"), limit(10));
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(10));
                 onSnapshot(qDep, (snap) => {
-                    depositTransactions = snap.docs.map(d => ({...d.data(), docId: d.id}));
-                    console.log("Deposits for " + user.email + ":", depositTransactions.length);
-                    if (activeFilter === 'deposits') renderUI();
-                }, (error) => {
-                    console.error("Firestore Deposit Error:", error);
-                    if (activeFilter === 'deposits') {
-                        document.getElementById('trans-container').innerHTML = `<div class="empty-state" style="color:red">Error: ${error.message}</div>`;
-                    }
+                    depItems = snap.docs.map(d => ({ ...d.data(), type: 'deposit' }));
+                    updateUI();
                 });
+
             } else { window.location.href = "../"; }
         });
 
@@ -503,10 +494,17 @@
         window.togglePrivacy = async function() { 
             const user = auth.currentUser;
             if (!user) return;
+            
             isPrivacyOn = !isPrivacyOn; 
             const val = isPrivacyOn ? "true" : "false";
+            
             try {
-                await updateDoc(doc(db, "users", user.uid), { hide_email: val, hide_username: val });
+                const userRef = doc(db, "users", user.uid);
+                await updateDoc(userRef, {
+                    hide_email: val,
+                    hide_username: val
+                });
+                
                 localStorage.setItem('privacy_active', isPrivacyOn); 
                 localStorage.setItem('hide_email', val);
                 localStorage.setItem('hide_username', val);
@@ -569,11 +567,6 @@
             if(menuTxt) menuTxt.innerText = isAr ? 'القائمة' : 'Menu';
             if(logTxt) logTxt.innerText = isAr ? 'خروج' : 'Logout';
 
-            const btnSmm = document.getElementById('btn-filter-smm');
-            const btnDep = document.getElementById('btn-filter-dep');
-            if(btnSmm) btnSmm.innerText = isAr ? 'خدمات SMM' : 'SMM Services';
-            if(btnDep) btnDep.innerText = isAr ? 'الإيداعات' : 'Deposits';
-
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             window.renderUserData();
         };
@@ -582,13 +575,26 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            if (nameEl) nameEl.innerText = hideUser ? "••••••••" : (window.currentName || "---");
-            if (emailEl) emailEl.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---");
+            if (nameEl) {
+                if (hideUser) nameEl.innerText = "••••••••";
+                else nameEl.innerText = window.currentName || "---";
+            }
+
+            if (emailEl) {
+                if (hideEmail) emailEl.innerText = "••••••••••••";
+                else emailEl.innerText = window.currentEmail || "---";
+            }
+
             if (eyeIcon) {
-                eyeIcon.innerHTML = (hideEmail || hideUser) ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                if (hideEmail || hideUser) {
+                    eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+                } else {
+                    eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                }
             }
         };
 
