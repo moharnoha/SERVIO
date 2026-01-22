@@ -90,32 +90,32 @@
             backdrop-filter: blur(8px); min-height: 90px;
         }
 
-        .user-meta-info { display: flex; align-items: center; gap: 12px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
-        .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: left; }
+        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .avatar-box { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .name-stack { display: flex; flex-direction: column; gap: 4px; overflow: hidden; flex: 1; align-items: flex-start; text-align: right; padding-right: 0px; }
         
-        .welcome-row { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: space-between; flex-direction: row-reverse; }
-        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
-        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: left; direction: ltr; }
+        .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
+        .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
+        .full-name-val { font-size: 17px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: right; }
         
-        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; width: 100%; justify-content: flex-start; }
-        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; }
+        .email-privacy-row { display: flex; align-items: center; gap: 10px; margin-top: 1px; width: 100%; justify-content: flex-start; }
+        .user-email-val { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
         
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; }
-        .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; }
+        .toggle-visibility { background: rgba(255,255,255,0.15); border: none; padding: 4px 8px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; backdrop-filter: blur(4px); }
+        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
 
         .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
-        .bal-title { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .bal-title { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
         .bal-amount { 
-            font-size: 24px; 
+            font-size: 26px; 
             color: #ffffff; 
             font-weight: 900; 
             line-height: 1; 
             font-family: 'Inter', sans-serif;
             font-feature-settings: "zero" 1, "tnum" 1;
-            letter-spacing: -0.5px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: -0.8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .new-header-container {
@@ -298,16 +298,16 @@
                     <div class="user-meta-info">
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="full-name-val" id="user-full-name">---</span>
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <span class="full-name-val" id="user-full-name">---</span>
                             </div>
                             <div class="email-privacy-row">
-                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                                 <span class="user-email-val" id="user-email">---</span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg style="width:24px; height:24px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
@@ -634,8 +634,8 @@
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            nameEl.forEach(el => el.innerText = hideUser ? "••••••••" : (window.currentName || ""));
-            emailEl.forEach(el => el.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || ""));
+            nameEl.forEach(el => el.innerText = hideUser ? "••••••••" : (window.currentName || "---"));
+            emailEl.forEach(el => el.innerText = hideEmail ? "••••••••••••" : (window.currentEmail || "---"));
             eyeIcons.forEach(eyeIcon => {
                 eyeIcon.innerHTML = (hideEmail || hideUser) ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
             });
