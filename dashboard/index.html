@@ -31,7 +31,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* 1. TOP HEADER (STICKY & EXPANDABLE) */
+        /* Top Header - ALWAYS STICKY & EXPANDED ON DESKTOP */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -41,10 +41,8 @@
             z-index: 2000;
             padding: 0 15px;
             box-sizing: border-box;
-            direction: rtl !important;
         }
 
-        /* Content container matches your requested desktop measurements */
         .header-content {
             width: 100%;
             max-width: 480px;
@@ -54,7 +52,7 @@
             justify-content: space-between;
         }
 
-        /* Desktop expansion logic from your code */
+        /* Desktop Expansion Rules (From your provided code) */
         @media (min-width: 481px) {
             .header-content {
                 max-width: 100%;
@@ -62,26 +60,16 @@
             }
         }
 
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
+        .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
+        .title-box { display: flex; flex-direction: column; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-        
-        .region-badge { 
-            display: flex; align-items: center; 
-            background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
-            flex-direction: row !important;
-        }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; flex-direction: row !important; }
-        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* 2. WALLET HEADER (NOT STICKY - MOVES WITH CONTENT) */
+        /* Wallet Header - NOT STICKY */
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
@@ -257,18 +245,11 @@
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
-                    </div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name">---</span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
-                    </div>
+                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
             </div>
         </div>
