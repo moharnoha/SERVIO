@@ -343,7 +343,7 @@
             <div class="transactions-content">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px">
                     <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800">آخر المعاملات</div>
-                    <a class="view-more-link" id="txt-view-more">عرض المزيد</a>
+                    <a class="view-more-link" id="txt-view-more" onclick="toggleShowAll()">عرض المزيد</a>
                 </div>
                 
                 <div class="filter-options">
@@ -389,6 +389,7 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
+        let showAll = false;
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
@@ -438,17 +439,37 @@
 
         window.switchFilter = (type, btn) => {
             activeFilter = type;
+            showAll = false;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            updateViewMoreText();
             renderUI();
+        };
+
+        window.toggleShowAll = () => {
+            showAll = !showAll;
+            updateViewMoreText();
+            renderUI();
+        };
+
+        const updateViewMoreText = () => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const link = document.getElementById('txt-view-more');
+            if (showAll) {
+                link.innerText = isAr ? 'إظهار أقل' : 'Show Less';
+            } else {
+                link.innerText = isAr ? 'عرض المزيد' : 'View More';
+            }
         };
 
         const renderUI = () => {
             const container = document.getElementById('trans-container');
+            const link = document.getElementById('txt-view-more');
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            let data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
             if (data.length === 0) {
+                link.style.display = 'none';
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
@@ -465,8 +486,11 @@
                 return;
             }
 
+            link.style.display = data.length > 2 ? 'block' : 'none';
+            const displayData = showAll ? data : data.slice(0, 2);
+
             let html = "";
-            data.forEach(t => {
+            displayData.forEach(t => {
                 const isDep = activeFilter === 'deposits';
                 const status = t.status || 'active';
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -574,7 +598,7 @@
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
-            document.getElementById('txt-view-more').innerText = isAr ? 'عرض المزيد' : 'View More';
+            document.getElementById('txt-view-more').innerText = isAr ? (window.showAll ? 'إظهار أقل' : 'عرض المزيد') : (window.showAll ? 'Show Less' : 'View More');
             document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
             document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
