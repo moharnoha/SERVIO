@@ -94,9 +94,9 @@
         .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: left; }
         
-        .welcome-row { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: space-between; flex-direction: row-reverse; }
+        .welcome-row { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: flex-start; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
-        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: left; direction: ltr; }
+        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; direction: ltr; }
         
         .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; width: 100%; justify-content: flex-start; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; }
@@ -298,12 +298,12 @@
                     <div class="user-meta-info">
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="full-name-val" id="user-full-name">---</span>
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <span class="full-name-val" id="user-full-name">---</span>
                             </div>
                             <div class="email-privacy-row">
-                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                                 <span class="user-email-val" id="user-email">---</span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
                         <div class="avatar-box">
