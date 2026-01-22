@@ -22,40 +22,13 @@
             --sidebar-gray: #f1f5f9;
         }
 
-        html, body { 
-            height: 100%; 
-            margin: 0; 
-            padding: 0; 
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        body { 
-            font-family: 'Cairo', 'Inter', sans-serif; 
-            background-color: var(--platform-bg); 
-            display: flex; 
-            flex-direction: column; 
-            direction: rtl; 
-            align-items: center; 
-        }
+        html, body { height: auto; min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; align-items: center; }
         
         * { 
+            transition: none !important; 
+            animation: none !important; 
             -webkit-tap-highlight-color: transparent; 
-        }
-
-        /* Smooth reveal animation */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-wrapper { 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh; 
-            background-color: var(--platform-bg); 
-            animation: fadeInUp 0.6s ease-out;
         }
 
         /* Top Header - ALWAYS STICKY & EXPANDED ON DESKTOP */
@@ -68,7 +41,6 @@
             z-index: 2000;
             padding: 10px 15px;
             box-sizing: border-box;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-content {
@@ -80,7 +52,7 @@
             justify-content: space-between;
         }
 
-        /* Desktop Expansion Rules */
+        /* Desktop Expansion Rules (Updated height to match mobile feel) */
         @media (min-width: 481px) {
             .top-header {
                 height: 70px;
@@ -116,22 +88,20 @@
             display: flex; flex-direction: column; gap: 15px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px); min-height: 90px;
-            transition: transform 0.3s ease;
         }
 
         .user-meta-info { display: flex; align-items: center; gap: 12px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
         .avatar-box { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: left; }
         
-        .welcome-row { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: flex-start; }
+        .welcome-row { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: space-between; flex-direction: row-reverse; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 700; white-space: nowrap; }
-        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; direction: ltr; }
+        .full-name-val { font-size: 13px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: left; direction: ltr; }
         
         .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; width: 100%; justify-content: flex-start; }
         .user-email-val { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; }
         
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; transition: background 0.2s; }
-        .toggle-visibility:hover { background: rgba(255,255,255,0.2); }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 5px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; }
         .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; }
 
         .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
@@ -154,15 +124,13 @@
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
             position: relative;
-            z-index: 10;
         }
         .new-header-content {
             width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; transition: transform 0.2s; }
-        .shortcut-item:active { transform: scale(0.95); }
-        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
         .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
         .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
 
@@ -170,32 +138,31 @@
             width: 100%; display: flex; flex-direction: column; align-items: center;
             background: #ffffff; 
             margin-top: 10px;
-            flex: 1;
-            overflow: hidden; 
+            flex: none;
+            overflow: visible; 
         }
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: auto;
         }
         
-        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .filter-options::-webkit-scrollbar { display: none; }
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .filter-btn {
             padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
             color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
-            transition: all 0.2s ease;
         }
-        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); box-shadow: 0 4px 12px rgba(46, 88, 34, 0.2); }
+        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
 
         .trans-list { 
             display: flex; 
             flex-direction: column; 
             gap: 12px; 
             margin-top: 5px;
-            flex: 1;
+            overflow: visible;
+            flex: none;
         }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
@@ -203,9 +170,7 @@
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            transition: background 0.2s, transform 0.2s;
         }
-        .trans-item:active { transform: scale(0.98); background: #f1f5f1; }
         
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #e2e8f0; color: #475569; }
@@ -252,7 +217,6 @@
             z-index: 9999; 
             padding: 20px;
             box-sizing: border-box;
-            backdrop-filter: blur(4px);
         }
         .modal-card {
             background: #fff; 
@@ -265,7 +229,6 @@
             overflow: hidden;
             border: none;
             margin: auto;
-            animation: fadeInUp 0.3s ease-out;
         }
         .modal-header-accent {
             background: var(--header-green); color: white; padding: 25px 20px; text-align: center;
@@ -289,9 +252,7 @@
         .modal-close-btn {
             background: #f1f5f9; color: #475569; border: none; padding: 12px 0;
             border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%;
-            transition: background 0.2s;
         }
-        .modal-close-btn:hover { background: #e2e8f0; }
 
         .detail-row {
             display: flex; align-items: flex-start; justify-content: space-between;
@@ -303,15 +264,15 @@
         .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
         .detail-value.m-red { color: #ef4444; }
 
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
+        
         .view-more-link {
             color: var(--header-green);
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
-        .view-more-link:hover { opacity: 0.8; }
     </style>
 </head>
 <body class="notranslate">
@@ -337,12 +298,12 @@
                     <div class="user-meta-info">
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                                 <span class="full-name-val" id="user-full-name">---</span>
+                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
                             </div>
                             <div class="email-privacy-row">
-                                <span class="user-email-val" id="user-email">---</span>
                                 <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                                <span class="user-email-val" id="user-email">---</span>
                             </div>
                         </div>
                         <div class="avatar-box">
