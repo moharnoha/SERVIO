@@ -161,7 +161,7 @@
             flex-direction: column; 
             gap: 12px; 
             margin-top: 5px;
-            overflow-y: auto;
+            overflow-y: hidden;
             flex: 1;
         }
         .trans-item {
@@ -391,7 +391,7 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
-        const DISPLAY_LIMIT = 5;
+        const DISPLAY_LIMIT = 1;
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
