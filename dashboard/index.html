@@ -192,7 +192,7 @@
             background: #f1f5f9;
             border-radius: 20px;
             display: flex; align-items: center; justify-content: center;
-            color: #94a3b8;
+            color: #2E5822;
             position: relative;
         }
         .empty-state-text {
@@ -265,8 +265,8 @@
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100vh; background-color: var(--platform-bg); }
         
         .view-more-link {
-            color: #10b981;
-            font-size: 11px;
+            color: var(--header-green);
+            font-size: 16px;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
@@ -452,11 +452,12 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <circle cx="10" cy="14" r="3"></circle>
-                                <line x1="21" y1="21" x2="13" y2="13"></line>
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 11H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 8H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 14H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions during the last week'}</div>
@@ -604,4 +605,4 @@
         };
     </script>
 </body>
-</html>```
+</html>
