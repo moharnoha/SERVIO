@@ -31,139 +31,35 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        .sticky-header-container { width: 100%; position: relative; z-index: 1000; }
-
+        /* Top Header - ALWAYS STICKY */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: center; 
+            display: flex; align-items: center; justify-content: space-between; 
             width: 100%;
             position: sticky;
             top: 0;
-            z-index: 1100;
+            z-index: 2000;
+            padding: 0 15px;
+            box-sizing: border-box;
         }
 
-        .top-header-content {
-            width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box;
+        .header-content {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Desktop Layout Optimization */
-        @media (min-width: 1024px) {
-            body {
-                display: block;
-                background-color: #f0f2f5;
-            }
-            .page-wrapper {
-                display: grid;
-                grid-template-columns: 280px 1fr;
-                grid-template-rows: 70px 1fr;
-                grid-template-areas: 
-                    "sidebar header"
-                    "sidebar content";
-                height: 100vh;
+        /* Desktop Expansion for Top Header */
+        @media (min-width: 481px) {
+            .header-content {
                 max-width: 100%;
-            }
-            .sticky-header-container {
-                grid-area: header;
-                position: relative;
-            }
-            .top-header {
-                width: 100% !important;
-                background: #ffffff;
-                border-bottom: 1px solid #e2e8f0;
-                position: sticky;
-                top: 0;
-            }
-            .top-header-content {
-                max-width: 100%;
-                padding: 0 30px;
-            }
-            .title-box span:first-child { color: var(--header-green); }
-            .title-box span:last-child { color: #64748b; }
-            .v-line { background-color: #e2e8f0; }
-            .region-badge { background: #f1f5f9; border-color: #e2e8f0; }
-            .region-text { color: var(--text-dark); }
-            .nav-icon { fill: var(--header-green) !important; }
-
-            .bottom-header {
-                display: block;
-                position: relative;
-            }
-
-            .new-header-container {
-                grid-area: sidebar;
-                width: 280px;
-                height: 100vh;
-                position: fixed;
-                right: 0;
-                top: 0;
-                border-radius: 0;
-                background: #ffffff;
-                border-left: 1px solid #e2e8f0;
-                z-index: 1100;
-                flex-direction: column;
-                padding-top: 20px;
-            }
-            .new-header-content {
-                max-width: 100%;
-                padding: 20px;
-            }
-            /* Sidebar Wallet Card Integration */
-            .new-header-content::before {
-                content: "";
-                display: block;
-                height: 150px;
-                background: var(--header-green);
-                border-radius: 15px;
-                margin-bottom: 30px;
-            }
-            
-            .shortcuts-scroll-wrapper {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .shortcut-item {
-                flex-direction: row;
-                width: 100%;
-                padding: 12px 15px;
-                border-radius: 12px;
-                background: transparent;
-                justify-content: flex-start;
-            }
-            .shortcut-item:hover {
-                background: #f8fafc;
-            }
-            .icon-box {
-                width: 40px;
-                height: 40px;
-                border-radius: 10px;
-                box-shadow: none;
-                background: #f1f5f9;
-            }
-            .shortcut-label {
-                font-size: 14px;
-                font-weight: 600;
-                margin: 0 12px;
-            }
-
-            .transactions-header {
-                grid-area: content;
-                margin-top: 20px !important;
-                background: transparent;
-                display: flex;
-                justify-content: center;
-                overflow-y: auto;
-            }
-            .transactions-content {
-                max-width: 900px !important;
-                background: #ffffff;
-                border-radius: 20px;
-                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-                margin: 20px;
-                height: fit-content;
+                padding: 0 40px;
             }
         }
 
-        /* Existing Mobile Styles Continued */
         .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
@@ -173,6 +69,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
+        /* Wallet Header - NOT STICKY (Moves with content) */
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
@@ -188,29 +85,6 @@
             display: flex; flex-direction: column; gap: 15px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px); min-height: 90px;
-        }
-
-        /* Inject Wallet into Sidebar for Desktop */
-        @media (min-width: 1024px) {
-            .sidebar-wallet-anchor {
-                position: absolute;
-                top: 40px;
-                right: 20px;
-                width: 240px;
-                z-index: 1200;
-            }
-            .sidebar-wallet-anchor .wallet-card {
-                background: transparent;
-                border: none;
-                backdrop-filter: none;
-                padding: 0;
-            }
-            .sidebar-wallet-anchor .full-name-val, 
-            .sidebar-wallet-anchor .bal-amount,
-            .sidebar-wallet-anchor .bal-title,
-            .sidebar-wallet-anchor .welcome-label {
-                color: #ffffff !important;
-            }
         }
 
         .user-meta-info { display: flex; align-items: center; gap: 12px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
@@ -367,7 +241,7 @@
 
     <div class="page-wrapper">
         <div class="top-header">
-            <div class="top-header-content">
+            <div class="header-content">
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
@@ -380,36 +254,34 @@
             </div>
         </div>
 
-        <div class="sticky-header-container">
-            <div class="bottom-header">
-                <div class="bottom-header-content">
-                    <div class="wallet-card" id="main-wallet-card">
-                        <div class="user-meta-info">
-                            <div class="avatar-box">
-                                <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <div class="bottom-header">
+            <div class="bottom-header-content">
+                <div class="wallet-card" id="main-wallet-card">
+                    <div class="user-meta-info">
+                        <div class="avatar-box">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                        <div class="name-stack">
+                            <div class="welcome-row">
+                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <span class="full-name-val" id="user-full-name">---</span>
                             </div>
-                            <div class="name-stack">
-                                <div class="welcome-row">
-                                    <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                    <span class="full-name-val" id="user-full-name">---</span>
-                                </div>
-                                <div class="email-privacy-row">
-                                    <span class="user-email-val" id="user-email">---</span>
-                                    <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
-                                </div>
+                            <div class="email-privacy-row">
+                                <span class="user-email-val" id="user-email">---</span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
-                        <div class="balance-stack">
-                            <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                            <span class="bal-amount" id="user-balance">0 USD</span>
-                        </div>
+                    </div>
+                    <div class="balance-stack">
+                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
+                        <span class="bal-amount" id="user-balance">0 USD</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="new-header-container">
-            <div class="sidebar-wallet-anchor"></div> <div class="new-header-content">
+            <div class="new-header-content">
                 <div class="shortcuts-scroll-wrapper">
                     <a href="smm-services/" class="shortcut-item">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
@@ -612,25 +484,6 @@
                 window.renderUserData(); 
             } catch (e) { console.error(e); }
         };
-
-        // UI Logic for Desktop Wallet Repositioning
-        const checkLayout = () => {
-            const wallet = document.getElementById('main-wallet-card');
-            const anchor = document.querySelector('.sidebar-wallet-anchor');
-            const originalParent = document.querySelector('.bottom-header-content');
-            
-            if (window.innerWidth >= 1024) {
-                if (wallet && anchor && wallet.parentElement !== anchor) {
-                    anchor.appendChild(wallet);
-                }
-            } else {
-                if (wallet && originalParent && wallet.parentElement !== originalParent) {
-                    originalParent.appendChild(wallet);
-                }
-            }
-        };
-        window.addEventListener('resize', checkLayout);
-        window.addEventListener('load', checkLayout);
     </script>
 
     <script>
@@ -697,7 +550,6 @@
 
         window.onload = () => {
             window.sync();
-            checkLayout();
         };
     </script>
 </body>
