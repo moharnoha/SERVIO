@@ -243,6 +243,8 @@
         .modal-body { 
             padding: 20px; font-size: 13px; color: var(--text-dark); 
             background: #fff;
+            max-height: 60vh;
+            overflow-y: auto;
         }
         .modal-footer {
             padding: 0 20px 20px; text-align: center; background: #fff;
@@ -343,7 +345,7 @@
             <div class="transactions-content">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px">
                     <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800">آخر المعاملات</div>
-                    <a class="view-more-link" id="txt-view-more" onclick="toggleShowAll()">عرض المزيد</a>
+                    <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()">عرض المزيد</a>
                 </div>
                 
                 <div class="filter-options">
@@ -359,7 +361,7 @@
     <div id="trans-modal" class="modal-overlay" onclick="closeModal()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="modal-header-accent">
-                <div class="modal-icon-circle">
+                <div class="modal-icon-circle" id="modal-icon-container">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:white"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 </div>
                 <h3 class="modal-title-text" id="modal-title">التفاصيل</h3>
@@ -389,7 +391,7 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
-        let showAll = false;
+        const DISPLAY_LIMIT = 5;
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
@@ -433,43 +435,61 @@
             document.getElementById('trans-modal').style.display = 'flex';
         };
 
+        window.showAllTransactions = () => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            
+            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'كافة خدمات SMM' : 'كافة الإيداعات') : (activeFilter === 'SMM Services' ? 'All SMM Services' : 'All Deposits');
+            document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
+
+            if (data.length === 0) {
+                document.getElementById('modal-content').innerHTML = `<p style="text-align:center; padding:20px;">${isAr ? 'لا توجد بيانات للعرض' : 'No data to display'}</p>`;
+            } else {
+                let html = '<div class="trans-list">';
+                data.forEach(t => {
+                    const isDep = activeFilter === 'deposits';
+                    const status = t.status || 'active';
+                    const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                    const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                    const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
+                    const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
+
+                    html += `
+                        <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                            <div style="display:flex; flex-direction:column">
+                                <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                                <div class="trans-date-container">
+                                    <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
+                                    <span class="trans-date">${dateStr}</span>
+                                </div>
+                            </div>
+                            <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
+                        </div>`;
+                });
+                html += '</div>';
+                document.getElementById('modal-content').innerHTML = html;
+            }
+            document.getElementById('trans-modal').style.display = 'flex';
+        };
+
         window.closeModal = () => {
             document.getElementById('trans-modal').style.display = 'none';
         };
 
         window.switchFilter = (type, btn) => {
             activeFilter = type;
-            showAll = false;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            updateViewMoreText();
             renderUI();
-        };
-
-        window.toggleShowAll = () => {
-            showAll = !showAll;
-            updateViewMoreText();
-            renderUI();
-        };
-
-        const updateViewMoreText = () => {
-            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const link = document.getElementById('txt-view-more');
-            if (showAll) {
-                link.innerText = isAr ? 'إظهار أقل' : 'Show Less';
-            } else {
-                link.innerText = isAr ? 'عرض المزيد' : 'View More';
-            }
         };
 
         const renderUI = () => {
             const container = document.getElementById('trans-container');
-            const link = document.getElementById('txt-view-more');
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            let data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            const rawData = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            const data = rawData.slice(0, DISPLAY_LIMIT);
             
             if (data.length === 0) {
-                link.style.display = 'none';
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
@@ -486,11 +506,8 @@
                 return;
             }
 
-            link.style.display = data.length > 2 ? 'block' : 'none';
-            const displayData = showAll ? data : data.slice(0, 2);
-
             let html = "";
-            displayData.forEach(t => {
+            data.forEach(t => {
                 const isDep = activeFilter === 'deposits';
                 const status = t.status || 'active';
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -528,13 +545,13 @@
                     }
                 });
 
-                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(15));
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qSmm, (snap) => {
                     smmTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'SMM Services') renderUI();
                 });
 
-                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"), limit(15));
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'deposits') renderUI();
@@ -598,7 +615,7 @@
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
-            document.getElementById('txt-view-more').innerText = isAr ? (window.showAll ? 'إظهار أقل' : 'عرض المزيد') : (window.showAll ? 'Show Less' : 'View More');
+            document.getElementById('txt-view-more').innerText = isAr ? 'عرض المزيد' : 'View More';
             document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
             document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
