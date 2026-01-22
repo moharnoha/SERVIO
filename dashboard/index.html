@@ -31,15 +31,15 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Top Header - FIXED WIDTH AS MOBILE IN ALL DEVICES */
+        /* Top Header - ALWAYS STICKY & EXPANDED ON DESKTOP */
         .top-header { 
-            height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: center; 
+            min-height: 70px; background-color: var(--header-green); 
+            display: flex; align-items: center; justify-content: space-between; 
             width: 100%;
             position: sticky;
             top: 0;
             z-index: 2000;
-            padding: 0 15px;
+            padding: 10px 15px;
             box-sizing: border-box;
         }
 
@@ -50,6 +50,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        /* Desktop Expansion Rules (Updated height to match mobile feel) */
+        @media (min-width: 481px) {
+            .top-header {
+                height: 70px;
+            }
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
         }
 
         .brand-section { display: flex; align-items: center; }
