@@ -97,19 +97,19 @@
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        /* Professional Privacy Mask - Updated to Deep Forest Green for Better Match */
+        /* Privacy Mask - Compact, Opaque, Embedded "Deep" look */
         .data-wrapper { position: relative; display: inline-flex; align-items: center; vertical-align: middle; }
         .privacy-overlay { 
             position: absolute; 
-            top: 0; 
-            left: -2px; 
-            right: -2px; 
-            bottom: 0; 
-            background-color: #1b3514; /* Deep Elegant Forest Green - Perfectly matches the UI */
-            border-radius: 6px; 
+            top: 2px; 
+            bottom: 2px; 
+            left: 0; 
+            right: 0; 
+            background: #0a0f1a; 
+            border-radius: 4px; 
             z-index: 10; 
             display: none; 
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.05);
         }
         .privacy-active .privacy-overlay { display: block; }
