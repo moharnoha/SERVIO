@@ -117,7 +117,10 @@
             font-feature-settings: "zero" 1, "tnum" 1;
             letter-spacing: -0.8px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: baseline;
         }
+        .bal-amount sup { font-size: 0.6em; margin-right: 2px; }
 
         .new-header-container {
             background: var(--bg-gradient); 
@@ -474,7 +477,13 @@
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
-            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
+            const strVal = num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
+            
+            if (strVal.includes('.')) {
+                const [main, dec] = strVal.split('.');
+                return `${main}<sup>.${dec}</sup>`;
+            }
+            return strVal;
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
@@ -626,7 +635,7 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
+                        document.getElementById('user-balance').innerHTML = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         
                         const hideE = d.hide_email === "true";
@@ -730,7 +739,6 @@
             const rawName = window.currentName || "---";
             const rawEmail = window.currentEmail || "---";
 
-            // Logic to mask name and email
             if (hideUser && rawName !== "---") {
                 nameEl.innerText = "*****";
             } else {
