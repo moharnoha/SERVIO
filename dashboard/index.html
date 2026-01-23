@@ -52,7 +52,6 @@
             justify-content: space-between;
         }
 
-        /* Desktop Expansion Rules */
         @media (min-width: 481px) {
             .top-header {
                 height: 70px;
@@ -72,7 +71,7 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* Wallet Header UI - Section 2 Professional Improvement */
+        /* Modernized Wallet Header */
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
@@ -84,73 +83,53 @@
         }
 
         .wallet-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background: linear-gradient(145deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
             border-radius: 24px; padding: 22px;
             display: flex; flex-direction: column; gap: 20px;
             border: 1px solid rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
-        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .user-meta-info { display: flex; align-items: center; gap: 14px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .avatar-box { width: 50px; height: 50px; background: rgba(255, 255, 255, 0.15); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+        .name-stack { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
         
-        .avatar-box { 
-            width: 50px; height: 50px; 
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1)); 
-            border-radius: 16px; display: flex; align-items: center; justify-content: center; 
-            flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .name-stack { display: flex; flex-direction: column; gap: 2px; flex: 1; text-align: right; padding-right: 15px; }
+        .welcome-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+        .welcome-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .welcome-label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 600; }
-        
-        /* Professional Privacy Masking */
-        .data-wrapper { position: relative; display: inline-flex; align-items: center; border-radius: 8px; overflow: hidden; }
+        /* High-End Privacy Masking */
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; min-width: 60px; }
         .privacy-overlay { 
             position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
             background: #121212; 
+            border-radius: 6px; 
             z-index: 5; 
-            display: none; 
+            display: none;
             box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
         }
         .privacy-active .privacy-overlay { display: block; }
         
-        .full-name-val { font-size: 19px; color: #ffffff; font-weight: 800; letter-spacing: -0.5px; }
+        .full-name-val { font-size: 18px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-email-val { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; font-family: 'Inter', sans-serif; }
         
-        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
-        .user-email-val { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; font-family: 'Inter', sans-serif; }
-        
-        .toggle-visibility { 
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 6px; border-radius: 10px; cursor: pointer; display: flex; align-items: center;
-        }
-        .toggle-visibility svg { width: 18px; height: 18px; fill: #ffffff !important; }
-
-        .balance-container {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 18px; border-radius: 18px;
-            display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 6px 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; margin-right: auto; }
+        .toggle-visibility svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.8) !important; }
 
         .balance-stack { display: flex; flex-direction: column; gap: 4px; }
-        .bal-title { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .bal-title { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 700; }
         
         .bal-amount { 
-            font-size: 28px; 
+            font-size: 32px; 
             color: #ffffff; 
             font-weight: 900; 
             font-family: 'Inter', sans-serif;
             letter-spacing: -1px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
         }
-
-        .wallet-badge {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff; font-size: 10px; font-weight: 800;
-            padding: 4px 10px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
+        .bal-amount .currency { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.6); }
 
         .new-header-container {
             background: var(--bg-gradient); 
@@ -158,6 +137,8 @@
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             box-shadow: var(--shadow-soft);
             position: relative;
+            margin-top: -15px;
+            z-index: 5;
         }
         .new-header-content {
             width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
@@ -247,109 +228,36 @@
             color: #2E5822;
             position: relative;
         }
-        .empty-state-text {
-            font-size: 14px;
-            font-weight: 800;
-            color: #475569;
-        }
+        .empty-state-text { font-size: 14px; font-weight: 800; color: #475569; }
 
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
         .modal-overlay {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: rgba(0,0,0,0.5); 
-            display: none; 
-            align-items: flex-end; 
-            justify-content: center; 
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 9999;
         }
         .modal-card {
-            background: #ffffff; 
-            width: 100%; 
-            max-width: 500px; 
-            height: 70%;
-            border-radius: 24px 24px 0 0; 
-            padding: 0;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
-            position: relative; 
-            overflow: hidden;
-            border: none;
-            display: flex;
-            flex-direction: column;
+            background: #ffffff; width: 100%; max-width: 500px; height: 70%;
+            border-radius: 24px 24px 0 0; padding: 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.15); position: relative; overflow: hidden;
+            border: none; display: flex; flex-direction: column;
         }
-        .modal-header-accent {
-            padding: 20px; 
-            text-align: center;
-            border-bottom: 1px solid #f1f5f9;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal-drag-handle {
-            width: 40px;
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            margin-bottom: 5px;
-        }
-        .modal-title-text { 
-            font-weight: 800; 
-            font-size: 18px; 
-            margin: 0;
-            color: #1e293b;
-        }
-        .modal-body { 
-            padding: 15px 20px; 
-            font-size: 13px; 
-            color: var(--text-dark); 
-            background: #fff;
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        .modal-footer {
-            padding: 15px 20px; 
-            text-align: center; 
-            background: #fff;
-            border-top: 1px solid #f1f5f9;
-        }
-        .modal-close-btn {
-            background: #f1f5f9; 
-            color: #475569; 
-            border: none; 
-            padding: 12px 0;
-            border-radius: 14px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            cursor: pointer; 
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        .modal-header-accent { padding: 20px; text-align: center; border-bottom: 1px solid #f1f5f9; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .modal-drag-handle { width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin-bottom: 5px; }
+        .modal-title-text { font-weight: 800; font-size: 18px; margin: 0; color: #1e293b; }
+        .modal-body { padding: 15px 20px; font-size: 13px; color: var(--text-dark); background: #fff; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .modal-footer { padding: 15px 20px; text-align: center; background: #fff; border-top: 1px solid #f1f5f9; }
+        .modal-close-btn { background: #f1f5f9; color: #475569; border: none; padding: 12px 0; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
         .detail-modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
             z-index: 10000; padding: 20px; box-sizing: border-box;
         }
-        .detail-card {
-            background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
+        .detail-card { background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
 
-        .detail-row {
-            display: flex; align-items: flex-start; justify-content: space-between;
-            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
-        }
+        .detail-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px; }
         .detail-row:last-child { border-bottom: none; }
         .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
         .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
@@ -357,23 +265,10 @@
         .detail-value.is-activated { color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; border: 1px solid #a7f3d0; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
-        
-        .view-more-link {
-            color: var(--header-green);
-            font-size: 16px;
-            font-weight: 800;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        .view-more-link { color: var(--header-green); font-size: 16px; font-weight: 800; text-decoration: none; cursor: pointer; }
 
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
-
-        .loader-spin {
-            animation: spin 0.8s linear infinite !important;
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-spin { animation: spin 0.8s linear infinite !important; }
     </style>
 </head>
 <body class="notranslate">
@@ -401,29 +296,26 @@
                             <svg style="width:28px; height:28px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                         <div class="name-stack">
-                            <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                            <div class="welcome-row">
+                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                            </div>
                             <div class="data-wrapper" id="name-wrapper">
                                 <div class="privacy-overlay"></div>
                                 <span class="full-name-val" id="user-full-name">---</span>
                             </div>
-                            <div class="email-privacy-row">
-                                <div class="data-wrapper" id="email-wrapper">
-                                    <div class="privacy-overlay"></div>
-                                    <span class="user-email-val" id="user-email">---</span>
-                                </div>
+                            <div class="data-wrapper" id="email-wrapper" style="margin-top:2px;">
+                                <div class="privacy-overlay"></div>
+                                <span class="user-email-val" id="user-email">---</span>
                             </div>
                         </div>
-                        <button class="toggle-visibility" onclick="togglePrivacy()">
-                            <svg id="eye-icon" viewBox="0 0 24 24"></svg>
-                        </button>
                     </div>
-
-                    <div class="balance-container">
-                        <div class="balance-stack">
-                            <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                            <span class="bal-amount" id="user-balance">0 USD</span>
+                    <div class="balance-stack">
+                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
+                        <div class="bal-amount">
+                            <span id="user-balance-value">0</span>
+                            <span class="currency">USD</span>
                         </div>
-                        <div class="wallet-badge">Main Wallet</div>
                     </div>
                 </div>
             </div>
@@ -549,9 +441,7 @@
             document.getElementById('detail-modal').style.display = 'flex';
         };
 
-        window.closeDetail = () => {
-            document.getElementById('detail-modal').style.display = 'none';
-        };
+        window.closeDetail = () => { document.getElementById('detail-modal').style.display = 'none'; };
 
         window.showAllTransactions = () => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
@@ -596,9 +486,7 @@
             document.getElementById('trans-modal').style.display = 'flex';
         };
 
-        window.closeModal = () => {
-            document.getElementById('trans-modal').style.display = 'none';
-        };
+        window.closeModal = () => { document.getElementById('trans-modal').style.display = 'none'; };
 
         window.switchFilter = (type, btn) => {
             activeFilter = type;
@@ -614,16 +502,7 @@
             const data = rawData.slice(0, DISPLAY_LIMIT);
             
             if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
-                    </div>`;
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div></div>`;
                 return;
             }
 
@@ -635,25 +514,12 @@
                 const isVerifying = statusLow === 'active';
                 const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
                 const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
-
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'تم شراء خدمة رقمية' : 'Digital Service Purchased');
                 const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
-                html += `
-                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
-                        ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
-                        <div style="display:flex; flex-direction:column">
-                            <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
-                            <div class="trans-date-container">
-                                <span class="status-badge ${statusClass}">${displayStatus}</span>
-                                <span class="trans-date">${dateStr}</span>
-                            </div>
-                        </div>
-                        <span class="trans-val">${amountLabel}</span>
-                    </div>`;
+                html += `<div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}<div style="display:flex; flex-direction:column"><span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span><div class="trans-date-container"><span class="status-badge ${statusClass}">${displayStatus}</span><span class="trans-date">${dateStr}</span></div></div><span class="trans-val">${amountLabel}</span></div>`;
             });
             container.innerHTML = html;
         };
@@ -666,25 +532,21 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
+                        document.getElementById('user-balance-value').innerText = formatBalance(bal);
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
-                        
                         const hideE = d.hide_email === "true";
                         const hideU = d.hide_username === "true";
                         localStorage.setItem('hide_email', hideE ? "true" : "false");
                         localStorage.setItem('hide_username', hideU ? "true" : "false");
-                        
                         window.renderUserData();
                     }
                 });
-
                 const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qSmm, (snap) => {
                     smmTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'SMM Services') renderUI();
                     if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
                 });
-
                 const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => d.data());
@@ -716,7 +578,6 @@
     <script>
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
-
         const regionConfigs = [
             { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
@@ -738,13 +599,10 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx] || regionConfigs[0];
             const isAr = (lang === 'ar');
-            
             document.getElementById('lang-name').innerText = lang.toUpperCase();
             document.getElementById('reg-name').innerText = reg[lang];
-            
             const flagBox = document.getElementById('flag-ui');
             flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
-            
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
@@ -755,7 +613,6 @@
             document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
             document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
-
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             window.renderUserData();
         };
@@ -766,21 +623,16 @@
             const eyeIcon = document.getElementById('eye-icon');
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
-            
             nameEl.innerText = window.currentName || "---";
             emailEl.innerText = window.currentEmail || "---";
-            
             document.getElementById('name-wrapper').classList.toggle('privacy-active', hideUser);
             document.getElementById('email-wrapper').classList.toggle('privacy-active', hideEmail);
-            
             eyeIcon.innerHTML = (hideEmail || hideUser) ? 
                 '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
                 '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
         };
 
-        window.onload = () => {
-            window.sync();
-        };
+        window.onload = () => { window.sync(); };
     </script>
 </body>
 </html>
