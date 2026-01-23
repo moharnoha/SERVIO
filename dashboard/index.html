@@ -142,22 +142,25 @@
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
-            background: #ffffff; 
-            margin-top: 10px;
+            background: transparent; 
+            margin-top: 15px;
             flex: none;
             overflow: visible; 
         }
         .transactions-content {
-            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
             height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 0px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
         .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .filter-btn {
-            padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
+            padding: 8px 16px; border-radius: 4px; border: 1px solid #edf2ed; background: #f9fbf9; 
             color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
         }
         .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
@@ -165,24 +168,24 @@
         .trans-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 0px; 
             margin-top: 5px;
-            overflow-y: auto;
-            max-height: 480px;
+            overflow: visible;
             flex: none;
-            padding-right: 2px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #f1f5f9;
         }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9;
+            padding: 14px 16px; background: #ffffff; border-radius: 0px; border-bottom: 1px solid #f1f5f9;
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
-            flex-shrink: 0;
         }
+        .trans-item:last-child { border-bottom: none; }
         
         /* Verification Overlay System */
         .verifying-overlay {
@@ -200,15 +203,15 @@
         }
 
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 2px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
         .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
         .status-badge.activated { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
         .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: right; display: block; }
-        .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
+        .trans-val { font-size: 14px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
         .empty-state { 
             text-align: center; 
-            padding: 50px 20px; 
+            padding: 40px 20px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -216,16 +219,15 @@
             gap: 15px;
         }
         .empty-state-icon {
-            width: 80px; height: 80px;
+            width: 60px; height: 60px;
             background: #f1f5f9;
-            border-radius: 20px;
+            border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
             color: #2E5822;
-            position: relative;
         }
         .empty-state-text {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
             color: #475569;
         }
 
@@ -477,7 +479,7 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
-        const DISPLAY_LIMIT = 6;
+        const DISPLAY_LIMIT = 20;
 
         // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
@@ -542,7 +544,7 @@
             if (data.length === 0) {
                 document.getElementById('modal-content').innerHTML = `<p style="text-align:center; padding:50px 20px; color:#94a3b8">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>`;
             } else {
-                let html = '<div class="trans-list">';
+                let html = '<div class="trans-list" style="border:none">';
                 data.forEach(t => {
                     const isDep = activeFilter === 'deposits';
                     const status = t.status || 'active';
@@ -557,7 +559,7 @@
                     const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                     html += `
-                        <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        <div class="trans-item" style="margin-bottom:0px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                             ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
                             <div style="display:flex; flex-direction:column">
                                 <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
@@ -596,12 +598,12 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
+                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة' : 'No recorded transactions'}</div>
                     </div>`;
                 return;
             }
@@ -618,7 +620,7 @@
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                 
-                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'تم شراء خدمة رقمية' : 'Digital Service Purchased');
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
                 const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                 html += `
