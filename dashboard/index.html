@@ -171,11 +171,29 @@
             width: 100%;
             box-sizing: border-box;
             box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
         }
         
+        /* Verification Overlay System */
+        .verifying-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--header-green);
+            gap: 8px;
+        }
+
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
         .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
+        .status-badge.activated { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
         .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: right; display: block; }
         .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
@@ -305,6 +323,7 @@
         .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
         .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
         .detail-value.is-active { color: #0284c7; background: #f0f9ff; padding: 2px 8px; border-radius: 6px; border: 1px solid #bae6fd; }
+        .detail-value.is-activated { color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; border: 1px solid #a7f3d0; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
@@ -450,8 +469,9 @@
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const isStatusActive = status.toLowerCase() === 'active';
-            const statusStyle = isStatusActive ? 'is-active' : '';
+            const statusLow = status.toLowerCase();
+            const statusStyle = statusLow === 'activated' ? 'is-activated' : (statusLow === 'active' ? 'is-active' : '');
+            const statusDisplay = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
 
             let html = `
                 <div style="text-align:center; margin-bottom:20px;">
@@ -467,7 +487,7 @@
                 ${username ? `<div class="detail-row"><span class="detail-label">${isAr ? 'المستخدم' : 'Username'}</span><span class="detail-value" style="direction:ltr">${username}</span></div>` : ''}
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
-                    <span class="detail-value ${statusStyle}">${status}</span>
+                    <span class="detail-value ${statusStyle}">${statusDisplay}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
@@ -497,6 +517,11 @@
                 data.forEach(t => {
                     const isDep = activeFilter === 'deposits';
                     const status = t.status || 'active';
+                    const statusLow = status.toLowerCase();
+                    const isVerifying = statusLow === 'active';
+                    const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+                    const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                     const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                     const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
@@ -504,10 +529,11 @@
 
                     html += `
                         <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                            ${isVerifying ? `<div class="verifying-overlay"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> ${isAr ? 'جارى التحقق' : 'Verifying'}</div>` : ''}
                             <div style="display:flex; flex-direction:column">
                                 <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                                 <div class="trans-date-container">
-                                    <span class="status-badge active">${status}</span>
+                                    <span class="status-badge ${statusClass}">${displayStatus}</span>
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
@@ -555,6 +581,11 @@
             data.forEach(t => {
                 const isDep = activeFilter === 'deposits';
                 const status = t.status || 'active';
+                const statusLow = status.toLowerCase();
+                const isVerifying = statusLow === 'active';
+                const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+                const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                 
@@ -563,10 +594,11 @@
 
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        ${isVerifying ? `<div class="verifying-overlay"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> ${isAr ? 'جارى التحقق' : 'Verifying'}</div>` : ''}
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                             <div class="trans-date-container">
-                                <span class="status-badge active">${status}</span>
+                                <span class="status-badge ${statusClass}">${displayStatus}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
@@ -594,12 +626,14 @@
                 onSnapshot(qSmm, (snap) => {
                     smmTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'SMM Services') renderUI();
+                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
                 });
 
                 const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => d.data());
                     if (activeFilter === 'deposits') renderUI();
+                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
                 });
             } else { window.location.href = "../"; }
         });
@@ -622,6 +656,7 @@
             } catch (e) { console.error(e); }
         };
     </script>
+    <style>@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }</style>
 
     <script>
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
