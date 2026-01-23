@@ -393,7 +393,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <div class="bal-amount" id="user-balance">0<span>&nbsp;USD</span></div>
+                        <div class="bal-amount" id="user-balance" style="text-shadow: 0 4px 10px rgba(0,0,0,0.2);">0<span>&nbsp;USD</span></div>
                     </div>
                 </div>
             </div>
@@ -483,7 +483,14 @@
 
         const formatBalance = (val) => {
             if (val === undefined || val === null || isNaN(val)) return "0";
-            return Number(val).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 7});
+            const num = Number(val);
+            const strVal = num % 1 === 0 ? num.toLocaleString('en-US') : num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
+            
+            if (strVal.includes('.')) {
+                const [main, dec] = strVal.split('.');
+                return `${main}<sup>.${dec}</sup>`;
+            }
+            return strVal;
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
