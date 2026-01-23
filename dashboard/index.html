@@ -461,7 +461,7 @@
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                     const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                     const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
-                    const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
+                    let amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
 
                     html += `
                         <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
@@ -524,12 +524,13 @@
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
                 
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (t.description || "SMM Service");
-                const amountLabel = `${isDep ? '+' : '-'}${t.amount} USD`;
+                let amountLabel = `${isDep ? '+' : ''}${t.amount} USD`;
+                if (!isDep) amountLabel = `-${t.amount} USD`;
 
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${displayTitle.replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                         <div style="display:flex; flex-direction:column">
-                            <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                            <span style="font-weight:700; font-size:13px">${isDep ? displayTitle : (isAr ? 'نجاح شراء الخدمة' : 'Service Purchase Success')}</span>
                             <div class="trans-date-container">
                                 <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
                                 <span class="trans-date">${dateStr}</span>
