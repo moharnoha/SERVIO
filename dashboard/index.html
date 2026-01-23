@@ -97,7 +97,7 @@
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        /* Professional Privacy Mask - Static, opaque, smooth edges */
+        /* Professional Privacy Mask - Matching Theme */
         .data-wrapper { position: relative; display: inline-flex; align-items: center; vertical-align: middle; }
         .privacy-overlay { 
             position: absolute; 
@@ -105,12 +105,12 @@
             left: 0; 
             right: 0; 
             bottom: 0; 
-            background-color: #0f172a; /* Deep elegant dark */
+            background-color: #1e3a1a; /* Adjusted dark green to match branding */
             border-radius: 6px; 
             z-index: 10; 
             display: none; 
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.15);
         }
         .privacy-active .privacy-overlay { display: block; }
         
