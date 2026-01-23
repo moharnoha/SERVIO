@@ -75,7 +75,7 @@
         /* Wallet Header - NOT STICKY */
         .bottom-header {
             background-color: var(--sub-green);
-            width: 100%; display: center; justify-content: center;
+            width: 100%; display: flex; justify-content: center;
             position: relative;
         }
         .bottom-header-content {
@@ -97,16 +97,15 @@
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        /* Fixed-size Sensitive Data Wrappers */
-        .data-wrapper { position: relative; display: inline-flex; align-items: center; max-width: 100%; }
+        /* Fixed-size Sensitive Data Wrappers - Professional Mask */
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; }
         .privacy-overlay { 
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(0, 0, 0, 0.4); 
-            backdrop-filter: blur(12px); 
+            position: absolute; top: 2px; left: -2px; right: -2px; bottom: 2px; 
+            background: #1a1a1a; 
             border-radius: 6px; 
             z-index: 5; 
-            display: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
         .privacy-active .privacy-overlay { display: block; }
         
