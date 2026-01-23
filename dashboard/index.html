@@ -166,17 +166,18 @@
         }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; background: #f9fbf9; border-radius: 15px; border: 1px solid #edf2ed;
+            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9;
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #e2e8f0; color: #475569; }
-        .status-badge.active { background: #dcfce7; color: #166534; }
-        .trans-date { font-size: 10px; color: #888; direction: ltr; text-align: right; display: block; }
-        .trans-val { font-size: 14px; font-weight: 800; direction: ltr; }
+        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: right; display: block; }
+        .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
         .empty-state { 
             text-align: center; 
@@ -261,8 +262,8 @@
         .detail-row:last-child { border-bottom: none; }
         .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
         .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
-        .detail-value.is-active { color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; }
-        .detail-value.m-red { color: #ef4444; }
+        .detail-value.is-active { color: #0284c7; background: #f0f9ff; padding: 2px 8px; border-radius: 6px; }
+        .detail-value.m-red { color: #1e293b; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
@@ -407,7 +408,6 @@
             const isStatusActive = status.toLowerCase() === 'active';
             const statusStyle = isStatusActive ? 'is-active' : '';
             const isPositive = amount.includes('+');
-            const amountStyle = !isPositive ? 'm-red' : '';
 
             let html = `
                 <div class="detail-row">
@@ -416,7 +416,7 @@
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'المبلغ المستحق' : 'Amount Due'}</span>
-                    <span class="detail-value ${isPositive ? 'is-active' : amountStyle}" style="direction:ltr">${amount}</span>
+                    <span class="detail-value" style="direction:ltr; color:#1e293b">${amount}</span>
                 </div>
                 ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
                 ${code ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكود' : 'Code'}</span><span class="detail-value" style="direction:ltr">${code}</span></div>` : ''}
@@ -457,13 +457,13 @@
                     html += `
                         <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                             <div style="display:flex; flex-direction:column">
-                                <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                                <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                                 <div class="trans-date-container">
                                     <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
-                            <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
+                            <span class="trans-val">${amountLabel}</span>
                         </div>`;
                 });
                 html += '</div>';
@@ -519,13 +519,13 @@
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                         <div style="display:flex; flex-direction:column">
-                            <span style="font-weight:700; font-size:13px">${displayTitle}</span>
+                            <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                             <div class="trans-date-container">
                                 <span class="status-badge ${status === 'active' ? 'active' : ''}">${status}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
-                        <span class="trans-val" style="color:${isDep ? '#10b981' : '#C62828'}">${amountLabel}</span>
+                        <span class="trans-val">${amountLabel}</span>
                     </div>`;
             });
             container.innerHTML = html;
