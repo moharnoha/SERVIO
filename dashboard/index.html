@@ -363,7 +363,7 @@
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
+                    <div class="region-text"><span id="reg-name"></span><span style="opacity:0.3">|</span><span id="lang-name"></span></div>
                 </div>
             </div>
         </div>
@@ -374,11 +374,11 @@
                     <div class="user-meta-info">
                         <div class="name-stack">
                             <div class="welcome-row">
-                                <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                <span class="full-name-val" id="user-full-name">---</span>
+                                <span class="welcome-label" id="txt-welcome"></span>
+                                <span class="full-name-val" id="user-full-name"></span>
                             </div>
                             <div class="email-privacy-row">
-                                <span class="user-email-val" id="user-email">---</span>
+                                <span class="user-email-val" id="user-email"></span>
                                 <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
@@ -387,8 +387,8 @@
                         </div>
                     </div>
                     <div class="balance-stack">
-                        <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <div class="bal-amount" id="user-balance">0.00 USD</div>
+                        <span class="bal-title" id="txt-balance-label"></span>
+                        <div class="bal-amount" id="user-balance"></div>
                     </div>
                 </div>
             </div>
@@ -399,19 +399,19 @@
                 <div class="shortcuts-scroll-wrapper">
                     <a href="smm-services/" class="shortcut-item">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
-                        <span class="shortcut-label" id="txt-smm">خدمات SMM</span>
+                        <span class="shortcut-label" id="txt-smm"></span>
                     </a>
                     <a href="deposit/" class="shortcut-item">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
-                        <span class="shortcut-label" id="txt-deposit">إضافة رصيد</span>
+                        <span class="shortcut-label" id="txt-deposit"></span>
                     </a>
                     <a href="menu/" class="shortcut-item">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
-                        <span class="shortcut-label" id="txt-menu">القائمة</span>
+                        <span class="shortcut-label" id="txt-menu"></span>
                     </a>
                     <div class="shortcut-item" onclick="handleLogout()">
                         <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
-                        <span class="shortcut-label" id="txt-logout">خروج</span>
+                        <span class="shortcut-label" id="txt-logout"></span>
                     </div>
                 </div>
             </div>
@@ -420,13 +420,13 @@
         <div class="transactions-header">
             <div class="transactions-content">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px">
-                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800">آخر المعاملات</div>
-                    <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()">عرض المزيد</a>
+                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
+                    <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
                 </div>
                 
                 <div class="filter-options">
-                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm">SMM Services</button>
-                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep">deposits</button>
+                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm"></button>
+                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep"></button>
                 </div>
 
                 <div id="trans-container" class="trans-list"></div>
@@ -438,11 +438,11 @@
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="modal-header-accent">
                 <div class="modal-drag-handle"></div>
-                <h3 class="modal-title-text" id="modal-title">آخر المعاملات</h3>
+                <h3 class="modal-title-text" id="modal-title"></h3>
             </div>
             <div class="modal-body" id="modal-content"></div>
             <div class="modal-footer">
-                <button class="modal-close-btn" onclick="closeModal()" id="modal-close-txt">إغلاق</button>
+                <button class="modal-close-btn" onclick="closeModal()" id="modal-close-txt"></button>
             </div>
         </div>
     </div>
@@ -474,13 +474,18 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
-        const DISPLAY_LIMIT = 4;
+        const DISPLAY_LIMIT = 1;
 
-        const formatBalance = (val) => {
+        // Apply cached data immediately
+        const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
+        if (cached.balance !== undefined) {
+            document.getElementById('user-balance').innerHTML = formatBalanceVal(cached.balance) + "<span>&nbsp;USD</span>";
+        }
+        
+        function formatBalanceVal(val) {
             if (val === undefined || val === null || isNaN(val)) return "0.00";
             const num = Number(val);
             const strVal = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
-            
             if (strVal.includes('.')) {
                 const [main, dec] = strVal.split('.');
                 return `${main}<sup>.${dec}</sup>`;
@@ -637,7 +642,7 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerHTML = formatBalance(bal) + "<span>&nbsp;USD</span>";
+                        document.getElementById('user-balance').innerHTML = formatBalanceVal(bal) + "<span>&nbsp;USD</span>";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         
                         const hideE = d.hide_email === "true";
@@ -735,19 +740,22 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
+            
+            // Sync with cache first for lightning speed
+            const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
             
-            const rawName = window.currentName || "---";
-            const rawEmail = window.currentEmail || "---";
+            const rawName = window.currentName || cached.name || "";
+            const rawEmail = window.currentEmail || cached.email || "";
 
-            if (hideUser && rawName !== "---") {
+            if (hideUser && rawName) {
                 nameEl.innerText = "*****";
             } else {
                 nameEl.innerText = rawName;
             }
 
-            if (hideEmail && rawEmail !== "---") {
+            if (hideEmail && rawEmail) {
                 const parts = rawEmail.split('@');
                 if (parts.length === 2) {
                     const local = parts[0];
