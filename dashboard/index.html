@@ -97,25 +97,20 @@
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        /* High-End Floating Mask (Glassmorphism + Smooth Skeleton) */
-        .data-wrapper { position: relative; display: inline-flex; align-items: center; }
+        /* Professional Privacy Mask - Static, opaque, smooth edges */
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; vertical-align: middle; }
         .privacy-overlay { 
-            position: absolute; top: -2px; left: -4px; right: -4px; bottom: -2px; 
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background-color: #0f172a; /* Deep elegant dark */
             border-radius: 6px; 
             z-index: 10; 
             display: none; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .privacy-overlay::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            background-size: 200% 100%;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .privacy-active .privacy-overlay { display: block; }
         
@@ -130,7 +125,6 @@
         .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
         .bal-title { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* Advanced Balance Formatting (Superscript Decimals) */
         .bal-amount { 
             font-size: 26px; 
             color: #ffffff; 
@@ -140,12 +134,7 @@
             font-feature-settings: "zero" 1, "tnum" 1;
             letter-spacing: -0.8px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: baseline;
-            direction: ltr;
         }
-        .bal-amount .decimal-part { font-size: 16px; vertical-align: super; margin-left: 1px; opacity: 0.9; }
-        .bal-amount .currency-symbol { font-size: 14px; margin-left: 4px; font-weight: 700; opacity: 0.8; }
 
         .new-header-container {
             background: var(--bg-gradient); 
@@ -417,7 +406,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <div class="bal-amount" id="user-balance">0<span class="decimal-part">.00</span><span class="currency-symbol">USD</span></div>
+                        <span class="bal-amount" id="user-balance">0 USD</span>
                     </div>
                 </div>
             </div>
@@ -505,11 +494,10 @@
         let depositTransactions = [];
         const DISPLAY_LIMIT = 1;
 
-        const formatBalanceUI = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return `0<span class="decimal-part">.00</span><span class="currency-symbol">USD</span>`;
+        const formatBalance = (val) => {
+            if (val === undefined || val === null || isNaN(val)) return "0";
             const num = Number(val);
-            const parts = num.toFixed(2).split('.');
-            return `${parts[0]}<span class="decimal-part">.${parts[1]}</span><span class="currency-symbol">USD</span>`;
+            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
@@ -661,7 +649,7 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerHTML = formatBalanceUI(bal);
+                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         
                         const hideE = d.hide_email === "true";
