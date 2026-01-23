@@ -98,13 +98,15 @@
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
         /* Fixed-size Sensitive Data Wrappers */
-        .data-wrapper { position: relative; display: inline-flex; align-items: center; overflow: hidden; }
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; max-width: 100%; }
         .privacy-overlay { 
             position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: #1a1a1a; 
+            background: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(12px); 
             border-radius: 6px; 
             z-index: 5; 
-            display: none; 
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .privacy-active .privacy-overlay { display: block; }
         
