@@ -83,40 +83,61 @@
         }
 
         .wallet-card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 24px; padding: 22px;
-            display: flex; flex-direction: column; gap: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px); min-height: 100px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px; padding: 18px 20px;
+            display: flex; flex-direction: column; gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px); min-height: 90px;
         }
 
-        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-        .avatar-box { width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: right; }
+        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+        .avatar-box { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .name-stack { display: flex; flex-direction: column; gap: 4px; overflow: hidden; flex: 1; align-items: flex-start; text-align: right; padding-right: 0px; }
         
-        .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
-        .welcome-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 600; }
+        .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
+        .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        .full-name-val { font-size: 18px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* New Professional Privacy Mask (Skeleton Style) */
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; }
+        .privacy-overlay { 
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            border-radius: 4px; 
+            z-index: 5; 
+            display: none; 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .privacy-active .privacy-overlay { display: block; }
         
-        .email-privacy-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; width: 100%; justify-content: space-between; }
-        .user-email-val { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; direction: ltr; font-family: 'Inter', sans-serif; }
+        .full-name-val { font-size: 17px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: right; }
         
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); padding: 6px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; }
-        .toggle-visibility svg { width: 18px; height: 18px; fill: #ffffff !important; }
+        .email-privacy-row { display: flex; align-items: center; gap: 10px; margin-top: 1px; width: 100%; justify-content: flex-start; }
+        .user-email-val { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
+        
+        .toggle-visibility { background: rgba(255,255,255,0.15); border: none; padding: 4px 8px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; backdrop-filter: blur(4px); }
+        .toggle-visibility svg { width: 16px; height: 16px; fill: #ffffff !important; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; }
-        .bal-title { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .balance-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
+        .bal-title { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
+        /* Advanced Balance Formatting (Superscript Decimals) */
         .bal-amount { 
-            font-size: 30px; 
+            font-size: 26px; 
             color: #ffffff; 
             font-weight: 900; 
             line-height: 1; 
             font-family: 'Inter', sans-serif;
-            letter-spacing: -0.5px;
+            font-feature-settings: "zero" 1, "tnum" 1;
+            letter-spacing: -0.8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: baseline;
+            direction: ltr;
         }
+        .bal-amount .decimal-part { font-size: 16px; vertical-align: super; margin-left: 1px; opacity: 0.9; }
+        .bal-amount .currency-symbol { font-size: 14px; margin-left: 4px; font-weight: 700; opacity: 0.8; }
 
         .new-header-container {
             background: var(--bg-gradient); 
@@ -369,20 +390,26 @@
                         <div class="name-stack">
                             <div class="welcome-row">
                                 <span class="welcome-label" id="txt-welcome">مرحباً بك</span>
-                                <span class="full-name-val" id="user-full-name">---</span>
+                                <div class="data-wrapper" id="name-wrapper">
+                                    <div class="privacy-overlay"></div>
+                                    <span class="full-name-val" id="user-full-name">---</span>
+                                </div>
                             </div>
                             <div class="email-privacy-row">
-                                <span class="user-email-val" id="user-email">---</span>
+                                <div class="data-wrapper" id="email-wrapper">
+                                    <div class="privacy-overlay"></div>
+                                    <span class="user-email-val" id="user-email">---</span>
+                                </div>
                                 <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg style="width:28px; height:28px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg style="width:24px; height:24px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0 USD</span>
+                        <div class="bal-amount" id="user-balance">0<span class="decimal-part">.00</span><span class="currency-symbol">USD</span></div>
                     </div>
                 </div>
             </div>
@@ -470,10 +497,11 @@
         let depositTransactions = [];
         const DISPLAY_LIMIT = 1;
 
-        const formatBalance = (val) => {
-            if (val === undefined || val === null || isNaN(val)) return "0";
+        const formatBalanceUI = (val) => {
+            if (val === undefined || val === null || isNaN(val)) return `0<span class="decimal-part">.00</span><span class="currency-symbol">USD</span>`;
             const num = Number(val);
-            return num % 1 === 0 ? num.toString() : parseFloat(num.toFixed(7)).toString();
+            const parts = num.toFixed(2).split('.');
+            return `${parts[0]}<span class="decimal-part">.${parts[1]}</span><span class="currency-symbol">USD</span>`;
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
@@ -625,7 +653,7 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerText = formatBalance(bal) + " USD";
+                        document.getElementById('user-balance').innerHTML = formatBalanceUI(bal);
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         
                         const hideE = d.hide_email === "true";
@@ -722,26 +750,19 @@
         window.renderUserData = function() {
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
-            const balanceEl = document.getElementById('user-balance');
             const eyeIcon = document.getElementById('eye-icon');
+            const hideEmail = localStorage.getItem('hide_email') === "true";
+            const hideUser = localStorage.getItem('hide_username') === "true";
             
-            const hideAll = localStorage.getItem('hide_email') === "true";
+            nameEl.innerText = window.currentName || "---";
+            emailEl.innerText = window.currentEmail || "---";
             
-            const rawName = window.currentName || "---";
-            const rawEmail = window.currentEmail || "---";
-            const rawBalance = (document.getElementById('user-balance').innerText.split(' ')[0]) || "0";
-
-            if (hideAll) {
-                nameEl.innerText = "**** ****";
-                emailEl.innerText = "********@****.***";
-                balanceEl.innerText = "****** USD";
-                eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
-            } else {
-                nameEl.innerText = rawName;
-                emailEl.innerText = rawEmail;
-                balanceEl.innerText = rawBalance + " USD";
-                eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-            }
+            document.getElementById('name-wrapper').classList.toggle('privacy-active', hideUser);
+            document.getElementById('email-wrapper').classList.toggle('privacy-active', hideEmail);
+            
+            eyeIcon.innerHTML = (hideEmail || hideUser) ? 
+                '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
+                '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
         };
 
         window.onload = () => {
