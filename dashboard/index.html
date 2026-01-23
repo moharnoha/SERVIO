@@ -75,7 +75,7 @@
         /* Wallet Header - NOT STICKY */
         .bottom-header {
             background-color: var(--sub-green);
-            width: 100%; display: flex; justify-content: center;
+            width: 100%; display: center; justify-content: center;
             position: relative;
         }
         .bottom-header-content {
@@ -98,12 +98,11 @@
         .welcome-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
         /* Fixed-size Sensitive Data Wrappers */
-        .data-wrapper { position: relative; display: inline-flex; align-items: center; }
+        .data-wrapper { position: relative; display: inline-flex; align-items: center; overflow: hidden; }
         .privacy-overlay { 
             position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(8px); 
-            border-radius: 4px; 
+            background: #1a1a1a; 
+            border-radius: 6px; 
             z-index: 5; 
             display: none; 
         }
