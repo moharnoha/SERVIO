@@ -167,8 +167,10 @@
             flex-direction: column; 
             gap: 12px; 
             margin-top: 5px;
-            overflow: visible;
+            overflow-y: auto;
+            max-height: 480px;
             flex: none;
+            padding-right: 2px;
         }
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
@@ -179,6 +181,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
         
         /* Verification Overlay System */
