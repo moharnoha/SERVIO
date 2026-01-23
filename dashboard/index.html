@@ -119,8 +119,9 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.15);
             display: flex;
             align-items: baseline;
+            direction: ltr;
         }
-        .bal-amount sup { font-size: 0.6em; margin-right: 2px; }
+        .bal-amount sup { font-size: 0.6em; margin-left: 2px; }
 
         .new-header-container {
             background: var(--bg-gradient); 
@@ -386,7 +387,7 @@
                     </div>
                     <div class="balance-stack">
                         <span class="bal-title" id="txt-balance-label">رصيدك الحالي</span>
-                        <span class="bal-amount" id="user-balance">0 USD</span>
+                        <div class="bal-amount" id="user-balance">0 USD</div>
                     </div>
                 </div>
             </div>
@@ -635,7 +636,7 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
-                        document.getElementById('user-balance').innerHTML = formatBalance(bal) + " USD";
+                        document.getElementById('user-balance').innerHTML = formatBalance(bal) + "<span>&nbsp;USD</span>";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         
                         const hideE = d.hide_email === "true";
