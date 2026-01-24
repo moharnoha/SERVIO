@@ -233,7 +233,7 @@
         .empty-state-icon {
             width: 90px; height: 90px;
             background: #f8fafc;
-            border-radius: 28px;
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: #2E5822;
             border: 1px solid #e2e8f0;
@@ -560,7 +560,14 @@
                 document.getElementById('modal-content').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9 11h6"></path>
+                                <path d="M9 15h6"></path>
+                                <path d="M14 7l-2-2-2 2"></path>
+                                <circle cx="17" cy="17" r="3"></circle>
+                                <line x1="19" y1="19" x2="21" y2="21"></line>
+                            </svg>
                         </div>
                         <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
                     </div>`;
@@ -572,7 +579,7 @@
                     const statusLow = status.toLowerCase();
                     const isVerifying = statusLow === 'active';
                     const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
-                    const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+                    const statusDisplayClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
 
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                     const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
@@ -585,7 +592,7 @@
                             <div style="display:flex; flex-direction:column">
                                 <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                                 <div class="trans-date-container">
-                                    <span class="status-badge ${statusClass}">${displayStatus}</span>
+                                    <span class="status-badge ${statusDisplayClass}">${displayStatus}</span>
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
@@ -619,7 +626,14 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9 11h6"></path>
+                                <path d="M9 15h6"></path>
+                                <path d="M14 7l-2-2-2 2"></path>
+                                <circle cx="17" cy="17" r="3"></circle>
+                                <line x1="19" y1="19" x2="21" y2="21"></line>
+                            </svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
                     </div>`;
@@ -633,7 +647,7 @@
                 const statusLow = status.toLowerCase();
                 const isVerifying = statusLow === 'active';
                 const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
-                const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+                const statusDisplayClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
 
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
@@ -647,7 +661,7 @@
                         <div style="display:flex; flex-direction:column">
                             <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                             <div class="trans-date-container">
-                                <span class="status-badge ${statusClass}">${displayStatus}</span>
+                                <span class="status-badge ${statusDisplayClass}">${displayStatus}</span>
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
