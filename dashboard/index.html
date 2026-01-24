@@ -1,1 +1,785 @@
-1
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
+    <title>serviocmm - Pro Wallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --header-green: #2E5822; 
+            --sub-green: #386E2C; 
+            --platform-bg: #f7fafc;
+            --bg-gradient: linear-gradient(135deg, #EAF0E9 0%, #DDE7DC 100%);
+            --text-dark: #1A2419;
+            --brand-green: #2E5822;
+            --brand-red: #C62828;
+            --brand-deposit: #10b981; 
+            --card-white: #FFFFFF;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
+            --sidebar-gray: #f1f5f9;
+        }
+
+        html, body { height: auto; min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body { font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--platform-bg); display: flex; flex-direction: column; direction: rtl; align-items: center; }
+        
+        * { 
+            transition: none !important; 
+            animation: none !important; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        /* Top Header - ALWAYS STICKY & EXPANDED ON DESKTOP */
+        .top-header { 
+            min-height: 70px; background-color: var(--header-green); 
+            display: flex; align-items: center; justify-content: space-between; 
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            padding: 10px 15px;
+            box-sizing: border-box;
+            /* Force RTL for Header regardless of page direction */
+            direction: rtl !important;
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            direction: rtl !important;
+        }
+
+        /* Desktop Expansion Rules (Updated height to match mobile feel) */
+        @media (min-width: 481px) {
+            .top-header {
+                height: 70px;
+            }
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+        }
+
+        .brand-section { display: flex; align-items: center; direction: rtl !important; }
+        .logo-img { height: 35px; width: auto; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; text-align: right !important; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
+
+        /* Wallet Header - NOT STICKY */
+        .bottom-header {
+            background-color: var(--sub-green);
+            width: 100%; display: flex; justify-content: center;
+            position: relative;
+        }
+        .bottom-header-content {
+            width: 100%; max-width: 480px; padding: 10px 15px; box-sizing: border-box;
+        }
+
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px; padding: 12px 18px;
+            display: flex; flex-direction: column; gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px); min-height: auto;
+        }
+
+        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: inherit; padding-right: 0px; }
+        
+        .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
+        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
+        
+        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+        
+        .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 0px; width: 100%; justify-content: flex-start; }
+        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
+        
+        .toggle-visibility { background: rgba(255,255,255,0.15); border: none; padding: 3px 6px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; backdrop-filter: blur(4px); }
+        .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; }
+
+        .balance-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; padding: 0; }
+        .bal-title { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .bal-amount { 
+            font-size: 28px; 
+            color: #ffffff; 
+            font-weight: 900; 
+            line-height: 1; 
+            font-family: 'Inter', sans-serif;
+            font-feature-settings: "zero" 1, "tnum" 1;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            direction: ltr;
+        }
+        .bal-amount sup { font-size: 0.6em; margin-left: 2px; opacity: 0.9; }
+
+        .new-header-container {
+            background: var(--bg-gradient); 
+            width: 100%; display: flex; justify-content: center;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+        }
+        .new-header-content {
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
+        }
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        .icon-box { width: 70px; height: 70px; background: var(--card-white); border-radius: 22px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: center; }
+        .shortcut-label { font-size: 9px; font-weight: 700; color: #3d4a3c; text-align: center; white-space: nowrap; }
+        .icon-svg { width: 24px; height: 24px; fill: var(--brand-green); }
+
+        .transactions-header { 
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            background: #ffffff; 
+            margin-top: 10px;
+            flex: none;
+            overflow: visible; 
+        }
+        .transactions-content {
+            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+        
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn {
+            padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
+            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+        }
+        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+
+        .trans-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 5px;
+            overflow: visible;
+            flex: none;
+        }
+        .trans-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9;
+            contain: content; cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Verification Overlay System */
+        .verifying-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--header-green);
+            gap: 8px;
+        }
+
+        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
+        .status-badge.activated { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; display: block; }
+        .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
+        
+        .empty-state { 
+            text-align: center; 
+            padding: 50px 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .empty-state-icon {
+            width: 80px; height: 80px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            color: #2E5822;
+            position: relative;
+        }
+        .empty-state-text {
+            font-size: 14px;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+
+        /* Global Transaction List Overlay */
+        .modal-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.5); 
+            display: none; 
+            align-items: flex-end; 
+            justify-content: center; 
+            z-index: 9999;
+        }
+        .modal-card {
+            background: #ffffff; 
+            width: 100%; 
+            max-width: 500px; 
+            height: 70%;
+            border-radius: 24px 24px 0 0; 
+            padding: 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
+            position: relative; 
+            overflow: hidden;
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header-accent {
+            padding: 20px; 
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-drag-handle {
+            width: 40px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        .modal-title-text { 
+            font-weight: 800; 
+            font-size: 18px; 
+            margin: 0;
+            color: #1e293b;
+        }
+        .modal-body { 
+            padding: 15px 20px; 
+            font-size: 13px; 
+            color: var(--text-dark); 
+            background: #fff;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .modal-footer {
+            padding: 15px 20px; 
+            text-align: center; 
+            background: #fff;
+            border-top: 1px solid #f1f5f9;
+        }
+        .modal-close-btn {
+            background: #f1f5f9; 
+            color: #475569; 
+            border: none; 
+            padding: 12px 0;
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            cursor: pointer; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Detail Modal (Floating Center) */
+        .detail-modal-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
+            z-index: 10000; padding: 20px; box-sizing: border-box;
+        }
+        .detail-card {
+            background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .detail-row {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9; gap: 15px;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
+        .detail-value.is-active { color: #0284c7; background: #f0f9ff; padding: 2px 8px; border-radius: 6px; border: 1px solid #bae6fd; }
+        .detail-value.is-activated { color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; border: 1px solid #a7f3d0; }
+
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
+        
+        .view-more-link {
+            color: var(--header-green);
+            font-size: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+
+        .loader-spin {
+            animation: spin 0.8s linear infinite !important;
+        }
+    </style>
+</head>
+<body class="notranslate">
+
+    <div class="page-wrapper">
+        <div class="top-header">
+            <div class="header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
+                </div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text"><span id="reg-name"></span><span style="opacity:0.3">|</span><span id="lang-name"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-header">
+            <div class="bottom-header-content">
+                <div class="wallet-card" id="main-wallet-card">
+                    <div class="user-meta-info">
+                        <div class="name-stack">
+                            <div class="welcome-row">
+                                <span class="welcome-label" id="txt-welcome"></span>
+                                <span class="full-name-val" id="user-full-name"></span>
+                            </div>
+                            <div class="email-privacy-row">
+                                <span class="user-email-val" id="user-email"></span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                            </div>
+                        </div>
+                        <div class="avatar-box">
+                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                    </div>
+                    <div class="balance-stack">
+                        <span class="bal-title" id="txt-balance-label"></span>
+                        <div class="bal-amount" id="user-balance"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-header-container">
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
+                        <span class="shortcut-label" id="txt-smm"></span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
+                        <span class="shortcut-label" id="txt-deposit"></span>
+                    </a>
+                    <a href="menu/" class="shortcut-item">
+                        <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
+                        <span class="shortcut-label" id="txt-menu"></span>
+                    </a>
+                    <div class="shortcut-item" onclick="handleLogout()">
+                        <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
+                        <span class="shortcut-label" id="txt-logout"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transactions-header">
+            <div class="transactions-content">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px">
+                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
+                    <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
+                </div>
+                
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm"></button>
+                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep"></button>
+                </div>
+
+                <div id="trans-container" class="trans-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="trans-modal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header-accent">
+                <div class="modal-drag-handle"></div>
+                <h3 class="modal-title-text" id="modal-title"></h3>
+            </div>
+            <div class="modal-body" id="modal-content"></div>
+            <div class="modal-footer">
+                <button class="modal-close-btn" onclick="closeModal()" id="modal-close-txt"></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="detail-modal-overlay" onclick="closeDetail()">
+        <div class="detail-card" onclick="event.stopPropagation()">
+            <div id="detail-content"></div>
+            <button class="modal-close-btn" style="margin-top:20px" onclick="closeDetail()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let activeFilter = 'SMM Services';
+        let smmTransactions = [];
+        let depositTransactions = [];
+        const DISPLAY_LIMIT = 1;
+
+        // Apply cached data immediately
+        const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
+        if (cached.balance !== undefined) {
+            document.getElementById('user-balance').innerHTML = formatBalanceVal(cached.balance) + "<span>&nbsp;USD</span>";
+        }
+        
+        function formatBalanceVal(val) {
+            if (val === undefined || val === null || isNaN(val)) return "0.00";
+            const num = Number(val);
+            const strVal = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
+            if (strVal.includes('.')) {
+                const [main, dec] = strVal.split('.');
+                return `${main}<sup>.${dec}</sup>`;
+            }
+            return strVal;
+        };
+
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const statusLow = status.toLowerCase();
+            const statusStyle = statusLow === 'activated' ? 'is-activated' : (statusLow === 'active' ? 'is-active' : '');
+            const statusDisplay = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+
+            let html = `
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div style="font-weight:900; font-size:20px; color:#1e293b; direction:ltr">${amount}</div>
+                    <div style="font-size:12px; color:#94a3b8; margin-top:5px;">${title}</div>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'نوع العملية' : 'Transaction Type'}</span>
+                    <span class="detail-value">${activeFilter === 'deposits' ? fullDesc : (isAr ? 'شراء: ' : 'Purchase: ') + fullDesc}</span>
+                </div>
+                ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
+                ${code ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكود' : 'Code'}</span><span class="detail-value" style="direction:ltr">${code}</span></div>` : ''}
+                ${username ? `<div class="detail-row"><span class="detail-label">${isAr ? 'المستخدم' : 'Username'}</span><span class="detail-value" style="direction:ltr">${username}</span></div>` : ''}
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
+                    <span class="detail-value ${statusStyle}">${statusDisplay}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
+                    <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
+                </div>
+            `;
+            
+            document.getElementById('detail-content').innerHTML = html;
+            document.getElementById('detail-modal').style.display = 'flex';
+        };
+
+        window.closeDetail = () => {
+            document.getElementById('detail-modal').style.display = 'none';
+        };
+
+        window.showAllTransactions = () => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            
+            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'كافة خدمات SMM' : 'كافة الإيداعات') : (activeFilter === 'SMM Services' ? 'All SMM Services' : 'All Deposits');
+            document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
+
+            if (data.length === 0) {
+                document.getElementById('modal-content').innerHTML = `<p style="text-align:center; padding:50px 20px; color:#94a3b8">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>`;
+            } else {
+                let html = '<div class="trans-list">';
+                data.forEach(t => {
+                    const isDep = activeFilter === 'deposits';
+                    const status = t.status || 'active';
+                    const statusLow = status.toLowerCase();
+                    const isVerifying = statusLow === 'active';
+                    const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+                    const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+
+                    const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                    const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                    const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
+                    const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
+
+                    html += `
+                        <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                            ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
+                            <div style="display:flex; flex-direction:column">
+                                <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
+                                <div class="trans-date-container">
+                                    <span class="status-badge ${statusClass}">${displayStatus}</span>
+                                    <span class="trans-date">${dateStr}</span>
+                                </div>
+                            </div>
+                            <span class="trans-val">${amountLabel}</span>
+                        </div>`;
+                });
+                html += '</div>';
+                document.getElementById('modal-content').innerHTML = html;
+            }
+            document.getElementById('trans-modal').style.display = 'flex';
+        };
+
+        window.closeModal = () => {
+            document.getElementById('trans-modal').style.display = 'none';
+        };
+
+        window.switchFilter = (type, btn) => {
+            activeFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderUI();
+        };
+
+        const renderUI = () => {
+            const container = document.getElementById('trans-container');
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const rawData = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            const data = rawData.slice(0, DISPLAY_LIMIT);
+            
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
+                    </div>`;
+                return;
+            }
+
+            let html = "";
+            data.forEach(t => {
+                const isDep = activeFilter === 'deposits';
+                const status = t.status || 'active';
+                const statusLow = status.toLowerCase();
+                const isVerifying = statusLow === 'active';
+                const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+                const statusClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
+
+                const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'تم شراء خدمة رقمية' : 'Digital Service Purchased');
+                const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
+
+                html += `
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
+                        <div style="display:flex; flex-direction:column">
+                            <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
+                            <div class="trans-date-container">
+                                <span class="status-badge ${statusClass}">${displayStatus}</span>
+                                <span class="trans-date">${dateStr}</span>
+                            </div>
+                        </div>
+                        <span class="trans-val">${amountLabel}</span>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.currentEmail = user.email;
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
+                    if (snap.exists()) {
+                        const d = snap.data();
+                        const bal = d.balance || 0; 
+                        window.currentName = d.fullName || d.name || "User";
+                        document.getElementById('user-balance').innerHTML = formatBalanceVal(bal) + "<span>&nbsp;USD</span>";
+                        localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
+                        
+                        const hideE = d.hide_email === "true";
+                        const hideU = d.hide_username === "true";
+                        localStorage.setItem('hide_email', hideE ? "true" : "false");
+                        localStorage.setItem('hide_username', hideU ? "true" : "false");
+                        
+                        window.renderUserData();
+                    }
+                });
+
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
+                onSnapshot(qSmm, (snap) => {
+                    smmTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'SMM Services') renderUI();
+                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
+                });
+
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
+                onSnapshot(qDep, (snap) => {
+                    depositTransactions = snap.docs.map(d => d.data());
+                    if (activeFilter === 'deposits') renderUI();
+                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
+                });
+            } else { window.location.href = "../"; }
+        });
+
+        window.handleLogout = () => { 
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            if(confirm(isAr ? "خروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
+        };
+
+        window.togglePrivacy = async function() { 
+            const user = auth.currentUser;
+            if (!user) return;
+            const currentStatus = localStorage.getItem('hide_email') === 'true';
+            const newVal = !currentStatus ? "true" : "false";
+            try {
+                await updateDoc(doc(db, "users", user.uid), { hide_email: newVal, hide_username: newVal });
+                localStorage.setItem('hide_email', newVal);
+                localStorage.setItem('hide_username', newVal);
+                window.renderUserData(); 
+            } catch (e) { console.error(e); }
+        };
+    </script>
+
+    <script>
+        const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+        const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+
+        const regionConfigs = [
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
+            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
+            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
+            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
+            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
+            { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
+        ];
+
+        window.sync = function() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            const isAr = (lang === 'ar');
+            
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
+            
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
+            document.getElementById('txt-view-more').innerText = isAr ? 'عرض المزيد' : 'View More';
+            document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
+            document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
+            document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
+
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            window.renderUserData();
+        };
+
+        window.renderUserData = function() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            // Sync with cache first for lightning speed
+            const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
+            const hideEmail = localStorage.getItem('hide_email') === "true";
+            const hideUser = localStorage.getItem('hide_username') === "true";
+            
+            const rawName = window.currentName || cached.name || "";
+            const rawEmail = window.currentEmail || cached.email || "";
+
+            if (hideUser && rawName) {
+                nameEl.innerText = "*****";
+            } else {
+                nameEl.innerText = rawName;
+            }
+
+            if (hideEmail && rawEmail) {
+                const parts = rawEmail.split('@');
+                if (parts.length === 2) {
+                    const local = parts[0];
+                    const domain = parts[1];
+                    const maskedLocal = local.length > 2 ? local.substring(0, 2) + "****" : local + "****";
+                    emailEl.innerText = maskedLocal + "@" + domain;
+                } else {
+                    emailEl.innerText = "****";
+                }
+            } else {
+                emailEl.innerText = rawEmail;
+            }
+            
+            eyeIcon.innerHTML = (hideEmail || hideUser) ? 
+                '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
+                '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        };
+
+        window.onload = () => {
+            window.sync();
+        };
+    </script>
+</body>
+</html>
