@@ -233,11 +233,12 @@
         .empty-state-icon {
             width: 90px; height: 90px;
             background: #f8fafc;
-            border-radius: 50%;
+            border-radius: 28px;
             display: flex; align-items: center; justify-content: center;
-            color: #94a3b8;
-            border: 2px dashed #e2e8f0;
+            color: #2E5822;
+            border: 1px solid #e2e8f0;
             position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         .empty-state-text {
             font-size: 14px;
@@ -559,7 +560,7 @@
                 document.getElementById('modal-content').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                         </div>
                         <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
                     </div>`;
@@ -618,7 +619,7 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
                     </div>`;
