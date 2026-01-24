@@ -41,6 +41,8 @@
             z-index: 2000;
             padding: 10px 15px;
             box-sizing: border-box;
+            /* Force RTL for Header regardless of page direction */
+            direction: rtl !important;
         }
 
         .header-content {
@@ -50,6 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            direction: rtl !important;
         }
 
         /* Desktop Expansion Rules (Updated height to match mobile feel) */
@@ -63,14 +66,14 @@
             }
         }
 
-        .brand-section { display: flex; align-items: center; }
+        .brand-section { display: flex; align-items: center; direction: rtl !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
-        .title-box { display: flex; flex-direction: column; }
+        .title-box { display: flex; flex-direction: column; text-align: right !important; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
 
         /* Wallet Header - NOT STICKY */
         .bottom-header {
@@ -92,12 +95,12 @@
 
         .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
         .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: right; padding-right: 0px; }
+        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; text-align: inherit; padding-right: 0px; }
         
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
         .welcome-label { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.3px; }
         
-        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; text-align: right; }
+        .full-name-val { font-size: 15px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
         
         .email-privacy-row { display: flex; align-items: center; gap: 8px; margin-top: 0px; width: 100%; justify-content: flex-start; }
         .user-email-val { font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; text-align: left; overflow: hidden; text-overflow: ellipsis; font-family: 'Inter', sans-serif; }
@@ -179,7 +182,6 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
-            text-align: inherit;
         }
         
         /* Verification Overlay System */
@@ -201,7 +203,7 @@
         .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
         .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
         .status-badge.activated { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
-        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: inherit; display: block; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; display: block; }
         .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
         .empty-state { 
@@ -734,9 +736,6 @@
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-            document.querySelectorAll('.transactions-content').forEach(el => {
-                el.style.textAlign = isAr ? 'right' : 'left';
-            });
             window.renderUserData();
         };
 
