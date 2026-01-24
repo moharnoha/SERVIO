@@ -41,7 +41,7 @@
             z-index: 2000;
             padding: 10px 15px;
             box-sizing: border-box;
-            direction: rtl !important; /* Fixed direction as requested */
+            direction: rtl !important;
         }
 
         .header-content {
@@ -51,7 +51,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            direction: rtl !important; /* Fixed direction for inner content */
+            direction: rtl !important;
         }
 
         /* Desktop Expansion Rules (Updated height to match mobile feel) */
@@ -71,7 +71,7 @@
         .title-box { display: flex; flex-direction: column; text-align: right; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
-        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: ltr !important; }
+        .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
         /* Wallet Header - NOT STICKY */
@@ -742,7 +742,7 @@
             const nameStack = document.querySelector('.name-stack');
             const welcomeRow = document.querySelector('.welcome-row');
             const emailRow = document.querySelector('.email-privacy-row');
-            const fullName = document.querySelector('.full-name-val');
+            const fullName = document.getElementById('user-full-name');
             
             if (isAr) {
                 nameStack.style.alignItems = 'flex-start';
