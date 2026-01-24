@@ -179,6 +179,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
+            text-align: inherit;
         }
         
         /* Verification Overlay System */
@@ -200,7 +201,7 @@
         .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
         .status-badge.active { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
         .status-badge.activated { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
-        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: right; display: block; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; text-align: inherit; display: block; }
         .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
         .empty-state { 
@@ -733,6 +734,9 @@
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            document.querySelectorAll('.transactions-content').forEach(el => {
+                el.style.textAlign = isAr ? 'right' : 'left';
+            });
             window.renderUserData();
         };
 
