@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
     <title>serviocmm - Pro Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,20 +22,19 @@
             --sidebar-gray: #f1f5f9;
         }
 
-        /* Fixed the Jumping/Shifting on Refresh */
         html, body { 
-            height: 100%;
+            height: auto; 
+            min-height: 100%; 
             margin: 0; 
             padding: 0; 
             overflow-x: hidden; 
-            overflow-y: scroll; /* Force scrollbar to prevent layout shift */
+            overflow-y: auto; 
             width: 100vw;
             position: relative;
-            background-color: var(--platform-bg);
         }
-
         body { 
             font-family: 'Cairo', 'Inter', sans-serif; 
+            background-color: var(--platform-bg); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -71,7 +70,7 @@
             direction: rtl !important;
         }
 
-        /* Desktop Expansion Rules (Updated height to match mobile feel) */
+        /* Desktop Expansion Rules */
         @media (min-width: 481px) {
             .top-header {
                 height: 70px;
@@ -350,7 +349,7 @@
         .detail-value.is-active { color: #0284c7; background: #f0f9ff; padding: 2px 8px; border-radius: 6px; border: 1px solid #bae6fd; }
         .detail-value.is-activated { color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; border: 1px solid #a7f3d0; }
 
-        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; position: relative; }
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
         .view-more-link {
             color: var(--header-green);
