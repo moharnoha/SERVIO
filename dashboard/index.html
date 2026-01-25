@@ -185,9 +185,15 @@
             flex-direction: column; 
             gap: 12px; 
             margin-top: 5px;
-            overflow: visible;
-            flex: none;
+            overflow-y: auto;
+            max-height: 400px;
+            padding-bottom: 15px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
         }
+        .trans-list::-webkit-scrollbar { display: none; }
+
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
             padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9;
