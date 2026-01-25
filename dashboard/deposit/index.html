@@ -19,7 +19,7 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Precise Middle Alignment */
+        /* Loading Overlay Style - Fixed Precise Centering */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        /* Spinner exactly in the middle 2/2 */
+        /* Spinner Precisely in the center */
         .loading-spinner {
             width: 32px;
             height: 32px;
@@ -52,7 +52,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Side content container in the right half only */
+        /* Side content container strictly in the right half */
         .loader-side-content {
             position: absolute;
             display: flex;
@@ -60,18 +60,19 @@
             top: 50%;
             transform: translateY(-50%);
             width: 40%;
+            margin-top: -5px; /* Subtle lift for optical centering */
         }
 
-        /* Alignment for Arabic (Right side of screen) */
+        /* AR: Content sticking to right edge */
         html[dir="rtl"] .loader-side-content {
-            right: 15px; /* Stick to the right edge */
+            right: 15px;
             left: auto;
             align-items: flex-start;
         }
 
-        /* Alignment for English (Left side of screen) */
+        /* EN: Content sticking to left edge */
         html[dir="ltr"] .loader-side-content {
-            left: 15px; /* Stick to the left edge */
+            left: 15px;
             right: auto;
             align-items: flex-end;
         }
@@ -88,6 +89,7 @@
         .loader-image {
             width: 140px; 
             height: auto;
+            display: block;
             object-fit: contain;
         }
 
