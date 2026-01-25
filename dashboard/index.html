@@ -50,6 +50,7 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
+            display: none; /* Hidden by default */
         }
         .ios-loader {
             width: 40px;
@@ -444,7 +445,7 @@
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
                         <span class="shortcut-label" id="txt-menu"></span>
                     </a>
-                    <div class="shortcut-item" onclick="handleLogout()">
+                    <div class="shortcut-item simulate-link" onclick="handleLogout()">
                         <div class="icon-box"><svg style="width:24px; height:24px; fill:var(--brand-red)" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg></div>
                         <span class="shortcut-label" id="txt-logout"></span>
                     </div>
@@ -714,8 +715,7 @@
                         localStorage.setItem('hide_username', hideU ? "true" : "false");
                         
                         window.renderUserData();
-                        // Hide loader once user data is loaded
-                        document.getElementById('global-loading').style.display = 'none';
+                        // Loading hidden by default; initial logic stays same
                     }
                 });
 
@@ -734,7 +734,6 @@
                 });
             } else { 
                 window.location.href = "../"; 
-                document.getElementById('global-loading').style.display = 'none';
             }
         });
 
@@ -756,32 +755,28 @@
             } catch (e) { console.error(e); }
         };
 
-        // Logic for Global Loading on Click
+        // Logic for Global Loading ONLY on the four main options
         document.addEventListener('click', function(e) {
-            const target = e.target.closest('a, button, .shortcut-item, .trans-item, .view-more-link');
-            if (target && !target.classList.contains('toggle-visibility')) {
-                // If it's a link, prevent immediate navigation
-                if (target.tagName === 'A' || target.classList.contains('simulate-link')) {
-                    e.preventDefault();
-                    const url = target.getAttribute('href');
-                    showGlobalLoading(() => {
-                        if (url) window.location.href = url;
-                    });
-                } else if (target.hasAttribute('onclick') || target.tagName === 'BUTTON' || target.classList.contains('trans-item')) {
-                    // Internal actions show loading filter for feedback
-                    showGlobalLoading();
-                }
+            const target = e.target.closest('.shortcut-item');
+            if (target) {
+                e.preventDefault();
+                const url = target.getAttribute('href');
+                const loader = document.getElementById('global-loading');
+                
+                loader.style.display = 'flex';
+                
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    if (url) {
+                        window.location.href = url;
+                    } else if (target.getAttribute('onclick')) {
+                        // For the Logout button which has onclick
+                        const onclickAttr = target.getAttribute('onclick');
+                        if(onclickAttr.includes('handleLogout')) window.handleLogout();
+                    }
+                }, 800);
             }
         });
-
-        function showGlobalLoading(callback) {
-            const loader = document.getElementById('global-loading');
-            loader.style.display = 'flex';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                if (callback) callback();
-            }, 800); 
-        }
     </script>
 
     <script>
