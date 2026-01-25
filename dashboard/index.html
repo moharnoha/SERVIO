@@ -83,7 +83,7 @@
         #nav-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.19);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(4px);
             display: none;
             align-items: center;
@@ -157,7 +157,8 @@
         }
 
         .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .avatar-box svg { width: 24px; height: 24px; fill: #ffffff; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; padding-right: 0px; }
         
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
@@ -458,7 +459,7 @@
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4-4-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
@@ -791,27 +792,18 @@
             }
         });
 
-        // Specific Loading for the four options only
-        const targetIds = ['btn-smm', 'btn-deposit', 'btn-menu', 'btn-logout'];
+        // Updated behavior: No loader overlay on shortcut options
+        const targetIds = ['btn-smm', 'btn-deposit', 'btn-menu'];
         targetIds.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 el.addEventListener('click', function(e) {
-                    if (id === 'btn-logout') return; // Handled by separate function
-                    e.preventDefault();
+                    // Just navigate without showing navLoader
                     const url = this.getAttribute('href');
-                    navLoader.style.display = 'flex';
-                    setTimeout(() => {
-                        window.location.href = url;
-                    }, 500);
+                    window.location.href = url;
                 });
             }
         });
-
-        // Disable loader on page show (for back button navigation)
-        window.onpageshow = function(event) {
-            navLoader.style.display = 'none';
-        };
 
         window.handleLogout = () => { 
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
