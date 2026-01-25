@@ -40,7 +40,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Content Container: Adjusted to center the image itself on the horizontal mid-line */
+        /* Content Container: Adjusted to position the whole block */
         .loader-side-content {
             position: absolute;
             top: 50%;
@@ -48,7 +48,6 @@
             width: 45%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Ensures text and image are vertically balanced */
         }
 
         /* RTL (Arabic): Align Text and Image to the RIGHT edge of the screen */
@@ -66,11 +65,10 @@
         .loader-welcome-text {
             font-size: 19px;
             font-weight: 800;
-            color: #2E5822;
-            margin-bottom: 2px;
+            color: #000000;
+            margin-bottom: 5px; /* Spacing between text and image */
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
-            letter-spacing: -0.2px;
         }
 
         /* 50% Top / 50% Bottom relative to the vertical center line of the page */
@@ -78,7 +76,6 @@
             width: 140px; 
             height: auto;
             object-fit: contain;
-            margin-top: -10px; /* Adjusted to keep text above the mid-line effectively */
         }
 
         .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
@@ -222,7 +219,7 @@
     <div id="global-loader">
         <div class="loading-spinner"></div>
         <div class="loader-side-content">
-            <div id="loader-welcome" class="loader-welcome-text">مرحباً بك في Servio</div>
+            <div id="loader-welcome" class="loader-welcome-text">مرحباً بعودتك</div>
             <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
         </div>
     </div>
@@ -346,7 +343,7 @@
         const welcomeText = document.getElementById('loader-welcome');
 
         const userLang = localStorage.getItem('pref_lang') || 'ar';
-        welcomeText.innerText = userLang === 'en' ? "Welcome to Servio" : "مرحباً بك في Servio";
+        welcomeText.innerText = userLang === 'en' ? "Welcome Back" : "مرحباً بعودتك";
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
 
         onAuthStateChanged(auth, (user) => {
