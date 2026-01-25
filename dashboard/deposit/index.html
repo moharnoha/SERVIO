@@ -25,7 +25,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.19);
             backdrop-filter: blur(4px);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 99999;
@@ -38,7 +38,6 @@
             background-repeat: no-repeat;
         }
 
-        /* Modified for Expansion on Large Screens */
         .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         
         .top-header { 
@@ -49,7 +48,6 @@
             direction: rtl !important;
         }
 
-        /* Container for inner header content to maintain alignment */
         .header-content {
             width: 100%;
             max-width: 480px;
@@ -59,7 +57,6 @@
             justify-content: space-between;
         }
 
-        /* Mobile specific constraint for grid only */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -70,7 +67,6 @@
             box-sizing: border-box;
         }
 
-        /* Desktop expansion rules for Header */
         @media (min-width: 481px) {
             .header-content {
                 max-width: 100%;
@@ -97,7 +93,6 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        /* Default (Arabic/RTL) Card Styles */
         .service-card {
             background-color: var(--card-white);
             border-radius: 12px; 
@@ -112,7 +107,6 @@
 
         .service-card:active { transform: scale(0.97); }
 
-        /* Positioning for RTL (Default) */
         .card-icon {
             position: absolute;
             top: 10px;
@@ -162,7 +156,6 @@
             font-family: 'Cairo', sans-serif;
         }
 
-        /* LTR Overrides for Grid Content ONLY */
         html[dir="ltr"] .services-grid { direction: ltr; }
         html[dir="ltr"] .section-header { text-align: left; }
         html[dir="ltr"] .service-title { text-align: left; }
@@ -305,47 +298,31 @@
                 flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             }
 
-            // Update Section Headers text based on language
             document.querySelectorAll('.section-header').forEach(header => {
                 header.innerText = header.getAttribute(`data-${lang}`);
             });
 
-            // Change Direction of the document (Headers/Cards) but Keep Top-Header RTL via CSS
             document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
-            
-            // Hide initial loader
-            document.getElementById('global-loading').style.display = 'none';
         }
-        
-        // Logic for Global Loading on Click
+
+        // Global Loading Logic
         document.addEventListener('click', function(e) {
             const target = e.target.closest('a, button');
             if (target) {
-                if (target.tagName === 'A') {
-                    e.preventDefault();
-                    const url = target.getAttribute('href');
-                    showGlobalLoading(() => {
-                        if (url && url !== '#') window.location.href = url;
-                    });
-                } else {
-                    showGlobalLoading();
-                }
+                const loader = document.getElementById('global-loading');
+                loader.style.display = 'flex';
+                // Fallback to hide loader if navigation fails or is slow
+                setTimeout(() => { loader.style.display = 'none'; }, 2000);
             }
         });
 
-        function showGlobalLoading(callback) {
+        // Ensure loader is hidden when navigating back
+        window.addEventListener('pageshow', (event) => {
             const loader = document.getElementById('global-loading');
-            loader.style.display = 'flex';
-            setTimeout(() => {
-                if (callback) {
-                    callback();
-                } else {
-                    loader.style.display = 'none';
-                }
-            }, 800); 
-        }
+            if (loader) loader.style.display = 'none';
+        });
 
         window.addEventListener('load', updateUI);
     </script>
 </body>
-</html>
+</html>```
