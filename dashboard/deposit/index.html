@@ -19,16 +19,18 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Resetting for absolute centering */
+        /* Loading Overlay Style - Center 2/2 and Right Alignment */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff;
             z-index: 99999;
-            display: block; /* Using block with absolute children for precise math */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Spinner: Dead center of the screen 2/2 */
+        /* Spinner: Fixed at exactly 50/50 */
         .loading-spinner {
             width: 32px;
             height: 32px;
@@ -41,21 +43,28 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Content Container: Positioned in the middle vertically, strictly on the LEFT */
+        /* Side content container in the right half only, centered vertically */
         .loader-side-content {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 45%;
             display: flex;
             flex-direction: column;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
         }
 
-        /* Fixed to the LEFT side of the screen regardless of language */
-        html[dir] .loader-side-content {
-            left: 20px;
-            right: auto;
-            align-items: flex-end; /* Text aligned towards the spinner */
+        /* Alignment for Arabic (Center-Right) */
+        html[dir="rtl"] .loader-side-content {
+            right: 15%; /* Moves it to the right half area */
+            align-items: center; /* Centers text with image */
+            text-align: center;
+        }
+
+        /* Alignment for English (Center-Left) */
+        html[dir="ltr"] .loader-side-content {
+            left: 15%;
+            align-items: center;
+            text-align: center;
         }
 
         .loader-welcome-text {
@@ -65,7 +74,6 @@
             margin-bottom: 8px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
-            text-align: right;
         }
 
         .loader-image {
@@ -214,6 +222,7 @@
 
     <div id="global-loader">
         <div class="loading-spinner"></div>
+        
         <div class="loader-side-content">
             <div id="loader-welcome" class="loader-welcome-text">مرحبا بك في serviocmm</div>
             <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
