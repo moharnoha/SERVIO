@@ -219,10 +219,9 @@
             margin-right: 8px;
             padding: 2px 6px;
             border-radius: 4px;
+            color: #000000 !important;
+            background: #f1f5f9 !important;
         }
-        .status-inline.pending { color: #f59e0b; background: #fffbeb; }
-        .status-inline.completed { color: #10b981; background: #ecfdf5; }
-        .status-inline.rejected { color: #ef4444; background: #fef2f2; }
 
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         .status-badge { display: none; }
@@ -358,9 +357,9 @@
         .detail-row:last-child { border-bottom: none; }
         .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
         .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
-        .detail-value.is-active { color: #f59e0b; background: #fffbeb; padding: 2px 8px; border-radius: 6px; border: 1px solid #fef3c7; }
-        .detail-value.is-activated { color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 6px; border: 1px solid #a7f3d0; }
-        .detail-value.is-rejected { color: #dc2626; background: #fef2f2; padding: 2px 8px; border-radius: 6px; border: 1px solid #fee2e2; }
+        .detail-value.is-active { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .detail-value.is-activated { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .detail-value.is-rejected { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
@@ -417,7 +416,7 @@
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 4-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
@@ -594,11 +593,11 @@
                     
                     let statusLabel = "";
                     if (status === 'active') {
-                        statusLabel = `<span class="status-inline pending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                     } else if (status === 'activated') {
-                        statusLabel = `<span class="status-inline completed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
                     } else if (status === 'rejected') {
-                        statusLabel = `<span class="status-inline rejected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                     }
 
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -668,11 +667,11 @@
                 
                 let statusLabel = "";
                 if (status === 'active') {
-                    statusLabel = `<span class="status-inline pending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                 } else if (status === 'activated') {
-                    statusLabel = `<span class="status-inline completed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
                 } else if (status === 'rejected') {
-                    statusLabel = `<span class="status-inline rejected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                 }
 
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
