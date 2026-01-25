@@ -19,7 +19,12 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Global Click Loading Overlay */
+        /* Auth Check Styling */
+        #auth-gate {
+            display: none;
+        }
+
+        /* Loading Overlay Styling */
         #global-loading {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -169,7 +174,7 @@
         <div class="ios-loader"></div>
     </div>
 
-    <div class="main-container">
+    <div class="main-container" id="auth-gate">
 
         <div class="top-header">
             <div class="header-content">
@@ -265,6 +270,48 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('auth-gate').style.display = 'flex';
+            } else {
+                window.location.href = "../";
+            }
+        });
+
+        // Click Loading Logic
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a, .service-card');
+            if (target) {
+                const href = target.getAttribute('href');
+                if (href && !href.startsWith('#')) {
+                    e.preventDefault();
+                    document.getElementById('global-loading').style.display = 'flex';
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 600);
+                }
+            }
+        });
+
+        // Handle page visibility for back-button cases
+        window.addEventListener('pageshow', (event) => {
+            document.getElementById('global-loading').style.display = 'none';
+        });
+    </script>
+
     <script>
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
@@ -304,25 +351,7 @@
 
             document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
         }
-
-        // Global Loading Logic
-        document.addEventListener('click', function(e) {
-            const target = e.target.closest('a, button');
-            if (target) {
-                const loader = document.getElementById('global-loading');
-                loader.style.display = 'flex';
-                // Fallback to hide loader if navigation fails or is slow
-                setTimeout(() => { loader.style.display = 'none'; }, 2000);
-            }
-        });
-
-        // Ensure loader is hidden when navigating back
-        window.addEventListener('pageshow', (event) => {
-            const loader = document.getElementById('global-loading');
-            if (loader) loader.style.display = 'none';
-        });
-
         window.addEventListener('load', updateUI);
     </script>
 </body>
-</html>```
+</html>
