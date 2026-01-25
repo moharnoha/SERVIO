@@ -50,14 +50,14 @@
         }
 
         .loading-spinner {
-            display: none; /* تم إزالة ايقونة التحميل بناءً على الطلب */
+            display: none; /* إزالة أيقونة التحميل */
         }
 
         .loader-side-content {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 45%;
+            width: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -69,16 +69,16 @@
             font-size: 19px;
             font-weight: 800;
             color: #000000;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
         }
 
-        /* Header 3: تحديث حجم الصور بنسبة 70% */
         .loader-image {
-            width: 170px; /* تم التحديث بناءً على طلب التكبير بنسبة 70% وتغيير الرابط */
+            width: 238px; /* تكبير الصورة بنسبة 70% إضافية من 140px */
             height: auto;
             object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
         }
 
         #nav-loader {
@@ -421,7 +421,7 @@
         <div class="loading-spinner"></div>
         <div class="loader-side-content">
             <div id="loader-welcome" class="loader-welcome-text">مرحباً بك في</div>
-            <img src="https://i.postimg.cc/G2Xfyqxt/servio.png" class="loader-image" alt="Servio">
+            <img src="https://i.postimg.cc/jSSNZTNh/servio.png" class="loader-image" alt="Servio">
         </div>
     </div>
     
