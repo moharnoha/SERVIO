@@ -47,37 +47,26 @@
             background: #ffffff;
             z-index: 99999;
             display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .loading-spinner {
-            width: 32px;
-            height: 32px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            display: none;
         }
 
         .loader-side-content {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 45%;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
-
-        html[dir="rtl"] .loader-side-content { right: 20px; align-items: flex-start; }
-        html[dir="ltr"] .loader-side-content { left: 20px; align-items: flex-end; }
 
         .loader-welcome-text {
             font-size: 19px;
             font-weight: 800;
             color: #000000;
-            margin-bottom: 5px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
         }
@@ -165,7 +154,8 @@
         }
 
         .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; padding-right: 0px; }
         
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
@@ -425,10 +415,9 @@
 <body class="notranslate">
 
     <div id="global-loader">
-        <div class="loading-spinner"></div>
         <div class="loader-side-content">
-            <div id="loader-welcome" class="loader-welcome-text">مرحباً بعودتك</div>
-            <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
+            <div id="loader-welcome" class="loader-welcome-text">مرحباً بك في</div>
+            <img src="https://i.postimg.cc/G2Xfyqxt/servio.png" class="loader-image" alt="Servio">
         </div>
     </div>
     
@@ -466,7 +455,7 @@
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4-4-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="user">
                         </div>
                     </div>
                     <div class="balance-stack">
@@ -750,7 +739,7 @@
         const welcomeText = document.getElementById('loader-welcome');
 
         const userLang = localStorage.getItem('pref_lang') || 'ar';
-        welcomeText.innerText = userLang === 'en' ? "Welcome Back" : "مرحباً بعودتك";
+        welcomeText.innerText = userLang === 'en' ? "Welcome to" : "مرحباً بك في";
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
 
         onAuthStateChanged(auth, (user) => {
