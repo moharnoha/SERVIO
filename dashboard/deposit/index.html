@@ -64,12 +64,13 @@
         }
 
         .loader-welcome-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #000000;
-            margin-bottom: 8px;
+            font-size: 19px;
+            font-weight: 800;
+            color: #2E5822;
+            margin-bottom: 2px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
         /* 50% Top / 50% Bottom relative to the vertical center line of the page */
@@ -77,7 +78,7 @@
             width: 140px; 
             height: auto;
             object-fit: contain;
-            margin-top: -35px; /* Offset upward to split image across the vertical center */
+            margin-top: -10px; /* Adjusted to keep text above the mid-line effectively */
         }
 
         .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
@@ -221,7 +222,7 @@
     <div id="global-loader">
         <div class="loading-spinner"></div>
         <div class="loader-side-content">
-            <div id="loader-welcome" class="loader-welcome-text">مرحبا بك في serviocmm</div>
+            <div id="loader-welcome" class="loader-welcome-text">مرحباً بك في Servio</div>
             <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
         </div>
     </div>
@@ -345,7 +346,7 @@
         const welcomeText = document.getElementById('loader-welcome');
 
         const userLang = localStorage.getItem('pref_lang') || 'ar';
-        welcomeText.innerText = userLang === 'en' ? "Welcome to serviocmm" : "مرحبا بك في serviocmm";
+        welcomeText.innerText = userLang === 'en' ? "Welcome to Servio" : "مرحباً بك في Servio";
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
 
         onAuthStateChanged(auth, (user) => {
