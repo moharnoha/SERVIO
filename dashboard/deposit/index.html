@@ -35,48 +35,52 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 480px;
+            height: 100%;
             position: relative;
         }
 
-        /* The central spinner stays fixed in the middle of the screen */
+        /* Spinner exactly in the middle 2/2 */
         .loading-spinner {
             width: 32px;
             height: 32px;
             background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
             background-size: contain;
             background-repeat: no-repeat;
-            flex-shrink: 0;
-            margin: 0 15px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        /* Container for Image and Welcome Text */
+        /* Side content container in the right half only */
         .loader-side-content {
+            position: absolute;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40%;
         }
 
-        /* AR: Image and Text on the RIGHT of the spinner */
+        /* Alignment for Arabic (Right side of screen) */
         html[dir="rtl"] .loader-side-content {
+            right: 15px; /* Stick to the right edge */
+            left: auto;
             align-items: flex-start;
         }
 
-        /* EN: Image and Text on the LEFT of the spinner */
+        /* Alignment for English (Left side of screen) */
         html[dir="ltr"] .loader-side-content {
+            left: 15px; /* Stick to the left edge */
+            right: auto;
             align-items: flex-end;
         }
-
-        /* Invert order for LTR so spinner is always "between" edges and content if needed, 
-           but here we keep layout flow: [Text/Img] [Spinner] in RTL */
-        html[dir="rtl"] .loader-layout-wrapper { flex-direction: row-reverse; }
-        html[dir="ltr"] .loader-layout-wrapper { flex-direction: row; }
 
         .loader-welcome-text {
             font-size: 18px;
             font-weight: 700;
             color: #000000;
-            margin-bottom: 2px;
+            margin-bottom: 8px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
         }
@@ -227,11 +231,12 @@
 
     <div id="global-loader">
         <div class="loader-layout-wrapper">
+            <div class="loading-spinner"></div>
+            
             <div class="loader-side-content">
                 <div id="loader-welcome" class="loader-welcome-text">مرحبا بك في serviocmm</div>
                 <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
             </div>
-            <div class="loading-spinner"></div>
         </div>
     </div>
     
