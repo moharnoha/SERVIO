@@ -199,20 +199,16 @@
             overflow: hidden;
         }
         
-        /* Verification Overlay System */
-        .verifying-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
+        .status-inline {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            z-index: 10;
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--header-green);
-            gap: 8px;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 5px;
         }
+        .status-inline.pending { color: #f59e0b; }
+        .status-inline.completed { color: #10b981; }
 
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         .status-badge { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
@@ -517,7 +513,7 @@
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             const statusLow = status.toLowerCase();
             const statusStyle = statusLow === 'activated' ? 'is-activated' : (statusLow === 'active' ? 'is-active' : '');
-            const statusDisplay = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+            const statusDisplay = statusLow === 'activated' ? (isAr ? 'مُكتمل' : 'Completed') : status;
 
             let html = `
                 <div style="text-align:center; margin-bottom:20px;">
@@ -543,66 +539,6 @@
             
             document.getElementById('detail-content').innerHTML = html;
             document.getElementById('detail-modal').style.display = 'flex';
-        };
-
-        window.closeDetail = () => {
-            document.getElementById('detail-modal').style.display = 'none';
-        };
-
-        window.showAllTransactions = () => {
-            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
-            
-            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'كافة خدمات SMM' : 'كافة الإيداعات') : (activeFilter === 'SMM Services' ? 'All SMM Services' : 'All Deposits');
-            document.getElementById('modal-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
-
-            if (data.length === 0) {
-                document.getElementById('modal-content').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9 11h6"></path>
-                                <path d="M9 15h6"></path>
-                                <path d="M14 7l-2-2-2 2"></path>
-                                <circle cx="17" cy="17" r="3"></circle>
-                                <line x1="19" y1="19" x2="21" y2="21"></line>
-                            </svg>
-                        </div>
-                        <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
-                    </div>`;
-            } else {
-                let html = '<div class="trans-list">';
-                data.forEach(t => {
-                    const isDep = activeFilter === 'deposits';
-                    const status = t.status || 'active';
-                    const statusLow = status.toLowerCase();
-                    const isVerifying = statusLow === 'active';
-                    const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
-                    const statusDisplayClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
-
-                    const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
-                    const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                    const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
-                    const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
-
-                    html += `
-                        <div class="trans-item" style="margin-bottom:10px" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
-                            ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
-                            <div style="display:flex; flex-direction:column">
-                                <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
-                                <div class="trans-date-container">
-                                    <span class="status-badge ${statusDisplayClass}">${displayStatus}</span>
-                                    <span class="trans-date">${dateStr}</span>
-                                </div>
-                            </div>
-                            <span class="trans-val">${amountLabel}</span>
-                        </div>`;
-                });
-                html += '</div>';
-                document.getElementById('modal-content').innerHTML = html;
-            }
-            document.getElementById('trans-modal').style.display = 'flex';
         };
 
         window.closeModal = () => {
@@ -646,7 +582,7 @@
                 const status = t.status || 'active';
                 const statusLow = status.toLowerCase();
                 const isVerifying = statusLow === 'active';
-                const displayStatus = statusLow === 'activated' ? (isAr ? 'تمت' : 'Completed') : status;
+                const displayStatus = statusLow === 'activated' ? (isAr ? 'مُكتمل' : 'Completed') : status;
                 const statusDisplayClass = statusLow === 'activated' ? 'activated' : (statusLow === 'active' ? 'active' : '');
 
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -655,11 +591,18 @@
                 const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'تم شراء خدمة رقمية' : 'Digital Service Purchased');
                 const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
+                // Inline status indicator for the header
+                let inlineStatus = "";
+                if (statusLow === 'active') {
+                    inlineStatus = `<span class="status-inline pending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتضار' : 'Pending'}</span>`;
+                } else if (statusLow === 'activated') {
+                    inlineStatus = `<span class="status-inline completed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مُكتمل' : 'Completed'}</span>`;
+                }
+
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
-                        ${isVerifying ? `<div class="verifying-overlay"><svg class="loader-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> <span>${isAr ? 'جارى التحقق' : 'Verifying'}</span></div>` : ''}
                         <div style="display:flex; flex-direction:column">
-                            <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
+                            <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle} ${inlineStatus}</span>
                             <div class="trans-date-container">
                                 <span class="status-badge ${statusDisplayClass}">${displayStatus}</span>
                                 <span class="trans-date">${dateStr}</span>
