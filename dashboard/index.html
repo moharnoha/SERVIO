@@ -41,7 +41,7 @@
         }
         
         * { 
-            transition: none !important; 
+            transition: all 0.3s ease !important; 
             animation: none !important; 
             -webkit-tap-highlight-color: transparent; 
             box-sizing: border-box;
@@ -160,7 +160,7 @@
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
-            background: #ffffff; 
+            background: transparent; 
             margin-top: 10px;
             flex: none;
             overflow: visible; 
@@ -170,10 +170,14 @@
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            height: auto;
+            height: 480px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-soft);
+            margin: 0 15px 30px 15px;
+            border: 1px solid #f1f5f9;
         }
         
-        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; }
         .filter-btn {
             padding: 8px 16px; border-radius: 10px; border: 1px solid #edf2ed; background: #f9fbf9; 
             color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
@@ -186,11 +190,10 @@
             gap: 12px; 
             margin-top: 5px;
             overflow-y: auto;
-            max-height: 400px;
-            padding-bottom: 15px;
+            flex: 1;
+            padding-right: 2px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            scroll-behavior: smooth;
         }
         .trans-list::-webkit-scrollbar { display: none; }
 
@@ -200,9 +203,10 @@
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
         
         /* Verification Status Elements */
@@ -220,7 +224,7 @@
         .status-inline.completed { color: #10b981; background: #ecfdf5; }
 
         .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-        .status-badge { display: none; } /* Hidden as per new requirement */
+        .status-badge { display: none; }
         .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; display: block; }
         .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
@@ -232,6 +236,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex: 1;
         }
         .empty-state-icon {
             width: 90px; height: 90px;
@@ -269,8 +274,8 @@
             background: #ffffff; 
             width: 100%; 
             max-width: 500px; 
-            height: 70%;
-            border-radius: 24px 24px 0 0; 
+            height: 85%;
+            border-radius: 32px 32px 0 0; 
             padding: 0;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
             position: relative; 
@@ -316,6 +321,7 @@
             text-align: center; 
             background: #fff;
             border-top: 1px solid #f1f5f9;
+            flex-shrink: 0;
         }
         .modal-close-btn {
             background: #f1f5f9; 
@@ -358,11 +364,14 @@
         
         .view-more-link {
             color: var(--header-green);
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
         }
+        .view-more-link:active { background: #f1f5f9; }
 
         @keyframes spin { 
             0% { transform: rotate(0deg); } 
@@ -442,7 +451,7 @@
 
         <div class="transactions-header">
             <div class="transactions-content">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; flex-shrink:0;">
                     <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
                     <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
                 </div>
@@ -497,7 +506,7 @@
         let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
-        const DISPLAY_LIMIT = 5;
+        const DISPLAY_LIMIT = 20;
 
         // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
@@ -575,7 +584,7 @@
                         <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
                     </div>`;
             } else {
-                let html = '<div class="trans-list">';
+                let html = '<div class="trans-list" style="overflow-y: visible;">';
                 data.forEach(t => {
                     const isDep = activeFilter === 'deposits';
                     const status = (t.status || 'active').toLowerCase();
