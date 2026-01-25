@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="notranslate" translate="no" style="visibility: hidden;"> 
+<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -19,18 +19,18 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Global Click Loading Overlay */
-        #global-loading {
+        /* Loading Overlay Style */
+        #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.19);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
         }
-        .ios-loader {
+        .loading-spinner {
             width: 40px;
             height: 40px;
             background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
@@ -38,7 +38,7 @@
             background-repeat: no-repeat;
         }
 
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
         
         .top-header { 
             height: 70px; background-color: var(--header-green); 
@@ -165,11 +165,11 @@
 </head>
 <body class="notranslate" translate="no">
 
-    <div id="global-loading">
-        <div class="ios-loader"></div>
+    <div id="global-loader">
+        <div class="loading-spinner"></div>
     </div>
 
-    <div class="main-container">
+    <div class="main-container" id="page-content">
 
         <div class="top-header">
             <div class="header-content">
@@ -278,27 +278,36 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const loader = document.getElementById('global-loading');
+        const loader = document.getElementById('global-loader');
+        const content = document.getElementById('page-content');
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.documentElement.style.visibility = "visible";
-                loader.style.display = "none";
+                loader.style.display = 'none';
+                content.style.display = 'flex';
+                updateUI();
             } else {
-                window.location.href = "../";
+                window.location.href = "../"; 
             }
         });
 
-        window.addEventListener('pageshow', (event) => {
+        // Hide loader on back-forward cache (navigation)
+        window.onpageshow = function(event) {
             if (event.persisted) {
-                loader.style.display = "none";
+                loader.style.display = 'none';
             }
-        });
+        };
 
-        document.addEventListener('click', (e) => {
+        // Loading for clicks
+        document.addEventListener('click', function(e) {
             const link = e.target.closest('a');
-            if (link && link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
-                loader.style.display = "flex";
+            if (link && link.getAttribute('href')) {
+                e.preventDefault();
+                const url = link.getAttribute('href');
+                loader.style.display = 'flex';
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 500);
             }
         });
     </script>
@@ -342,7 +351,6 @@
 
             document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
         }
-        window.addEventListener('load', updateUI);
     </script>
 </body>
 </html>
