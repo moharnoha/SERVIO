@@ -19,7 +19,7 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Optimized for precise alignment */
+        /* Loading Overlay Style - Precise Middle Alignment */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -35,7 +35,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 100%;
+            max-width: 480px;
             position: relative;
         }
 
@@ -46,38 +46,38 @@
             background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
             background-size: contain;
             background-repeat: no-repeat;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            flex-shrink: 0;
+            margin: 0 15px;
         }
 
         /* Container for Image and Welcome Text */
         .loader-side-content {
-            position: absolute;
             display: flex;
             flex-direction: column;
-            width: 45%; /* Limits content to half screen area */
+            justify-content: center;
         }
 
         /* AR: Image and Text on the RIGHT of the spinner */
         html[dir="rtl"] .loader-side-content {
-            left: calc(50% + 35px);
-            align-items: flex-start; /* Aligns text and image to the edge of the screen */
+            align-items: flex-start;
         }
 
         /* EN: Image and Text on the LEFT of the spinner */
         html[dir="ltr"] .loader-side-content {
-            right: calc(50% + 35px);
-            align-items: flex-end; /* Aligns text and image to the edge of the screen */
+            align-items: flex-end;
         }
+
+        /* Invert order for LTR so spinner is always "between" edges and content if needed, 
+           but here we keep layout flow: [Text/Img] [Spinner] in RTL */
+        html[dir="rtl"] .loader-layout-wrapper { flex-direction: row-reverse; }
+        html[dir="ltr"] .loader-layout-wrapper { flex-direction: row; }
 
         .loader-welcome-text {
             font-size: 18px;
             font-weight: 700;
             color: #000000;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             font-family: 'Cairo', sans-serif;
-            line-height: 1.2;
             white-space: nowrap;
         }
 
@@ -227,12 +227,11 @@
 
     <div id="global-loader">
         <div class="loader-layout-wrapper">
-            <div class="loading-spinner"></div>
-            
             <div class="loader-side-content">
                 <div id="loader-welcome" class="loader-welcome-text">مرحبا بك في serviocmm</div>
                 <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
             </div>
+            <div class="loading-spinner"></div>
         </div>
     </div>
     
