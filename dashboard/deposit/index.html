@@ -19,18 +19,15 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Center 2/2 and Right Alignment */
+        /* Loading Overlay Style - Absolute 50/50 Positioning */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff;
             z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* Spinner: Fixed at exactly 50/50 */
+        /* Spinner: Fixed at exactly 50% vertical and 50% horizontal */
         .loading-spinner {
             width: 32px;
             height: 32px;
@@ -43,28 +40,27 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Side content container in the right half only, centered vertically */
+        /* Content Container: Adjusted to center the image itself on the horizontal mid-line */
         .loader-side-content {
             position: absolute;
-            display: flex;
-            flex-direction: column;
             top: 50%;
             transform: translateY(-50%);
-            width: auto;
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Ensures text and image are vertically balanced */
         }
 
-        /* Alignment for Arabic (Center-Right) */
+        /* RTL (Arabic): Align Text and Image to the RIGHT edge of the screen */
         html[dir="rtl"] .loader-side-content {
-            right: 15%; /* Moves it to the right half area */
-            align-items: center; /* Centers text with image */
-            text-align: center;
+            right: 20px;
+            align-items: flex-start;
         }
 
-        /* Alignment for English (Center-Left) */
+        /* LTR (English): Align Text and Image to the LEFT edge of the screen */
         html[dir="ltr"] .loader-side-content {
-            left: 15%;
-            align-items: center;
-            text-align: center;
+            left: 20px;
+            align-items: flex-end;
         }
 
         .loader-welcome-text {
@@ -76,10 +72,12 @@
             white-space: nowrap;
         }
 
+        /* 50% Top / 50% Bottom relative to the vertical center line of the page */
         .loader-image {
             width: 140px; 
             height: auto;
             object-fit: contain;
+            margin-top: -35px; /* Offset upward to split image across the vertical center */
         }
 
         .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
@@ -222,7 +220,6 @@
 
     <div id="global-loader">
         <div class="loading-spinner"></div>
-        
         <div class="loader-side-content">
             <div id="loader-welcome" class="loader-welcome-text">مرحبا بك في serviocmm</div>
             <img src="https://i.postimg.cc/50KnmYd1/servio.png" class="loader-image" alt="Servio">
