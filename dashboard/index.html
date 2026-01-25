@@ -47,8 +47,6 @@
             background: #ffffff;
             z-index: 99999;
             display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .loading-spinner {
@@ -56,23 +54,28 @@
         }
 
         .loader-side-content {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
         }
+
+        html[dir="rtl"] .loader-side-content { right: 20px; align-items: flex-start; }
+        html[dir="ltr"] .loader-side-content { left: 20px; align-items: flex-end; }
 
         .loader-welcome-text {
             font-size: 19px;
             font-weight: 800;
             color: #000000;
+            margin-bottom: 5px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
         }
 
         .loader-image {
-            width: 140px; 
+            width: 170px; 
             height: auto;
             object-fit: contain;
         }
@@ -154,8 +157,7 @@
         }
 
         .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
-        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; padding-right: 0px; }
         
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; gap: 0px; width: 100%; }
@@ -415,6 +417,7 @@
 <body class="notranslate">
 
     <div id="global-loader">
+        <div class="loading-spinner"></div>
         <div class="loader-side-content">
             <div id="loader-welcome" class="loader-welcome-text">مرحباً بك في</div>
             <img src="https://i.postimg.cc/G2Xfyqxt/servio.png" class="loader-image" alt="Servio">
@@ -455,7 +458,7 @@
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="user">
+                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4-4-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
