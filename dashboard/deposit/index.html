@@ -19,15 +19,16 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Absolute 50/50 Positioning */
+        /* Loading Overlay Style - Resetting for absolute centering */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff;
             z-index: 99999;
+            display: block; /* Using block with absolute children for precise math */
         }
 
-        /* Spinner: Fixed at exactly 50% vertical and 50% horizontal */
+        /* Spinner: Dead center of the screen 2/2 */
         .loading-spinner {
             width: 32px;
             height: 32px;
@@ -40,7 +41,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Content Container: Positioned in the middle vertically, and offset to the right edge */
+        /* Content Container: Positioned in the middle vertically, strictly on the LEFT */
         .loader-side-content {
             position: absolute;
             top: 50%;
@@ -50,16 +51,11 @@
             flex-direction: column;
         }
 
-        /* RTL (Arabic): Align Text and Image to the RIGHT edge of the screen */
-        html[dir="rtl"] .loader-side-content {
-            right: 20px;
-            align-items: flex-start;
-        }
-
-        /* LTR (English): Align Text and Image to the LEFT edge of the screen */
-        html[dir="ltr"] .loader-side-content {
+        /* Fixed to the LEFT side of the screen regardless of language */
+        html[dir] .loader-side-content {
             left: 20px;
-            align-items: flex-end;
+            right: auto;
+            align-items: flex-end; /* Text aligned towards the spinner */
         }
 
         .loader-welcome-text {
@@ -69,6 +65,7 @@
             margin-bottom: 8px;
             font-family: 'Cairo', sans-serif;
             white-space: nowrap;
+            text-align: right;
         }
 
         .loader-image {
