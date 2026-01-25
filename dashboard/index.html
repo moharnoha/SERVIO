@@ -40,6 +40,25 @@
             align-items: center; 
         }
         
+        /* Global Click Loading Overlay */
+        #global-loading {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+        .ios-loader {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
         * { 
             transition: all 0.3s ease !important; 
             animation: none !important; 
@@ -47,7 +66,6 @@
             box-sizing: border-box;
         }
 
-        /* Top Header - ALWAYS STICKY & EXPANDED ON DESKTOP */
         .top-header { 
             min-height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -70,7 +88,6 @@
             direction: rtl !important;
         }
 
-        /* Desktop Expansion Rules */
         @media (min-width: 481px) {
             .top-header {
                 height: 70px;
@@ -90,7 +107,6 @@
         .region-badge { display: flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
         .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; }
 
-        /* Wallet Header - NOT STICKY */
         .bottom-header {
             background-color: var(--sub-green);
             width: 100%; display: flex; justify-content: center;
@@ -209,7 +225,6 @@
             flex-shrink: 0;
         }
         
-        /* Verification Status Elements */
         .status-inline {
             display: inline-flex;
             align-items: center;
@@ -257,7 +272,6 @@
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
 
-        /* Full Screen Transaction List Overlay */
         .modal-overlay {
             position: fixed; 
             top: 0; 
@@ -281,7 +295,6 @@
             display: flex;
             flex-direction: column;
         }
-        /* Updated Professional Modal Header */
         .modal-header-accent {
             padding: 12px 18px; 
             background-color: var(--brand-green);
@@ -310,7 +323,6 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-        /* Pro Back/Close Button */
         .modal-close-icon {
             cursor: pointer;
             width: 32px;
@@ -326,7 +338,6 @@
             background: rgba(255,255,255,0.25);
         }
 
-        /* Detail Modal (Floating Center) */
         .detail-modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
@@ -373,6 +384,10 @@
 </head>
 <body class="notranslate">
 
+    <div id="global-loading">
+        <div class="ios-loader"></div>
+    </div>
+
     <div class="page-wrapper">
         <div class="top-header">
             <div class="header-content">
@@ -403,7 +418,7 @@
                             </div>
                         </div>
                         <div class="avatar-box">
-                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <svg style="width:22px; height:22px; fill:#ffffff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4-4-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         </div>
                     </div>
                     <div class="balance-stack">
@@ -417,15 +432,15 @@
         <div class="new-header-container">
             <div class="new-header-content">
                 <div class="shortcuts-scroll-wrapper">
-                    <a href="smm-services/" class="shortcut-item">
+                    <a href="smm-services/" class="shortcut-item simulate-link">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg></div>
                         <span class="shortcut-label" id="txt-smm"></span>
                     </a>
-                    <a href="deposit/" class="shortcut-item">
+                    <a href="deposit/" class="shortcut-item simulate-link">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg></div>
                         <span class="shortcut-label" id="txt-deposit"></span>
                     </a>
-                    <a href="menu/" class="shortcut-item">
+                    <a href="menu/" class="shortcut-item simulate-link">
                         <div class="icon-box"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></div>
                         <span class="shortcut-label" id="txt-menu"></span>
                     </a>
@@ -735,6 +750,32 @@
                 window.renderUserData(); 
             } catch (e) { console.error(e); }
         };
+
+        // Logic for Global Loading on Click
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a, button, .shortcut-item, .trans-item, .view-more-link');
+            if (target && !target.classList.contains('toggle-visibility')) {
+                // If it's a link, prevent immediate navigation
+                if (target.tagName === 'A' || target.classList.contains('simulate-link')) {
+                    e.preventDefault();
+                    const url = target.getAttribute('href');
+                    showGlobalLoading(() => {
+                        if (url) window.location.href = url;
+                    });
+                } else if (target.hasAttribute('onclick') || target.tagName === 'BUTTON' || target.classList.contains('trans-item')) {
+                    // Logic for internal actions already handled or requiring visual feedback
+                }
+            }
+        });
+
+        function showGlobalLoading(callback) {
+            const loader = document.getElementById('global-loading');
+            loader.style.display = 'flex';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                if (callback) callback();
+            }, 800); // Duration to show the "good system" loader
+        }
     </script>
 
     <script>
@@ -780,11 +821,9 @@
             document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
-            // Main page direction
             document.body.style.direction = isAr ? 'rtl' : 'ltr';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             
-            // Re-align user info based on direction
             const nameStack = document.querySelector('.name-stack');
             const welcomeRow = document.querySelector('.welcome-row');
             const emailRow = document.querySelector('.email-privacy-row');
