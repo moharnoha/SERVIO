@@ -19,7 +19,7 @@
 
         body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        /* Loading Overlay Style - Fixed Layout */
+        /* Loading Overlay Style - Final Center Adjustment */
         #global-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -36,37 +36,41 @@
             justify-content: center;
             position: relative;
             width: 100%;
+            height: 100%;
         }
 
-        /* Spinner stays exactly in the center */
+        /* Spinner stays perfectly in the middle of the screen */
         .loading-spinner {
             width: 32px;
             height: 32px;
             background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
             background-size: contain;
             background-repeat: no-repeat;
-            z-index: 2;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        /* Image and text container to the right (RTL) or left (LTR) */
+        /* Container for Image and Welcome Text positioned relative to the center */
         .loader-side-content {
             position: absolute;
             display: flex;
             flex-direction: column;
-            width: calc(50% - 30px); /* Half screen minus spinner offset */
+            width: 140px; /* Exact match to image width for alignment */
+            top: 50%;
+            transform: translateY(-50%);
         }
 
-        /* Position right side for RTL (Arabic) */
+        /* Arabic: Text and Image on the Right side of the spinner */
         html[dir="rtl"] .loader-side-content {
-            right: 0;
-            padding-right: 15px;
+            left: calc(50% + 40px); /* 40px offset from the center spinner */
             align-items: flex-start;
         }
 
-        /* Position left side for LTR (English) */
+        /* English: Text and Image on the Left side of the spinner */
         html[dir="ltr"] .loader-side-content {
-            left: 0;
-            padding-left: 15px;
+            right: calc(50% + 40px); /* 40px offset from the center spinner */
             align-items: flex-end;
         }
 
@@ -76,7 +80,7 @@
             color: #000000;
             margin-bottom: 5px;
             font-family: 'Cairo', sans-serif;
-            text-align: inherit;
+            white-space: nowrap;
         }
 
         .loader-image {
