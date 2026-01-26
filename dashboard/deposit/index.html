@@ -32,7 +32,7 @@
             transform: translate(-50%, -50%);
         }
 
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
         
         .top-header { 
             height: 70px; background-color: var(--header-green); 
@@ -289,11 +289,11 @@
         const userLang = localStorage.getItem('pref_lang') || 'ar';
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
 
-        // Update UI immediately for "light speed" feel
-        updateUI();
-
         onAuthStateChanged(auth, (user) => {
-            if (!user) {
+            if (user) {
+                updateUI();
+                content.style.display = 'flex';
+            } else {
                 window.location.href = "../"; 
             }
         });
