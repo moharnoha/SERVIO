@@ -4,36 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Servio - Order Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
-            --header-green: #2E5822; 
-            --bg-gray: #F2F2F2; 
-            --card-white: #ffffff;
-            --text-main: #000000;
-            --accent-green: #386E2C; 
+            --bg-light: #f8fbff; --border-gray: #E4ECE3; --text-dark: #1a202c;
+            --primary-blue: #2563eb; --accent: #000000; --success-green: #10b981;
+            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #2F5822;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: none; justify-content: center; }
+        .container-wrapper { width: 100%; display: flex; justify-content: center; }
         
-        /* Spinner: Fixed at exactly 50% vertical and 50% horizontal */
-        .loading-spinner {
-            width: 32px;
-            height: 32px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+        .main-container { 
+            width: 100%; 
+            max-width: 100%; 
+            min-height: 100vh; 
+            background-color: #f7fafc; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
 
-        .main-container { width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; }
-        
+        /* Header Styles */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
@@ -49,23 +44,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px;
-            padding: 15px;
-            width: 100%;
-            max-width: 480px;
-            box-sizing: border-box;
-        }
-
-        @media (min-width: 481px) {
-            .header-content {
-                max-width: 100%;
-                padding: 0 40px;
-            }
         }
 
         .brand-section { display: flex; align-items: center; flex-direction: row !important; }
@@ -87,235 +65,361 @@
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        .service-card {
-            background-color: var(--card-white);
-            border-radius: 12px; 
-            height: 85px; 
-            text-decoration: none;
-            position: relative; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            transition: 0.2s;
-            overflow: hidden;
-            display: block;
+        @media (min-width: 481px) {
+            .main-container { 
+                max-width: 100%; 
+                margin: 0; 
+                border-radius: 0; 
+                min-height: 100vh; 
+                box-shadow: none; 
+            }
+            .content-area {
+                width: 100%;
+                max-width: 460px; 
+                margin: 0 auto;
+            }
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
         }
 
-        .service-card:active { transform: scale(0.97); }
+        .content-area { padding: 16px 16px 0 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; width: 100%; box-sizing: border-box; }
+        .order-card { width: 100%; background: #ffffff; border-radius: 20px; border: 1px solid #E4ECE3; box-shadow: 0 10px 25px rgba(0,0,0,0.03); padding: 20px; box-sizing: border-box; }
+        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #E4ECE3; }
+        .order-icon-circle { width: 44px; height: 44px; background: #E4ECE3; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+        .order-icon-circle svg { width: 22px; height: 22px; fill: currentColor; }
+        .order-title { font-size: 16px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
 
-        .card-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 42px;
-            height: 42px;
+        .form-grid { display: flex; flex-direction: column; gap: 16px; }
+        .field .label { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block; }
+        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #E4ECE3; border-radius: 12px; padding: 0 12px; height: 48px; transition: all 0.3s ease; }
+        .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
+        .input-box svg { width: 18px; height: 18px; fill: #94a3b8; flex-shrink: 0; }
+        
+        [dir="rtl"] .input-box svg { margin-left: 10px; }
+        [dir="ltr"] .input-box svg { margin-right: 10px; }
+
+        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 13.5px; font-weight: 600; color: var(--text-dark); width: 100%; }
+        
+        .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: none; gap: 8px; }
+
+        #email { direction: ltr; text-align: left; }
+
+        .price-container { 
+            background: #E4ECE3; 
+            margin: 0 -20px; 
+            padding: 14px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-top: 1px solid #D1D9D0;
+            border-bottom: 1px solid #D1D9D0;
+            border-radius: 0; 
+        }
+        
+        .price-label { font-size: 13px; font-weight: 700; color: #475569; }
+        .price-value { font-size: 17px; font-weight: 800; color: #000000; font-family: 'Inter', monospace; }
+
+        #payBtn { width: 100%; height: 52px; border: none; border-radius: 12px; background: #2F5822; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-top: 8px; margin-bottom: 0; }
+        #payBtn:disabled { background: #2F5822; cursor: not-allowed; opacity: 1; }
+
+        .spinner { 
+            position: absolute; 
+            width: 20px; 
+            height: 20px; 
+            border: 2.5px solid rgba(255, 255, 255, 0.3); 
+            border-top-color: #fff; 
+            border-radius: 50%; 
+            display: none; 
+            right: 15px; 
+        }
+        .loading .spinner { display: inline-block; animation: spin 0.8s linear infinite; }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .status-icon-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
-            border-radius: 8px;
+            margin-bottom: 25px;
+            animation: scaleUp 0.5s ease-out;
         }
-        .card-icon img { width: 85%; height: 85%; object-fit: contain; }
-
-        .action-arrow {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            font-size: 11px;
-            color: var(--accent-green);
-            opacity: 0.7;
-        }
-
-        .service-title {
-            position: absolute;
-            bottom: 10px;
-            right: 12px;
-            left: 12px;
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--text-main);
-            margin: 0;
-            text-align: right;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .section-header {
-            grid-column: span 2;
-            font-size: 16px;
-            font-weight: 800;
-            color: #333;
-            margin: 15px 5px 5px 5px;
-            text-align: right;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        html[dir="ltr"] .services-grid { direction: ltr; }
-        html[dir="ltr"] .section-header { text-align: left; }
-        html[dir="ltr"] .service-title { text-align: left; }
-        html[dir="ltr"] .card-icon { right: auto; left: 10px; }
-        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        .status-icon-box.success { background-color: #e8f5e9; }
+        .status-icon-box.error { background-color: #ffebee; }
         
-        #nav-loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.19);
-            backdrop-filter: blur(4px);
-            display: none;
+        .status-icon-box i { font-size: 50px; }
+        .status-icon-box.success i { color: #2e7d32; }
+        .status-icon-box.error i { color: #c62828; }
+
+        .status-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 8px;
+            padding: 0 20px;
+        }
+        .status-sub {
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .toast-container { 
+            position: fixed; 
+            top: 25px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 10000; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            width: 85%; 
+            max-width: 360px; 
+            pointer-events: none; 
+        }
+        .toast { 
+            padding: 14px 18px; 
+            border-radius: 18px; 
+            background: rgba(255, 255, 255, 0.96); 
+            backdrop-filter: blur(10px);
+            color: #1a1a1a; 
+            font-size: 14px; 
+            font-weight: 700; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08), 0 5px 15px rgba(0,0,0,0.04);
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            animation: toastPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            pointer-events: auto; 
+            position: relative;
+        }
+        
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 99999;
+            flex-shrink: 0;
+            font-size: 14px;
         }
+
+        .toast.success .toast-icon { background: #ecfdf5; color: #10b981; }
+        .toast.error .toast-icon { background: #fef2f2; color: #ef4444; }
+        .toast.info .toast-icon { background: #eff6ff; color: #3b82f6; }
+
+        @keyframes toastPopIn { 
+            from { opacity: 0; transform: translateY(-30px) scale(0.9); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        @keyframes toastPopOut { 
+            to { opacity: 0; transform: translateY(-20px) scale(0.95); } 
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .search-btn.active { color: var(--primary-blue); transform: scale(1.1); }
     </style>
 </head>
 <body class="notranslate" translate="no">
-    
-    <div id="nav-loader">
-        <div class="loading-spinner"></div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div id="status-overlay">
+        <div class="status-icon-box" id="status-icon-bg">
+            <i class="fas" id="status-icon"></i>
+        </div>
+        <div class="status-title" id="status-title"></div>
+        <div class="status-sub" id="status-sub"></div>
     </div>
 
-    <div class="main-container" id="page-content">
-
-        <div class="top-header">
-            <div class="header-content">
-                <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                    <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
+    <div class="container-wrapper">
+        <div class="main-container">
+            <div class="top-header">
+                <div class="header-content">
+                    <div class="brand-section">
+                        <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                        <div class="v-line"></div>
+                        <div class="title-box">
+                            <span>مركز الخدمات الرقمية</span>
+                            <span>Digital Services Center</span>
+                        </div>
                     </div>
-                </div>
-                <div class="region-badge">
-                    <div id="flag-ui"></div>
-                    <div class="region-text">
-                        <span id="reg-name"></span>
-                        <span style="opacity:0.3">|</span>
-                        <span id="lang-name"></span>
+                    <div class="region-badge">
+                        <div id="flag-ui"></div>
+                        <div class="region-text">
+                            <span id="reg-name"></span>
+                            <span style="opacity:0.3">|</span>
+                            <span id="lang-name"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="services-grid">
-            <div class="section-header" data-ar="وسائل الدفع" data-en="Payment Methods">وسائل الدفع</div>
-            <a href="chpus/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Cash Plus</h3>
-            </a>
-            <a href="ormo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Orange Money Maroc</h3>
-            </a>
-            <a href="cihm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/y6SBz00y/IMG-2747.jpg" alt="cih mobile"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">cih mobile</h3>
-            </a>
-            <div class="section-header" data-ar="التحويلات الدولية" data-en="International Transfers">التحويلات الدولية</div>
-            <a href="weun/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/9Q0wbRH3/IMG-2738.jpg" alt="WU"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Western Union</h3>
-            </a>
-            <a href="tase/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/c4nLLRWn/IMG-2741.png" alt="Taptapsend"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Taptapsend</h3>
-            </a>
-            <a href="smwo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/NjPt8LB4/IMG-2743.jpg" alt="smallworldfs"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">smallworldfs</h3>
-            </a>
-            <a href="sewa/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/ZqVdx8Cv/IMG-2744.png" alt="Sendwave"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Sendwave</h3>
-            </a>
-            <a href="botm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/wBZsr6Qz/IMG-2745.png" alt="botim"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">botim</h3>
-            </a>
-            <a href="remy/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/GhWVbY3T/IMG-2746.jpg" alt="remitly"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">remitly</h3>
-            </a>
-            <div class="section-header" data-ar="الخدمات المصرفية" data-en="Banking Services">الخدمات المصرفية</div>
-            <a href="atmo/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/cJbmZmHS/IMG-2794.jpg" alt="Attijari Mobile"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Attijari Mobile</h3>
-            </a>
-            <div class="section-header" data-ar="المحافض الالكترونية" data-en="E-Wallets">المحافض الالكترونية</div>
-            <a href="bina/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/T2SLJ37F/IMG-2799.jpg" alt="Binance"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">Binance</h3>
-            </a>
-            <a href="skri/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/3xd3rJSd/IMG-2825.jpg" alt="skrill"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">skrill</h3>
-            </a>
-            <a href="rdpy/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/QMFPWF1B/IMG-2828.jpg" alt="redotpay"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">redotpay</h3>
-            </a>
+            <div class="content-area">
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
+                        <div class="order-title" data-i18n="order_details">تفاصيل الطلب</div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label class="label" data-i18n="link_label">الرابط</label>
+                            <div class="input-box">
+                                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
+                                <button class="search-btn" id="verifyLinkBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="field" onclick="goToCategory()" style="cursor:pointer">
+                            <label class="label" data-i18n="category_label">الفئة المختارة</label>
+                            <div class="input-box" style="justify-content: space-between; background: #fdfdfd;">
+                                <div style="display: flex; align-items: center;">
+                                    <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+                                    <span id="category" data-i18n="choose_service" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">اضغط لاختيار خدمة...</span>
+                                </div>
+                                <svg viewBox="0 0 24 24" style="width: 18px; fill: #94a3b8;"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
+                            <div class="input-box">
+                                <svg viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+                                <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
+                            </div>
+                            <div class="limit-hint" id="limitHintBox">
+                                <span id="min-hint"><span data-i18n="min">الأدنى:</span> --</span>
+                                <span id="max-hint"><span data-i18n="max">الأقصى:</span> --</span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" data-i18n="email_label">البريد الإلكتروني (Gmail)</label>
+                            <div class="input-box" style="background: transparent; cursor: default;">
+                                <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
+                                <input id="email" type="email" readonly style="background: transparent; cursor: default;">
+                            </div>
+                        </div>
+
+                        <div class="price-container">
+                            <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
+                            <span class="price-value" id="display-price">USD 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="payBtn">
+                    <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
+                    <div class="spinner"></div>
+                </button>
+            </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        const navLoader = document.getElementById('nav-loader');
-        const content = document.getElementById('page-content');
-
-        const userLang = localStorage.getItem('pref_lang') || 'ar';
-        document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                updateUI();
-                content.style.display = 'flex';
-            } else {
-                window.location.href = "../"; 
-            }
-        });
-
-        window.onpageshow = function(event) {
-            if (event.persisted) {
-                navLoader.style.display = 'none';
-            }
-        };
-
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && link.getAttribute('href')) {
-                e.preventDefault();
-                const url = link.getAttribute('href');
-                navLoader.style.display = 'flex';
-                window.location.href = url;
-            }
-        });
-    </script>
-
     <script>
+        const translations = {
+            ar: {
+                order_details: "تفاصيل الطلب",
+                link_label: "الرابط",
+                link_placeholder: "أدخل الرابط هنا",
+                category_label: "الفئة المختارة",
+                choose_service: "اضغط لاختيار خدمة...",
+                quantity_label: "الكمية المطلوبة",
+                quantity_placeholder: "أدخل الكمية",
+                min: "الأدنى:",
+                max: "الأقصى:",
+                email_label: "البريد الإلكتروني (Gmail)",
+                total_due: "إجمالي المستحق",
+                confirm_order: "تأكيد الطلب والدفع",
+                login_msg: "يرجى تسجيل الدخول للمتابعة",
+                link_err: "عذراً، يرجى تزويدنا بالرابط المطلوب",
+                service_err: "يرجى تحديد الخدمة المطلوبة أولاً",
+                qty_req: "يرجى إدخال الكمية المطلوبة",
+                min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
+                max_err: "الكمية تجاوزت الحد الأقصى المسموح به: ",
+                max_digits: "عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية",
+                success_msg: "تم تفعيل الطلب",
+                success_sub: "نشط الان …",
+                balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
+                balance_sub: "قم بتعبئة الحساب",
+                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
+                error_sub: "يرجى المحاولة لاحقاً",
+                mena: "الشرق الأوسط", 
+                egypt: "مصر", 
+                morocco: "المغرب",
+                saudi: "السعودية"
+            },
+            en: {
+                order_details: "Order Details",
+                link_label: "Link",
+                link_placeholder: "Enter link here",
+                category_label: "Selected Category",
+                choose_service: "Click to choose a service...",
+                quantity_label: "Requested Quantity",
+                quantity_placeholder: "Enter quantity",
+                min: "Min:",
+                max: "Max:",
+                email_label: "Email (Gmail)",
+                total_due: "Total Due",
+                confirm_order: "Confirm & Pay",
+                login_msg: "Please login to continue",
+                link_err: "Sorry, please provide the required link",
+                service_err: "Please select a service first",
+                qty_req: "Please enter the requested quantity",
+                min_err: "Quantity is lower than the minimum allowed: ",
+                max_err: "Quantity exceeded the maximum allowed: ",
+                max_digits: "Sorry, quantity cannot exceed 10 digits",
+                success_msg: "Order Activated",
+                success_sub: "Active now ...",
+                balance_err: "Sorry, your current balance is insufficient",
+                balance_sub: "Please top up your account",
+                error_msg: "Sorry, an unexpected error occurred",
+                error_sub: "Please try again later",
+                mena: "MENA", 
+                egypt: "Egypt", 
+                morocco: "Morocco",
+                saudi: "Saudi Arabia"
+            }
+        };
+
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -335,28 +439,193 @@
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        function updateUI() {
+        function applyTranslations() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             
-            const langEl = document.getElementById('lang-name');
-            const regEl = document.getElementById('reg-name');
-            
-            if(langEl) langEl.innerText = lang.toUpperCase();
-            if(regEl) regEl.innerText = reg[lang];
-            
-            const flagBox = document.getElementById('flag-ui');
-            if(flagBox) {
-                flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
-            }
-
-            document.querySelectorAll('.section-header').forEach(header => {
-                header.innerText = header.getAttribute(`data-${lang}`);
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) { el.innerText = translations[lang][key]; }
             });
 
-            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) { el.placeholder = translations[lang][key]; }
+            });
+
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            const langEl = document.getElementById('lang-name');
+            const regEl = document.getElementById('reg-name');
+            if(langEl) langEl.innerText = lang.toUpperCase();
+            if(regEl) regEl.innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            if(flagBox) { flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`; }
         }
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let iconClass = type === 'success' ? 'fas fa-check' : (type === 'error' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle');
+            toast.innerHTML = `<div class="toast-icon"><i class="${iconClass}"></i></div><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastPopOut 0.4s forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        function formatNumber(num) { 
+            if (!num || isNaN(num)) return "0";
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+        }
+
+        function updatePriceAndFormat() {
+            const qtyInput = document.getElementById("quantity");
+            const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
+            let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
+            if (rawValue.length > 10) rawValue = rawValue.substring(0, 10);
+            const total = unitPrice * (parseInt(rawValue) || 0);
+            let displayVal = total % 1 === 0 ? total.toString() : total.toFixed(8).replace(/\.?0+$/, "");
+            document.getElementById("display-price").innerText = `USD ${displayVal}`;
+            qtyInput.value = rawValue !== "" ? formatNumber(rawValue) : "";
+        }
+
+        function maskSensitiveInfo(text) {
+            if (!text || !text.includes('@')) return text || "";
+            const [user, domain] = text.split('@');
+            return user.substring(0, 2) + "****@" + domain;
+        }
+
+        function updateUI() {
+            applyTranslations();
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const chosenService = localStorage.getItem('chosen_service');
+            const minVal = localStorage.getItem("service_min");
+            const maxVal = localStorage.getItem("service_max");
+            const savedEmail = localStorage.getItem("user_email");
+            const isEmailHidden = localStorage.getItem("hide_email") === "true";
+
+            if (savedEmail) { document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail; }
+            if (chosenService) {
+                document.getElementById("category").innerText = chosenService;
+                document.getElementById("limitHintBox").style.display = "flex";
+            } else {
+                document.getElementById("category").innerText = translations[lang].choose_service;
+                document.getElementById("limitHintBox").style.display = "none";
+            }
+            document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
+            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
+            updatePriceAndFormat();
+        }
+
+        function goToCategory() { location.href = `../Category/`; }
+        window.addEventListener('load', updateUI);
+        window.addEventListener('storage', updateUI);
+        document.getElementById("quantity").oninput = updatePriceAndFormat;
+        document.getElementById("platformLink").oninput = function() {
+            this.value = this.value.replace(/[^\x00-\x7F]/g, "");
+            const verifyBtn = document.getElementById("verifyLinkBtn");
+            if (this.value.trim().length > 0) verifyBtn.classList.add("active"); else verifyBtn.classList.remove("active");
+        };
+        document.getElementById("verifyLinkBtn").onclick = function() {
+            const link = document.getElementById("platformLink").value;
+            if (link) window.open(`https://www.google.com/search?q=${encodeURIComponent(link)}`, '_blank'); 
+            else showToast(translations[localStorage.getItem('pref_lang') || 'ar'].link_err, "error");
+        };
+
+        function showFinalStatus(message, subMessage, isSuccess) {
+            const overlay = document.getElementById('status-overlay');
+            document.getElementById('status-title').innerText = message;
+            document.getElementById('status-sub').innerText = subMessage;
+            const iconBg = document.getElementById('status-icon-bg');
+            const icon = document.getElementById('status-icon');
+            if (isSuccess) { iconBg.className = 'status-icon-box success'; icon.className = 'fas fa-check'; } 
+            else { iconBg.className = 'status-icon-box error'; icon.className = 'fas fa-times'; }
+            overlay.style.display = 'flex';
+            setTimeout(() => { window.location.href = "../../dashboard/"; }, 2500);
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+
+        onAuthStateChanged(auth, async (user) => { 
+            if (user) {
+                document.body.style.display = 'flex';
+                currentUser = user;
+                localStorage.setItem("user_email", user.email);
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    localStorage.setItem("hide_email", userSnap.data().hide_email || "false");
+                }
+                updateUI();
+            } else {
+                document.documentElement.innerHTML = "";
+                document.body.style.display = "none";
+            } 
+        });
+
+        document.getElementById("payBtn").onclick = async function() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const t = translations[lang];
+            if (!currentUser) { showToast(t.login_msg, "error"); return; }
+            const link = document.getElementById("platformLink").value;
+            const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
+            const qtyNum = parseInt(qtyRaw) || 0;
+            const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
+            const finalCharge = parseFloat((unitPrice * qtyNum).toFixed(8));
+            const service = localStorage.getItem("chosen_service");
+            const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
+            const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
+
+            if (!link) { showToast(t.link_err, "error"); return; }
+            if (!service) { showToast(t.service_err, "error"); return; }
+            if (qtyNum <= 0) { showToast(t.qty_req, "error"); return; }
+            if (qtyNum < minAllowed) { showToast(`${t.min_err}${formatNumber(minAllowed)}`, "error"); return; }
+            if (qtyNum > maxAllowed) { showToast(`${t.max_err}${formatNumber(maxAllowed)}`, "error"); return; }
+
+            this.classList.add('loading');
+            this.disabled = true;
+
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                await runTransaction(db, async (transaction) => {
+                    const userSnap = await transaction.get(userRef);
+                    if (!userSnap.exists()) throw "User does not exist";
+                    const currentBalance = parseFloat(userSnap.data().balance || 0);
+                    if (currentBalance < (finalCharge - 0.000000001)) throw "INSUFFICIENT_BALANCE";
+                    transaction.update(userRef, { balance: currentBalance - finalCharge, total_spend: (userSnap.data().total_spend || 0) + finalCharge });
+                    const transRef = doc(collection(db, "transactions"));
+                    transaction.set(transRef, { amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`, description: service, status: "Active", link: link, quantity: qtyNum, timestamp: serverTimestamp(), userId: currentUser.uid, userEmail: currentUser.email });
+                });
+                try { fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: currentUser.email, status: "Active" }) }); } catch (e) {}
+                showFinalStatus(t.success_msg, t.success_sub, true);
+            } catch (e) {
+                this.classList.remove('loading');
+                this.disabled = false;
+                if (e === "INSUFFICIENT_BALANCE") showFinalStatus(t.balance_err, t.balance_sub, false); 
+                else showFinalStatus(t.error_msg, t.error_sub, false);
+            }
+        };
     </script>
 </body>
 </html>
