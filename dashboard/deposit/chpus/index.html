@@ -807,7 +807,7 @@
             if (parseInt(amount) < 10) { showToast(t.min_err); return; }
             if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
-            const codeVal = document.getElementById('reason-val').innerText;
+            const codeVal = generateRandomCode();
             
             payBtn.classList.add('loading');
             payBtn.disabled = true;
