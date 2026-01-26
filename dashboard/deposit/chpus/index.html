@@ -545,6 +545,7 @@
                 window.currentFirebaseUser.userId = user.uid || window.currentFirebaseUser.userId;
                 document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
                 document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
+                loadPersistentCode();
             } else if (!userUrl && !emailUrl) {
                 window.location.href = "../";
             }
@@ -602,14 +603,25 @@
         }
 
         function generateRandomCode() {
+            const userName = window.currentFirebaseUser.name || "user";
+            const cleanName = userName.replace(/\s/g, '').toLowerCase();
+            let namePart = "";
+            
+            if (cleanName.length >= 4) {
+                namePart = cleanName.substring(0, 4);
+            } else {
+                namePart = cleanName.padEnd(4, 'x');
+            }
+            
             const randomNum = Math.floor(100 + Math.random() * 900);
-            const newCode = 'SRV-' + randomNum;
+            const newCode = namePart + '-' + randomNum;
             document.getElementById('reason-val').innerText = newCode;
-            localStorage.setItem('persistent_srv_code', newCode);
+            localStorage.setItem('persistent_srv_code_' + window.currentFirebaseUser.userId, newCode);
         }
 
         function loadPersistentCode() {
-            const savedCode = localStorage.getItem('persistent_srv_code');
+            const userId = window.currentFirebaseUser.userId || 'default';
+            const savedCode = localStorage.getItem('persistent_srv_code_' + userId);
             if (savedCode) {
                 document.getElementById('reason-val').innerText = savedCode;
             } else {
@@ -793,8 +805,7 @@
             if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
             const oldCode = document.getElementById('reason-val').innerText;
-            generateRandomCode();
-
+            
             payBtn.classList.add('loading');
             payBtn.disabled = true;
 
@@ -828,6 +839,7 @@
                     // Send to Google Sheets
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     
+                    generateRandomCode();
                     document.getElementById('success-overlay').style.display = 'flex';
                 } catch (e) {
                     payBtn.classList.remove('loading');
