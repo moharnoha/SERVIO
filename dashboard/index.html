@@ -40,7 +40,7 @@
             align-items: center; 
         }
         
-        /* Loading Overlay Integration */
+        /* Global Click Loading Overlay Updated */
         #global-loading {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,35 +49,34 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            display: flex; /* Shown by default for initial load */
+            display: flex; /* Visible by default for initial load */
         }
 
-        .stuck-to-wall {
+        .stuck-to-wall-loading {
             position: fixed;
-            right: 0;
+            right: 0; 
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-end; 
         }
 
         .welcome-msg-loading {
-            font-family: 'Cairo', sans-serif;
             font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 8px;
-            padding-right: 15px;
+            padding-right: 15px; 
             direction: rtl;
             white-space: nowrap;
             text-align: right;
         }
 
-        .stuck-to-wall img {
-            width: 240px;
+        .stuck-to-wall-loading img {
+            width: 240px; 
             height: auto;
-            border-radius: 4px 0 0 4px;
+            border-radius: 4px 0 0 4px; 
             display: block;
         }
 
@@ -407,8 +406,8 @@
 <body class="notranslate">
 
     <div id="global-loading">
-        <div class="stuck-to-wall">
-            <div class="welcome-msg-loading">مرحباً بك في</div>
+        <div class="stuck-to-wall-loading">
+            <div class="welcome-msg-loading" id="txt-loading-welcome">مرحباً بك في</div>
             <a href="https://postimg.cc/dk8H8qw8" target="_blank">
                 <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
             </a>
@@ -725,7 +724,6 @@
         };
 
         onAuthStateChanged(auth, (user) => {
-            const loader = document.getElementById('global-loading');
             if (user) {
                 window.currentEmail = user.email;
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
@@ -743,9 +741,9 @@
                         
                         window.renderUserData();
                         
-                        // Data loaded, hide loader
+                        // Hide loading after initial data fetch
                         setTimeout(() => {
-                            loader.style.display = 'none';
+                            document.getElementById('global-loading').style.display = 'none';
                         }, 500);
                     }
                 });
@@ -786,7 +784,7 @@
             } catch (e) { console.error(e); }
         };
 
-        // Logic for Global Loading on shortcuts
+        // Logic for Global Loading
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.shortcut-item');
             if (target) {
@@ -799,10 +797,10 @@
                 setTimeout(() => {
                     if (url) {
                         window.location.href = url;
-                    } else {
+                    } else if (target.getAttribute('onclick')) {
                         loader.style.display = 'none';
                         const onclickAttr = target.getAttribute('onclick');
-                        if(onclickAttr && onclickAttr.includes('handleLogout')) window.handleLogout();
+                        if(onclickAttr.includes('handleLogout')) window.handleLogout();
                     }
                 }, 800);
             }
@@ -851,6 +849,7 @@
             document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
             document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
+            document.getElementById('txt-loading-welcome').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
 
             document.body.style.direction = isAr ? 'rtl' : 'ltr';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
