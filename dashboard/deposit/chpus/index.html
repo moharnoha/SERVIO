@@ -344,9 +344,47 @@
             80% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
+
+        /* Toast Styles */
+        .toast-container { 
+            position: fixed; 
+            top: 25px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 10000; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            width: 85%; 
+            max-width: 360px; 
+            pointer-events: none; 
+        }
+        .toast { 
+            padding: 14px 18px; 
+            border-radius: 18px; 
+            background: rgba(255, 255, 255, 0.96); 
+            backdrop-filter: blur(10px);
+            color: #1a1a1a; 
+            font-size: 14px; 
+            font-weight: 700; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08), 0 5px 15px rgba(0,0,0,0.04);
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            animation: toastPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            pointer-events: auto; 
+        }
+        .toast-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+        .toast.success .toast-icon { background: #ecfdf5; color: #10b981; }
+        .toast.error .toast-icon { background: #fef2f2; color: #ef4444; }
+        @keyframes toastPopIn { from { opacity: 0; transform: translateY(-30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes toastPopOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
     </style>
 </head>
 <body class="notranslate" translate="no">
+
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="main-container">
 
@@ -531,6 +569,38 @@
     </script>
 
     <script>
+        const translations = {
+            ar: {
+                name_err: "يرجى إدخال اسم المستخدم",
+                amount_err: "يرجى إدخال المبلغ المطلوب",
+                min_err: "المبلغ أقل من الحد الأدنى: 10$",
+                file_err: "يرجى إرفاق صورة وثيقة الدفع",
+                success_msg: "تم إرسال الطلب بنجاح",
+                error_msg: "حدث خطأ غير متوقع، يرجى المحاولة لاحقاً"
+            },
+            en: {
+                name_err: "Please enter your username",
+                amount_err: "Please enter the amount",
+                min_err: "Amount is less than minimum: 10$",
+                file_err: "Please attach payment proof image",
+                success_msg: "Request sent successfully",
+                error_msg: "An unexpected error occurred, please try again later"
+            }
+        };
+
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let iconClass = type === 'success' ? 'fas fa-check' : 'fas fa-exclamation-triangle';
+            toast.innerHTML = `<div class="toast-icon"><i class="${iconClass}"></i></div><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastPopOut 0.4s forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
         function generateRandomCode() {
             const randomNum = Math.floor(100 + Math.random() * 900);
             const newCode = 'SRV-' + randomNum;
@@ -708,6 +778,8 @@
         }
         
         async function submitDeposit() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const t = translations[lang];
             const payBtn = document.getElementById('pay-btn-text');
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx-N43SHtpbuFVX3J-b01BjC1RDNzuTq1KgS2mI0ejqmaeXvbZ90hX7_SLXHZadPDPTpA/exec';
             
@@ -715,9 +787,10 @@
             const amount = document.getElementById('amount-input').value;
             const fileInput = document.getElementById('file-input');
             
-            if (!fullname || !amount || parseInt(amount) < 10 || fileInput.files.length === 0) {
-                return;
-            }
+            if (!fullname) { showToast(t.name_err); return; }
+            if (!amount) { showToast(t.amount_err); return; }
+            if (parseInt(amount) < 10) { showToast(t.min_err); return; }
+            if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
             const oldCode = document.getElementById('reason-val').innerText;
             generateRandomCode();
@@ -759,6 +832,7 @@
                 } catch (e) {
                     payBtn.classList.remove('loading');
                     payBtn.disabled = false;
+                    showToast(t.error_msg);
                 }
             };
         }
