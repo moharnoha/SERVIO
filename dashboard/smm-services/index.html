@@ -257,8 +257,8 @@
                                 <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
                             </div>
                             <div class="limit-hint">
-                                <span id="min-hint"><span data-i18n="min">الحد الأدنى:</span> --</span>
-                                <span id="max-hint"><span data-i18n="max">الحد الأقصى:</span> --</span>
+                                <span id="min-hint"><span data-i18n="min">الأدنى:</span> --</span>
+                                <span id="max-hint"><span data-i18n="max">الأقصى:</span> --</span>
                             </div>
                         </div>
 
@@ -295,8 +295,8 @@
                 choose_service: "اضغط لاختيار خدمة...",
                 quantity_label: "الكمية المطلوبة",
                 quantity_placeholder: "أدخل الكمية",
-                min: "الحد الأدنى:",
-                max: "الحد الأقصى:",
+                min: "الأدنى:",
+                max: "الأقصى:",
                 email_label: "البريد الإلكتروني (Gmail)",
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
@@ -322,8 +322,8 @@
                 choose_service: "Click to choose a service...",
                 quantity_label: "Requested Quantity",
                 quantity_placeholder: "Enter quantity",
-                min: "Min Limit:",
-                max: "Max Limit:",
+                min: "Min:",
+                max: "Max:",
                 email_label: "Email (Gmail)",
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
@@ -444,11 +444,6 @@
         }
 
         function goToCategory() {
-            // مسح الاختيارات القديمة لضمان تحديث القيم الجديدة عند العودة
-            localStorage.removeItem('chosen_service');
-            localStorage.removeItem('service_price');
-            localStorage.removeItem('service_min');
-            localStorage.removeItem('service_max');
             location.href = `../Category/`;
         }
         
