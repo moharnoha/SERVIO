@@ -807,7 +807,7 @@
             if (parseInt(amount) < 10) { showToast(t.min_err); return; }
             if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
-            const codeVal = generateRandomCode();
+            const codeVal = document.getElementById('reason-val').innerText;
             
             payBtn.classList.add('loading');
             payBtn.disabled = true;
@@ -842,6 +842,7 @@
                     // Send to Google Sheets
                     await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
                     
+                    generateRandomCode(); // Update the code after successful send
                     document.getElementById('success-overlay').style.display = 'flex';
                 } catch (e) {
                     payBtn.classList.remove('loading');
