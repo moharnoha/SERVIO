@@ -40,44 +40,65 @@
             align-items: center; 
         }
         
-        /* Global Click Loading Overlay Updated */
-        #global-loading {
+        /* Main Application Loading Screen (Updated Section) */
+        #app-init-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 99999;
-            display: flex; /* Visible by default for initial load */
+            z-index: 100000;
         }
 
-        .stuck-to-wall-loading {
+        .loader-right-side {
             position: fixed;
-            right: 0; 
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            align-items: flex-end; 
+            align-items: flex-end;
+            z-index: 100001;
         }
 
-        .welcome-msg-loading {
+        .loader-welcome-msg {
             font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 8px;
-            padding-right: 15px; 
+            padding-right: 15px;
             direction: rtl;
             white-space: nowrap;
             text-align: right;
+            font-family: 'Cairo', sans-serif;
         }
 
-        .stuck-to-wall-loading img {
-            width: 240px; 
+        .loader-right-side img {
+            width: 240px;
             height: auto;
-            border-radius: 4px 0 0 4px; 
+            border-radius: 4px 0 0 4px;
             display: block;
+        }
+
+        /* Global Click Loading Overlay */
+        #global-loading {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.19);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            display: none; /* Hidden by default */
+        }
+        .ios-loader {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
 
         * { 
@@ -405,13 +426,17 @@
 </head>
 <body class="notranslate">
 
-    <div id="global-loading">
-        <div class="stuck-to-wall-loading">
-            <div class="welcome-msg-loading" id="txt-loading-welcome">مرحباً بك في</div>
+    <div id="app-init-loader">
+        <div class="loader-right-side">
+            <div id="loader-welcome-txt" class="loader-welcome-msg">مرحباً بك في</div>
             <a href="https://postimg.cc/dk8H8qw8" target="_blank">
                 <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
             </a>
         </div>
+    </div>
+
+    <div id="global-loading">
+        <div class="ios-loader"></div>
     </div>
 
     <div class="page-wrapper">
@@ -536,6 +561,15 @@
         let smmTransactions = [];
         let depositTransactions = [];
         const DISPLAY_LIMIT = 20;
+
+        // Function to hide the custom loader
+        const hideInitialLoader = () => {
+            const loader = document.getElementById('app-init-loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 300);
+            }
+        };
 
         // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
@@ -741,10 +775,8 @@
                         
                         window.renderUserData();
                         
-                        // Hide loading after initial data fetch
-                        setTimeout(() => {
-                            document.getElementById('global-loading').style.display = 'none';
-                        }, 500);
+                        // Hide initial custom loader once user data is fetched
+                        hideInitialLoader();
                     }
                 });
 
@@ -784,7 +816,7 @@
             } catch (e) { console.error(e); }
         };
 
-        // Logic for Global Loading
+        // Logic for Global Loading ONLY on the four main options
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.shortcut-item');
             if (target) {
@@ -795,10 +827,10 @@
                 loader.style.display = 'flex';
                 
                 setTimeout(() => {
+                    loader.style.display = 'none';
                     if (url) {
                         window.location.href = url;
                     } else if (target.getAttribute('onclick')) {
-                        loader.style.display = 'none';
                         const onclickAttr = target.getAttribute('onclick');
                         if(onclickAttr.includes('handleLogout')) window.handleLogout();
                     }
@@ -839,6 +871,9 @@
             const flagBox = document.getElementById('flag-ui');
             flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
+            // Sync loader text based on language
+            document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
+            
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
@@ -849,7 +884,6 @@
             document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
             document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
             document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
-            document.getElementById('txt-loading-welcome').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
 
             document.body.style.direction = isAr ? 'rtl' : 'ltr';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
