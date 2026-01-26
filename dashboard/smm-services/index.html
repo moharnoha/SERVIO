@@ -64,7 +64,7 @@
 
         .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 14px; font-weight: 600; color: var(--text-dark); width: 100%; }
         
-        .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: flex; gap: 8px; }
+        .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: none; gap: 8px; }
 
         #email { direction: ltr; text-align: left; }
 
@@ -130,7 +130,7 @@
         
         .status-icon-box i { font-size: 50px; }
         .status-icon-box.success i { color: #2e7d32; }
-        .status-icon-box.error i { color: #c62828; }
+        .status-icon-box i { color: #c62828; }
 
         .status-title {
             font-size: 20px;
@@ -267,7 +267,7 @@
                                 <svg viewBox="0 0 24 24"><path d="M11 13H13V17H11V13M11 7H13V11H11V7M1 21H23V19H1V21M3 3V17H21V3H3M5 5H19V15H5V5Z"/></svg>
                                 <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
                             </div>
-                            <div class="limit-hint">
+                            <div class="limit-hint" id="limitHintBox">
                                 <span id="min-hint"><span data-i18n="min">الأدنى:</span> --</span>
                                 <span id="max-hint"><span data-i18n="max">الأقصى:</span> --</span>
                             </div>
@@ -447,7 +447,14 @@
                 document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail;
             }
 
-            document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
+            if (chosenService) {
+                document.getElementById("category").innerText = chosenService;
+                document.getElementById("limitHintBox").style.display = "flex";
+            } else {
+                document.getElementById("category").innerText = translations[lang].choose_service;
+                document.getElementById("limitHintBox").style.display = "none";
+            }
+
             document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
             document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
             
