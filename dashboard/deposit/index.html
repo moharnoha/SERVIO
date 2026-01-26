@@ -189,9 +189,9 @@
                 <div class="region-badge">
                     <div id="flag-ui"></div>
                     <div class="region-text">
-                        <span id="reg-name">---</span>
+                        <span id="reg-name"></span>
                         <span style="opacity:0.3">|</span>
-                        <span id="lang-name">--</span>
+                        <span id="lang-name"></span>
                     </div>
                 </div>
             </div>
@@ -289,10 +289,11 @@
         const userLang = localStorage.getItem('pref_lang') || 'ar';
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
 
+        // Update UI immediately for "light speed" feel
+        updateUI();
+
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                updateUI();
-            } else {
+            if (!user) {
                 window.location.href = "../"; 
             }
         });
@@ -309,9 +310,7 @@
                 e.preventDefault();
                 const url = link.getAttribute('href');
                 navLoader.style.display = 'flex';
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 500);
+                window.location.href = url;
             }
         });
     </script>
@@ -341,8 +340,11 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx] || regionConfigs[0];
             
-            if(document.getElementById('lang-name')) document.getElementById('lang-name').innerText = lang.toUpperCase();
-            if(document.getElementById('reg-name')) document.getElementById('reg-name').innerText = reg[lang];
+            const langEl = document.getElementById('lang-name');
+            const regEl = document.getElementById('reg-name');
+            
+            if(langEl) langEl.innerText = lang.toUpperCase();
+            if(regEl) regEl.innerText = reg[lang];
             
             const flagBox = document.getElementById('flag-ui');
             if(flagBox) {
