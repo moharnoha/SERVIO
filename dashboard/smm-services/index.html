@@ -4,34 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>Servio - Order Details</title>
+    <title>Servio - Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
-            --bg-light: #f8fbff; --border-gray: #E4ECE3; --text-dark: #1a202c;
-            --primary-blue: #2563eb; --accent: #000000; --success-green: #10b981;
-            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #2F5822;
+            --header-green: #2E5822; 
+            --bg-gray: #E4ECE3; 
+            --card-white: #ffffff;
+            --text-main: #1a202c;
+            --accent-green: #386E2C; 
+            --sub-header: #396E2D;
+            --border-light: #E4ECE3;
+            --primary-blue: #2563eb;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: none; justify-content: center; }
-        .container-wrapper { width: 100%; display: flex; justify-content: center; }
+        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
         
-        .main-container { 
-            width: 100%; 
-            max-width: 100%; 
-            min-height: 100vh; 
-            background-color: #f7fafc; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
+        /* Updated Container */
+        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #f7fafc; align-items: center; }
 
-        /* Header Styles */
+        /* Expanded Top Header */
         .top-header { 
             height: 70px; background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
+            display: flex; align-items: center; justify-content: center; 
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
             direction: rtl !important;
@@ -40,13 +37,38 @@
         .header-content {
             width: 100%;
             max-width: 480px;
-            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
+        /* Expanded Sub Header Bar */
+        .sub-header-bar {
+            background-color: var(--sub-header);
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sub-header-content {
+            width: 100%;
+            max-width: 480px;
+            text-align: right;
+        }
+
+        /* Responsive Expansion for larger screens */
+        @media (min-width: 481px) {
+            .header-content { max-width: 100%; padding: 0 40px; }
+            .sub-header-content { max-width: 100%; padding: 0 40px; }
+        }
+
+        .brand-section { display: flex; align-items: center; direction: rtl !important; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
         
@@ -59,86 +81,219 @@
             background: rgba(255,255,255,0.15); 
             border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
-            flex-direction: row !important;
+            direction: rtl !important;
         }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; flex-direction: row !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
         .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
 
-        @media (min-width: 481px) {
-            .main-container { 
-                max-width: 100%; 
-                margin: 0; 
-                border-radius: 0; 
-                min-height: 100vh; 
-                box-shadow: none; 
-            }
-            .content-area {
-                width: 100%;
-                max-width: 460px; 
-                margin: 0 auto;
-            }
-            .header-content {
-                max-width: 100%;
-                padding: 0 40px;
-            }
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
         }
 
-        .content-area { padding: 16px 16px 0 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; width: 100%; box-sizing: border-box; }
-        .order-card { width: 100%; background: #ffffff; border-radius: 20px; border: 1px solid #E4ECE3; box-shadow: 0 10px 25px rgba(0,0,0,0.03); padding: 20px; box-sizing: border-box; }
-        .order-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #E4ECE3; }
-        .order-icon-circle { width: 44px; height: 44px; background: #E4ECE3; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
-        .order-icon-circle svg { width: 22px; height: 22px; fill: currentColor; }
-        .order-title { font-size: 16px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
+        .user-dropdown-container {
+            background: var(--card-white);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
 
-        .form-grid { display: flex; flex-direction: column; gap: 16px; }
-        .field .label { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block; }
-        .input-box { display: flex; align-items: center; background: #ffffff; border: 1.5px solid #E4ECE3; border-radius: 12px; padding: 0 12px; height: 48px; transition: all 0.3s ease; }
-        .input-box:focus-within { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
-        .input-box svg { width: 18px; height: 18px; fill: #94a3b8; flex-shrink: 0; }
+        .user-dropdown-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .user-header-left { display: flex; align-items: center; gap: 12px; }
+        .user-avatar-circle { color: var(--header-green); font-size: 20px; }
+        .user-header-title { font-size: 14px; font-weight: 800; color: #64748b; }
+        .dropdown-arrow-icon { font-size: 12px; color: #94a3b8; transition: 0.3s; }
+
+        .user-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
+        .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
+
+        .info-row-detail { padding: 12px 20px; display: flex; flex-direction: column; }
+        .info-row-detail .label { font-size: 11px; font-weight: 700; color: #94a3b8; }
+        .info-row-detail .value { font-size: 14px; font-weight: 700; color: var(--text-main); }
+
+        #user-details-loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--header-green);
+            font-size: 20px;
+        }
+
+        .unified-payment-card {
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 5px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .payment-header img { height: 28px; border-radius: 6px; }
+        .payment-header span { font-weight: 800; font-size: 17px; color: var(--text-main); letter-spacing: -0.5px; }
+
+        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .input-label { font-size: 12px; font-weight: 700; color: #64748b; }
         
-        [dir="rtl"] .input-box svg { margin-left: 10px; }
-        [dir="ltr"] .input-box svg { margin-right: 10px; }
+        .field-container { position: relative; width: 100%; }
+        .field-container input {
+            width: 100%;
+            height: 52px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-light);
+            border-radius: 14px;
+            padding: 0 45px 0 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .field-container input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
 
-        .input-box input, .input-box span { flex: 1; border: none; outline: none; background: none; font-size: 13.5px; font-weight: 600; color: var(--text-dark); width: 100%; }
-        
-        .limit-hint { font-size: 10px; color: #94a3b8; margin-top: 6px; font-weight: 600; display: none; gap: 8px; }
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
+        }
 
-        #email { direction: ltr; text-align: left; }
+        .copy-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1.5px solid var(--border-light);
+            border-radius: 14px;
+            height: 55px;
+            padding: 0 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .copy-info { display: flex; flex-direction: column; }
+        .copy-info .lbl { font-size: 10px; font-weight: 700; color: #94a3b8; }
+        .copy-info .val { font-size: 15px; font-weight: 700; color: var(--text-main); }
 
-        .price-container { 
-            background: #E4ECE3; 
-            margin: 0 -20px; 
-            padding: 14px 20px; 
+        .copy-btn-simple { background: none; border: none; color: var(--primary-blue); cursor: pointer; padding: 5px; font-size: 16px; }
+
+        .upload-wrapper { 
             display: flex; 
-            justify-content: space-between; 
+            gap: 12px; 
             align-items: center; 
-            border-top: 1px solid #D1D9D0;
-            border-bottom: 1px solid #D1D9D0;
-            border-radius: 0; 
+            background: #ffffff; 
+            border: 1.5px solid var(--border-light); 
+            border-radius: 14px; 
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            box-sizing: border-box;
         }
+        .upload-wrapper:hover { border-color: var(--primary-blue); }
         
-        .price-label { font-size: 13px; font-weight: 700; color: #475569; }
-        .price-value { font-size: 17px; font-weight: 800; color: #000000; font-family: 'Inter', monospace; }
+        .preview-container { 
+            width: 50px; 
+            height: 50px; 
+            background: #f8fbff; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border: 1.5px dashed #cbd5e1;
+            flex-shrink: 0;
+        }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; }
+        .preview-placeholder { 
+            font-size: 20px; 
+            color: #94a3b8; 
+        }
+        .upload-section { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column;
+            gap: 2px;
+        }
+        .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
+        .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
 
-        #payBtn { width: 100%; height: 52px; border: none; border-radius: 12px; background: #2F5822; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-top: 8px; margin-bottom: 0; }
-        #payBtn:disabled { background: #2F5822; cursor: not-allowed; opacity: 1; }
-
+        .pay-submit-btn {
+            width: 100%;
+            height: 56px;
+            background-color: var(--header-green);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(46, 88, 34, 0.2);
+            position: relative;
+        }
+        .pay-submit-btn:active { transform: scale(0.98); opacity: 0.9; }
+        .pay-submit-btn:disabled { background-color: var(--header-green); cursor: not-allowed; opacity: 1; }
+        
         .spinner { 
             position: absolute; 
             width: 20px; 
             height: 20px; 
-            border: 2.5px solid rgba(255, 255, 255, 0.3); 
+            border: 3px solid rgba(255, 255, 255, 0.2); 
             border-top-color: #fff; 
             border-radius: 50%; 
             display: none; 
-            right: 15px; 
+            right: 15px;
         }
-        .loading .spinner { display: inline-block; animation: spin 0.8s linear infinite; }
-        
+        .loading .spinner { display: block; animation: spin 0.8s linear infinite; }
+        .loading span { opacity: 1; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        #status-overlay {
+        .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; }
+
+        #success-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -152,9 +307,10 @@
             justify-content: center;
             text-align: center;
         }
-        .status-icon-box {
+        .bank-success-icon {
             width: 100px;
             height: 100px;
+            background-color: #e8f5e9;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -162,31 +318,34 @@
             margin-bottom: 25px;
             animation: scaleUp 0.5s ease-out;
         }
-        .status-icon-box.success { background-color: #e8f5e9; }
-        .status-icon-box.error { background-color: #ffebee; }
-        
-        .status-icon-box i { font-size: 50px; }
-        .status-icon-box.success i { color: #2e7d32; }
-        .status-icon-box.error i { color: #c62828; }
-
-        .status-title {
+        .bank-success-icon i {
+            color: #2e7d32;
+            font-size: 50px;
+        }
+        .bank-success-text {
             font-size: 20px;
             font-weight: 800;
             color: #1a202c;
             margin-bottom: 8px;
-            padding: 0 20px;
         }
-        .status-sub {
+        .bank-processing-text {
             font-size: 15px;
             color: #64748b;
             font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
         }
+        [dir="rtl"] .bank-processing-text {
+            direction: rtl;
+        }
+
         @keyframes scaleUp {
             0% { transform: scale(0); opacity: 0; }
             80% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Toast Styles */
         .toast-container { 
             position: fixed; 
             top: 25px; 
@@ -215,210 +374,290 @@
             animation: toastPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
             border: 1px solid rgba(255, 255, 255, 0.5);
             pointer-events: auto; 
-            position: relative;
         }
-        
-        .toast-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 14px;
-        }
-
+        .toast-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
         .toast.success .toast-icon { background: #ecfdf5; color: #10b981; }
         .toast.error .toast-icon { background: #fef2f2; color: #ef4444; }
-        .toast.info .toast-icon { background: #eff6ff; color: #3b82f6; }
-
-        @keyframes toastPopIn { 
-            from { opacity: 0; transform: translateY(-30px) scale(0.9); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
-        }
-        @keyframes toastPopOut { 
-            to { opacity: 0; transform: translateY(-20px) scale(0.95); } 
-        }
-
-        .search-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            color: #94a3b8;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        .search-btn.active { color: var(--primary-blue); transform: scale(1.1); }
+        @keyframes toastPopIn { from { opacity: 0; transform: translateY(-30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes toastPopOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
     </style>
 </head>
 <body class="notranslate" translate="no">
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <div id="status-overlay">
-        <div class="status-icon-box" id="status-icon-bg">
-            <i class="fas" id="status-icon"></i>
-        </div>
-        <div class="status-title" id="status-title"></div>
-        <div class="status-sub" id="status-sub"></div>
-    </div>
+    <div class="main-container">
 
-    <div class="container-wrapper">
-        <div class="main-container">
-            <div class="top-header">
-                <div class="header-content">
-                    <div class="brand-section">
-                        <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
-                        <div class="v-line"></div>
-                        <div class="title-box">
-                            <span>مركز الخدمات الرقمية</span>
-                            <span>Digital Services Center</span>
-                        </div>
+        <div class="top-header">
+            <div class="header-content">
+                <div class="brand-section">
+                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <div class="v-line"></div>
+                    <div class="title-box">
+                        <span>مركز الخدمات الرقمية</span>
+                        <span>Digital Services Center</span>
                     </div>
-                    <div class="region-badge">
-                        <div id="flag-ui"></div>
-                        <div class="region-text">
-                            <span id="reg-name"></span>
-                            <span style="opacity:0.3">|</span>
-                            <span id="lang-name"></span>
+                </div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text">
+                        <span id="reg-name">---</span>
+                        <span style="opacity:0.3">|</span>
+                        <span id="lang-name">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-header-bar">
+            <div class="sub-header-content" id="sub-header-text">
+                إتمام الدفع بإستخدام serviocmm
+            </div>
+        </div>
+
+        <div class="services-grid" id="dynamic-section">
+            
+            <div class="user-dropdown-container" id="userContainer">
+                <div class="user-dropdown-header" onclick="toggleUserDropdown()">
+                    <div class="user-header-left">
+                        <div class="user-avatar-circle"><i class="fas fa-user-circle"></i></div>
+                        <div class="user-header-title" id="user-header-label">بيانات الحساب</div>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-arrow-icon"></i>
+                </div>
+                <div class="user-dropdown-content">
+                    <div id="user-details-loader"><i class="fas fa-circle-notch fa-spin"></i></div>
+                    <div id="user-details-body">
+                        <div class="info-row-detail">
+                            <span class="label" id="label-name">اسم المستخدم</span>
+                            <span class="value" id="fb-username"></span>
+                        </div>
+                        <div class="info-row-detail">
+                            <span class="label" id="label-email">البريد الإلكتروني</span>
+                            <span class="value" id="fb-email"></span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="content-area">
-                <div class="order-card">
-                    <div class="order-header">
-                        <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
-                        <div class="order-title" data-i18n="order_details">تفاصيل الطلب</div>
-                    </div>
+            <div class="unified-payment-card">
+                <div class="payment-header">
+                    <img src="https://i.postimg.cc/7hV2RnS9/IMG-2885.jpg" alt="Payment">
+                    <span id="card-main-title">طريقة الدفع</span>
+                </div>
 
-                    <div class="form-grid">
-                        <div class="field">
-                            <label class="label" data-i18n="link_label">الرابط</label>
-                            <div class="input-box">
-                                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
-                                <button class="search-btn" id="verifyLinkBtn">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="field" onclick="goToCategory()" style="cursor:pointer">
-                            <label class="label" data-i18n="category_label">الفئة المختارة</label>
-                            <div class="input-box" style="justify-content: space-between; background: #fdfdfd;">
-                                <div style="display: flex; align-items: center;">
-                                    <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                                    <span id="category" data-i18n="choose_service" style="margin-right: 8px; color: var(--primary-blue); font-weight: 700;">اضغط لاختيار خدمة...</span>
-                                </div>
-                                <svg viewBox="0 0 24 24" style="width: 18px; fill: #94a3b8;"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
-                            <div class="input-box">
-                                <svg viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
-                                <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
-                            </div>
-                            <div class="limit-hint" id="limitHintBox">
-                                <span id="min-hint"><span data-i18n="min">الأدنى:</span> --</span>
-                                <span id="max-hint"><span data-i18n="max">الأقصى:</span> --</span>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" data-i18n="email_label">البريد الإلكتروني (Gmail)</label>
-                            <div class="input-box" style="background: transparent; cursor: default;">
-                                <svg viewBox="0 0 24 24"><path d="M22,6C22,4.9 21.1,4 20,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V6M20,6L12,11L4,6H20M20,18H4V8L12,13L20,8V18Z"/></svg>
-                                <input id="email" type="email" readonly style="background: transparent; cursor: default;">
-                            </div>
-                        </div>
-
-                        <div class="price-container">
-                            <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
-                            <span class="price-value" id="display-price">USD 0</span>
-                        </div>
+                <div class="input-group">
+                    <label class="input-label" id="name-input-label">اسم المستخدم</label>
+                    <div class="field-container">
+                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
+                        <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
                     </div>
                 </div>
 
-                <button id="payBtn">
-                    <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
-                    <div class="spinner"></div>
-                </button>
+                <div class="input-group">
+                    <label class="input-label" id="amount-input-label">المبلغ</label>
+                    <div class="field-container">
+                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
+                    </div>
+                    <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
+                </div>
+
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-phone">رقم الهاتف</span>
+                        <span id="phone-val" class="val">0123456789</span>
+                    </div>
+                    <button class="copy-btn-simple" onclick="copyText('phone-val')"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <div class="copy-field">
+                    <div class="copy-info">
+                        <span class="lbl" id="lbl-reason">الرمز</span>
+                        <span id="reason-val" class="val">SRV-102</span>
+                    </div>
+                    <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <div class="upload-wrapper" onclick="document.getElementById('file-input').click()">
+                    <div class="preview-container">
+                        <img id="file-preview" class="preview-img" style="display:none;">
+                        <div id="preview-placeholder" class="preview-placeholder">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                    </div>
+                    <div class="upload-section">
+                        <p class="upload-text-main" id="upload-text">ارفاق وثيقة الدفع</p>
+                        <p class="upload-text-sub" id="upload-sub-text">انقر لاختيار ملف الصورة</p>
+                        <input type="file" id="file-input" accept="image/*" onchange="previewFile()" style="display:none;">
+                    </div>
+                </div>
             </div>
+
+            <button class="pay-submit-btn" id="pay-btn-text">
+                <span id="btn-label">تأكيد الإيداع</span>
+                <div class="spinner"></div>
+            </button>
+
         </div>
     </div>
+
+    <div id="success-overlay">
+        <div class="bank-success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="bank-success-text" id="bank-title">تم إرسال الطلب</div>
+        <div class="bank-processing-text" id="bank-sub">قيد المعالجة...</div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.currentFirebaseUser = { name: '', email: '', userId: '' };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userUrl = urlParams.get('user');
+        const emailUrl = urlParams.get('email');
+        const idUrl = urlParams.get('userId');
+
+        window.currentFirebaseUser.name = decodeURIComponent(userUrl || 'مستخدم');
+        window.currentFirebaseUser.email = decodeURIComponent(emailUrl || '');
+        window.currentFirebaseUser.userId = decodeURIComponent(idUrl || '');
+        
+        document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
+        document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.currentFirebaseUser.name = user.displayName || window.currentFirebaseUser.name;
+                window.currentFirebaseUser.email = user.email || window.currentFirebaseUser.email;
+                window.currentFirebaseUser.userId = user.uid || window.currentFirebaseUser.userId;
+                document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
+                document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
+            } else if (!userUrl && !emailUrl) {
+                window.location.href = "../";
+            }
+        });
+
+        window.submitToFirebase = async function(data) {
+            try {
+                await addDoc(collection(db, "deposits"), {
+                    username: data.fullname,
+                    amount: data.amount,
+                    status: "active",
+                    firebaseUser: data.fbUsername,
+                    firebaseEmail: data.fbEmail,
+                    userId: data.userId,
+                    code: data.code,
+                    timestamp: serverTimestamp()
+                });
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        };
+    </script>
 
     <script>
         const translations = {
             ar: {
-                order_details: "تفاصيل الطلب",
-                link_label: "الرابط",
-                link_placeholder: "أدخل الرابط هنا",
-                category_label: "الفئة المختارة",
-                choose_service: "اضغط لاختيار خدمة...",
-                quantity_label: "الكمية المطلوبة",
-                quantity_placeholder: "أدخل الكمية",
-                min: "الأدنى:",
-                max: "الأقصى:",
-                email_label: "البريد الإلكتروني (Gmail)",
-                total_due: "إجمالي المستحق",
-                confirm_order: "تأكيد الطلب والدفع",
-                login_msg: "يرجى تسجيل الدخول للمتابعة",
-                link_err: "عذراً، يرجى تزويدنا بالرابط المطلوب",
-                service_err: "يرجى تحديد الخدمة المطلوبة أولاً",
-                qty_req: "يرجى إدخال الكمية المطلوبة",
-                min_err: "الكمية أقل من الحد الأدنى المسموح به: ",
-                max_err: "الكمية تجاوزت الحد الأقصى المسموح به: ",
-                max_digits: "عذراً، لا يمكن تجاوز 10 أرقام في خانة الكمية",
-                success_msg: "تم تفعيل الطلب",
-                success_sub: "نشط الان …",
-                balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                balance_sub: "قم بتعبئة الحساب",
-                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
-                error_sub: "يرجى المحاولة لاحقاً",
-                mena: "الشرق الأوسط", 
-                egypt: "مصر", 
-                morocco: "المغرب",
-                saudi: "السعودية"
+                name_err: "يرجى إدخال اسم المستخدم",
+                amount_err: "يرجى إدخال المبلغ المطلوب",
+                min_err: "المبلغ أقل من الحد الأدنى: 10$",
+                file_err: "يرجى إرفاق صورة وثيقة الدفع",
+                success_msg: "تم إرسال الطلب بنجاح",
+                error_msg: "حدث خطأ غير متوقع، يرجى المحاولة لاحقاً"
             },
             en: {
-                order_details: "Order Details",
-                link_label: "Link",
-                link_placeholder: "Enter link here",
-                category_label: "Selected Category",
-                choose_service: "Click to choose a service...",
-                quantity_label: "Requested Quantity",
-                quantity_placeholder: "Enter quantity",
-                min: "Min:",
-                max: "Max:",
-                email_label: "Email (Gmail)",
-                total_due: "Total Due",
-                confirm_order: "Confirm & Pay",
-                login_msg: "Please login to continue",
-                link_err: "Sorry, please provide the required link",
-                service_err: "Please select a service first",
-                qty_req: "Please enter the requested quantity",
-                min_err: "Quantity is lower than the minimum allowed: ",
-                max_err: "Quantity exceeded the maximum allowed: ",
-                max_digits: "Sorry, quantity cannot exceed 10 digits",
-                success_msg: "Order Activated",
-                success_sub: "Active now ...",
-                balance_err: "Sorry, your current balance is insufficient",
-                balance_sub: "Please top up your account",
-                error_msg: "Sorry, an unexpected error occurred",
-                error_sub: "Please try again later",
-                mena: "MENA", 
-                egypt: "Egypt", 
-                morocco: "Morocco",
-                saudi: "Saudi Arabia"
+                name_err: "Please enter your username",
+                amount_err: "Please enter the amount",
+                min_err: "Amount is less than minimum: 10$",
+                file_err: "Please attach payment proof image",
+                success_msg: "Request sent successfully",
+                error_msg: "An unexpected error occurred, please try again later"
             }
         };
+
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let iconClass = type === 'success' ? 'fas fa-check' : 'fas fa-exclamation-triangle';
+            toast.innerHTML = `<div class="toast-icon"><i class="${iconClass}"></i></div><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastPopOut 0.4s forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function generateRandomCode() {
+            const randomNum = Math.floor(100 + Math.random() * 900);
+            const newCode = 'SRV-' + randomNum;
+            document.getElementById('reason-val').innerText = newCode;
+            localStorage.setItem('persistent_srv_code', newCode);
+        }
+
+        function loadPersistentCode() {
+            const savedCode = localStorage.getItem('persistent_srv_code');
+            if (savedCode) {
+                document.getElementById('reason-val').innerText = savedCode;
+            } else {
+                generateRandomCode();
+            }
+        }
+
+        function toggleUserDropdown() {
+            const container = document.getElementById('userContainer');
+            const loader = document.getElementById('user-details-loader');
+            const body = document.getElementById('user-details-body');
+
+            if (!container.classList.contains('active')) {
+                body.style.display = 'none';
+                loader.style.display = 'block';
+                container.classList.add('active');
+
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    body.style.display = 'block';
+                }, 600); 
+            } else {
+                container.classList.remove('active');
+            }
+        }
+
+        function toggleVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function validateEnglish(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s.]/g, '');
+        }
+
+        function validateAmount(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+            let val = parseInt(input.value);
+            if (val > 2000) input.value = "2000";
+        }
 
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
@@ -432,200 +671,177 @@
             { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
             { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
             { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'qatar', ar: "القطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
             { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        function applyTranslations() {
+        function copyText(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
+            const btn = event.currentTarget;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => btn.innerHTML = originalHTML, 1500);
+        }
+
+        function previewFile() {
+            const preview = document.getElementById('file-preview');
+            const placeholder = document.getElementById('preview-placeholder');
+            const file = document.getElementById('file-input').files[0];
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) { el.innerText = translations[lang][key]; }
-            });
-
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[lang][key]) { el.placeholder = translations[lang][key]; }
-            });
-
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx] || regionConfigs[0];
-            const langEl = document.getElementById('lang-name');
-            const regEl = document.getElementById('reg-name');
-            if(langEl) langEl.innerText = lang.toUpperCase();
-            if(regEl) regEl.innerText = reg[lang];
-            const flagBox = document.getElementById('flag-ui');
-            if(flagBox) { flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`; }
-        }
-
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            let iconClass = type === 'success' ? 'fas fa-check' : (type === 'error' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle');
-            toast.innerHTML = `<div class="toast-icon"><i class="${iconClass}"></i></div><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.animation = 'toastPopOut 0.4s forwards';
-                setTimeout(() => toast.remove(), 400);
-            }, 3500);
-        }
-
-        function formatNumber(num) { 
-            if (!num || isNaN(num)) return "0";
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
-        }
-
-        function updatePriceAndFormat() {
-            const qtyInput = document.getElementById("quantity");
-            const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            let rawValue = qtyInput.value.replace(/[^0-9]/g, '');
-            if (rawValue.length > 10) rawValue = rawValue.substring(0, 10);
-            const total = unitPrice * (parseInt(rawValue) || 0);
-            let displayVal = total % 1 === 0 ? total.toString() : total.toFixed(8).replace(/\.?0+$/, "");
-            document.getElementById("display-price").innerText = `USD ${displayVal}`;
-            qtyInput.value = rawValue !== "" ? formatNumber(rawValue) : "";
-        }
-
-        function maskSensitiveInfo(text) {
-            if (!text || !text.includes('@')) return text || "";
-            const [user, domain] = text.split('@');
-            return user.substring(0, 2) + "****@" + domain;
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                
+                if (lang === 'en') {
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
+                } else {
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                }
+            }
+            if (file) reader.readAsDataURL(file);
         }
 
         function updateUI() {
-            applyTranslations();
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            const chosenService = localStorage.getItem('chosen_service');
-            const minVal = localStorage.getItem("service_min");
-            const maxVal = localStorage.getItem("service_max");
-            const savedEmail = localStorage.getItem("user_email");
-            const isEmailHidden = localStorage.getItem("hide_email") === "true";
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
-            if (savedEmail) { document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail; }
-            if (chosenService) {
-                document.getElementById("category").innerText = chosenService;
-                document.getElementById("limitHintBox").style.display = "flex";
-            } else {
-                document.getElementById("category").innerText = translations[lang].choose_service;
-                document.getElementById("limitHintBox").style.display = "none";
-            }
-            document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
-            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
-            updatePriceAndFormat();
-        }
-
-        function goToCategory() { location.href = `../Category/`; }
-        window.addEventListener('load', updateUI);
-        window.addEventListener('storage', updateUI);
-        document.getElementById("quantity").oninput = updatePriceAndFormat;
-        document.getElementById("platformLink").oninput = function() {
-            this.value = this.value.replace(/[^\x00-\x7F]/g, "");
-            const verifyBtn = document.getElementById("verifyLinkBtn");
-            if (this.value.trim().length > 0) verifyBtn.classList.add("active"); else verifyBtn.classList.remove("active");
-        };
-        document.getElementById("verifyLinkBtn").onclick = function() {
-            const link = document.getElementById("platformLink").value;
-            if (link) window.open(`https://www.google.com/search?q=${encodeURIComponent(link)}`, '_blank'); 
-            else showToast(translations[localStorage.getItem('pref_lang') || 'ar'].link_err, "error");
-        };
-
-        function showFinalStatus(message, subMessage, isSuccess) {
-            const overlay = document.getElementById('status-overlay');
-            document.getElementById('status-title').innerText = message;
-            document.getElementById('status-sub').innerText = subMessage;
-            const iconBg = document.getElementById('status-icon-bg');
-            const icon = document.getElementById('status-icon');
-            if (isSuccess) { iconBg.className = 'status-icon-box success'; icon.className = 'fas fa-check'; } 
-            else { iconBg.className = 'status-icon-box error'; icon.className = 'fas fa-times'; }
-            overlay.style.display = 'flex';
-            setTimeout(() => { window.location.href = "../../dashboard/"; }, 2500);
-        }
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        let currentUser = null;
-
-        onAuthStateChanged(auth, async (user) => { 
-            if (user) {
-                document.body.style.display = 'flex';
-                currentUser = user;
-                localStorage.setItem("user_email", user.email);
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                if (userSnap.exists()) {
-                    localStorage.setItem("hide_email", userSnap.data().hide_email || "false");
+            const dynamicSection = document.getElementById('dynamic-section');
+            const subHeader = document.getElementById('sub-header-text');
+            const payBtnLabel = document.getElementById('btn-label');
+            
+            if (lang === 'en') {
+                document.body.classList.remove('rtl');
+                dynamicSection.style.direction = 'ltr';
+                subHeader.innerText = "Complete payment using serviocmm";
+                subHeader.style.textAlign = 'left';
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "Attached Successfully";
+                    document.getElementById('upload-sub-text').innerText = "Click to Change";
+                } else {
+                    document.getElementById('upload-text').innerText = "Attach payment proof";
+                    document.getElementById('upload-sub-text').innerText = "Click to select image file";
                 }
-                updateUI();
-            } else {
-                document.documentElement.innerHTML = "";
-                document.body.style.display = "none";
-            } 
-        });
 
-        document.getElementById("payBtn").onclick = async function() {
+                document.getElementById('user-header-label').innerText = "Account Details";
+                document.getElementById('label-name').innerText = "Username";
+                document.getElementById('label-email').innerText = "Email";
+                document.getElementById('name-input-label').innerText = "Full Name";
+                document.getElementById('amount-input-label').innerText = "Amount";
+                document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
+                document.getElementById('english-name-input').placeholder = "Your CashPlus username";
+                document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('card-main-title').innerText = "Payment Method";
+                document.getElementById('lbl-phone').innerText = "Phone";
+                document.getElementById('lbl-reason').innerText = "Code";
+                payBtnLabel.innerText = "Confirm Deposit";
+                document.getElementById('bank-title').innerText = "Request Sent";
+                document.getElementById('bank-sub').innerText = "Processing...";
+                document.getElementById('bank-sub').style.direction = "ltr";
+                document.getElementById('toggleNameVisibility').style.right = "15px";
+                document.getElementById('toggleNameVisibility').style.left = "auto";
+            } else {
+                document.body.classList.add('rtl');
+                dynamicSection.style.direction = 'rtl';
+                subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
+                subHeader.style.textAlign = 'right';
+                
+                const file = document.getElementById('file-input').files[0];
+                if (file) {
+                    document.getElementById('upload-text').innerText = "تم الإرفاق بنجاح";
+                    document.getElementById('upload-sub-text').innerText = "انقر للتغيير";
+                } else {
+                    document.getElementById('upload-text').innerText = "ارفاق وثيقة الدفع";
+                    document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
+                }
+
+                document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('bank-title').innerText = "تم إرسال الطلب";
+                document.getElementById('bank-sub').innerText = "قيد المعالجة...";
+                document.getElementById('bank-sub').style.direction = "rtl";
+                document.getElementById('toggleNameVisibility').style.right = "15px";
+                document.getElementById('toggleNameVisibility').style.left = "auto";
+            }
+        }
+        
+        async function submitDeposit() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const t = translations[lang];
-            if (!currentUser) { showToast(t.login_msg, "error"); return; }
-            const link = document.getElementById("platformLink").value;
-            const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
-            const qtyNum = parseInt(qtyRaw) || 0;
-            const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            const finalCharge = parseFloat((unitPrice * qtyNum).toFixed(8));
-            const service = localStorage.getItem("chosen_service");
-            const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
-            const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
+            const payBtn = document.getElementById('pay-btn-text');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx-N43SHtpbuFVX3J-b01BjC1RDNzuTq1KgS2mI0ejqmaeXvbZ90hX7_SLXHZadPDPTpA/exec';
+            
+            const fullname = document.getElementById('english-name-input').value;
+            const amount = document.getElementById('amount-input').value;
+            const fileInput = document.getElementById('file-input');
+            
+            if (!fullname) { showToast(t.name_err); return; }
+            if (!amount) { showToast(t.amount_err); return; }
+            if (parseInt(amount) < 10) { showToast(t.min_err); return; }
+            if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
-            if (!link) { showToast(t.link_err, "error"); return; }
-            if (!service) { showToast(t.service_err, "error"); return; }
-            if (qtyNum <= 0) { showToast(t.qty_req, "error"); return; }
-            if (qtyNum < minAllowed) { showToast(`${t.min_err}${formatNumber(minAllowed)}`, "error"); return; }
-            if (qtyNum > maxAllowed) { showToast(`${t.max_err}${formatNumber(maxAllowed)}`, "error"); return; }
+            const oldCode = document.getElementById('reason-val').innerText;
+            generateRandomCode();
 
-            this.classList.add('loading');
-            this.disabled = true;
+            payBtn.classList.add('loading');
+            payBtn.disabled = true;
 
-            try {
-                const userRef = doc(db, "users", currentUser.uid);
-                await runTransaction(db, async (transaction) => {
-                    const userSnap = await transaction.get(userRef);
-                    if (!userSnap.exists()) throw "User does not exist";
-                    const currentBalance = parseFloat(userSnap.data().balance || 0);
-                    if (currentBalance < (finalCharge - 0.000000001)) throw "INSUFFICIENT_BALANCE";
-                    transaction.update(userRef, { balance: currentBalance - finalCharge, total_spend: (userSnap.data().total_spend || 0) + finalCharge });
-                    const transRef = doc(collection(db, "transactions"));
-                    transaction.set(transRef, { amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`, description: service, status: "Active", link: link, quantity: qtyNum, timestamp: serverTimestamp(), userId: currentUser.uid, userEmail: currentUser.email });
-                });
-                try { fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: currentUser.email, status: "Active" }) }); } catch (e) {}
-                showFinalStatus(t.success_msg, t.success_sub, true);
-            } catch (e) {
-                this.classList.remove('loading');
-                this.disabled = false;
-                if (e === "INSUFFICIENT_BALANCE") showFinalStatus(t.balance_err, t.balance_sub, false); 
-                else showFinalStatus(t.error_msg, t.error_sub, false);
-            }
-        };
+            const reader = new FileReader();
+            reader.readAsDataURL(fileInput.files[0]);
+            reader.onload = async function () {
+                const data = {
+                    fbUsername: window.currentFirebaseUser.name,
+                    fbEmail: window.currentFirebaseUser.email,
+                    userId: window.currentFirebaseUser.userId,
+                    fullname: fullname,
+                    amount: amount,
+                    code: oldCode
+                };
+
+                const formData = new URLSearchParams();
+                formData.append('fbUsername', data.fbUsername);
+                formData.append('fbEmail', data.fbEmail);
+                formData.append('userId', data.userId);
+                formData.append('fullname', data.fullname);
+                formData.append('amount', data.amount);
+                formData.append('code', data.code);
+                formData.append('imageBase64', reader.result);
+
+                try {
+                    // Send to Firebase
+                    if (window.submitToFirebase) {
+                        await window.submitToFirebase(data);
+                    }
+                    
+                    // Send to Google Sheets
+                    await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formData });
+                    
+                    document.getElementById('success-overlay').style.display = 'flex';
+                } catch (e) {
+                    payBtn.classList.remove('loading');
+                    payBtn.disabled = false;
+                    showToast(t.error_msg);
+                }
+            };
+        }
+
+        document.getElementById('pay-btn-text').onclick = submitDeposit;
+        window.addEventListener('load', () => {
+            updateUI();
+            loadPersistentCode();
+        });
     </script>
 </body>
 </html>
