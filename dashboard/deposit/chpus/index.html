@@ -473,7 +473,7 @@
                 <div class="copy-field">
                     <div class="copy-info">
                         <span class="lbl" id="lbl-reason">الرمز</span>
-                        <span id="reason-val" class="val" style="direction: ltr; unicode-bidi: isolate;">SRV-102</span>
+                        <span id="reason-val" class="val"></span>
                     </div>
                     <button class="copy-btn-simple" onclick="copyText('reason-val')"><i class="fas fa-copy"></i></button>
                 </div>
@@ -546,7 +546,9 @@
                 document.getElementById('fb-username').innerText = window.currentFirebaseUser.name;
                 document.getElementById('fb-email').innerText = window.currentFirebaseUser.email;
                 loadPersistentCode();
-            } else if (!userUrl && !emailUrl) {
+            } else if (userUrl || emailUrl) {
+                loadPersistentCode();
+            } else {
                 window.location.href = "../";
             }
         });
@@ -615,21 +617,16 @@
             
             const randomNum = Math.floor(100 + Math.random() * 900);
             const newCode = namePart + '-' + randomNum;
-            const codeDisplay = document.getElementById('reason-val');
-            codeDisplay.innerText = newCode;
-            codeDisplay.setAttribute('translate', 'no');
-            codeDisplay.classList.add('notranslate');
-            localStorage.setItem('persistent_srv_code_' + window.currentFirebaseUser.userId, newCode);
+            document.getElementById('reason-val').innerText = newCode;
+            localStorage.setItem('persistent_srv_code_' + (window.currentFirebaseUser.userId || 'guest'), newCode);
+            return newCode;
         }
 
         function loadPersistentCode() {
-            const userId = window.currentFirebaseUser.userId || 'default';
+            const userId = window.currentFirebaseUser.userId || 'guest';
             const savedCode = localStorage.getItem('persistent_srv_code_' + userId);
-            const codeDisplay = document.getElementById('reason-val');
-            codeDisplay.setAttribute('translate', 'no');
-            codeDisplay.classList.add('notranslate');
             if (savedCode) {
-                codeDisplay.innerText = savedCode;
+                document.getElementById('reason-val').innerText = savedCode;
             } else {
                 generateRandomCode();
             }
@@ -810,7 +807,7 @@
             if (parseInt(amount) < 10) { showToast(t.min_err); return; }
             if (fileInput.files.length === 0) { showToast(t.file_err); return; }
 
-            const oldCode = document.getElementById('reason-val').innerText;
+            const codeVal = document.getElementById('reason-val').innerText;
             
             payBtn.classList.add('loading');
             payBtn.disabled = true;
@@ -824,7 +821,7 @@
                     userId: window.currentFirebaseUser.userId,
                     fullname: fullname,
                     amount: amount,
-                    code: oldCode
+                    code: codeVal
                 };
 
                 const formData = new URLSearchParams();
@@ -857,7 +854,6 @@
         document.getElementById('pay-btn-text').onclick = submitDeposit;
         window.addEventListener('load', () => {
             updateUI();
-            loadPersistentCode();
         });
     </script>
 </body>
