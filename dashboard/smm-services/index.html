@@ -553,8 +553,11 @@
                 document.getElementById("email").value = isEmailHidden ? 
                     (user.email.substring(0, 2) + "****@" + user.email.split('@')[1]) : user.email;
             } else {
-                window.location.replace("index.html");
-            }
+                // إظهار صفحة بيضاء تامة عند عدم تسجيل الدخول
+                document.documentElement.innerHTML = "";
+                document.body.style.display = "none";
+                document.body.style.backgroundColor = "#ffffff";
+            } 
         });
 
         document.getElementById("payBtn").onclick = async function() {
