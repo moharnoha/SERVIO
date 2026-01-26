@@ -145,7 +145,7 @@
             font-weight: 600;
         }
         @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
+            0 task: scale(0); opacity: 0; }
             80% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
@@ -264,7 +264,7 @@
                         <div class="field">
                             <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
                             <div class="input-box">
-                                <svg viewBox="0 0 24 24"><path d="M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66L12,15.39M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12Z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z"/></svg>
                                 <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="أدخل الكمية" maxlength="13">
                             </div>
                             <div class="limit-hint" id="limitHintBox">
@@ -456,7 +456,7 @@
             }
 
             document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
-            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxAllowed)}` : `${translations[lang].max} --`;
+            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
             
             updatePriceAndFormat();
         }
