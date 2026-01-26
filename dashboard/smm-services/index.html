@@ -15,7 +15,8 @@
             --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #2F5822;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; }
+        /* إخفاء المحتوى افتراضياً */
+        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: none; justify-content: center; }
         .container-wrapper { width: 100%; display: flex; justify-content: center; }
         
         /* التعديل المطلوب: تمديد الجزء الخلفي في الحاسوب بحواف حادة */
@@ -511,15 +512,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        // Firebase reference logic continues using provided configurations and functions.
-        // Pay button listener logic remains as implemented previously.
-    </script>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
@@ -538,6 +530,7 @@
 
         onAuthStateChanged(auth, async (user) => { 
             if (user) {
+                document.body.style.display = 'flex';
                 currentUser = user;
                 localStorage.setItem("user_email", user.email);
                 
@@ -552,7 +545,9 @@
                 const isEmailHidden = localStorage.getItem("hide_email") === "true";
                 document.getElementById("email").value = isEmailHidden ? 
                     (user.email.substring(0, 2) + "****@" + user.email.split('@')[1]) : user.email;
-            } 
+            } else {
+                window.location.replace("../../login/");
+            }
         });
 
         document.getElementById("payBtn").onclick = async function() {
