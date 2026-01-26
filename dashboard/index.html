@@ -40,24 +40,45 @@
             align-items: center; 
         }
         
-        /* Global Click Loading Overlay */
+        /* Loading Overlay Integration */
         #global-loading {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.19);
-            backdrop-filter: blur(4px);
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            display: none; /* Hidden by default */
+            display: flex; /* Shown by default for initial load */
         }
-        .ios-loader {
-            width: 40px;
-            height: 40px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
+
+        .stuck-to-wall {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .welcome-msg-loading {
+            font-family: 'Cairo', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            padding-right: 15px;
+            direction: rtl;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .stuck-to-wall img {
+            width: 240px;
+            height: auto;
+            border-radius: 4px 0 0 4px;
+            display: block;
         }
 
         * { 
@@ -386,7 +407,12 @@
 <body class="notranslate">
 
     <div id="global-loading">
-        <div class="ios-loader"></div>
+        <div class="stuck-to-wall">
+            <div class="welcome-msg-loading">مرحباً بك في</div>
+            <a href="https://postimg.cc/dk8H8qw8" target="_blank">
+                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
+            </a>
+        </div>
     </div>
 
     <div class="page-wrapper">
@@ -699,6 +725,7 @@
         };
 
         onAuthStateChanged(auth, (user) => {
+            const loader = document.getElementById('global-loading');
             if (user) {
                 window.currentEmail = user.email;
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
@@ -715,7 +742,11 @@
                         localStorage.setItem('hide_username', hideU ? "true" : "false");
                         
                         window.renderUserData();
-                        // Loading hidden by default; initial logic stays same
+                        
+                        // Data loaded, hide loader
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                        }, 500);
                     }
                 });
 
@@ -755,7 +786,7 @@
             } catch (e) { console.error(e); }
         };
 
-        // Logic for Global Loading ONLY on the four main options
+        // Logic for Global Loading on shortcuts
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.shortcut-item');
             if (target) {
@@ -766,13 +797,12 @@
                 loader.style.display = 'flex';
                 
                 setTimeout(() => {
-                    loader.style.display = 'none';
                     if (url) {
                         window.location.href = url;
-                    } else if (target.getAttribute('onclick')) {
-                        // For the Logout button which has onclick
+                    } else {
+                        loader.style.display = 'none';
                         const onclickAttr = target.getAttribute('onclick');
-                        if(onclickAttr.includes('handleLogout')) window.handleLogout();
+                        if(onclickAttr && onclickAttr.includes('handleLogout')) window.handleLogout();
                     }
                 }, 800);
             }
