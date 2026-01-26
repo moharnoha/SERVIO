@@ -83,10 +83,20 @@
         .price-value { font-size: 18px; font-weight: 800; color: #000000; font-family: 'Inter', monospace; }
 
         #payBtn { width: 100%; height: 56px; border: none; border-radius: 14px; background: #2F5822; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        #payBtn:disabled { background: #E4ECE3; cursor: not-allowed; }
+        #payBtn:disabled { background: #2F5822; cursor: not-allowed; opacity: 1; }
 
-        .spinner { width: 20px; height: 20px; border: 2.5px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; display: none; }
+        .spinner { 
+            position: absolute; 
+            width: 20px; 
+            height: 20px; 
+            border: 2.5px solid rgba(255, 255, 255, 0.3); 
+            border-top-color: #fff; 
+            border-radius: 50%; 
+            display: none; 
+            right: 15px; 
+        }
         .loading .spinner { display: inline-block; animation: spin 0.8s linear infinite; }
+        .loading #btn-text { opacity: 1; }
         
         @keyframes spin { to { transform: rotate(360deg); } }
 
