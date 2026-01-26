@@ -327,7 +327,7 @@
                             </div>
                             <div class="limit-hint" id="limitHintBox">
                                 <span id="min-hint"><span data-i18n="min">الحد الأدنى:</span> --</span>
-                                <span id="max-hint"><span data-i18n="max">الحد الاقصى:</span> --</span>
+                                <span id="max-hint"><span data-i18n="max">الحد الأقصى:</span> --</span>
                             </div>
                         </div>
 
@@ -365,7 +365,7 @@
                 quantity_label: "الكمية المطلوبة",
                 quantity_placeholder: "أدخل الكمية",
                 min: "الحد الأدنى:",
-                max: "الحد الاقصى:",
+                max: "الحد الأقصى:",
                 email_label: "البريد الإلكتروني (Gmail)",
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
@@ -395,8 +395,8 @@
                 choose_service: "Click to choose a service...",
                 quantity_label: "Requested Quantity",
                 quantity_placeholder: "Enter quantity",
-                min: "Min:",
-                max: "Max:",
+                min: "Min Limit:",
+                max: "Max Limit:",
                 email_label: "Email (Gmail)",
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
@@ -523,7 +523,14 @@
             updatePriceAndFormat();
         }
 
-        function goToCategory() { location.href = `../Category/`; }
+        function goToCategory() { 
+            // Clear current selection data before navigating to ensure fresh selection next time
+            localStorage.removeItem('chosen_service');
+            localStorage.removeItem('service_price');
+            localStorage.removeItem('service_min');
+            localStorage.removeItem('service_max');
+            location.href = `../Category/`; 
+        }
         window.addEventListener('load', updateUI);
         window.addEventListener('storage', updateUI);
         document.getElementById("quantity").oninput = updatePriceAndFormat;
