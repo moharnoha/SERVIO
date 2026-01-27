@@ -297,13 +297,9 @@
         }
         .empty-state-icon {
             width: 90px; height: 90px;
-            background: #f8fafc;
-            border-radius: 50%;
+            background: transparent;
             display: flex; align-items: center; justify-content: center;
-            color: #2E5822;
-            border: 1px solid #e2e8f0;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         .empty-state-text {
             font-size: 14px;
@@ -634,13 +630,16 @@
                 document.getElementById('modal-content').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9 11h6"></path>
-                                <path d="M9 15h6"></path>
-                                <path d="M14 7l-2-2-2 2"></path>
-                                <circle cx="17" cy="17" r="3"></circle>
-                                <line x1="19" y1="19" x2="21" y2="21"></line>
+                            <svg width="120" height="120" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 10C18 8.89543 18.8954 8 20 8H44C45.1046 8 46 8.89543 46 10V54C46 55.1046 45.1046 56 44 56H20C18.8954 56 18 55.1046 18 54V10Z" fill="#E2E8F0"/>
+                                <path d="M14 14C14 12.8954 14.8954 12 16 12H40C41.1046 12 42 12.8954 42 14V58C42 59.1046 41.1046 60 40 60H16C14.8954 60 14 59.1046 14 58V14Z" fill="white" stroke="#CBD5E1" stroke-width="1.5"/>
+                                <rect x="20" y="22" width="16" height="2" rx="1" fill="#E2E8F0"/>
+                                <rect x="20" y="28" width="12" height="2" rx="1" fill="#E2E8F0"/>
+                                <rect x="20" y="34" width="16" height="2" rx="1" fill="#E2E8F0"/>
+                                <circle cx="42" cy="42" r="14" fill="white" stroke="#94a3b8" stroke-width="2.5"/>
+                                <path d="M52 52L60 60" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                                <rect x="41" y="36" width="2" height="8" rx="1" fill="#334155"/>
+                                <circle cx="42" cy="48" r="1.5" fill="#334155"/>
                             </svg>
                         </div>
                         <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
@@ -707,13 +706,16 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9 11h6"></path>
-                                <path d="M9 15h6"></path>
-                                <path d="M14 7l-2-2-2 2"></path>
-                                <circle cx="17" cy="17" r="3"></circle>
-                                <line x1="19" y1="19" x2="21" y2="21"></line>
+                            <svg width="120" height="120" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 10C18 8.89543 18.8954 8 20 8H44C45.1046 8 46 8.89543 46 10V54C46 55.1046 45.1046 56 44 56H20C18.8954 56 18 55.1046 18 54V10Z" fill="#E2E8F0"/>
+                                <path d="M14 14C14 12.8954 14.8954 12 16 12H40C41.1046 12 42 12.8954 42 14V58C42 59.1046 41.1046 60 40 60H16C14.8954 60 14 59.1046 14 58V14Z" fill="white" stroke="#CBD5E1" stroke-width="1.5"/>
+                                <rect x="20" y="22" width="16" height="2" rx="1" fill="#E2E8F0"/>
+                                <rect x="20" y="28" width="12" height="2" rx="1" fill="#E2E8F0"/>
+                                <rect x="20" y="34" width="16" height="2" rx="1" fill="#E2E8F0"/>
+                                <circle cx="42" cy="42" r="14" fill="white" stroke="#94a3b8" stroke-width="2.5"/>
+                                <path d="M52 52L60 60" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                                <rect x="41" y="36" width="2" height="8" rx="1" fill="#334155"/>
+                                <circle cx="42" cy="48" r="1.5" fill="#334155"/>
                             </svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
@@ -935,6 +937,7 @@
                     emailEl.innerText = maskedLocal + "@" + domain;
                 } else {
                     emailEl.innerText = "****";
+                Part of the email being masked.
                 }
             } else {
                 emailEl.innerText = rawEmail;
