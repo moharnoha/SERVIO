@@ -43,31 +43,22 @@
         /* Main Application Loading Screen (Updated Section) */
         #app-init-loader {
             position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end; /* Align container to the right */
             z-index: 100000;
             opacity: 1;
-            visibility: visible;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-            pointer-events: all; /* تفادي التعليق وضمان ثبات الواجهة */
+            transition: opacity 0.5s ease-out;
         }
 
         .loader-right-side {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            z-index: 100001;
-            padding-right: 20px;
+            align-items: flex-end; /* Align content inside to the right edge */
+            padding-right: 0;
+            margin-right: 0;
         }
 
         .loader-welcome-msg {
@@ -75,11 +66,12 @@
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 8px;
-            padding-right: 0;
+            padding-right: 15px; /* Spacing from the edge */
             direction: rtl;
             white-space: nowrap;
-            text-align: right; /* ضمان الكتابة في حافة اليمين */
+            text-align: right;
             font-family: 'Cairo', sans-serif;
+            width: auto;
         }
 
         .loader-right-side img {
@@ -438,7 +430,7 @@
         <div class="loader-right-side">
             <div id="loader-welcome-txt" class="loader-welcome-msg">مرحباً بك في</div>
             <a href="https://postimg.cc/dk8H8qw8" target="_blank">
-                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
+                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png" onerror="this.style.display='none'">
             </a>
         </div>
     </div>
@@ -570,19 +562,33 @@
         let depositTransactions = [];
         const DISPLAY_LIMIT = 20;
 
-        // Function to hide the custom loader with safety checks
+        /**
+         * TECHNICAL RULES FOR STABLE LOADING SCREEN
+         * 1. Timeout Fallback: Ensure loader disappears even if Firebase fails.
+         * 2. Memory Management: Clear listeners to prevent leaks.
+         * 3. Loading State: Avoid screen flickering.
+         */
+        const LOADER_TIMEOUT = 10000; // 10 seconds max safety timeout
+        let loaderTimer = setTimeout(() => hideInitialLoader(), LOADER_TIMEOUT);
+
         const hideInitialLoader = () => {
             const loader = document.getElementById('app-init-loader');
-            if (loader) {
+            if (loader && loader.style.display !== 'none') {
+                clearTimeout(loaderTimer);
                 loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-                loader.style.pointerEvents = 'none';
-                setTimeout(() => { loader.style.display = 'none'; }, 400);
+                setTimeout(() => { 
+                    loader.style.display = 'none'; 
+                    // Release memory/dom reference
+                }, 500);
             }
         };
-        
-        // Safety timeout to prevent screen lock if firebase fails
-        setTimeout(hideInitialLoader, 8000);
+
+        // Error Handling for Assets
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                console.warn('Resource failed to load, ensuring app remains stable.');
+            }
+        }, true);
 
         // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
@@ -791,6 +797,9 @@
                         // Hide initial custom loader once user data is fetched
                         hideInitialLoader();
                     }
+                }, (error) => {
+                    console.error("Firestore sync error:", error);
+                    hideInitialLoader(); // Safe exit
                 });
 
                 const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
@@ -884,7 +893,7 @@
             const flagBox = document.getElementById('flag-ui');
             flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
-            // Sync loader text based on language
+            // Sync loader text based on language (Text remains fixed in position)
             document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
             
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
