@@ -9,7 +9,7 @@
     
     <style>
         :root { 
-            --header-green: #2E5822; 
+            --header-green: #FFFFFF; 
             --login-bg: #386E2C; 
             --google-section-bg: #EAF0E9; 
             --platform-bg: #f7fafc;
@@ -42,6 +42,7 @@
             position: sticky; 
             top: 0; z-index: 1000;
             direction: rtl !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .header-content {
@@ -62,20 +63,20 @@
 
         .brand-section { display: flex; align-items: center; flex-direction: row !important; }
         .logo-img { height: 35px; width: auto; display: block; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(0,0,0,0.1); margin: 0 12px; }
         
         .title-box { display: flex; flex-direction: column; text-align: right !important; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; margin-bottom: 2px; letter-spacing: 0px; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0px; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1a202c; margin-bottom: 2px; letter-spacing: 0px; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: #64748b; letter-spacing: 0px; }
 
         .info-display-wrapper { 
-            display: flex; align-items: center; background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; 
+            display: flex; align-items: center; background: #f1f5f9; 
+            border: 1px solid #e2e8f0; border-radius: 8px; 
             padding: 0 10px; height: 40px; cursor: pointer;
             box-sizing: border-box; gap: 8px; flex-direction: row !important;
         }
-        .display-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; display: block; flex-shrink: 0; }
+        .display-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
+        .nav-icon { width: 22px; height: 22px; fill: #1e293b !important; display: block; flex-shrink: 0; }
 
         .login-bar {
             width: 100%; background-color: var(--login-bg);
@@ -238,7 +239,7 @@
         <header>
             <div class="header-content">
                 <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <img src="https://i.postimg.cc/MKdMnLSy/servio.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
                     <div class="title-box">
                         <span>مركز الخدمات الرقمية</span>
