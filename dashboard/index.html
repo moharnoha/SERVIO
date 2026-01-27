@@ -47,18 +47,25 @@
             background: #ffffff;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Align container to the right */
+            justify-content: center;
             z-index: 100000;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
+            visibility: visible;
+            transition: opacity 0.4s ease-out, visibility 0.4s;
         }
 
         .loader-right-side {
+            position: fixed;
+            right: 0 !important;
+            left: auto !important;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Align content inside to the right edge */
-            padding-right: 0;
-            margin-right: 0;
+            align-items: flex-end !important;
+            z-index: 100001;
+            width: 100%;
+            pointer-events: none;
         }
 
         .loader-welcome-msg {
@@ -66,12 +73,18 @@
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 8px;
-            padding-right: 15px; /* Spacing from the edge */
-            direction: rtl;
+            padding-right: 25px;
             white-space: nowrap;
-            text-align: right;
             font-family: 'Cairo', sans-serif;
+            text-align: right !important;
+            direction: rtl !important;
             width: auto;
+            align-self: flex-end;
+        }
+
+        .loader-right-side a, .loader-right-side img {
+            pointer-events: auto;
+            align-self: flex-end;
         }
 
         .loader-right-side img {
@@ -430,7 +443,7 @@
         <div class="loader-right-side">
             <div id="loader-welcome-txt" class="loader-welcome-msg">مرحباً بك في</div>
             <a href="https://postimg.cc/dk8H8qw8" target="_blank">
-                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png" onerror="this.style.display='none'">
+                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
             </a>
         </div>
     </div>
@@ -562,33 +575,20 @@
         let depositTransactions = [];
         const DISPLAY_LIMIT = 20;
 
-        /**
-         * TECHNICAL RULES FOR STABLE LOADING SCREEN
-         * 1. Timeout Fallback: Ensure loader disappears even if Firebase fails.
-         * 2. Memory Management: Clear listeners to prevent leaks.
-         * 3. Loading State: Avoid screen flickering.
-         */
-        const LOADER_TIMEOUT = 10000; // 10 seconds max safety timeout
-        let loaderTimer = setTimeout(() => hideInitialLoader(), LOADER_TIMEOUT);
-
+        // Management of Splash Loading Screen (Memory, Timeout, Safety)
         const hideInitialLoader = () => {
             const loader = document.getElementById('app-init-loader');
             if (loader && loader.style.display !== 'none') {
-                clearTimeout(loaderTimer);
                 loader.style.opacity = '0';
                 setTimeout(() => { 
-                    loader.style.display = 'none'; 
-                    // Release memory/dom reference
-                }, 500);
+                    loader.style.display = 'none';
+                    loader.innerHTML = ''; // Memory Clean
+                }, 400);
             }
         };
 
-        // Error Handling for Assets
-        window.addEventListener('error', (e) => {
-            if (e.target.tagName === 'IMG') {
-                console.warn('Resource failed to load, ensuring app remains stable.');
-            }
-        }, true);
+        // Safety Timeout (10 seconds max for splash screen)
+        const safetyLoaderTimeout = setTimeout(hideInitialLoader, 10000);
 
         // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
@@ -794,12 +794,13 @@
                         
                         window.renderUserData();
                         
-                        // Hide initial custom loader once user data is fetched
+                        // User verified -> Release Splash Screen
+                        clearTimeout(safetyLoaderTimeout);
                         hideInitialLoader();
                     }
                 }, (error) => {
-                    console.error("Firestore sync error:", error);
-                    hideInitialLoader(); // Safe exit
+                    console.error("Snapshot error:", error);
+                    hideInitialLoader();
                 });
 
                 const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
@@ -893,7 +894,7 @@
             const flagBox = document.getElementById('flag-ui');
             flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
-            // Sync loader text based on language (Text remains fixed in position)
+            // Sync loader text based on language - Fixed Location
             document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
             
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
