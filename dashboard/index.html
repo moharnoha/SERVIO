@@ -356,14 +356,14 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: #ffffff; 
+            background: #f8fafc; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             z-index: 9999;
         }
         .modal-card {
-            background: #ffffff; 
+            background: #f8fafc; 
             width: 100%; 
             height: 100%;
             padding: 0;
@@ -374,21 +374,21 @@
             flex-direction: column;
         }
         .modal-header-accent {
-            padding: 12px 18px; 
-            background-color: var(--brand-green);
-            color: white;
+            padding: 15px 20px; 
+            background-color: #ffffff;
+            color: var(--text-dark);
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 56px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            min-height: 65px;
         }
         .modal-title-text { 
             font-weight: 800; 
-            font-size: 16px; 
+            font-size: 18px; 
             margin: 0;
-            color: #ffffff;
+            color: var(--brand-green);
             flex: 1;
             text-align: center;
         }
@@ -403,17 +403,19 @@
         }
         .modal-close-icon {
             cursor: pointer;
-            width: 32px;
-            height: 32px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            transition: background 0.2s;
+            border-radius: 12px;
+            background: #f1f5f9;
+            color: #64748b;
+            transition: all 0.2s;
         }
         .modal-close-icon:active {
-            background: rgba(255,255,255,0.25);
+            background: #e2e8f0;
+            transform: scale(0.9);
         }
 
         .detail-modal-overlay {
@@ -568,10 +570,10 @@
         <div class="modal-card">
             <div class="modal-header-accent">
                 <div class="modal-close-icon" onclick="closeModal()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </div>
                 <h3 class="modal-title-text" id="modal-title"></h3>
-                <div style="width: 32px;"></div>
+                <div style="width: 38px;"></div>
             </div>
             <div class="modal-body" id="modal-content"></div>
         </div>
@@ -685,7 +687,7 @@
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
-            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'كافة خدمات SMM' : 'كافة الإيداعات') : (activeFilter === 'SMM Services' ? 'All SMM Services' : 'All Deposits');
+            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'سجل خدمات SMM' : 'سجل الإيداعات') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
 
             if (data.length === 0) {
                 document.getElementById('modal-content').innerHTML = `
@@ -706,9 +708,9 @@
                     if (status === 'active') {
                         statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                     } else if (status === 'activated') {
-                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
                     } else if (status === 'rejected') {
-                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#ef4444"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                     }
 
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -717,7 +719,7 @@
                     const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                     html += `
-                        <div class="trans-item" style="margin-bottom:12px; background: white;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        <div class="trans-item" style="margin-bottom:12px; background: white; border-radius: 20px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                             <div style="display:flex; flex-direction:column">
                                 <div style="display:flex; align-items:center;">
                                     <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
@@ -727,7 +729,7 @@
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
-                            <span class="trans-val">${amountLabel}</span>
+                            <span class="trans-val" style="color: ${isDep ? '#10b981' : '#1e293b'}">${amountLabel}</span>
                         </div>`;
                 });
                 html += '</div>';
