@@ -10,7 +10,7 @@
     
     <style>
         :root { 
-            --header-green: #2E5822; 
+            --header-green: #FFFFFF; 
             --bg-gray: #E4ECE3; 
             --card-white: #ffffff;
             --text-main: #1a202c;
@@ -32,6 +32,7 @@
             padding: 0 15px; box-sizing: border-box; width: 100%;
             position: sticky; top: 0; z-index: 2000;
             direction: rtl !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .header-content {
@@ -70,22 +71,22 @@
 
         .brand-section { display: flex; align-items: center; direction: rtl !important; }
         .logo-img { height: 35px; width: auto; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(255,255,255,0.3); margin: 0 12px; }
+        .v-line { width: 1px; height: 30px; background-color: rgba(0,0,0,0.1); margin: 0 12px; }
         
         .title-box { display: flex; flex-direction: column; text-align: right !important; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #ffffff; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #000000; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(0,0,0,0.5); }
         
         .region-badge { 
             display: flex; align-items: center; 
-            background: rgba(255,255,255,0.15); 
-            border: 1px solid rgba(255,255,255,0.1); 
+            background: #f1f5f9; 
+            border: 1px solid #e2e8f0; 
             border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; 
             direction: rtl !important;
         }
-        .region-text { font-size: 11px; font-weight: 700; color: #ffffff; display: flex; gap: 5px; direction: rtl !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; gap: 5px; direction: rtl !important; }
         .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
-        .nav-icon { width: 22px; height: 22px; fill: #ffffff !important; }
+        .nav-icon { width: 22px; height: 22px; fill: #1e293b !important; }
 
         .services-grid {
             display: flex;
@@ -116,7 +117,7 @@
         }
 
         .user-header-left { display: flex; align-items: center; gap: 12px; }
-        .user-avatar-circle { color: var(--header-green); font-size: 20px; }
+        .user-avatar-circle { color: #2E5822; font-size: 20px; }
         .user-header-title { font-size: 14px; font-weight: 800; color: #64748b; }
         .dropdown-arrow-icon { font-size: 12px; color: #94a3b8; transition: 0.3s; }
 
@@ -137,7 +138,7 @@
             display: none;
             text-align: center;
             padding: 20px;
-            color: var(--header-green);
+            color: #2E5822;
             font-size: 20px;
         }
 
@@ -252,13 +253,13 @@
             flex-direction: column;
             gap: 2px;
         }
-        .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
-        .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
+        .upload-section .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
+        .upload-section .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
 
         .pay-submit-btn {
             width: 100%;
             height: 56px;
-            background-color: var(--header-green);
+            background-color: #396E2D;
             color: #fff;
             border: none;
             border-radius: 14px;
@@ -275,7 +276,7 @@
             position: relative;
         }
         .pay-submit-btn:active { transform: scale(0.98); opacity: 0.9; }
-        .pay-submit-btn:disabled { background-color: var(--header-green); cursor: not-allowed; opacity: 1; }
+        .pay-submit-btn:disabled { background-color: #396E2D; cursor: not-allowed; opacity: 1; }
         
         .spinner { 
             position: absolute; 
@@ -391,7 +392,7 @@
         <div class="top-header">
             <div class="header-content">
                 <div class="brand-section">
-                    <img src="https://i.postimg.cc/xjLGtL73/tsmym-bdwn-ʿnwan.png" alt="logo" class="logo-img">
+                    <img src="https://i.postimg.cc/MKdMnLSy/servio.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
                     <div class="title-box">
                         <span>مركز الخدمات الرقمية</span>
