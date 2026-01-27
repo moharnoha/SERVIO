@@ -733,11 +733,12 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <circle cx="11.5" cy="15.5" r="2.5" stroke="#2E5822" stroke-width="2" fill="white"></circle>
-                                <line x1="13.5" y1="17.5" x2="16" y2="20" stroke="#2E5822" stroke-width="2"></line>
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="11" stroke="#2E5822" stroke-width="1.2" stroke-dasharray="4 2" />
+                                <path d="M8 13.5C8 13.5 9.5 12 12 12C14.5 12 16 13.5 16 13.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="8.5" cy="9.5" r="1.2" fill="#94a3b8"/>
+                                <circle cx="15.5" cy="9.5" r="1.2" fill="#94a3b8"/>
+                                <path d="M12 12V18M12 18L10 16M12 18L14 16" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
                             </svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
