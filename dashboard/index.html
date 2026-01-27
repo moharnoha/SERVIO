@@ -662,11 +662,11 @@
                 document.getElementById('modal-content').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <circle cx="11.5" cy="15.5" r="2.5" stroke="#2E5822" stroke-width="2" fill="white"></circle>
+                                <line x1="13.5" y1="17.5" x2="16" y2="20" stroke="#2E5822" stroke-width="2"></line>
                             </svg>
                         </div>
                         <p class="empty-state-text">${isAr ? 'لا توجد معاملات مسجلة' : 'No transactions recorded'}</p>
@@ -733,11 +733,11 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <svg width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="#2E5822" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <circle cx="11.5" cy="15.5" r="2.5" stroke="#2E5822" stroke-width="2" fill="white"></circle>
+                                <line x1="13.5" y1="17.5" x2="16" y2="20" stroke="#2E5822" stroke-width="2"></line>
                             </svg>
                         </div>
                         <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
