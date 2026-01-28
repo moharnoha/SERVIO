@@ -30,7 +30,7 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            padding-bottom: 150px; 
+            padding-bottom: 210px; 
         }
 
         header { 
@@ -152,7 +152,7 @@
             flex-direction: column;
             width: 100%;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
         }
 
         .sheet-header-text {
@@ -164,31 +164,35 @@
             margin-bottom: 5px;
         }
 
-        .google-btn {
-            background-color: #f2f2f2; 
+        .auth-btn {
             border-radius: 14px; 
-            height: 54px;
+            height: 52px;
             padding: 0 20px;
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 12px;
-            box-shadow: none; 
-            border: none; 
             cursor: pointer;
             transition: all 0.2s ease;
             width: 100%;
-        }
-        
-        .google-btn:active {
-            transform: scale(0.97);
-            background-color: #e5e5e5;
-        }
-
-        .google-btn span { 
-            color: #000000; 
+            border: none;
             font-size: 15px; 
             font-weight: 700; 
+        }
+
+        .google-btn {
+            background-color: #f2f2f2; 
+            color: #000000;
+        }
+        
+        .apple-btn {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .auth-btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
         }
 
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
@@ -305,12 +309,19 @@
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
                 <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
-                <button class="google-btn" id="google-auth-btn">
-                    <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                
+                <button class="auth-btn google-btn" id="google-auth-btn">
+                    <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
                     <span id="google-btn-label">استمر مع جوجل</span>
                 </button>
-                <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4;">
-                    بالنقر على "استمر مع جوجل"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
+
+                <button class="auth-btn apple-btn" id="apple-auth-btn">
+                    <svg viewBox="0 0 384 512" width="20px" height="20px" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                    <span id="apple-btn-label">استمر مع ابل</span>
+                </button>
+
+                <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
+                    بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
                 </div>
             </div>
         </div>
@@ -323,7 +334,7 @@
     </div>
 
     <script>
-        // Professional Dynamic Stats Simulation - High Frequency & Realistic Step
+        // Professional Dynamic Stats Simulation
         const stats = [
             { id: 'c1', current: 428.2, step: 0.1, suffix: 'k' },
             { id: 'c2', current: 1.254, step: 0.001, suffix: 'M' },
@@ -404,6 +415,7 @@
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
+            document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             
             const promo = {
@@ -438,7 +450,6 @@
         document.getElementById("google-auth-btn").addEventListener("click", () => {
             signInWithPopup(auth, provider).then(async (result) => {
                 const user = result.user;
-                
                 const lang = localStorage.getItem('pref_lang') || 'ar';
                 const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
                 const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
@@ -466,13 +477,15 @@
                         selected_language: currentLanguageName
                     }, { merge: true });
                 }
-                
                 window.location.href = "dashboard/"; 
-
             }).catch(e => {
                 console.error("Firebase Error:", e);
                 alert("فشل تسجيل الدخول: " + e.message);
             });
+        });
+
+        document.getElementById("apple-auth-btn").addEventListener("click", () => {
+             alert(localStorage.getItem('pref_lang') === 'en' ? "Apple Sign-In coming soon!" : "تسجيل دخول ابل يتوفر قريباً!");
         });
     </script>
 </body>
