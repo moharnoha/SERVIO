@@ -164,6 +164,30 @@
             margin-bottom: 5px;
         }
 
+        .email-auth-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .auth-input {
+            width: 100%;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 0 15px;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .auth-input:focus {
+            border-color: var(--login-bg);
+        }
+
         .auth-btn {
             border-radius: 14px; 
             height: 52px;
@@ -178,6 +202,12 @@
             border: none;
             font-size: 15px; 
             font-weight: 700; 
+        }
+
+        .email-btn {
+            background-color: var(--login-bg);
+            color: white;
+            margin-top: 5px;
         }
 
         .google-btn {
@@ -195,37 +225,30 @@
             opacity: 0.9;
         }
 
-        .email-form-container {
-            width: 100%;
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .email-input {
-            width: 100%;
-            height: 48px;
-            padding: 0 15px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-        }
-
-        .email-auth-btn {
-            background-color: #386E2C;
-            color: white;
+        .toggle-auth-mode {
+            font-size: 12px;
+            color: #386E2C;
+            font-weight: 700;
+            cursor: pointer;
             margin-top: 5px;
         }
 
-        .divider-text {
-            font-size: 11px;
+        .divider {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            text-align: center;
             color: #94a3b8;
-            margin: 5px 0;
+            font-size: 11px;
+            margin: 10px 0;
         }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .divider:not(:empty)::before { margin-left: .5em; }
+        .divider:not(:empty)::after { margin-right: .5em; }
 
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
@@ -342,6 +365,16 @@
             <div class="auth-flex-container">
                 <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
                 
+                <div class="email-auth-box" id="email-auth-section">
+                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
+                    <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
+                    <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
+                    <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ليس لديك حساب؟ إنشاء حساب</div>
+                </div>
+
+                <div class="divider">أو عبر</div>
+
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
                     <span id="google-btn-label">استمر مع جوجل</span>
@@ -351,15 +384,6 @@
                     <svg viewBox="0 0 384 512" width="20px" height="20px" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
                     <span id="apple-btn-label">استمر مع ابل</span>
                 </button>
-
-                <div class="divider-text" id="or-text">أو</div>
-
-                <div class="email-form-container">
-                    <input type="text" id="user-name" class="email-input" placeholder="اسم المستخدم">
-                    <input type="email" id="user-email" class="email-input" placeholder="البريد الإلكتروني">
-                    <input type="password" id="user-pass" class="email-input" placeholder="كلمة المرور">
-                    <button class="auth-btn email-auth-btn" id="email-auth-btn">إنشاء حساب / دخول</button>
-                </div>
 
                 <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
                     بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
@@ -375,6 +399,25 @@
     </div>
 
     <script>
+        let isSignUpMode = false;
+        function toggleAuthMode() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            isSignUpMode = !isSignUpMode;
+            const usernameInput = document.getElementById('auth-username');
+            const actionBtn = document.getElementById('email-action-btn');
+            const toggleBtn = document.getElementById('toggle-auth-mode');
+            
+            if(isSignUpMode) {
+                usernameInput.style.display = "block";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
+                toggleBtn.innerText = lang === 'ar' ? "لديك حساب بالفعل؟ تسجيل الدخول" : "Have an account? Sign In";
+            } else {
+                usernameInput.style.display = "none";
+                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                toggleBtn.innerText = lang === 'ar' ? "ليس لديك حساب؟ إنشاء حساب" : "Don't have an account? Sign Up";
+            }
+        }
+
         // Professional Dynamic Stats Simulation
         const stats = [
             { id: 'c1', current: 428.2, step: 0.1, suffix: 'k' },
@@ -459,12 +502,6 @@
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             
-            document.getElementById('user-name').placeholder = lang === 'ar' ? "اسم المستخدم" : "Username";
-            document.getElementById('user-email').placeholder = lang === 'ar' ? "البريد الإلكتروني" : "Email";
-            document.getElementById('user-pass').placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
-            document.getElementById('email-auth-btn').innerText = lang === 'ar' ? "إنشاء حساب / دخول" : "Sign up / Sign in";
-            document.getElementById('or-text').innerText = lang === 'ar' ? "أو" : "OR";
-
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
@@ -494,7 +531,7 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        async function syncUserToFirestore(user, customName = null) {
+        async function saveUserToFirestore(user, customName = null) {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
@@ -514,8 +551,7 @@
                     email: user.email,
                     uid: user.uid,
                     selected_region: currentRegionName,
-                    selected_language: currentLanguageName,
-                    created_at: new Date()
+                    selected_language: currentLanguageName
                 });
             } else {
                 await setDoc(userRef, {
@@ -526,45 +562,35 @@
             window.location.href = "dashboard/";
         }
 
+        document.getElementById("email-action-btn").addEventListener("click", async () => {
+            const email = document.getElementById("auth-email").value;
+            const password = document.getElementById("auth-password").value;
+            const username = document.getElementById("auth-username").value;
+
+            if(!email || !password) return alert("يرجى ملء البيانات");
+
+            try {
+                if(isSignUpMode) {
+                    if(!username) return alert("يرجى كتابة اسم المستخدم");
+                    const res = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(res.user, { displayName: username });
+                    await saveUserToFirestore(res.user, username);
+                } else {
+                    const res = await signInWithEmailAndPassword(auth, email, password);
+                    await saveUserToFirestore(res.user);
+                }
+            } catch (e) {
+                alert("خطأ: " + e.message);
+            }
+        });
+
         document.getElementById("google-auth-btn").addEventListener("click", () => {
-            signInWithPopup(auth, provider).then((result) => {
-                syncUserToFirestore(result.user);
+            signInWithPopup(auth, provider).then(async (result) => {
+                await saveUserToFirestore(result.user);
             }).catch(e => {
                 console.error("Firebase Error:", e);
                 alert("فشل تسجيل الدخول: " + e.message);
             });
-        });
-
-        document.getElementById("email-auth-btn").addEventListener("click", async () => {
-            const email = document.getElementById("user-email").value;
-            const pass = document.getElementById("user-pass").value;
-            const username = document.getElementById("user-name").value;
-
-            if(!email || !pass) {
-                alert("يرجى ملء كافة الحقول");
-                return;
-            }
-
-            try {
-                // Try login first
-                const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-                syncUserToFirestore(userCredential.user);
-            } catch (error) {
-                // If user doesn't exist, try to create account
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                    try {
-                        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                        if(username) {
-                            await updateProfile(userCredential.user, { displayName: username });
-                        }
-                        syncUserToFirestore(userCredential.user, username);
-                    } catch (signupError) {
-                        alert("خطأ: " + signupError.message);
-                    }
-                } else {
-                    alert("خطأ: " + error.message);
-                }
-            }
         });
 
         document.getElementById("apple-auth-btn").addEventListener("click", () => {
