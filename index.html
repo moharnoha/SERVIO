@@ -195,6 +195,38 @@
             opacity: 0.9;
         }
 
+        .email-form-container {
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .email-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 15px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+        }
+
+        .email-auth-btn {
+            background-color: #386E2C;
+            color: white;
+            margin-top: 5px;
+        }
+
+        .divider-text {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 5px 0;
+        }
+
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
@@ -320,6 +352,15 @@
                     <span id="apple-btn-label">استمر مع ابل</span>
                 </button>
 
+                <div class="divider-text" id="or-text">أو</div>
+
+                <div class="email-form-container">
+                    <input type="text" id="user-name" class="email-input" placeholder="اسم المستخدم">
+                    <input type="email" id="user-email" class="email-input" placeholder="البريد الإلكتروني">
+                    <input type="password" id="user-pass" class="email-input" placeholder="كلمة المرور">
+                    <button class="auth-btn email-auth-btn" id="email-auth-btn">إنشاء حساب / دخول</button>
+                </div>
+
                 <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
                     بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
                 </div>
@@ -418,6 +459,12 @@
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             
+            document.getElementById('user-name').placeholder = lang === 'ar' ? "اسم المستخدم" : "Username";
+            document.getElementById('user-email').placeholder = lang === 'ar' ? "البريد الإلكتروني" : "Email";
+            document.getElementById('user-pass').placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
+            document.getElementById('email-auth-btn').innerText = lang === 'ar' ? "إنشاء حساب / دخول" : "Sign up / Sign in";
+            document.getElementById('or-text').innerText = lang === 'ar' ? "أو" : "OR";
+
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
@@ -430,7 +477,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
@@ -447,41 +494,77 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
+        async function syncUserToFirestore(user, customName = null) {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
+            const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
+            
+            const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
+            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
+
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
+
+            if (!docSnap.exists()) {
+                await setDoc(userRef, {
+                    name: customName || user.displayName || "User",
+                    balance: 0,
+                    total_spend: 0,
+                    email: user.email,
+                    uid: user.uid,
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName,
+                    created_at: new Date()
+                });
+            } else {
+                await setDoc(userRef, {
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName
+                }, { merge: true });
+            }
+            window.location.href = "dashboard/";
+        }
+
         document.getElementById("google-auth-btn").addEventListener("click", () => {
-            signInWithPopup(auth, provider).then(async (result) => {
-                const user = result.user;
-                const lang = localStorage.getItem('pref_lang') || 'ar';
-                const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-                const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
-                const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
-                
-                const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
-                const currentLanguageName = lang === 'ar' ? "العربية" : "English";
-
-                const userRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(userRef);
-
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, {
-                        name: user.displayName,
-                        balance: 0,
-                        total_spend: 0,
-                        email: user.email,
-                        uid: user.uid,
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName
-                    });
-                } else {
-                    await setDoc(userRef, {
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName
-                    }, { merge: true });
-                }
-                window.location.href = "dashboard/"; 
+            signInWithPopup(auth, provider).then((result) => {
+                syncUserToFirestore(result.user);
             }).catch(e => {
                 console.error("Firebase Error:", e);
                 alert("فشل تسجيل الدخول: " + e.message);
             });
+        });
+
+        document.getElementById("email-auth-btn").addEventListener("click", async () => {
+            const email = document.getElementById("user-email").value;
+            const pass = document.getElementById("user-pass").value;
+            const username = document.getElementById("user-name").value;
+
+            if(!email || !pass) {
+                alert("يرجى ملء كافة الحقول");
+                return;
+            }
+
+            try {
+                // Try login first
+                const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+                syncUserToFirestore(userCredential.user);
+            } catch (error) {
+                // If user doesn't exist, try to create account
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                    try {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                        if(username) {
+                            await updateProfile(userCredential.user, { displayName: username });
+                        }
+                        syncUserToFirestore(userCredential.user, username);
+                    } catch (signupError) {
+                        alert("خطأ: " + signupError.message);
+                    }
+                } else {
+                    alert("خطأ: " + error.message);
+                }
+            }
         });
 
         document.getElementById("apple-auth-btn").addEventListener("click", () => {
