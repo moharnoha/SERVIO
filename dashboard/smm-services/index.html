@@ -204,6 +204,65 @@
             align-items: center;
         }
         .search-btn.active { color: var(--primary-blue); transform: scale(1.1); }
+
+        /* ترويسة اللغة والمنطقة */
+        .language-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1.5px solid #E4ECE3;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .lang-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .lang-item:hover {
+            background: #f8fafc;
+        }
+        .lang-item.active {
+            background: #f0f7ff;
+            border-color: #dbeafe;
+        }
+        .lang-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .lang-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #475569;
+        }
+        .lang-item.active .lang-name {
+            color: #2563eb;
+        }
+        .region-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 10px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .region-badge i { font-size: 12px; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -221,6 +280,24 @@
     <div class="container-wrapper">
         <div class="main-container">
             <div class="content-area">
+                
+                <div class="language-header">
+                    <div style="display: flex; gap: 8px;">
+                        <div class="lang-item" id="lang-ar" onclick="setLanguage('ar')">
+                            <img src="https://flagcdn.com/w40/sa.png" class="lang-flag" alt="Arabic">
+                            <span class="lang-name">العربية</span>
+                        </div>
+                        <div class="lang-item" id="lang-en" onclick="setLanguage('en')">
+                            <img src="https://flagcdn.com/w40/us.png" class="lang-flag" alt="English">
+                            <span class="lang-name">English</span>
+                        </div>
+                    </div>
+                    <div class="region-badge">
+                        <i class="fas fa-globe-americas"></i>
+                        <span id="region-name">Global</span>
+                    </div>
+                </div>
+
                 <div class="order-card">
                     <div class="order-header">
                         <div class="order-icon-circle"><svg viewBox="0 0 24 24"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.48C21.04,5.19 21.13,4.86 21.13,4.52A1,1 0 0,0 20.13,3.52H5.21L4.27,1.52M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg></div>
@@ -343,11 +420,20 @@
             }
         };
 
+        function setLanguage(lang) {
+            localStorage.setItem('pref_lang', lang);
+            applyTranslations();
+        }
+
         function applyTranslations() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             
+            // تحديث حالة الأزرار في الهيدر
+            document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) {
@@ -361,6 +447,21 @@
                     el.placeholder = translations[lang][key];
                 }
             });
+
+            // تحديث واجهة المستخدم بعد تغيير اللغة
+            const chosenService = localStorage.getItem('chosen_service');
+            const minVal = localStorage.getItem("service_min");
+            const maxVal = localStorage.getItem("service_max");
+            
+            if (document.getElementById("category")) {
+                document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
+            }
+            if (document.getElementById('min-hint')) {
+                document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
+            }
+            if (document.getElementById('max-hint')) {
+                document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
+            }
         }
 
         const scriptURL = "https://script.google.com/macros/s/AKfycbxJ0oupWVWSzpDrnEELES_4xlX-wWB05dgr7SFuww9JmjfFJkRj-nCrqWCUnmkSgABI/exec";
@@ -425,20 +526,12 @@
 
         function updateUI() {
             applyTranslations();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const chosenService = localStorage.getItem('chosen_service');
-            const minVal = localStorage.getItem("service_min");
-            const maxVal = localStorage.getItem("service_max");
             const savedEmail = localStorage.getItem("user_email");
             const isEmailHidden = localStorage.getItem("hide_email") === "true";
 
             if (savedEmail) {
                 document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail;
             }
-
-            document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
-            document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
-            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
             
             updatePriceAndFormat();
         }
