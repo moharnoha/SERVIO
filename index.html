@@ -10,11 +10,9 @@
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            /* تم تغيير اللون الأساسي إلى الأزرق */
-            --login-bg: #0095f6; 
+            --login-bg: #386E2C; 
             --google-section-bg: #EAF0E9; 
             --platform-bg: #f7fafc;
-            --accent-blue: #0095f6;
         }
 
         body { 
@@ -127,6 +125,7 @@
             text-align: center;
         }
 
+        /* Update: Single Unified Layout Styling */
         .login-sticky-sheet {
             width: 100%;
             max-width: 420px;
@@ -182,11 +181,10 @@
             background: #f8fafc;
         }
 
-        /* تم تغيير تأثير التركيز إلى الأزرق */
         .auth-input:focus {
-            border-color: var(--accent-blue);
+            border-color: var(--login-bg);
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(0, 149, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(56, 110, 44, 0.1);
         }
 
         .auth-btn {
@@ -206,10 +204,10 @@
         }
 
         .email-btn {
-            background-color: var(--accent-blue);
+            background-color: var(--login-bg);
             color: white;
             margin-top: 5px;
-            box-shadow: 0 4px 12px rgba(0, 149, 246, 0.2);
+            box-shadow: 0 4px 12px rgba(56, 110, 44, 0.2);
         }
 
         .google-btn {
@@ -241,10 +239,9 @@
             font-weight: 600;
         }
 
-        /* تم تغيير لون الرابط التفاعلي للأزرق */
         .toggle-auth-mode {
             font-size: 14px;
-            color: var(--accent-blue);
+            color: #386E2C;
             font-weight: 800;
             cursor: pointer;
             text-decoration: none;
@@ -271,8 +268,7 @@
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
-        /* تم تغيير لون النص الترويجي للأزرق */
-        .section-subtitle { font-size: 12px; font-weight: 600; color: var(--accent-blue); }
+        .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
 
         .platforms-grid {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
@@ -347,10 +343,13 @@
                     <div class="ticker-item">
                         <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         <span class="counter-badge" id="c1">428k</span>
+                        
                         <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                         <span class="counter-badge" id="c2">1.2M</span>
+                        
                         <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         <span class="counter-badge" id="c3">84.5k</span>
+
                         <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
                         <span class="counter-badge" id="c5">2.4M</span>
                     </div>
@@ -360,33 +359,35 @@
 
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
-                <div class="sheet-header-text" id="sheet-title">تسجيل الدخول</div>
+                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
-                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
+                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم بالكامل" style="display: none;">
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
-                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
-                    <input type="password" id="auth-confirm-password" class="auth-input" placeholder="تأكيد كلمة المرور" style="display: none;">
-                    
+                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور القوية">
                     <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
                     
                     <div class="toggle-auth-wrapper">
-                        <span class="toggle-text" id="toggle-hint">ليس لديك حساب؟</span>
-                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">إنشاء حساب جديد</div>
+                        <span class="toggle-text" id="toggle-hint">لا تملك حساباً بعد؟</span>
+                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ابدأ الآن وإنشاء حساب جديد</div>
                     </div>
                 </div>
 
-                <div class="divider">أو</div>
+                <div class="divider">أو عبر خيارات الدخول السريع</div>
 
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    <span id="google-btn-label">متابعة باستخدام Google</span>
+                    <span id="google-btn-label">استمر مع جوجل</span>
                 </button>
 
                 <button class="auth-btn apple-btn" id="apple-auth-btn">
                     <svg viewBox="0 0 384 512" width="20px" height="20px" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-                    <span id="apple-btn-label">متابعة باستخدام Apple</span>
+                    <span id="apple-btn-label">استمر مع ابل</span>
                 </button>
+
+                <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
+                    بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
+                </div>
             </div>
         </div>
 
@@ -400,6 +401,12 @@
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="platform-name">YouTube</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="platform-name">Facebook</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.778 6.98 6.978 1.28.058 1.688.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg><span class="platform-name">Instagram</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.23-2.74.24-.73.42-1.31 1.1-1.58 1.9-.2.55-.2 1.14-.11 1.72.17.91.71 1.74 1.44 2.3 1.02.82 2.5.94 3.63.31.95-.51 1.59-1.5 1.76-2.58.11-.64.1-1.29.1-1.93V.02z"/></svg><span class="platform-name">TikTok</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/snapchat--v1.png" class="p-img" alt="Snapchat"><span class="platform-name">Snapchat</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
         </div>
     </div>
@@ -416,26 +423,20 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
             const usernameInput = document.getElementById('auth-username');
-            const confirmPassInput = document.getElementById('auth-confirm-password');
             const actionBtn = document.getElementById('email-action-btn');
             const toggleBtn = document.getElementById('toggle-auth-mode');
             const toggleHint = document.getElementById('toggle-hint');
-            const sheetTitle = document.getElementById('sheet-title');
             
             if(isSignUpMode) {
                 usernameInput.style.display = "block";
-                confirmPassInput.style.display = "block";
-                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                actionBtn.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                toggleHint.innerText = lang === 'ar' ? "هل لديك حساب؟" : "Have an account?";
-                toggleBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Log In";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء حسابي الآن" : "Create My Account Now";
+                toggleHint.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleBtn.innerText = lang === 'ar' ? "سجل دخولك من هنا" : "Sign in from here";
             } else {
                 usernameInput.style.display = "none";
-                confirmPassInput.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "تسجيل الدخول" : "Log In";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Log In";
-                toggleHint.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleBtn.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Sign up";
+                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                toggleHint.innerText = lang === 'ar' ? "لا تملك حساباً بعد؟" : "Don't have an account yet?";
+                toggleBtn.innerText = lang === 'ar' ? "ابدأ الآن وإنشاء حساب جديد" : "Start now and create a new account";
             }
         }
 
@@ -451,12 +452,18 @@
                 s.current += (Math.random() * s.step * 1.5);
                 const el = document.getElementById(s.id);
                 if(el) {
-                    let display = s.suffix === 'M' ? s.current.toFixed(3) + 'M' : s.current.toFixed(1) + 'k';
+                    let display;
+                    if(s.suffix === 'M') {
+                        display = s.current.toFixed(3) + 'M';
+                    } else if(s.suffix === 'k') {
+                        display = s.current.toFixed(1) + 'k';
+                    }
                     el.innerText = display;
                 }
             });
             setTimeout(updateStats, 500);
         }
+        
         updateStats();
 
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
@@ -468,7 +475,13 @@
             { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
             { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
             { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
+            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
+            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
             { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
+            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
+            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
@@ -484,7 +497,7 @@
         function renderRegions() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const list = document.getElementById('regions-list');
-            list.innerHTML = `<div class="option-item" style="background:#0095f6; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
+            list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
                 ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
             </div>`;
             regionConfigs.forEach((reg, i) => {
@@ -506,11 +519,9 @@
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "متابعة باستخدام Google" : "Continue with Google";
-            document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "متابعة باستخدام Apple" : "Continue with Apple";
-            
-            const titleEl = document.getElementById('sheet-title');
-            titleEl.innerText = !isSignUpMode ? (lang === 'ar' ? "تسجيل الدخول" : "Log In") : (lang === 'ar' ? "إنشاء حساب" : "Sign Up");
+            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
+            document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
+            document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
@@ -520,6 +531,92 @@
             document.getElementById('promo-sub').innerText = promo[lang].sub;
         }
         updateUI();
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
+            authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", 
+            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", 
+            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        async function saveUserToFirestore(user, customName = null) {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
+            const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
+            
+            const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
+            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
+
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
+
+            if (!docSnap.exists()) {
+                await setDoc(userRef, {
+                    name: customName || user.displayName || "User",
+                    balance: 0,
+                    total_spend: 0,
+                    email: user.email,
+                    uid: user.uid,
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName
+                });
+            } else {
+                await setDoc(userRef, {
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName
+                }, { merge: true });
+            }
+            window.location.href = "dashboard/";
+        }
+
+        document.getElementById("email-action-btn").addEventListener("click", async () => {
+            const email = document.getElementById("auth-email").value;
+            const password = document.getElementById("auth-password").value;
+            const username = document.getElementById("auth-username").value;
+
+            if(!email || !password) return alert("يرجى ملء كافة البيانات المطلوبة");
+
+            try {
+                if(isSignUpMode) {
+                    if(!username) return alert("يرجى كتابة اسم المستخدم للمتابعة");
+                    const res = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(res.user, { displayName: username });
+                    await saveUserToFirestore(res.user, username);
+                } else {
+                    const res = await signInWithEmailAndPassword(auth, email, password);
+                    await saveUserToFirestore(res.user);
+                }
+            } catch (e) {
+                alert("خطأ في العملية: " + e.message);
+            }
+        });
+
+        document.getElementById("google-auth-btn").addEventListener("click", () => {
+            signInWithPopup(auth, provider).then(async (result) => {
+                await saveUserToFirestore(result.user);
+            }).catch(e => {
+                console.error("Firebase Error:", e);
+                alert("فشل تسجيل الدخول السريع: " + e.message);
+            });
+        });
+
+        document.getElementById("apple-auth-btn").addEventListener("click", () => {
+             alert(localStorage.getItem('pref_lang') === 'en' ? "Apple Sign-In coming soon!" : "تسجيل دخول ابل يتوفر قريباً!");
+        });
     </script>
 </body>
 </html>
