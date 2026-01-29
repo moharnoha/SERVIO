@@ -359,21 +359,23 @@
 
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
-                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
+                <div class="sheet-header-text" id="sheet-title">مرحباً بك مجدداً</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
-                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم بالكامل" style="display: none;">
+                    <input type="text" id="auth-username" class="auth-input" placeholder="الاسم الكامل" style="display: none;">
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
-                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور القوية">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
+                    <input type="password" id="auth-confirm-password" class="auth-input" placeholder="تأكيد كلمة المرور" style="display: none;">
+                    
                     <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
                     
                     <div class="toggle-auth-wrapper">
-                        <span class="toggle-text" id="toggle-hint">لا تملك حساباً بعد؟</span>
-                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ابدأ الآن وإنشاء حساب جديد</div>
+                        <span class="toggle-text" id="toggle-hint">ليس لديك حساب؟</span>
+                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">إنشاء حساب جديد</div>
                     </div>
                 </div>
 
-                <div class="divider">أو عبر خيارات الدخول السريع</div>
+                <div class="divider">أو المتابعة باستخدام</div>
 
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
@@ -423,20 +425,26 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
             const usernameInput = document.getElementById('auth-username');
+            const confirmPassInput = document.getElementById('auth-confirm-password');
             const actionBtn = document.getElementById('email-action-btn');
             const toggleBtn = document.getElementById('toggle-auth-mode');
             const toggleHint = document.getElementById('toggle-hint');
+            const sheetTitle = document.getElementById('sheet-title');
             
             if(isSignUpMode) {
                 usernameInput.style.display = "block";
-                actionBtn.innerText = lang === 'ar' ? "إنشاء حسابي الآن" : "Create My Account Now";
+                confirmPassInput.style.display = "block";
+                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
                 toggleHint.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleBtn.innerText = lang === 'ar' ? "سجل دخولك من هنا" : "Sign in from here";
+                toggleBtn.innerText = lang === 'ar' ? "سجل دخولك" : "Sign In";
             } else {
                 usernameInput.style.display = "none";
+                confirmPassInput.style.display = "none";
+                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                toggleHint.innerText = lang === 'ar' ? "لا تملك حساباً بعد؟" : "Don't have an account yet?";
-                toggleBtn.innerText = lang === 'ar' ? "ابدأ الآن وإنشاء حساب جديد" : "Start now and create a new account";
+                toggleHint.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleBtn.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
             }
         }
 
@@ -521,7 +529,12 @@
             
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
-            document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
+            
+            if(!isSignUpMode) {
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
+            } else {
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
+            }
             
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
@@ -586,6 +599,7 @@
         document.getElementById("email-action-btn").addEventListener("click", async () => {
             const email = document.getElementById("auth-email").value;
             const password = document.getElementById("auth-password").value;
+            const confirmPassword = document.getElementById("auth-confirm-password").value;
             const username = document.getElementById("auth-username").value;
 
             if(!email || !password) return alert("يرجى ملء كافة البيانات المطلوبة");
@@ -593,6 +607,7 @@
             try {
                 if(isSignUpMode) {
                     if(!username) return alert("يرجى كتابة اسم المستخدم للمتابعة");
+                    if(password !== confirmPassword) return alert("كلمات المرور غير متطابقة");
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: username });
                     await saveUserToFirestore(res.user, username);
