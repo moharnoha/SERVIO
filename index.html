@@ -125,7 +125,7 @@
             text-align: center;
         }
 
-        /* Improved Corporate Layout Styling */
+        /* Improved Corporate Auth UI */
         .login-sticky-sheet {
             width: 90%;
             max-width: 400px;
@@ -136,7 +136,7 @@
             flex-direction: column;
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin: 40px auto;
+            margin: 30px auto;
         }
 
         .sheet-header-text {
@@ -147,7 +147,7 @@
             margin-bottom: 8px;
         }
 
-        .sheet-subtext {
+        .sheet-sub-text {
             font-size: 14px;
             color: #64748b;
             text-align: center;
@@ -161,37 +161,29 @@
             gap: 12px;
         }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #475569;
-            margin-right: 4px;
+        .auth-input-group {
+            position: relative;
+            width: 100%;
         }
 
         .auth-input {
             width: 100%;
-            height: 50px;
+            height: 52px;
             border-radius: 12px;
             border: 1.5px solid #e2e8f0;
             padding: 0 16px;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
             font-size: 15px;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             background: #f8fafc;
         }
 
         .auth-input:focus {
+            outline: none;
             border-color: var(--login-bg);
             background: #fff;
             box-shadow: 0 0 0 4px rgba(56, 110, 44, 0.1);
-            outline: none;
         }
 
         .auth-btn {
@@ -202,7 +194,7 @@
             justify-content: center; 
             gap: 12px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             width: 100%;
             border: none;
             font-size: 16px; 
@@ -216,14 +208,24 @@
             box-shadow: 0 4px 12px rgba(56, 110, 44, 0.2);
         }
 
-        .email-btn:hover { background-color: #2d5a23; }
+        .email-btn:hover {
+            filter: brightness(1.1);
+        }
 
-        .google-btn { background-color: #ffffff; color: #1f2937; border: 1.5px solid #e2e8f0; }
-        .google-btn:hover { background-color: #f8fafc; }
+        .google-btn {
+            background-color: #ffffff; 
+            color: #1f2937;
+            border: 1.5px solid #e2e8f0;
+        }
         
-        .apple-btn { background-color: #000000; color: #ffffff; }
+        .apple-btn {
+            background-color: #000000;
+            color: #ffffff;
+        }
 
-        .auth-btn:active { transform: scale(0.98); }
+        .auth-btn:active {
+            transform: translateY(1px);
+        }
 
         .toggle-auth-mode {
             font-size: 14px;
@@ -234,9 +236,9 @@
 
         .toggle-auth-mode span {
             color: var(--login-bg);
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            text-decoration: underline;
+            margin-right: 5px;
         }
 
         .divider {
@@ -245,7 +247,7 @@
             align-items: center;
             text-align: center;
             color: #94a3b8;
-            font-size: 13px;
+            font-size: 12px;
             margin: 24px 0;
         }
         .divider::before, .divider::after {
@@ -253,8 +255,8 @@
             flex: 1;
             border-bottom: 1px solid #e2e8f0;
         }
-        .divider:not(:empty)::before { margin-left: 1em; }
-        .divider:not(:empty)::after { margin-right: 1em; }
+        .divider:not(:empty)::before { margin-left: 15px; }
+        .divider:not(:empty)::after { margin-right: 15px; }
 
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
@@ -350,27 +352,24 @@
 
         <div class="login-sticky-sheet">
             <div class="sheet-header-text" id="sheet-title">مرحباً بك مجدداً</div>
-            <div class="sheet-subtext" id="sheet-subtitle">سجل الدخول للوصول إلى لوحة التحكم</div>
+            <div class="sheet-sub-text" id="sheet-subtitle">سجل الدخول للوصول إلى حسابك</div>
             
             <div class="email-auth-box">
-                <div class="input-group" id="username-group" style="display: none;">
-                    <label class="input-label" id="label-user">اسم المستخدم</label>
-                    <input type="text" id="auth-username" class="auth-input" placeholder="اكتب اسمك">
+                <div class="auth-input-group" id="user-group" style="display: none;">
+                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم">
                 </div>
-                <div class="input-group">
-                    <label class="input-label" id="label-email">البريد الإلكتروني</label>
-                    <input type="email" id="auth-email" class="auth-input" placeholder="email@example.com">
+                <div class="auth-input-group">
+                    <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
                 </div>
-                <div class="input-group">
-                    <label class="input-label" id="label-pass">كلمة المرور</label>
-                    <input type="password" id="auth-password" class="auth-input" placeholder="••••••••">
+                <div class="auth-input-group">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
                 </div>
                 <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
             </div>
 
             <div class="divider">أو المتابعة باستخدام</div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+            <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
                     <span id="google-btn-label">Google</span>
@@ -383,7 +382,8 @@
             </div>
 
             <div class="toggle-auth-mode" id="toggle-container">
-                <span id="toggle-text">ليس لديك حساب؟</span> <span id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب جديد</span>
+                <span id="toggle-text">ليس لديك حساب؟</span>
+                <span id="toggle-auth-mode-btn" onclick="toggleAuthMode()">إنشاء حساب</span>
             </div>
         </div>
 
@@ -402,7 +402,7 @@
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86(0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
         </div>
     </div>
@@ -419,27 +419,27 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
             
-            const usernameGroup = document.getElementById('username-group');
+            const userGroup = document.getElementById('user-group');
             const actionBtn = document.getElementById('email-action-btn');
             const sheetTitle = document.getElementById('sheet-title');
             const sheetSubtitle = document.getElementById('sheet-subtitle');
             const toggleText = document.getElementById('toggle-text');
-            const toggleLink = document.getElementById('toggle-link');
+            const toggleBtn = document.getElementById('toggle-auth-mode-btn');
             
             if(isSignUpMode) {
-                usernameGroup.style.display = "flex";
-                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
-                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا وابدأ بتطوير حساباتك" : "Join us and start growing your accounts";
-                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
+                userGroup.style.display = "block";
+                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create Account";
+                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا وابدأ تجربة مميزة" : "Join us and start your journey";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Sign Up";
                 toggleText.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                toggleBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Log In";
             } else {
-                usernameGroup.style.display = "none";
+                userGroup.style.display = "none";
                 sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
-                sheetSubtitle.innerText = lang === 'ar' ? "سجل الدخول للوصول إلى لوحة التحكم" : "Sign in to access your dashboard";
+                sheetSubtitle.innerText = lang === 'ar' ? "سجل الدخول للوصول إلى حسابك" : "Login to access your account";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
                 toggleText.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create new account";
+                toggleBtn.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
             }
         }
 
@@ -522,25 +522,14 @@
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
-            // Text updates for auth labels
-            document.getElementById('label-user').innerText = lang === 'ar' ? "اسم المستخدم" : "Username";
-            document.getElementById('label-email').innerText = lang === 'ar' ? "البريد الإلكتروني" : "Email Address";
-            document.getElementById('label-pass').innerText = lang === 'ar' ? "كلمة المرور" : "Password";
+            document.getElementById('google-btn-label').innerText = "Google";
+            document.getElementById('apple-btn-label').innerText = "Apple";
             
             if(!isSignUpMode) {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الدخول للوصول إلى لوحة التحكم" : "Sign in to access your dashboard";
-                document.getElementById('email-action-btn').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                document.getElementById('toggle-text').innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                document.getElementById('toggle-link').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create new account";
-            } else {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا وابدأ بتطوير حساباتك" : "Join us and start growing your accounts";
-                document.getElementById('email-action-btn').innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
-                document.getElementById('toggle-text').innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                document.getElementById('toggle-link').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الدخول للوصول إلى حسابك" : "Login to access your account";
             }
-            
+
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
