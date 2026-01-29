@@ -74,26 +74,31 @@
         .region-badge { 
             display: flex; 
             align-items: center; 
-            background: #f8fafc; 
-            border: 1.5px solid #edf2f7; 
+            background: #f1f5f9; 
+            border: 1px solid #e2e8f0; 
             border-radius: 12px; 
             padding: 4px 10px; 
             height: 38px; 
-            gap: 10px; 
+            gap: 8px; 
             flex-direction: row !important;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .region-badge:hover {
+            background: #e2e8f0;
+            border-color: #cbd5e0;
         }
         .region-text { 
             font-size: 11px; 
             font-weight: 800; 
             color: #1a202c; 
             display: flex; 
+            gap: 4px; 
+            flex-direction: row !important;
             align-items: center;
-            gap: 6px; 
-            flex-direction: row !important; 
         }
-        .nav-flag { width: 20px; height: 14px; border-radius: 3px; object-fit: cover; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .nav-icon { width: 20px; height: 20px; fill: #4a5568 !important; }
+        .nav-flag { width: 20px; height: 14px; border-radius: 3px; object-fit: cover; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .nav-icon { width: 18px; height: 18px; fill: #475569 !important; }
 
         /* Search Section Restricted to 480px - NOT STICKY */
         .search-sticky { 
@@ -197,7 +202,11 @@
                 </div>
                 <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.2; font-weight: 400;">|</span><span id="lang-name" style="color: var(--primary-blue);">--</span></div>
+                    <div class="region-text">
+                        <span id="reg-name">---</span>
+                        <span style="color:#cbd5e0">/</span>
+                        <span id="lang-name" style="color:#64748b">--</span>
+                    </div>
                 </div>
             </div>
         </div>
