@@ -359,7 +359,7 @@
 
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
-                <div class="sheet-header-text" id="sheet-title">مرحباً بك مجدداً</div>
+                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
                     <input type="text" id="auth-username" class="auth-input" placeholder="الاسم الكامل" style="display: none;">
@@ -441,7 +441,7 @@
             } else {
                 usernameInput.style.display = "none";
                 confirmPassInput.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
+                sheetTitle.innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
                 toggleHint.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
                 toggleBtn.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
@@ -531,7 +531,7 @@
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             
             if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             } else {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
             }
