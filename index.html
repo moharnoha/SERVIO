@@ -69,13 +69,14 @@
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: #64748b; letter-spacing: 0px; }
 
         .info-display-wrapper { 
-            display: flex; align-items: center; background: #f1f5f9; 
-            border: 1px solid #e2e8f0; border-radius: 8px; 
+            display: flex; align-items: center; background: #ffffff; 
+            border: 1px solid #386E2C; border-radius: 8px; 
             padding: 0 10px; height: 40px; cursor: pointer;
             box-sizing: border-box; gap: 8px; flex-direction: row !important;
+            box-shadow: 0 2px 4px rgba(56, 110, 44, 0.08);
         }
-        .display-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
-        .nav-icon { width: 22px; height: 22px; fill: #1e293b !important; display: block; flex-shrink: 0; }
+        .display-text { font-size: 11px; font-weight: 700; color: #386E2C; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
+        .nav-icon { width: 22px; height: 22px; fill: #386E2C !important; display: block; flex-shrink: 0; }
 
         .login-bar {
             width: 100%; background-color: var(--login-bg);
@@ -359,7 +360,7 @@
 
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
-                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
+                <div class="sheet-header-text" id="sheet-title">مرحباً بك مجدداً</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
                     <input type="text" id="auth-username" class="auth-input" placeholder="الاسم الكامل" style="display: none;">
@@ -371,7 +372,7 @@
                     
                     <div class="toggle-auth-wrapper">
                         <span class="toggle-text" id="toggle-hint">ليس لديك حساب؟</span>
-                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ابدأ رحلة نجاحك الآن</div>
+                        <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">إنشاء حساب جديد</div>
                     </div>
                 </div>
 
@@ -435,16 +436,16 @@
                 usernameInput.style.display = "block";
                 confirmPassInput.style.display = "block";
                 sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
-                actionBtn.innerText = lang === 'ar' ? "أريد البدء الآن" : "Start My Journey";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
                 toggleHint.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
                 toggleBtn.innerText = lang === 'ar' ? "سجل دخولك" : "Sign In";
             } else {
                 usernameInput.style.display = "none";
                 confirmPassInput.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
+                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
                 toggleHint.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleBtn.innerText = lang === 'ar' ? "ابدأ رحلة نجاحك الآن" : "Start Success Journey";
+                toggleBtn.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
             }
         }
 
@@ -531,7 +532,7 @@
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             
             if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
             } else {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
             }
