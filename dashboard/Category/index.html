@@ -69,39 +69,31 @@
         .title-box { display: flex; flex-direction: column; text-align: right !important; }
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1a202c; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(0,0,0,0.5); }
-
-        /* ترويسة اللغة والمنطقة الجديدة المطورة */
-        .language-header-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ffffff;
-            border: 2px solid #386E2C;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            padding: 10px 14px;
-            width: calc(100% - 32px);
-            max-width: 448px;
-            box-sizing: border-box;
-            margin: 20px auto 0 auto;
-        }
-        .lang-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        
+        /* Updated Region Badge Styles */
+        .region-badge { 
+            display: flex; 
+            align-items: center; 
+            background: #FFFFFF; 
+            border: 1.5px solid #386E2C; 
+            border-radius: 12px; 
+            padding: 0 12px; 
+            height: 42px; 
+            gap: 10px; 
+            flex-direction: row !important; 
             cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 12px;
             transition: all 0.2s ease;
-            border: 1px solid transparent;
         }
-        .lang-item:hover { background: #f0f7f0; }
-        .lang-item.active { background: #f0f7f0; border-color: #386E2C; }
-        .lang-flag { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .lang-name { font-size: 14px; font-weight: 700; color: #475569; }
-        .lang-item.active .lang-name { color: #386E2C; }
-        .region-badge-new { display: flex; align-items: center; gap: 6px; background: #f1f8f1; padding: 6px 12px; border-radius: 10px; color: #386E2C; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(56, 110, 44, 0.1); }
-        .region-badge-new i { font-size: 12px; color: #386E2C; }
+        .region-text { 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: #386E2C; 
+            display: flex; 
+            gap: 6px; 
+            flex-direction: row !important; 
+        }
+        .nav-flag { width: 24px; height: 16px; border-radius: 3px; object-fit: cover; }
+        .nav-icon { width: 22px; height: 22px; fill: #386E2C !important; }
 
         /* Search Section Restricted to 480px - NOT STICKY */
         .search-sticky { 
@@ -111,7 +103,6 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
         }
         .search-wrapper { position: relative; width: 100%; max-width: 480px; padding: 0 16px; box-sizing: border-box; }
         
@@ -204,27 +195,10 @@
                     <div class="v-line"></div>
                     <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
-                <div class="region-badge" style="display: none;">
+                <div class="region-badge">
                     <div id="flag-ui"></div>
                     <div class="region-text"><span id="reg-name">---</span><span style="opacity:0.3">|</span><span id="lang-name">--</span></div>
                 </div>
-            </div>
-        </div>
-
-        <div class="language-header-box">
-            <div style="display: flex; gap: 8px;">
-                <div class="lang-item" id="lang-ar" onclick="setLanguage('ar')">
-                    <img src="https://flagcdn.com/w40/sa.png" class="lang-flag" alt="Arabic">
-                    <span class="lang-name">العربية</span>
-                </div>
-                <div class="lang-item" id="lang-en" onclick="setLanguage('en')">
-                    <img src="https://flagcdn.com/w40/us.png" class="lang-flag" alt="English">
-                    <span class="lang-name">English</span>
-                </div>
-            </div>
-            <div class="region-badge-new">
-                <i class="fas fa-globe-americas"></i>
-                <span id="reg-label">GLOBAL</span>
             </div>
         </div>
         
@@ -263,20 +237,23 @@
             }
         };
 
+        const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+        const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+
         const regionConfigs = [
-            { id: 'mena', ar: "الشرق الأوسط", en: "MENA" },
-            { id: 'algeria', ar: "الجزائر", en: "Algeria" },
-            { id: 'egypt', ar: "مصر", en: "Egypt" },
-            { id: 'iraq', ar: "العراق", en: "Iraq" },
-            { id: 'morocco', ar: "المغرب", en: "Morocco" },
-            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria" },
-            { id: 'oman', ar: "عمان", en: "Oman" },
-            { id: 'palestine', ar: "فلسطين", en: "Palestine" },
-            { id: 'qatar', ar: "قطر", en: "Qatar" },
-            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia" },
-            { id: 'tunisia', ar: "تونس", en: "Tunisia" },
-            { id: 'uae', ar: "الإمارات", en: "UAE" },
-            { id: 'other', ar: "منطقة أخرى", en: "Other Region" }
+            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: menaIcon },
+            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
+            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
+            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
+            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
+            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
+            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
+            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
+            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
+            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
+            { id: 'tunisia', ar: "تونس", en: "Tunisia", flag: 'https://flagcdn.com/tn.svg' },
+            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' },
+            { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
         const servicesData = [
@@ -355,11 +332,6 @@
             ]}
         ];
 
-        function setLanguage(lang) {
-            localStorage.setItem('pref_lang', lang);
-            init();
-        }
-
         function init() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
@@ -367,12 +339,11 @@
             const isAr = lang === 'ar';
             const savedServiceId = localStorage.getItem('chosen_service_id'); 
 
-            // تحديث حالة أزرار اللغة
-            document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
-            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-
             const reg = regionConfigs[regIdx] || regionConfigs[0];
-            document.getElementById('reg-label').innerText = reg[lang].toUpperCase();
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
             
