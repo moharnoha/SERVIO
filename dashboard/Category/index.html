@@ -70,18 +70,18 @@
         .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1a202c; }
         .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(0,0,0,0.5); }
 
-        /* ترويسة اللغة والمنطقة الجديدة */
+        /* ترويسة اللغة والمنطقة الجديدة المطورة */
         .language-header-box {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #ffffff;
-            border: 1.5px solid #E4ECE3;
+            border: 2px solid #386E2C;
             border-radius: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             padding: 10px 14px;
-            width: 100%;
-            max-width: 480px;
+            width: calc(100% - 32px);
+            max-width: 448px;
             box-sizing: border-box;
             margin: 20px auto 0 auto;
         }
@@ -95,13 +95,13 @@
             transition: all 0.2s ease;
             border: 1px solid transparent;
         }
-        .lang-item:hover { background: #f8fafc; }
-        .lang-item.active { background: #f0f7ff; border-color: #dbeafe; }
+        .lang-item:hover { background: #f0f7f0; }
+        .lang-item.active { background: #f0f7f0; border-color: #386E2C; }
         .lang-flag { width: 24px; height: 24px; border-radius: 6px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .lang-name { font-size: 14px; font-weight: 700; color: #475569; }
-        .lang-item.active .lang-name { color: #2563eb; }
-        .region-badge-new { display: flex; align-items: center; gap: 6px; background: #f1f5f9; padding: 6px 12px; border-radius: 10px; color: #64748b; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-        .region-badge-new i { font-size: 12px; color: #94a3b8; }
+        .lang-item.active .lang-name { color: #386E2C; }
+        .region-badge-new { display: flex; align-items: center; gap: 6px; background: #f1f8f1; padding: 6px 12px; border-radius: 10px; color: #386E2C; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(56, 110, 44, 0.1); }
+        .region-badge-new i { font-size: 12px; color: #386E2C; }
 
         /* Search Section Restricted to 480px - NOT STICKY */
         .search-sticky { 
