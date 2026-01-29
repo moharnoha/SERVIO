@@ -125,107 +125,118 @@
             text-align: center;
         }
 
-        /* Update: Single Unified Layout Styling */
+        /* Improved Corporate Layout Styling */
         .login-sticky-sheet {
-            width: 100%;
-            max-width: 420px;
+            width: 90%;
+            max-width: 400px;
             background: #ffffff;
-            padding: 24px;
+            padding: 32px 24px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 28px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin: 20px auto;
-        }
-
-        .auth-flex-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
-            gap: 12px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin: 40px auto;
         }
 
         .sheet-header-text {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 800;
-            color: #000000;
+            color: #1a202c;
             text-align: center;
-            margin: 0;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+        }
+
+        .sheet-subtext {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 24px;
         }
 
         .email-auth-box {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #475569;
+            margin-right: 4px;
         }
 
         .auth-input {
             width: 100%;
-            height: 48px;
+            height: 50px;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            padding: 0 15px;
+            border: 1.5px solid #e2e8f0;
+            padding: 0 16px;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            outline: none;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background: #f8fafc;
         }
 
         .auth-input:focus {
             border-color: var(--login-bg);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(56, 110, 44, 0.1);
+            outline: none;
         }
 
         .auth-btn {
-            border-radius: 14px; 
+            border-radius: 12px; 
             height: 52px;
-            padding: 0 20px;
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             border: none;
-            font-size: 15px; 
+            font-size: 16px; 
             font-weight: 700; 
         }
 
         .email-btn {
             background-color: var(--login-bg);
             color: white;
-            margin-top: 5px;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(56, 110, 44, 0.2);
         }
 
-        .google-btn {
-            background-color: #f2f2f2; 
-            color: #000000;
-        }
+        .email-btn:hover { background-color: #2d5a23; }
+
+        .google-btn { background-color: #ffffff; color: #1f2937; border: 1.5px solid #e2e8f0; }
+        .google-btn:hover { background-color: #f8fafc; }
         
-        .apple-btn {
-            background-color: #000000;
-            color: #ffffff;
-        }
+        .apple-btn { background-color: #000000; color: #ffffff; }
 
-        .auth-btn:active {
-            transform: scale(0.97);
-            opacity: 0.9;
-        }
+        .auth-btn:active { transform: scale(0.98); }
 
         .toggle-auth-mode {
-            font-size: 12px;
-            color: #386E2C;
-            font-weight: 700;
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .toggle-auth-mode span {
+            color: var(--login-bg);
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 5px;
+            text-decoration: underline;
         }
 
         .divider {
@@ -234,16 +245,16 @@
             align-items: center;
             text-align: center;
             color: #94a3b8;
-            font-size: 11px;
-            margin: 10px 0;
+            font-size: 13px;
+            margin: 24px 0;
         }
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid #e2e8f0;
         }
-        .divider:not(:empty)::before { margin-left: .5em; }
-        .divider:not(:empty)::after { margin-right: .5em; }
+        .divider:not(:empty)::before { margin-left: 1em; }
+        .divider:not(:empty)::after { margin-right: 1em; }
 
         .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
@@ -338,32 +349,41 @@
         </div>
 
         <div class="login-sticky-sheet">
-            <div class="auth-flex-container">
-                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
-                
-                <div class="email-auth-box" id="email-auth-section">
-                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
-                    <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
-                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
-                    <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
-                    <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ليس لديك حساب؟ إنشاء حساب</div>
+            <div class="sheet-header-text" id="sheet-title">مرحباً بك مجدداً</div>
+            <div class="sheet-subtext" id="sheet-subtitle">سجل الدخول للوصول إلى لوحة التحكم</div>
+            
+            <div class="email-auth-box">
+                <div class="input-group" id="username-group" style="display: none;">
+                    <label class="input-label" id="label-user">اسم المستخدم</label>
+                    <input type="text" id="auth-username" class="auth-input" placeholder="اكتب اسمك">
                 </div>
+                <div class="input-group">
+                    <label class="input-label" id="label-email">البريد الإلكتروني</label>
+                    <input type="email" id="auth-email" class="auth-input" placeholder="email@example.com">
+                </div>
+                <div class="input-group">
+                    <label class="input-label" id="label-pass">كلمة المرور</label>
+                    <input type="password" id="auth-password" class="auth-input" placeholder="••••••••">
+                </div>
+                <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
+            </div>
 
-                <div class="divider">أو عبر</div>
+            <div class="divider">أو المتابعة باستخدام</div>
 
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    <span id="google-btn-label">استمر مع جوجل</span>
+                    <span id="google-btn-label">Google</span>
                 </button>
 
                 <button class="auth-btn apple-btn" id="apple-auth-btn">
                     <svg viewBox="0 0 384 512" width="20px" height="20px" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-                    <span id="apple-btn-label">استمر مع ابل</span>
+                    <span id="apple-btn-label">Apple</span>
                 </button>
+            </div>
 
-                <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
-                    بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
-                </div>
+            <div class="toggle-auth-mode" id="toggle-container">
+                <span id="toggle-text">ليس لديك حساب؟</span> <span id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب جديد</span>
             </div>
         </div>
 
@@ -382,7 +402,7 @@
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86(0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
         </div>
     </div>
@@ -398,18 +418,28 @@
         function toggleAuthMode() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
-            const usernameInput = document.getElementById('auth-username');
+            
+            const usernameGroup = document.getElementById('username-group');
             const actionBtn = document.getElementById('email-action-btn');
-            const toggleBtn = document.getElementById('toggle-auth-mode');
+            const sheetTitle = document.getElementById('sheet-title');
+            const sheetSubtitle = document.getElementById('sheet-subtitle');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleLink = document.getElementById('toggle-link');
             
             if(isSignUpMode) {
-                usernameInput.style.display = "block";
+                usernameGroup.style.display = "flex";
+                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
+                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا وابدأ بتطوير حساباتك" : "Join us and start growing your accounts";
                 actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
-                toggleBtn.innerText = lang === 'ar' ? "لديك حساب بالفعل؟ تسجيل الدخول" : "Have an account? Sign In";
+                toggleText.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
             } else {
-                usernameInput.style.display = "none";
+                usernameGroup.style.display = "none";
+                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
+                sheetSubtitle.innerText = lang === 'ar' ? "سجل الدخول للوصول إلى لوحة التحكم" : "Sign in to access your dashboard";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                toggleBtn.innerText = lang === 'ar' ? "ليس لديك حساب؟ إنشاء حساب" : "Don't have an account? Sign Up";
+                toggleText.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create new account";
             }
         }
 
@@ -492,9 +522,24 @@
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
-            document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
-            document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
+            // Text updates for auth labels
+            document.getElementById('label-user').innerText = lang === 'ar' ? "اسم المستخدم" : "Username";
+            document.getElementById('label-email').innerText = lang === 'ar' ? "البريد الإلكتروني" : "Email Address";
+            document.getElementById('label-pass').innerText = lang === 'ar' ? "كلمة المرور" : "Password";
+            
+            if(!isSignUpMode) {
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الدخول للوصول إلى لوحة التحكم" : "Sign in to access your dashboard";
+                document.getElementById('email-action-btn').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                document.getElementById('toggle-text').innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                document.getElementById('toggle-link').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create new account";
+            } else {
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا وابدأ بتطوير حساباتك" : "Join us and start growing your accounts";
+                document.getElementById('email-action-btn').innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
+                document.getElementById('toggle-text').innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                document.getElementById('toggle-link').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+            }
             
             const promo = {
                 ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
