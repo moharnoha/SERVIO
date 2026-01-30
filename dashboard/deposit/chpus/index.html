@@ -20,7 +20,7 @@
             --primary-blue: #2563eb;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; }
+        body { margin: 0; padding: 0; font-family: 'Cairo', 'Inter', sans-serif; background-color: var(--bg-gray); display: flex; flex-direction: column; align-items: center; transition: direction 0.3s ease; }
         
         /* Updated Container */
         .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; background-color: #F3F2F2; align-items: center; }
@@ -60,8 +60,7 @@
         .sub-header-content {
             width: 100%;
             max-width: 480px;
-            text-align: right;
-            transition: text-align 0.3s ease;
+            text-align: inherit;
         }
 
         /* Responsive Expansion for larger screens */
@@ -132,7 +131,7 @@
         .user-dropdown-container.active .user-dropdown-content { max-height: 200px; border-top: 1px solid #f0f0f0; }
         .user-dropdown-container.active .dropdown-arrow-icon { transform: rotate(180deg); }
 
-        .info-row-detail { padding: 12px 20px; display: flex; flex-direction: column; transition: text-align 0.3s ease; }
+        .info-row-detail { padding: 12px 20px; display: flex; flex-direction: column; text-align: inherit; }
         .info-row-detail .label { font-size: 11px; font-weight: 700; color: #94a3b8; }
         .info-row-detail .value { font-size: 14px; font-weight: 700; color: var(--text-main); }
 
@@ -155,7 +154,7 @@
             width: 100%;
             padding: 24px;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            text-align: inherit;
         }
 
         .payment-header {
@@ -165,12 +164,11 @@
             margin-bottom: 5px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-light);
-            transition: flex-direction 0.3s ease;
         }
         .payment-header img { height: 28px; border-radius: 6px; }
         .payment-header span { font-weight: 800; font-size: 17px; color: var(--text-main); letter-spacing: -0.5px; }
 
-        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; transition: text-align 0.3s ease; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: inherit; }
         .input-label { font-size: 12px; font-weight: 700; color: #64748b; }
         
         .field-container { position: relative; width: 100%; }
@@ -180,14 +178,22 @@
             background: #ffffff;
             border: 1.5px solid var(--border-light);
             border-radius: 14px;
-            padding: 0 45px 0 15px;
+            padding: 0 15px;
             font-size: 14px;
             font-weight: 600;
             color: var(--text-main);
             box-sizing: border-box;
             outline: none;
             transition: all 0.3s ease;
+            text-align: inherit;
         }
+        
+        /* Dynamic padding for password input based on language */
+        [dir="rtl"] .field-container input[type="text"], 
+        [dir="rtl"] .field-container input[type="password"] { padding-right: 45px; padding-left: 15px; }
+        [dir="ltr"] .field-container input[type="text"], 
+        [dir="ltr"] .field-container input[type="password"] { padding-left: 45px; padding-right: 15px; }
+
         .field-container input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06); }
 
         .toggle-password {
@@ -198,8 +204,9 @@
             cursor: pointer;
             font-size: 18px;
             z-index: 10;
-            transition: left 0.3s ease, right 0.3s ease;
         }
+        [dir="rtl"] .toggle-password { right: 15px; left: auto; }
+        [dir="ltr"] .toggle-password { left: 15px; right: auto; }
 
         .copy-field {
             display: flex;
@@ -212,9 +219,9 @@
             padding: 0 15px;
             width: 100%;
             box-sizing: border-box;
-            transition: flex-direction 0.3s ease;
+            flex-direction: inherit;
         }
-        .copy-info { display: flex; flex-direction: column; transition: text-align 0.3s ease; }
+        .copy-info { display: flex; flex-direction: column; text-align: inherit; }
         .copy-info .lbl { font-size: 10px; font-weight: 700; color: #94a3b8; }
         .copy-info .val { font-size: 15px; font-weight: 700; color: var(--text-main); }
 
@@ -229,9 +236,10 @@
             border-radius: 14px; 
             padding: 15px;
             cursor: pointer;
-            transition: 0.2s, flex-direction 0.3s ease;
+            transition: 0.2s;
             width: 100%;
             box-sizing: border-box;
+            flex-direction: inherit;
         }
         .upload-wrapper:hover { border-color: var(--primary-blue); }
         
@@ -257,7 +265,7 @@
             display: flex; 
             flex-direction: column;
             gap: 2px;
-            transition: text-align 0.3s ease;
+            text-align: inherit;
         }
         .upload-section .upload-text-main { font-size: 14px; font-weight: 700; color: var(--text-main); margin: 0; }
         .upload-section .upload-text-sub { font-size: 11px; font-weight: 600; color: #94a3b8; margin: 0; }
@@ -292,13 +300,15 @@
             border-top-color: #fff; 
             border-radius: 50%; 
             display: none; 
-            right: 15px;
         }
+        [dir="rtl"] .spinner { left: 15px; }
+        [dir="ltr"] .spinner { right: 15px; }
+
         .loading .spinner { display: block; animation: spin 0.8s linear infinite; }
         .loading span { opacity: 1; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; transition: text-align 0.3s ease; }
+        .amount-hint { font-size: 10px; color: #94a3b8; font-weight: 700; margin-top: -5px; padding: 0 4px; text-align: inherit; }
 
         #success-overlay {
             position: fixed;
@@ -339,12 +349,6 @@
             font-size: 15px;
             color: #64748b;
             font-weight: 600;
-            direction: ltr;
-            unicode-bidi: bidi-override;
-            transition: direction 0.3s ease;
-        }
-        [dir="rtl"] .bank-processing-text {
-            direction: rtl;
         }
 
         @keyframes scaleUp {
@@ -381,8 +385,8 @@
             gap: 14px; 
             animation: toastPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
             border: 1px solid rgba(255, 255, 255, 0.5);
-            pointer-events: auto; 
-            transition: all 0.3s ease;
+            pointer-events: auto;
+            flex-direction: inherit;
         }
         .toast-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
         .toast.success .toast-icon { background: #ecfdf5; color: #10b981; }
@@ -458,7 +462,7 @@
                 <div class="input-group">
                     <label class="input-label" id="name-input-label">اسم المستخدم</label>
                     <div class="field-container">
-                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)" style="direction: ltr; text-align: left;">
+                        <input type="text" id="english-name-input" placeholder="اسم المستخدم في كاش بليس" oninput="validateEnglish(this)">
                         <i class="fas fa-eye toggle-password" id="toggleNameVisibility" onclick="toggleVisibility('english-name-input', this)"></i>
                     </div>
                 </div>
@@ -466,7 +470,7 @@
                 <div class="input-group">
                     <label class="input-label" id="amount-input-label">المبلغ</label>
                     <div class="field-container">
-                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)" style="direction: ltr; text-align: left; padding: 0 15px;">
+                        <input type="text" id="amount-input" inputmode="numeric" pattern="[0-9]*" placeholder="10.00" oninput="validateAmount(this)">
                     </div>
                     <div class="amount-hint" id="amount-hint-text">الأدنى 10$ - الأقصى 2000$</div>
                 </div>
@@ -605,8 +609,6 @@
             const toast = document.createElement('div');
             const lang = localStorage.getItem('pref_lang') || 'ar';
             toast.className = `toast ${type}`;
-            toast.style.textAlign = lang === 'en' ? 'left' : 'right';
-            toast.style.flexDirection = lang === 'en' ? 'row' : 'row-reverse';
             
             let iconClass = type === 'success' ? 'fas fa-check' : 'fas fa-exclamation-triangle';
             toast.innerHTML = `<div class="toast-icon"><i class="${iconClass}"></i></div><span>${message}</span>`;
@@ -745,30 +747,17 @@
             document.getElementById('reg-name').innerText = reg[lang];
             document.getElementById('flag-ui').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
 
-            const dynamicSection = document.getElementById('dynamic-section');
             const subHeader = document.getElementById('sub-header-text');
-            const subHeaderContainer = document.querySelector('.sub-header-content');
             const payBtnLabel = document.getElementById('btn-label');
-            const paymentHeader = document.querySelector('.payment-header');
-            const uploadWrapper = document.querySelector('.upload-wrapper');
-            const infoRows = document.querySelectorAll('.info-row-detail');
-            const inputGroups = document.querySelectorAll('.input-group');
-            const copyFields = document.querySelectorAll('.copy-field');
-            const toggleIcon = document.getElementById('toggleNameVisibility');
-
+            const dynamicSection = document.getElementById('dynamic-section');
+            
             if (lang === 'en') {
-                document.body.classList.remove('rtl');
-                dynamicSection.style.direction = 'ltr';
+                document.documentElement.dir = "ltr";
+                document.documentElement.lang = "en";
+                document.body.dir = "ltr";
+                dynamicSection.dir = "ltr";
                 subHeader.innerText = "Complete payment using serviocmm";
-                subHeaderContainer.style.textAlign = 'left';
-                paymentHeader.style.flexDirection = 'row';
-                uploadWrapper.style.flexDirection = 'row';
                 
-                infoRows.forEach(row => row.style.textAlign = 'left');
-                inputGroups.forEach(group => group.style.textAlign = 'left');
-                copyFields.forEach(field => field.style.flexDirection = 'row');
-                document.querySelectorAll('.copy-info').forEach(info => info.style.textAlign = 'left');
-
                 const file = document.getElementById('file-input').files[0];
                 if (file) {
                     document.getElementById('upload-text').innerText = "Attached Successfully";
@@ -784,7 +773,6 @@
                 document.getElementById('name-input-label').innerText = "Full Name";
                 document.getElementById('amount-input-label').innerText = "Amount";
                 document.getElementById('amount-hint-text').innerText = "Min 10$ - Max 2000$";
-                document.getElementById('amount-hint-text').style.textAlign = 'left';
                 document.getElementById('english-name-input').placeholder = "Your CashPlus username";
                 document.getElementById('amount-input').placeholder = "10.00";
                 document.getElementById('card-main-title').innerText = "Payment Method";
@@ -793,23 +781,12 @@
                 payBtnLabel.innerText = "Confirm Deposit";
                 document.getElementById('bank-title').innerText = "Request Sent";
                 document.getElementById('bank-sub').innerText = "Processing...";
-                document.getElementById('bank-sub').style.direction = "ltr";
-                
-                toggleIcon.style.right = "auto";
-                toggleIcon.style.left = "15px";
-                document.getElementById('english-name-input').style.padding = "0 15px 0 45px";
             } else {
-                document.body.classList.add('rtl');
-                dynamicSection.style.direction = 'rtl';
+                document.documentElement.dir = "rtl";
+                document.documentElement.lang = "ar";
+                document.body.dir = "rtl";
+                dynamicSection.dir = "rtl";
                 subHeader.innerText = "إتمام الدفع بإستخدام serviocmm";
-                subHeaderContainer.style.textAlign = 'right';
-                paymentHeader.style.flexDirection = 'row';
-                uploadWrapper.style.flexDirection = 'row';
-
-                infoRows.forEach(row => row.style.textAlign = 'right');
-                inputGroups.forEach(group => group.style.textAlign = 'right');
-                copyFields.forEach(field => field.style.flexDirection = 'row');
-                document.querySelectorAll('.copy-info').forEach(info => info.style.textAlign = 'right');
                 
                 const file = document.getElementById('file-input').files[0];
                 if (file) {
@@ -820,15 +797,20 @@
                     document.getElementById('upload-sub-text').innerText = "انقر لاختيار ملف الصورة";
                 }
 
-                document.getElementById('amount-hint-text').style.textAlign = 'right';
+                document.getElementById('user-header-label').innerText = "بيانات الحساب";
+                document.getElementById('label-name').innerText = "اسم المستخدم";
+                document.getElementById('label-email').innerText = "البريد الإلكتروني";
+                document.getElementById('name-input-label').innerText = "اسم المستخدم";
+                document.getElementById('amount-input-label').innerText = "المبلغ";
+                document.getElementById('amount-hint-text').innerText = "الأدنى 10$ - الأقصى 2000$";
+                document.getElementById('english-name-input').placeholder = "اسم المستخدم في كاش بليس";
                 document.getElementById('amount-input').placeholder = "10.00";
+                document.getElementById('card-main-title').innerText = "طريقة الدفع";
+                document.getElementById('lbl-phone').innerText = "رقم الهاتف";
+                document.getElementById('lbl-reason').innerText = "الرمز";
+                payBtnLabel.innerText = "تأكيد الإيداع";
                 document.getElementById('bank-title').innerText = "تم إرسال الطلب";
                 document.getElementById('bank-sub').innerText = "قيد المعالجة...";
-                document.getElementById('bank-sub').style.direction = "rtl";
-                
-                toggleIcon.style.left = "auto";
-                toggleIcon.style.right = "15px";
-                document.getElementById('english-name-input').style.padding = "0 45px 0 15px";
             }
         }
         
