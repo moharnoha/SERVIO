@@ -6,7 +6,6 @@
     <meta name="google" content="notranslate">
     <title>serviocmm - Pro Wallet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
@@ -21,7 +20,6 @@
             --card-white: #FFFFFF;
             --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
             --sidebar-gray: #f1f5f9;
-            --primary-green: #2E7D32;
         }
 
         html, body { 
@@ -126,12 +124,15 @@
         }
 
         .top-header { 
-            height: 70px; background-color: var(--header-green); 
+            min-height: 70px; background-color: var(--header-green); 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; box-sizing: border-box; width: 100%;
-            position: sticky; top: 0; z-index: 2000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            padding: 10px 15px;
+            box-sizing: border-box;
             direction: rtl !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-content {
@@ -141,49 +142,27 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            direction: rtl !important;
         }
 
         @media (min-width: 481px) {
+            .top-header {
+                height: 70px;
+            }
             .header-content {
                 max-width: 100%;
                 padding: 0 40px;
             }
         }
 
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
+        .brand-section { display: flex; align-items: center; }
         .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(0,0,0,0.1); margin: 0 12px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #000000; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(0,0,0,0.5); }
-        
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: #ffffff; 
-            border: 1.5px solid var(--primary-green); border-radius: 12px; 
-            padding: 0 14px; height: 42px; cursor: pointer;
-            box-sizing: border-box; gap: 8px; flex-direction: row !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.1);
-        }
-        .display-text { 
-            font-size: 12px; font-weight: 700; color: #1E293B; 
-            display: flex; align-items: center; gap: 6px; 
-            flex-direction: row !important; white-space: nowrap; 
-        }
-        .nav-icon { 
-            width: 20px; height: 20px; 
-            fill: var(--primary-green) !important; 
-            display: block; flex-shrink: 0;
-        }
-        #flag-ui img.nav-flag {
-            width: 24px; height: 16px; 
-            border-radius: 2px;
-            object-fit: cover;
-            border: 1px solid #eee;
-            display: block;
-        }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1A2419; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(26,36,25,0.6); }
+        .region-badge { display: flex; align-items: center; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #1A2419; display: flex; gap: 5px; }
 
         .bottom-header {
             background-color: var(--sub-green);
@@ -368,6 +347,9 @@
             color: #64748b;
         }
 
+        svg.icon, .nav-icon { width: 22px; height: 22px; fill: #1A2419 !important; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+
         .modal-overlay {
             position: fixed; 
             top: 0; 
@@ -501,18 +483,11 @@
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/MKdMnLSy/servio.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
-                    <div class="title-box">
-                        <span>مركز الخدمات الرقمية</span>
-                        <span>Digital Services Center</span>
-                    </div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
-                <div class="info-display-wrapper">
+                <div class="region-badge">
                     <div id="flag-ui"></div>
-                    <div class="display-text">
-                        <span id="reg-name">---</span>
-                        <span style="width: 1.5px; height: 14px; background: #dcfce7;"></span>
-                        <span id="lang-name" style="color: var(--primary-green);">--</span>
-                    </div>
+                    <div class="region-text"><span id="reg-name"></span><span style="opacity:0.3">|</span><span id="lang-name"></span></div>
                 </div>
             </div>
         </div>
