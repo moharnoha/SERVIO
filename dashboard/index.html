@@ -373,6 +373,18 @@
             flex-direction: column;
             max-width: 480px;
         }
+        
+        /* Updates for Header stretching on Desktop */
+        @media (min-width: 481px) {
+            .modal-card {
+                max-width: 100% !important;
+            }
+            .modal-header-accent {
+                width: 100%;
+                padding: 0 40px !important;
+            }
+        }
+
         .modal-header-accent {
             padding: 12px 20px; 
             background-color: #ffffff;
