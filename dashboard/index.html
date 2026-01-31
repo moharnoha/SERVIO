@@ -371,20 +371,7 @@
             border: none;
             display: flex;
             flex-direction: column;
-            max-width: 480px;
         }
-        
-        /* Updates for Header stretching on Desktop */
-        @media (min-width: 481px) {
-            .modal-card {
-                max-width: 100% !important;
-            }
-            .modal-header-accent {
-                width: 100%;
-                padding: 0 40px !important;
-            }
-        }
-
         .modal-header-accent {
             padding: 12px 20px; 
             background-color: #ffffff;
@@ -395,6 +382,15 @@
             justify-content: space-between;
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
             min-height: 60px;
+            width: 100%;
+        }
+        .modal-header-inner {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .modal-title-text { 
             font-weight: 900; 
@@ -413,6 +409,9 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
         }
         .modal-close-icon {
             cursor: pointer;
@@ -595,11 +594,13 @@
     <div id="trans-modal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header-accent">
-                <div class="modal-close-icon" onclick="closeModal()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <div class="modal-header-inner">
+                    <div class="modal-close-icon" onclick="closeModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                    <h3 class="modal-title-text" id="modal-title"></h3>
+                    <div style="width: 38px;"></div>
                 </div>
-                <h3 class="modal-title-text" id="modal-title"></h3>
-                <div style="width: 38px;"></div>
             </div>
             <div class="modal-body">
                 <div class="modal-user-sticky" id="modal-user-info-area"></div>
