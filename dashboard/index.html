@@ -267,12 +267,7 @@
             border: 1px solid #E2E7F0;
         }
         
-        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; }
-        .filter-btn {
-            padding: 8px 16px; border-radius: 10px; border: 1px solid #E2E7F0; background: #f9fbf9; 
-            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
-        }
-        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+        .filter-options { display: none; }
 
         .trans-list { 
             display: flex; 
@@ -585,11 +580,6 @@
                     <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
                 </div>
                 
-                <div class="filter-options">
-                    <button class="filter-btn active" onclick="switchFilter('SMM Services', this)" id="btn-filter-smm"></button>
-                    <button class="filter-btn" onclick="switchFilter('deposits', this)" id="btn-filter-dep"></button>
-                </div>
-
                 <div id="trans-container" class="trans-list"></div>
             </div>
         </div>
@@ -637,7 +627,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let activeFilter = 'SMM Services';
         let smmTransactions = [];
         let depositTransactions = [];
         const DISPLAY_LIMIT = 20;
@@ -658,13 +647,11 @@
             }
         };
 
-        // Safety Fallback: Force hide if data hangs
         splashTimer = setTimeout(() => {
             console.warn("Splash screen timed out. Forcing display.");
             hideInitialLoader();
         }, splashTimeoutDuration);
 
-        // Apply cached data immediately
         const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
         if (cached.balance !== undefined) {
             document.getElementById('user-balance').innerHTML = formatBalanceVal(cached.balance) + "<span>&nbsp;USD</span>";
@@ -694,7 +681,7 @@
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'نوع العملية' : 'Transaction Type'}</span>
-                    <span class="detail-value">${activeFilter === 'deposits' ? fullDesc : (isAr ? 'شراء: ' : 'Purchase: ') + fullDesc}</span>
+                    <span class="detail-value">${amount.startsWith('+') ? fullDesc : (isAr ? 'شراء: ' : 'Purchase: ') + fullDesc}</span>
                 </div>
                 ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
                 ${code ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكود' : 'Code'}</span><span class="detail-value" style="direction:ltr">${code}</span></div>` : ''}
@@ -719,38 +706,33 @@
 
         window.showAllTransactions = () => {
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
+            const allTrans = [...smmTransactions, ...depositTransactions].sort((a, b) => {
+                const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            });
             
-            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'سجل العمليات' : 'سجل الإيداعات') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
+            document.getElementById('modal-title').innerText = isAr ? 'سجل العمليات' : 'Transaction History';
 
-            // Clone user wallet and wallet content for the sticky area
             const walletOriginal = document.getElementById('main-wallet-card').cloneNode(true);
             walletOriginal.id = "modal-wallet-sticky";
             document.getElementById('modal-user-info-area').innerHTML = '';
             document.getElementById('modal-user-info-area').appendChild(walletOriginal);
 
-            if (data.length === 0) {
-                document.getElementById('modal-content').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M325.7 433.6h106.2c11 0 20-9 20-20V230.9c0-11-9-20-20-20H325.7c-11 0-20 9-20 20v182.7c0 11 8.9 20 20 20z m20-182.7h66.2v142.7h-66.2V250.9zM589.3 84.3l8.2 8.2c78.4 15.9 150.9 53.5 209.8 109.8 79.7 76.1 126.5 178.4 132 288.2 0.4 7.1 0.6 14.3 0.6 21.4 0 70.8-17 139-49.6 200.2l29.5 29.5C959.4 671.9 980 593.5 980 512c0-7.8-0.2-15.7-0.6-23.5-5.9-120-57.2-231.9-144.3-315.1C747.7 90 632.9 44 512 44c-49.3 0-98 7.7-144.3 22.7h179.2c16 0 31.1 6.2 42.4 17.6zM693.1 544.2c-57.1 0-103.5 46.4-103.5 103.5S636 751.2 693.1 751.2s103.5-46.4 103.5-103.5-46.4-103.5-103.5-103.5z m0 167c-35 0-63.5-28.5-63.5-63.5s28.5-63.5 63.5-63.5 63.5 28.5 63.5 63.5-28.5 63.5-63.5 63.5z" /><path d="M683.4 904.3C629.3 928 571.6 940 512 940c-18.5 0-36.9-1.2-54.8-3.4-102.4-13.1-196.7-63.1-265.6-140.7C122.2 717.6 84 616.8 84 512c0-68.4 15.6-133.7 46.5-194.2 12.4-24.2 27.1-47.3 43.9-68.8v-61c-31.8 33.1-58.7 70.9-79.5 111.6C61.1 365.8 44 437.3 44 512c0 114.5 41.8 224.8 117.7 310.4 75.3 84.9 178.4 139.5 290.4 153.8 19.5 2.5 39.7 3.8 59.8 3.8 65.2 0 128.2-13.1 187.4-39 38.6-16.9 74.4-38.7 106.9-65l-28.3-28.5c-28.8 22.9-60.5 42-94.5 56.8z" /><path d="M848.4 726.9c-2.4-2.4-5.1-4-8.1-4.9 31.1-61.8 20.9-139.3-30.6-190.8-11.5-11.5-24.3-20.9-37.9-28.3V331.7c0-5.3-2.1-10.4-5.9-14.1L561 112.6c-3.8-3.8-8.8-5.9-14.1-5.9H291.2c-4.2 0-8.4 0.3-12.5 1-22 3.6-41.4 16.6-53.1 35.7 0 0 0 0.1-0.1 0.1 0 0.1-0.1 0.2-0.1 0.2-7.3 12-11.1 25.8-11.1 39.8V712c0 42.4 34.5 76.9 76.9 76.9H608c26.1 15.7 55.5 23.5 85 23.5 29.3 0 58.6-7.7 84.5-23.2 0.9 1.7 2.1 3.4 3.6 4.8l99.4 99.4c9 9 20.9 14 33.6 14h0.1c12.7 0 24.7-5 33.6-14.1 9-9 13.9-20.9 13.9-33.6 0-12.6-5-24.5-14-33.5l-99.3-99.3zM566.9 176.1l136.6 136.6h-99.7c-20.3 0-36.9-16.6-36.9-36.9v-99.7zM291.2 748.9c-20.3 0.1-36.9-16.5-36.9-36.8V183.6c0-6.7 1.8-13.3 5.3-19 0.1-0.2 0.2-0.3 0.3-0.5 5.7-9 14.9-15.2 25.3-16.9 2-0.3 4-0.5 6-0.5h235.7v129c0 42.4 34.5 76.9 76.9 76.9h128v134.8c-27.5-6.6-56.4-6-83.7 1.6H325.7c-11 0-20 9-20 20s9 20 20 20h252.8c-0.7 0.7-1.4 1.3-2 2-17.9 17.9-30.7 38.8-38.7 61.2-2.2-0.8-4.5-1.3-6.9-1.3H325.7c-11 0-20 9-20 20s9 20 20 20h203.4c-4.2 41.2 7.1 83.7 33.9 118H291.2zM781.4 736c-48.7 48.7-127.9 48.7-176.6 0s-48.7-127.9 0-176.6c14.3-14.3 31.2-24.4 49.2-30.3 3.7 0 7.1-1.1 10-2.8 40.8-9.7 85.6 1.3 117.4 33.1 48.7 48.7 48.7 127.9 0 176.6z m138.1 129.2c-2 2-4.2 2.3-5.3 2.3-1.1 0-3.3-0.3-5.2-2.2l-0.1-0.1-85.3-85.2 10.7-10.7 85.2 85.2c2 2 2.2 4.2 2.2 5.4s-0.3 3.3-2.2 5.3z" /><path d="M479.2 433.6h174.6c11 0 20-9 20-20s-9-20-20-20H479.2c-11 0-20 9-20 20s8.9 20 20 20z" /></svg>
-                        </div>
-                        <p class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة' : 'No transactions recorded'}</p>
-                    </div>`;
+            if (allTrans.length === 0) {
+                document.getElementById('modal-content').innerHTML = `<div class="empty-state"><p class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة' : 'No transactions recorded'}</p></div>`;
             } else {
                 let html = '';
-                data.forEach(t => {
-                    const isDep = activeFilter === 'deposits';
+                allTrans.forEach(t => {
+                    const isDep = depositTransactions.includes(t);
                     const status = (t.status || 'active').toLowerCase();
-                    const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-                    
                     let statusLabel = "";
                     if (status === 'active') {
-                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                        statusLabel = `<span class="status-inline">${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                     } else if (status === 'activated') {
-                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                        statusLabel = `<span class="status-inline" style="color:#10b981">${isAr ? 'مكتمل' : 'Completed'}</span>`;
                     } else if (status === 'rejected') {
-                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#ef4444"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                        statusLabel = `<span class="status-inline" style="color:#ef4444">${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                     }
 
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
@@ -759,17 +741,15 @@
                     const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                     html += `
-                        <div class="trans-item" style="margin-bottom:12px; background: white; border-radius: 20px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        <div class="trans-item" style="margin-bottom:12px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                             <div style="display:flex; flex-direction:column">
                                 <div style="display:flex; align-items:center;">
-                                    <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
+                                    <span style="font-weight:700; font-size:13px;">${displayTitle}</span>
                                     ${statusLabel}
                                 </div>
-                                <div class="trans-date-container">
-                                    <span class="trans-date">${dateStr}</span>
-                                </div>
+                                <span class="trans-date">${dateStr}</span>
                             </div>
-                            <span class="trans-val" style="color: #1e293b">${amountLabel}</span>
+                            <span class="trans-val">${amountLabel}</span>
                         </div>`;
                 });
                 document.getElementById('modal-content').innerHTML = html;
@@ -781,61 +761,44 @@
             document.getElementById('trans-modal').style.display = 'none';
         };
 
-        window.switchFilter = (type, btn) => {
-            activeFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderUI();
-        };
-
         const renderUI = () => {
             const container = document.getElementById('trans-container');
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
-            const rawData = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
-            const data = rawData.slice(0, DISPLAY_LIMIT);
+            const allTrans = [...smmTransactions, ...depositTransactions].sort((a, b) => {
+                const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            }).slice(0, DISPLAY_LIMIT);
             
-            if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M325.7 433.6h106.2c11 0 20-9 20-20V230.9c0-11-9-20-20-20H325.7c-11 0-20 9-20 20v182.7c0 11 8.9 20 20 20z m20-182.7h66.2v142.7h-66.2V250.9zM589.3 84.3l8.2 8.2c78.4 15.9 150.9 53.5 209.8 109.8 79.7 76.1 126.5 178.4 132 288.2 0.4 7.1 0.6 14.3 0.6 21.4 0 70.8-17 139-49.6 200.2l29.5 29.5C959.4 671.9 980 593.5 980 512c0-7.8-0.2-15.7-0.6-23.5-5.9-120-57.2-231.9-144.3-315.1C747.7 90 632.9 44 512 44c-49.3 0-98 7.7-144.3 22.7h179.2c16 0 31.1 6.2 42.4 17.6zM693.1 544.2c-57.1 0-103.5 46.4-103.5 103.5S636 751.2 693.1 751.2s103.5-46.4 103.5-103.5-46.4-103.5-103.5-103.5z m0 167c-35 0-63.5-28.5-63.5-63.5s28.5-63.5 63.5-63.5 63.5 28.5 63.5 63.5-28.5 63.5-63.5 63.5z" /><path d="M683.4 904.3C629.3 928 571.6 940 512 940c-18.5 0-36.9-1.2-54.8-3.4-102.4-13.1-196.7-63.1-265.6-140.7C122.2 717.6 84 616.8 84 512c0-68.4 15.6-133.7 46.5-194.2 12.4-24.2 27.1-47.3 43.9-68.8v-61c-31.8 33.1-58.7 70.9-79.5 111.6C61.1 365.8 44 437.3 44 512c0 114.5 41.8 224.8 117.7 310.4 75.3 84.9 178.4 139.5 290.4 153.8 19.5 2.5 39.7 3.8 59.8 3.8 65.2 0 128.2-13.1 187.4-39 38.6-16.9 74.4-38.7 106.9-65l-28.3-28.5c-28.8 22.9-60.5 42-94.5 56.8z" /><path d="M848.4 726.9c-2.4-2.4-5.1-4-8.1-4.9 31.1-61.8 20.9-139.3-30.6-190.8-11.5-11.5-24.3-20.9-37.9-28.3V331.7c0-5.3-2.1-10.4-5.9-14.1L561 112.6c-3.8-3.8-8.8-5.9-14.1-5.9H291.2c-4.2 0-8.4 0.3-12.5 1-22 3.6-41.4 16.6-53.1 35.7 0 0 0 0.1-0.1 0.1 0 0.1-0.1 0.2-0.1 0.2-7.3 12-11.1 25.8-11.1 39.8V712c0 42.4 34.5 76.9 76.9 76.9H608c26.1 15.7 55.5 23.5 85 23.5 29.3 0 58.6-7.7 84.5-23.2 0.9 1.7 2.1 3.4 3.6 4.8l99.4 99.4c9 9 20.9 14 33.6 14h0.1c12.7 0 24.7-5 33.6-14.1 9-9 13.9-20.9 13.9-33.6 0-12.6-5-24.5-14-33.5l-99.3-99.3zM566.9 176.1l136.6 136.6h-99.7c-20.3 0-36.9-16.6-36.9-36.9v-99.7zM291.2 748.9c-20.3 0.1-36.9-16.5-36.9-36.8V183.6c0-6.7 1.8-13.3 5.3-19 0.1-0.2 0.2-0.3 0.3-0.5 5.7-9 14.9-15.2 25.3-16.9 2-0.3 4-0.5 6-0.5h235.7v129c0 42.4 34.5 76.9 76.9 76.9h128v134.8c-27.5-6.6-56.4-6-83.7 1.6H325.7c-11 0-20 9-20 20s9 20 20 20h252.8c-0.7 0.7-1.4 1.3-2 2-17.9 17.9-30.7 38.8-38.7 61.2-2.2-0.8-4.5-1.3-6.9-1.3H325.7c-11 0-20 9-20 20s9 20 20 20h203.4c-4.2 41.2 7.1 83.7 33.9 118H291.2zM781.4 736c-48.7 48.7-127.9 48.7-176.6 0s-48.7-127.9 0-176.6c14.3-14.3 31.2-24.4 49.2-30.3 3.7 0 7.1-1.1 10-2.8 40.8-9.7 85.6 1.3 117.4 33.1 48.7 48.7 48.7 127.9 0 176.6z m138.1 129.2c-2 2-4.2 2.3-5.3 2.3-1.1 0-3.3-0.3-5.2-2.2l-0.1-0.1-85.3-85.2 10.7-10.7 85.2 85.2c2 2 2.2 4.2 2.2 5.4s-0.3 3.3-2.2 5.3z" /><path d="M479.2 433.6h174.6c11 0 20-9 20-20s-9-20-20-20H479.2c-11 0-20 9-20 20s8.9 20 20 20z" /></svg>
-                        </div>
-                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
-                    </div>`;
+            if (allTrans.length === 0) {
+                container.innerHTML = `<div class="empty-state"><p class="empty-state-text">${isAr ? 'لا توجد معاملات' : 'No transactions'}</p></div>`;
                 return;
             }
 
             let html = "";
-            data.forEach(t => {
-                const isDep = activeFilter === 'deposits';
+            allTrans.forEach(t => {
+                const isDep = depositTransactions.includes(t);
                 const status = (t.status || 'active').toLowerCase();
-                
                 let statusLabel = "";
-                if (status === 'active') {
-                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
-                } else if (status === 'activated') {
-                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
-                } else if (status === 'rejected') {
-                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
-                }
+                if (status === 'active') statusLabel = `<span class="status-inline">${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                else if (status === 'activated') statusLabel = `<span class="status-inline" style="color:#10b981">${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                else if (status === 'rejected') statusLabel = `<span class="status-inline" style="color:#ef4444">${isAr ? 'مرفوض' : 'Rejected'}</span>`;
 
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service Purchased');
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
                 const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                         <div style="display:flex; flex-direction:column">
                             <div style="display:flex; align-items:center;">
-                                <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
+                                <span style="font-weight:700; font-size:13px;">${displayTitle}</span>
                                 ${statusLabel}
                             </div>
-                            <div class="trans-date-container">
-                                <span class="trans-date">${dateStr}</span>
-                            </div>
+                            <span class="trans-date">${dateStr}</span>
                         </div>
-                        <span class="trans-val" style="color: #1e293b">${amountLabel}</span>
+                        <span class="trans-val">${amountLabel}</span>
                     </div>`;
             });
             container.innerHTML = html;
@@ -851,34 +814,23 @@
                         window.currentName = d.fullName || d.name || "User";
                         document.getElementById('user-balance').innerHTML = formatBalanceVal(bal) + "<span>&nbsp;USD</span>";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
-                        
-                        const hideE = d.hide_email === "true";
-                        const hideU = d.hide_username === "true";
-                        localStorage.setItem('hide_email', hideE ? "true" : "false");
-                        localStorage.setItem('hide_username', hideU ? "true" : "false");
-                        
+                        localStorage.setItem('hide_email', d.hide_email === "true");
+                        localStorage.setItem('hide_username', d.hide_username === "true");
                         window.renderUserData();
-                        
-                        // User verified and loaded - release splash screen
                         hideInitialLoader();
                     }
-                }, (error) => {
-                    console.error("Snapshot error:", error);
-                    hideInitialLoader(); // Ensure app isn't stuck on error
                 });
 
                 const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qSmm, (snap) => {
                     smmTransactions = snap.docs.map(d => d.data());
-                    if (activeFilter === 'SMM Services') renderUI();
-                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
+                    renderUI();
                 });
 
                 const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
                 onSnapshot(qDep, (snap) => {
                     depositTransactions = snap.docs.map(d => d.data());
-                    if (activeFilter === 'deposits') renderUI();
-                    if (document.getElementById('trans-modal').style.display === 'flex') showAllTransactions();
+                    renderUI();
                 });
             } else { 
                 window.location.href = "../"; 
@@ -903,23 +855,18 @@
             } catch (e) { console.error(e); }
         };
 
-        // Logic for Global Loading ONLY on the four main options
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.shortcut-item');
             if (target) {
                 e.preventDefault();
                 const url = target.getAttribute('href');
                 const loader = document.getElementById('global-loading');
-                
                 loader.style.display = 'flex';
-                
                 setTimeout(() => {
                     loader.style.display = 'none';
-                    if (url) {
-                        window.location.href = url;
-                    } else if (target.getAttribute('onclick')) {
-                        const onclickAttr = target.getAttribute('onclick');
-                        if(onclickAttr.includes('handleLogout')) window.handleLogout();
+                    if (url) window.location.href = url;
+                    else if (target.getAttribute('onclick')) {
+                        if(target.getAttribute('onclick').includes('handleLogout')) window.handleLogout();
                     }
                 }, 800);
             }
@@ -954,13 +901,10 @@
             
             document.getElementById('lang-name').innerText = lang.toUpperCase();
             document.getElementById('reg-name').innerText = reg[lang];
-            
             const flagBox = document.getElementById('flag-ui');
             flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
-            // Sync loader text based on language (Remains right-aligned by CSS)
             document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
-            
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
             document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
             document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
@@ -969,29 +913,9 @@
             document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
             document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
             document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
-            document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
-            document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
             document.body.style.direction = isAr ? 'rtl' : 'ltr';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-            
-            const nameStack = document.querySelector('.name-stack');
-            const welcomeRow = document.querySelector('.welcome-row');
-            const emailRow = document.querySelector('.email-privacy-row');
-            const fullName = document.getElementById('user-full-name');
-            
-            if (isAr) {
-                nameStack.style.alignItems = 'flex-start';
-                welcomeRow.style.alignItems = 'flex-start';
-                emailRow.style.justifyContent = 'flex-start';
-                fullName.style.textAlign = 'right';
-            } else {
-                nameStack.style.alignItems = 'flex-start';
-                welcomeRow.style.alignItems = 'flex-start';
-                emailRow.style.justifyContent = 'flex-start';
-                fullName.style.textAlign = 'left';
-            }
-
             window.renderUserData();
         };
 
@@ -999,42 +923,24 @@
             const nameEl = document.getElementById('user-full-name');
             const emailEl = document.getElementById('user-email');
             const eyeIcon = document.getElementById('eye-icon');
-            
             const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
             const hideEmail = localStorage.getItem('hide_email') === "true";
             const hideUser = localStorage.getItem('hide_username') === "true";
-            
             const rawName = window.currentName || cached.name || "";
             const rawEmail = window.currentEmail || cached.email || "";
 
-            if (hideUser && rawName) {
-                nameEl.innerText = "*****";
-            } else {
-                nameEl.innerText = rawName;
-            }
-
-            if (hideEmail && rawEmail) {
+            nameEl.innerText = hideUser ? "*****" : rawName;
+            if (hideEmail && rawEmail.includes('@')) {
                 const parts = rawEmail.split('@');
-                if (parts.length === 2) {
-                    const local = parts[0];
-                    const domain = parts[1];
-                    const maskedLocal = local.length > 2 ? local.substring(0, 2) + "****" : local + "****";
-                    emailEl.innerText = maskedLocal + "@" + domain;
-                } else {
-                    emailEl.innerText = "****";
-                }
-            } else {
-                emailEl.innerText = rawEmail;
-            }
+                emailEl.innerText = (parts[0].length > 2 ? parts[0].substring(0, 2) + "****" : parts[0] + "****") + "@" + parts[1];
+            } else { emailEl.innerText = rawEmail; }
             
             eyeIcon.innerHTML = (hideEmail || hideUser) ? 
                 '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
                 '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
         };
 
-        window.onload = () => {
-            window.sync();
-        };
+        window.onload = () => { window.sync(); };
     </script>
 </body>
 </html>
