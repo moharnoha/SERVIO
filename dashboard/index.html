@@ -10,16 +10,15 @@
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --sub-green: #000000; 
-            --platform-bg: #f8f9f8;
-            --bg-gradient: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
-            --text-dark: #000000;
-            --brand-green: #2F5822;
-            --brand-light-green: #6B9361;
+            --sub-green: #F3F2F2; 
+            --platform-bg: #F3F2F2;
+            --bg-gradient: linear-gradient(135deg, #F3F2F2 0%, #F3F2F2 100%);
+            --text-dark: #1A2419;
+            --brand-green: #2E5822;
             --brand-red: #C62828;
-            --brand-deposit: #2F5822; 
+            --brand-deposit: #10b981; 
             --card-white: #FFFFFF;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
             --sidebar-gray: #f1f5f9;
         }
 
@@ -101,7 +100,7 @@
         #global-loading {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.19);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -112,7 +111,7 @@
         .ios-loader {
             width: 40px;
             height: 40px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232F5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
             background-size: contain;
             background-repeat: no-repeat;
         }
@@ -171,39 +170,38 @@
             position: relative;
         }
         .bottom-header-content {
-            width: 100%; max-width: 480px; padding: 15px 15px; box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 10px 15px; box-sizing: border-box;
         }
 
         .wallet-card {
-            background: linear-gradient(145deg, #2F5822, #1d3615);
-            border-radius: 22px; padding: 18px;
-            display: flex; flex-direction: column; gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(47, 88, 34, 0.2);
-            min-height: auto;
+            background: rgba(46, 88, 34, 0.85);
+            border-radius: 18px; padding: 10px 15px;
+            display: flex; flex-direction: column; gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px); min-height: auto;
         }
 
-        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
-        .avatar-box { width: 38px; height: 38px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .avatar-box svg { width: 100%; height: 100%; padding: 6px; fill: #ffffff; }
-        .name-stack { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; align-items: flex-start; }
+        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: none; padding-bottom: 5px; }
+        .avatar-box { width: 32px; height: 32px; background: rgba(255, 255, 255, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .avatar-box svg { width: 100%; height: 100%; padding: 4px; fill: #ffffff; }
+        .name-stack { display: flex; flex-direction: column; gap: 1px; overflow: hidden; flex: 1; align-items: flex-start; }
         
         .welcome-row { display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
-        .welcome-label { font-size: 10px; color: rgba(255,255,255,0.7); font-weight: 600; letter-spacing: 0.5px; }
+        .welcome-label { font-size: 9px; color: rgba(255,255,255,0.9); font-weight: 600; }
         
-        .full-name-val { font-size: 16px; color: #ffffff; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+        .full-name-val { font-size: 14px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; margin-top: -2px; }
         
-        .email-privacy-row { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-start; }
-        .user-email-val { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; direction: ltr; font-family: 'Inter', sans-serif; overflow: hidden; text-overflow: ellipsis; }
+        .email-privacy-row { display: flex; align-items: center; gap: 5px; width: 100%; justify-content: flex-start; }
+        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; font-family: 'Inter', sans-serif; overflow: hidden; text-overflow: ellipsis; }
         
-        .toggle-visibility { background: rgba(255,255,255,0.1); border: none; padding: 4px 6px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; }
-        .toggle-visibility svg { width: 14px; height: 14px; fill: #ffffff !important; opacity: 0.8; }
+        .toggle-visibility { background: rgba(255,255,255,0.2); border: none; padding: 2px 4px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; }
+        .toggle-visibility svg { width: 12px; height: 12px; fill: #ffffff !important; }
 
-        .balance-stack { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 5px 0; }
-        .bal-title { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
+        .balance-stack { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 2px 0; }
+        .bal-title { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
         .bal-amount { 
-            font-size: 32px; 
+            font-size: 24px; 
             color: #ffffff; 
             font-weight: 900; 
             line-height: 1; 
@@ -213,76 +211,77 @@
             justify-content: center;
             direction: ltr;
         }
-        .bal-amount sup { font-size: 0.5em; margin-left: 2px; color: #6B9361; }
+        .bal-amount sup { font-size: 0.6em; margin-left: 1px; }
 
         .new-header-container {
-            background: #000000; 
+            background: var(--bg-gradient); 
             width: 100%; display: flex; justify-content: center;
-            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: var(--shadow-soft);
             position: relative;
         }
         .new-header-content {
-            width: 100%; max-width: 480px; padding: 30px 20px 40px 20px; box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
-        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 12px; }
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 10px; text-decoration: none; cursor: pointer; }
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         
         /* Updated Icon Boxes Styling */
         .icon-box { 
-            width: 68px; 
-            height: 68px; 
-            background: #111111; 
-            border-radius: 24px; 
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+            width: 65px; 
+            height: 65px; 
+            background: #F3F2F2; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05), inset 0 -2px 0 rgba(0,0,0,0.02); 
             display: flex; 
             align-items: center; 
             justify-content: center;
-            border: 1.5px solid #222222;
+            border: 1px solid #E2E7F0;
         }
-        .icon-box:active { transform: scale(0.9) translateY(2px); background: #1a1a1a; }
+        .icon-box:active { transform: scale(0.92); }
         
-        .shortcut-label { font-size: 11px; font-weight: 700; color: #6B9361; text-align: center; white-space: nowrap; }
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
         
         /* Specialized Colors and Sizing for Icons */
-        .icon-svg-smm { width: 30px; height: 30px; fill: #6B9361; }
-        .icon-svg-deposit { width: 30px; height: 30px; fill: #2F5822; }
-        .icon-svg-menu { width: 30px; height: 30px; fill: #ffffff; }
-        .icon-svg-logout { width: 28px; height: 28px; fill: #C62828; }
+        .icon-svg-smm { width: 28px; height: 28px; fill: #2E5822; }
+        .icon-svg-deposit { width: 30px; height: 30px; fill: #10b981; }
+        .icon-svg-menu { width: 28px; height: 28px; fill: #475569; }
+        .icon-svg-logout { width: 26px; height: 26px; fill: #ef4444; }
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
             background: transparent; 
-            margin-top: -15px;
+            margin-top: 10px;
             flex: none;
             overflow: visible; 
-            z-index: 5;
         }
         .transactions-content {
             width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            height: 520px;
-            border-radius: 35px;
+            height: 480px;
+            border-radius: 28px;
             box-shadow: var(--shadow-soft);
-            margin: 0 15px 40px 15px;
-            border: 1px solid #f0f0f0;
+            margin: 0 15px 30px 15px;
+            border: 1px solid #E2E7F0;
         }
         
-        .filter-options { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; }
+        .filter-options { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; }
         .filter-btn {
-            padding: 10px 20px; border-radius: 12px; border: 1px solid #eeeeee; background: #fafafa; 
-            color: #888888; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;
+            padding: 8px 16px; border-radius: 10px; border: 1px solid #E2E7F0; background: #f9fbf9; 
+            color: #475569; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
         }
-        .filter-btn.active { background: #000000; color: #ffffff; border-color: #000000; }
+        .filter-btn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
 
         .trans-list { 
             display: flex; 
             flex-direction: column; 
             gap: 12px; 
+            margin-top: 5px;
             overflow-y: auto;
             flex: 1;
+            padding-right: 2px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -290,16 +289,15 @@
 
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 16px; background: #ffffff; border-radius: 20px; border: 1px solid #f5f5f5;
+            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #E2E7F0;
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
         }
-        .trans-item:active { background: #fdfdfd; transform: scale(0.98); }
         
         .status-inline {
             display: inline-flex;
@@ -308,17 +306,16 @@
             font-size: 10px;
             font-weight: 800;
             margin-right: 8px;
-            padding: 4px 8px;
-            border-radius: 8px;
+            padding: 2px 6px;
+            border-radius: 4px;
             color: #000000 !important;
-            background: #f1f1f1 !important;
-            border: 1px solid #e5e5e5;
+            background: #f1f5f9 !important;
         }
 
-        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
         .status-badge { display: none; }
-        .trans-date { font-size: 10px; color: #aaaaaa; direction: ltr; display: block; font-weight: 500; }
-        .trans-val { font-size: 16px; font-weight: 800; direction: ltr; color: #000000; font-family: 'Inter', sans-serif; letter-spacing: -0.5px; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; display: block; }
+        .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
         
         .empty-state { 
             text-align: center; 
@@ -334,19 +331,19 @@
             width: 90px; height: 90px;
             background: transparent;
             display: flex; align-items: center; justify-content: center;
-            color: #2F5822;
+            color: #2E5822;
             position: relative;
         }
         .empty-state-icon svg {
             width: 110px; 
             height: 110px;
-            fill: #2F5822;
-            opacity: 0.15;
+            fill: #2E5822;
+            opacity: 0.8;
         }
         .empty-state-text {
             font-size: 14px;
-            font-weight: 700;
-            color: #999999;
+            font-weight: 800;
+            color: #2E5822;
         }
 
         svg.icon, .nav-icon { width: 22px; height: 22px; fill: #1A2419 !important; }
@@ -358,14 +355,14 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: #ffffff; 
+            background: #F3F2F2; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             z-index: 9999;
         }
         .modal-card {
-            background: #ffffff; 
+            background: #F3F2F2; 
             width: 100%; 
             height: 100%;
             padding: 0;
@@ -376,28 +373,29 @@
             flex-direction: column;
         }
         .modal-header-accent {
-            padding: 15px 20px; 
-            background-color: #000000;
-            color: #ffffff;
+            padding: 12px 20px; 
+            background-color: #ffffff;
+            color: #000000;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 70px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            min-height: 60px;
         }
         .modal-title-text { 
-            font-weight: 800; 
-            font-size: 18px; 
+            font-weight: 900; 
+            font-size: 19px; 
             margin: 0;
-            color: #ffffff;
+            color: #000000;
             flex: 1;
             text-align: center;
         }
         .modal-body { 
-            padding: 20px; 
+            padding: 15px; 
             font-size: 13px; 
             color: var(--text-dark); 
-            background: #fcfcfc;
+            background: #F3F2F2;
             flex: 1;
             overflow: hidden;
             display: flex;
@@ -405,28 +403,28 @@
         }
         .modal-close-icon {
             cursor: pointer;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.1);
-            color: #ffffff;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: #000000;
         }
         
         /* User Info Section in Modal */
         .modal-user-sticky {
             flex-shrink: 0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
         }
         .modal-user-sticky .wallet-card {
-            width: 100%;
-            padding: 20px;
-            background: #000000;
-            box-shadow: none;
+            width: auto;
+            min-width: 250px;
+            padding: 12px 20px;
+            background: #2E5822;
         }
         .modal-user-sticky .toggle-visibility,
         .modal-user-sticky .avatar-box {
@@ -435,40 +433,37 @@
 
         .detail-modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center;
-            z-index: 10000; padding: 25px; box-sizing: border-box;
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
+            z-index: 10000; padding: 20px; box-sizing: border-box;
         }
         .detail-card {
-            background: #fff; width: 100%; max-width: 380px; border-radius: 30px; padding: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .detail-row {
             display: flex; align-items: flex-start; justify-content: space-between;
-            padding: 15px 0; border-bottom: 1px solid #f0f0f0; gap: 15px;
+            padding: 12px 0; border-bottom: 1px solid #E2E7F0; gap: 15px;
         }
         .detail-row:last-child { border-bottom: none; }
-        .detail-label { font-weight: 700; font-size: 11px; color: #999999; text-transform: uppercase; letter-spacing: 0.5px; }
-        .detail-value { font-weight: 700; font-size: 13px; color: #000000; text-align: left; line-height: 1.5; }
-        .detail-value.is-active, .detail-value.is-activated, .detail-value.is-rejected { 
-            color: #ffffff; background: #000000; padding: 4px 10px; border-radius: 8px; font-size: 11px;
-        }
+        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
+        .detail-value.is-active { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
+        .detail-value.is-activated { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
+        .detail-value.is-rejected { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
 
         .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
         .view-more-link {
-            color: #2F5822;
-            font-size: 13px;
+            color: #2E5822;
+            font-size: 14px;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
-            padding: 6px 12px;
-            border-radius: 10px;
-            background: rgba(47, 88, 34, 0.05);
+            padding: 5px 10px;
+            border-radius: 8px;
         }
-        .view-more-link:active { background: rgba(47, 88, 34, 0.1); }
+        .view-more-link:active { background: #f1f5f9; }
 
         @keyframes spin { 
             0% { transform: rotate(0deg); } 
@@ -569,8 +564,8 @@
 
         <div class="transactions-header">
             <div class="transactions-content">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-shrink:0;">
-                    <div class="section-title" id="txt-trans-title" style="font-size:17px; font-weight:900; color:#000;"></div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; flex-shrink:0;">
+                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
                     <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
                 </div>
                 
@@ -588,7 +583,7 @@
         <div class="modal-card">
             <div class="modal-header-accent">
                 <div class="modal-close-icon" onclick="closeModal()">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </div>
                 <h3 class="modal-title-text" id="modal-title"></h3>
                 <div style="width: 38px;"></div>
@@ -603,8 +598,8 @@
     <div id="detail-modal" class="detail-modal-overlay" onclick="closeDetail()">
         <div class="detail-card" onclick="event.stopPropagation()">
             <div id="detail-content"></div>
-            <button class="modal-close-btn" style="width: 100%; background: #000000; color: #ffffff; border: none; padding: 15px 0; border-radius: 16px; font-weight: 800; font-size: 14px; margin-top:25px; cursor:pointer;" onclick="closeDetail()">
-                <span id="detail-close-txt">إغلاق</span>
+            <button class="modal-close-btn" style="width: 100%; background: #f1f5f9; color: #475569; border: none; padding: 12px 0; border-radius: 14px; font-weight: 700; font-size: 14px; margin-top:20px; cursor:pointer;" onclick="closeDetail()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
         </div>
     </div>
@@ -673,13 +668,11 @@
             const statusLow = status.toLowerCase();
             const statusStyle = statusLow === 'activated' ? 'is-activated' : (statusLow === 'active' ? 'is-active' : (statusLow === 'rejected' ? 'is-rejected' : ''));
             const statusDisplay = statusLow === 'activated' ? (isAr ? 'مكتمل' : 'Completed') : (statusLow === 'active' ? (isAr ? 'قيد الانتظار' : 'Pending') : (statusLow === 'rejected' ? (isAr ? 'مرفوض' : 'Rejected') : status));
-            
-            document.getElementById('detail-close-txt').innerText = isAr ? 'إغلاق' : 'Close';
 
             let html = `
-                <div style="text-align:center; margin-bottom:25px;">
-                    <div style="font-weight:900; font-size:24px; color:#000; direction:ltr">${amount}</div>
-                    <div style="font-size:12px; color:#6B9361; font-weight:800; margin-top:5px; text-transform:uppercase;">${title}</div>
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div style="font-weight:900; font-size:20px; color:#1e293b; direction:ltr">${amount}</div>
+                    <div style="font-size:12px; color:#94a3b8; margin-top:5px;">${title}</div>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">${isAr ? 'نوع العملية' : 'Transaction Type'}</span>
@@ -710,7 +703,7 @@
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
-            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'سجل خدمات SMM' : 'سجل الإيداعات') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
+            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
 
             // Clone user wallet and wallet content for the sticky area
             const walletOriginal = document.getElementById('main-wallet-card').cloneNode(true);
@@ -721,6 +714,9 @@
             if (data.length === 0) {
                 document.getElementById('modal-content').innerHTML = `
                     <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M325.7 433.6h106.2c11 0 20-9 20-20V230.9c0-11-9-20-20-20H325.7c-11 0-20 9-20 20v182.7c0 11 8.9 20 20 20z m20-182.7h66.2v142.7h-66.2V250.9zM589.3 84.3l8.2 8.2c78.4 15.9 150.9 53.5 209.8 109.8 79.7 76.1 126.5 178.4 132 288.2 0.4 7.1 0.6 14.3 0.6 21.4 0 70.8-17 139-49.6 200.2l29.5 29.5C959.4 671.9 980 593.5 980 512c0-7.8-0.2-15.7-0.6-23.5-5.9-120-57.2-231.9-144.3-315.1C747.7 90 632.9 44 512 44c-49.3 0-98 7.7-144.3 22.7h179.2c16 0 31.1 6.2 42.4 17.6zM693.1 544.2c-57.1 0-103.5 46.4-103.5 103.5S636 751.2 693.1 751.2s103.5-46.4 103.5-103.5-46.4-103.5-103.5-103.5z m0 167c-35 0-63.5-28.5-63.5-63.5s28.5-63.5 63.5-63.5 63.5 28.5 63.5 63.5-28.5 63.5-63.5 63.5z" /><path d="M683.4 904.3C629.3 928 571.6 940 512 940c-18.5 0-36.9-1.2-54.8-3.4-102.4-13.1-196.7-63.1-265.6-140.7C122.2 717.6 84 616.8 84 512c0-68.4 15.6-133.7 46.5-194.2 12.4-24.2 27.1-47.3 43.9-68.8v-61c-31.8 33.1-58.7 70.9-79.5 111.6C61.1 365.8 44 437.3 44 512c0 114.5 41.8 224.8 117.7 310.4 75.3 84.9 178.4 139.5 290.4 153.8 19.5 2.5 39.7 3.8 59.8 3.8 65.2 0 128.2-13.1 187.4-39 38.6-16.9 74.4-38.7 106.9-65l-28.3-28.5c-28.8 22.9-60.5 42-94.5 56.8z" /><path d="M848.4 726.9c-2.4-2.4-5.1-4-8.1-4.9 31.1-61.8 20.9-139.3-30.6-190.8-11.5-11.5-24.3-20.9-37.9-28.3V331.7c0-5.3-2.1-10.4-5.9-14.1L561 112.6c-3.8-3.8-8.8-5.9-14.1-5.9H291.2c-4.2 0-8.4 0.3-12.5 1-22 3.6-41.4 16.6-53.1 35.7 0 0 0 0.1-0.1 0.1 0 0.1-0.1 0.2-0.1 0.2-7.3 12-11.1 25.8-11.1 39.8V712c0 42.4 34.5 76.9 76.9 76.9H608c26.1 15.7 55.5 23.5 85 23.5 29.3 0 58.6-7.7 84.5-23.2 0.9 1.7 2.1 3.4 3.6 4.8l99.4 99.4c9 9 20.9 14 33.6 14h0.1c12.7 0 24.7-5 33.6-14.1 9-9 13.9-20.9 13.9-33.6 0-12.6-5-24.5-14-33.5l-99.3-99.3zM566.9 176.1l136.6 136.6h-99.7c-20.3 0-36.9-16.6-36.9-36.9v-99.7zM291.2 748.9c-20.3 0.1-36.9-16.5-36.9-36.8V183.6c0-6.7 1.8-13.3 5.3-19 0.1-0.2 0.2-0.3 0.3-0.5 5.7-9 14.9-15.2 25.3-16.9 2-0.3 4-0.5 6-0.5h235.7v129c0 42.4 34.5 76.9 76.9 76.9h128v134.8c-27.5-6.6-56.4-6-83.7 1.6H325.7c-11 0-20 9-20 20s9 20 20 20h252.8c-0.7 0.7-1.4 1.3-2 2-17.9 17.9-30.7 38.8-38.7 61.2-2.2-0.8-4.5-1.3-6.9-1.3H325.7c-11 0-20 9-20 20s9 20 20 20h203.4c-4.2 41.2 7.1 83.7 33.9 118H291.2zM781.4 736c-48.7 48.7-127.9 48.7-176.6 0s-48.7-127.9 0-176.6c14.3-14.3 31.2-24.4 49.2-30.3 3.7 0 7.1-1.1 10-2.8 40.8-9.7 85.6 1.3 117.4 33.1 48.7 48.7 48.7 127.9 0 176.6z m138.1 129.2c-2 2-4.2 2.3-5.3 2.3-1.1 0-3.3-0.3-5.2-2.2l-0.1-0.1-85.3-85.2 10.7-10.7 85.2 85.2c2 2 2.2 4.2 2.2 5.4s-0.3 3.3-2.2 5.3z" /><path d="M479.2 433.6h174.6c11 0 20-9 20-20s-9-20-20-20H479.2c-11 0-20 9-20 20s8.9 20 20 20z" /></svg>
+                        </div>
                         <p class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة' : 'No transactions recorded'}</p>
                     </div>`;
             } else {
@@ -732,30 +728,30 @@
                     
                     let statusLabel = "";
                     if (status === 'active') {
-                        statusLabel = `<span class="status-inline">${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                     } else if (status === 'activated') {
-                        statusLabel = `<span class="status-inline" style="background:#2F5822; color:#fff !important; border-color:#2F5822;">${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
                     } else if (status === 'rejected') {
-                        statusLabel = `<span class="status-inline" style="background:#C62828; color:#fff !important; border-color:#C62828;">${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                        statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#ef4444"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                     }
 
                     const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                     const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                    const displayTitle = isDep ? (isAr ? 'إيداع رصيد' : 'Deposit') : (isAr ? 'خدمة رقمية' : 'Digital Service');
+                    const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
                     const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                     html += `
-                        <div class="trans-item" style="margin-bottom:12px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        <div class="trans-item" style="margin-bottom:12px; background: white; border-radius: 20px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                             <div style="display:flex; flex-direction:column">
                                 <div style="display:flex; align-items:center;">
-                                    <span style="font-weight:800; font-size:14px; color:#000">${displayTitle}</span>
+                                    <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                                     ${statusLabel}
                                 </div>
                                 <div class="trans-date-container">
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
-                            <span class="trans-val" style="color: ${isDep ? '#2F5822' : '#000'}">${amountLabel}</span>
+                            <span class="trans-val" style="color: ${isDep ? '#10b981' : '#1e293b'}">${amountLabel}</span>
                         </div>`;
                 });
                 document.getElementById('modal-content').innerHTML = html;
@@ -784,9 +780,9 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">
-                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+                            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M325.7 433.6h106.2c11 0 20-9 20-20V230.9c0-11-9-20-20-20H325.7c-11 0-20 9-20 20v182.7c0 11 8.9 20 20 20z m20-182.7h66.2v142.7h-66.2V250.9zM589.3 84.3l8.2 8.2c78.4 15.9 150.9 53.5 209.8 109.8 79.7 76.1 126.5 178.4 132 288.2 0.4 7.1 0.6 14.3 0.6 21.4 0 70.8-17 139-49.6 200.2l29.5 29.5C959.4 671.9 980 593.5 980 512c0-7.8-0.2-15.7-0.6-23.5-5.9-120-57.2-231.9-144.3-315.1C747.7 90 632.9 44 512 44c-49.3 0-98 7.7-144.3 22.7h179.2c16 0 31.1 6.2 42.4 17.6zM693.1 544.2c-57.1 0-103.5 46.4-103.5 103.5S636 751.2 693.1 751.2s103.5-46.4 103.5-103.5-46.4-103.5-103.5-103.5z m0 167c-35 0-63.5-28.5-63.5-63.5s28.5-63.5 63.5-63.5 63.5 28.5 63.5 63.5-28.5 63.5-63.5 63.5z" /><path d="M683.4 904.3C629.3 928 571.6 940 512 940c-18.5 0-36.9-1.2-54.8-3.4-102.4-13.1-196.7-63.1-265.6-140.7C122.2 717.6 84 616.8 84 512c0-68.4 15.6-133.7 46.5-194.2 12.4-24.2 27.1-47.3 43.9-68.8v-61c-31.8 33.1-58.7 70.9-79.5 111.6C61.1 365.8 44 437.3 44 512c0 114.5 41.8 224.8 117.7 310.4 75.3 84.9 178.4 139.5 290.4 153.8 19.5 2.5 39.7 3.8 59.8 3.8 65.2 0 128.2-13.1 187.4-39 38.6-16.9 74.4-38.7 106.9-65l-28.3-28.5c-28.8 22.9-60.5 42-94.5 56.8z" /><path d="M848.4 726.9c-2.4-2.4-5.1-4-8.1-4.9 31.1-61.8 20.9-139.3-30.6-190.8-11.5-11.5-24.3-20.9-37.9-28.3V331.7c0-5.3-2.1-10.4-5.9-14.1L561 112.6c-3.8-3.8-8.8-5.9-14.1-5.9H291.2c-4.2 0-8.4 0.3-12.5 1-22 3.6-41.4 16.6-53.1 35.7 0 0 0 0.1-0.1 0.1 0 0.1-0.1 0.2-0.1 0.2-7.3 12-11.1 25.8-11.1 39.8V712c0 42.4 34.5 76.9 76.9 76.9H608c26.1 15.7 55.5 23.5 85 23.5 29.3 0 58.6-7.7 84.5-23.2 0.9 1.7 2.1 3.4 3.6 4.8l99.4 99.4c9 9 20.9 14 33.6 14h0.1c12.7 0 24.7-5 33.6-14.1 9-9 13.9-20.9 13.9-33.6 0-12.6-5-24.5-14-33.5l-99.3-99.3zM566.9 176.1l136.6 136.6h-99.7c-20.3 0-36.9-16.6-36.9-36.9v-99.7zM291.2 748.9c-20.3 0.1-36.9-16.5-36.9-36.8V183.6c0-6.7 1.8-13.3 5.3-19 0.1-0.2 0.2-0.3 0.3-0.5 5.7-9 14.9-15.2 25.3-16.9 2-0.3 4-0.5 6-0.5h235.7v129c0 42.4 34.5 76.9 76.9 76.9h128v134.8c-27.5-6.6-56.4-6-83.7 1.6H325.7c-11 0-20 9-20 20s9 20 20 20h252.8c-0.7 0.7-1.4 1.3-2 2-17.9 17.9-30.7 38.8-38.7 61.2-2.2-0.8-4.5-1.3-6.9-1.3H325.7c-11 0-20 9-20 20s9 20 20 20h203.4c-4.2 41.2 7.1 83.7 33.9 118H291.2zM781.4 736c-48.7 48.7-127.9 48.7-176.6 0s-48.7-127.9 0-176.6c14.3-14.3 31.2-24.4 49.2-30.3 3.7 0 7.1-1.1 10-2.8 40.8-9.7 85.6 1.3 117.4 33.1 48.7 48.7 48.7 127.9 0 176.6z m138.1 129.2c-2 2-4.2 2.3-5.3 2.3-1.1 0-3.3-0.3-5.2-2.2l-0.1-0.1-85.3-85.2 10.7-10.7 85.2 85.2c2 2 2.2 4.2 2.2 5.4s-0.3 3.3-2.2 5.3z" /><path d="M479.2 433.6h174.6c11 0 20-9 20-20s-9-20-20-20H479.2c-11 0-20 9-20 20s8.9 20 20 20z" /></svg>
                         </div>
-                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مؤخرًا' : 'No recent transactions'}</div>
+                        <div class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة خلال الأسبوع الأخير' : 'No recorded transactions in the last week'}</div>
                     </div>`;
                 return;
             }
@@ -798,30 +794,30 @@
                 
                 let statusLabel = "";
                 if (status === 'active') {
-                    statusLabel = `<span class="status-inline">${isAr ? 'معلق' : 'Pending'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
                 } else if (status === 'activated') {
-                    statusLabel = `<span class="status-inline" style="background:#2F5822; color:#fff !important; border-color:#2F5822;">${isAr ? 'مكتمل' : 'Done'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${isAr ? 'مكتمل' : 'Completed'}</span>`;
                 } else if (status === 'rejected') {
-                    statusLabel = `<span class="status-inline" style="background:#C62828; color:#fff !important; border-color:#C62828;">${isAr ? 'مرفوض' : 'Declined'}</span>`;
+                    statusLabel = `<span class="status-inline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>${isAr ? 'مرفوض' : 'Rejected'}</span>`;
                 }
 
                 const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
                 const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
-                const displayTitle = isDep ? (isAr ? 'شحن رصيد' : 'Top Up') : (isAr ? 'طلب خدمة' : 'Service Order');
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service Purchased');
                 const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
                 html += `
                     <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
                         <div style="display:flex; flex-direction:column">
                             <div style="display:flex; align-items:center;">
-                                <span style="font-weight:800; font-size:14px; color:#000">${displayTitle}</span>
+                                <span style="font-weight:700; font-size:13px; color:#1e293b">${displayTitle}</span>
                                 ${statusLabel}
                             </div>
                             <div class="trans-date-container">
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
-                        <span class="trans-val" style="color: ${isDep ? '#2F5822' : '#000'}">${amountLabel}</span>
+                        <span class="trans-val">${amountLabel}</span>
                     </div>`;
             });
             container.innerHTML = html;
@@ -948,15 +944,15 @@
             document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
             
             document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
-            document.getElementById('txt-balance-label').innerText = isAr ? 'الرصيد الكلي' : 'Total Balance';
-            document.getElementById('txt-trans-title').innerText = isAr ? 'المعاملات الأخيرة' : 'Last Transactions';
-            document.getElementById('txt-view-more').innerText = isAr ? 'مشاهدة الكل' : 'View All';
-            document.getElementById('txt-smm').innerText = isAr ? 'الخدمات' : 'Services';
-            document.getElementById('txt-deposit').innerText = isAr ? 'إيداع' : 'Deposit';
-            document.getElementById('txt-menu').innerText = isAr ? 'الضبط' : 'Menu';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
+            document.getElementById('txt-view-more').innerText = isAr ? 'عرض المزيد' : 'View More';
+            document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
             document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
-            document.getElementById('btn-filter-smm').innerText = isAr ? 'الخدمات الرقمية' : 'Digital Services';
-            document.getElementById('btn-filter-dep').innerText = isAr ? 'عمليات الإيداع' : 'Deposits';
+            document.getElementById('btn-filter-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('btn-filter-dep').innerText = isAr ? 'الإيداعات' : 'Deposits';
 
             document.body.style.direction = isAr ? 'rtl' : 'ltr';
             document.documentElement.dir = isAr ? 'rtl' : 'ltr';
