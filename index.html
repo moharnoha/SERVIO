@@ -183,6 +183,16 @@
             border-color: var(--login-bg);
         }
 
+        /* Error Text Styling */
+        .input-error-msg {
+            color: #ff3b30;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: -4px;
+            padding-right: 5px;
+            display: none;
+        }
+
         .auth-btn {
             border-radius: 14px; 
             height: 52px;
@@ -289,6 +299,23 @@
         .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
         .flag-container { display: flex; align-items: center; margin-right: 15px; }
         .icon-dark { width: 24px; height: 24px; fill: #64748b; }
+
+        /* Dialog Alert Styling */
+        .custom-dialog-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); z-index: 10001; justify-content: center; align-items: center;
+        }
+        .custom-dialog {
+            width: 80%; max-width: 300px; background: white; border-radius: 14px; overflow: hidden;
+            display: flex; flex-direction: column; text-align: center;
+        }
+        .dialog-body { padding: 25px 20px; }
+        .dialog-title { font-weight: 800; font-size: 16px; margin-bottom: 8px; color: #000; }
+        .dialog-text { font-size: 13px; color: #333; line-height: 1.5; }
+        .dialog-btn {
+            border-top: 1px solid #eee; padding: 15px; font-weight: 700; color: #007aff;
+            cursor: pointer; text-align: center; font-size: 15px;
+        }
     </style>
 </head>
 <body class="notranslate">
@@ -343,8 +370,14 @@
                 
                 <div class="email-auth-box" id="email-auth-section">
                     <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
+                    <div id="err-username" class="input-error-msg"></div>
+                    
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
+                    <div id="err-email" class="input-error-msg"></div>
+                    
                     <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
+                    <div id="err-password" class="input-error-msg"></div>
+                    
                     <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
                     <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ليس لديك حساب؟ إنشاء حساب</div>
                 </div>
@@ -387,6 +420,16 @@
         </div>
     </div>
 
+    <div id="dialog-overlay" class="custom-dialog-overlay" onclick="closeDialog()">
+        <div class="custom-dialog" onclick="event.stopPropagation()">
+            <div class="dialog-body">
+                <div class="dialog-title" id="dialog-title"></div>
+                <div class="dialog-text" id="dialog-text"></div>
+            </div>
+            <div class="dialog-btn" id="dialog-btn" onclick="closeDialog()"></div>
+        </div>
+    </div>
+
     <div id="overlay" class="selection-overlay" onclick="closeSelection()">
         <div class="selection-sheet" onclick="event.stopPropagation()">
             <div id="regions-list"></div>
@@ -394,10 +437,35 @@
     </div>
 
     <script>
+        function showDialog(title, text) {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            document.getElementById('dialog-title').innerText = title;
+            document.getElementById('dialog-text').innerText = text;
+            document.getElementById('dialog-btn').innerText = lang === 'ar' ? 'موافق' : 'OK';
+            document.getElementById('dialog-overlay').style.display = 'flex';
+        }
+
+        function closeDialog() {
+            document.getElementById('dialog-overlay').style.display = 'none';
+        }
+
+        function clearErrors() {
+            document.getElementById('err-username').style.display = 'none';
+            document.getElementById('err-email').style.display = 'none';
+            document.getElementById('err-password').style.display = 'none';
+        }
+
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.innerText = msg;
+            el.style.display = 'block';
+        }
+
         let isSignUpMode = false;
         function toggleAuthMode() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
+            clearErrors();
             const usernameInput = document.getElementById('auth-username');
             const actionBtn = document.getElementById('email-action-btn');
             const toggleBtn = document.getElementById('toggle-auth-mode');
@@ -549,20 +617,19 @@
                         selected_language: currentLanguageName,
                         createdAt: new Date().toISOString()
                     });
-                    console.log("Debug: New user created in Firestore");
                 } else {
                     await setDoc(userRef, {
                         selected_region: currentRegionName,
                         selected_language: currentLanguageName,
                         lastLogin: new Date().toISOString()
                     }, { merge: true });
-                    console.log("Debug: Existing user updated");
                 }
                 window.location.href = "dashboard/";
             } catch (error) {
                 console.error("Firestore Save Error:", error);
-                const errorMsg = localStorage.getItem('pref_lang') === 'en' ? "Data save error: " : "خطأ في حفظ البيانات: ";
-                alert(errorMsg + error.message);
+                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
+                const errMsg = lang === 'ar' ? 'خطأ في حفظ البيانات: ' : 'Data save error: ';
+                showDialog(errTitle, errMsg + error.message);
             }
         }
 
@@ -570,11 +637,11 @@
             const hasUpper = /[A-Z]/.test(pass);
             const hasLower = /[a-z]/.test(pass);
             const hasNumber = /[0-9]/.test(pass);
-            const isLongEnough = pass.length >= 6;
-            return hasUpper && hasLower && hasNumber && isLongEnough;
+            return hasUpper && hasLower && hasNumber && pass.length >= 6;
         }
 
         document.getElementById("email-action-btn").addEventListener("click", async () => {
+            clearErrors();
             const email = document.getElementById("auth-email").value.trim();
             const password = document.getElementById("auth-password").value;
             const username = document.getElementById("auth-username").value.trim();
@@ -582,51 +649,80 @@
 
             const msgs = {
                 ar: {
-                    empty: "يرجى ملء جميع الحقول المطلوبة",
-                    passWeak: "كلمة المرور ضعيفة! يجب أن تكون 6 خانات على الأقل، وتحتوي على حرف كبير، حرف صغير، وأرقام.",
-                    userSame: "لا يمكن استخدام اسم المستخدم ككلمة مرور لدواعي أمنية.",
-                    userRequired: "يرجى كتابة اسم المستخدم",
-                    authError: "خطأ في المصادقة: "
+                    empty: "يرجى ملء البيانات",
+                    passWeak: "كلمة المرور ضعيفة! (6 خانات، حرف كبير، صغير، رقم)",
+                    userSame: "اسم المستخدم وكلمة المرور متطابقان!",
+                    userReq: "يرجى كتابة اسم المستخدم",
+                    wrongPassTitle: "كلمة السر غير صحيحة",
+                    wrongPassText: "كلمة السر التي أدخلتها غير صحيحة. يرجى إعادة المحاولة.",
+                    userNotFoundTitle: "المستخدم غير موجود",
+                    userNotFoundText: "عذراً، لم نتمكن من العثور على حساب بهذا البريد.",
+                    emailInvalid: "البريد الإلكتروني غير صالح",
+                    authError: "خطأ في المصادقة"
                 },
                 en: {
-                    empty: "Please fill in all required fields",
-                    passWeak: "Password too weak! Must be at least 6 characters, including uppercase, lowercase, and numbers.",
-                    userSame: "Username and password cannot be the same for security reasons.",
-                    userRequired: "Please enter a username",
-                    authError: "Authentication error: "
+                    empty: "Please fill the fields",
+                    passWeak: "Weak password! (6 chars, Upper, Lower, Num)",
+                    userSame: "Username and password match!",
+                    userReq: "Please enter username",
+                    wrongPassTitle: "Incorrect Password",
+                    wrongPassText: "The password you entered is incorrect. Please try again.",
+                    userNotFoundTitle: "User Not Found",
+                    userNotFoundText: "Sorry, we couldn't find an account with this email.",
+                    emailInvalid: "Invalid email address",
+                    authError: "Auth Error"
                 }
             };
 
-            if(!email || !password) return alert(msgs[lang].empty);
+            if(isSignUpMode) {
+                let hasErr = false;
+                if(!username) { showError('err-username', msgs[lang].userReq); hasErr = true; }
+                if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
+                if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
+                
+                if(hasErr) return;
 
-            try {
-                if(isSignUpMode) {
-                    if(!username) return alert(msgs[lang].userRequired);
-                    if(username.toLowerCase() === password.toLowerCase()) return alert(msgs[lang].userSame);
-                    if(!validatePassword(password)) return alert(msgs[lang].passWeak);
+                if(username.toLowerCase() === password.toLowerCase()) {
+                    showError('err-password', msgs[lang].userSame);
+                    return;
+                }
+                if(!validatePassword(password)) {
+                    showError('err-password', msgs[lang].passWeak);
+                    return;
+                }
 
+                try {
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: username });
                     await saveUserToFirestore(res.user, username);
-                } else {
+                } catch (e) {
+                    if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
+                    else showDialog(msgs[lang].authError, e.message);
+                }
+            } else {
+                if(!email || !password) return showDialog(msgs[lang].authError, msgs[lang].empty);
+                try {
                     const res = await signInWithEmailAndPassword(auth, email, password);
                     await saveUserToFirestore(res.user);
+                } catch (e) {
+                    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+                        showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
+                    } else if(e.code === 'auth/user-not-found') {
+                        showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
+                    } else {
+                        showDialog(msgs[lang].authError, e.message);
+                    }
                 }
-            } catch (e) {
-                console.error("Auth Action Error:", e);
-                alert(msgs[lang].authError + e.message);
             }
         });
 
         document.getElementById("google-auth-btn").addEventListener("click", () => {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             signInWithPopup(auth, provider).then(async (result) => {
-                console.log("Debug: Google login success");
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                console.error("Google Auth Error:", e);
-                const errorMsg = lang === 'en' ? "Google sign-in failed: " : "فشل تسجيل الدخول عبر جوجل: ";
-                alert(errorMsg + e.message);
+                const errTitle = lang === 'ar' ? 'خطأ جوجل' : 'Google Error';
+                showDialog(errTitle, e.message);
             });
         });
 
