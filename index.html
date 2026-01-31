@@ -534,28 +534,35 @@
             const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
             const currentLanguageName = lang === 'ar' ? "العربية" : "English";
 
-            const userRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(userRef);
+            try {
+                const userRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(userRef);
 
-            const userData = {
-                name: customName || user.displayName || "User",
-                email: user.email,
-                uid: user.uid,
-                selected_region: currentRegionName,
-                selected_language: currentLanguageName
-            };
-
-            if (!docSnap.exists()) {
-                userData.balance = 0;
-                userData.total_spend = 0;
-                await setDoc(userRef, userData);
-            } else {
-                await setDoc(userRef, {
-                    selected_region: currentRegionName,
-                    selected_language: currentLanguageName
-                }, { merge: true });
+                if (!docSnap.exists()) {
+                    await setDoc(userRef, {
+                        name: customName || user.displayName || "User",
+                        balance: 0,
+                        total_spend: 0,
+                        email: user.email,
+                        uid: user.uid,
+                        selected_region: currentRegionName,
+                        selected_language: currentLanguageName,
+                        createdAt: new Date().toISOString()
+                    });
+                    console.log("Debug: New user created in Firestore");
+                } else {
+                    await setDoc(userRef, {
+                        selected_region: currentRegionName,
+                        selected_language: currentLanguageName,
+                        lastLogin: new Date().toISOString()
+                    }, { merge: true });
+                    console.log("Debug: Existing user updated");
+                }
+                window.location.href = "dashboard/";
+            } catch (error) {
+                console.error("Firestore Save Error:", error);
+                alert("خطأ في حفظ البيانات: " + error.message);
             }
-            window.location.href = "dashboard/";
         }
 
         document.getElementById("email-action-btn").addEventListener("click", async () => {
@@ -576,16 +583,18 @@
                     await saveUserToFirestore(res.user);
                 }
             } catch (e) {
-                alert("خطأ: " + e.message);
+                console.error("Auth Action Error:", e);
+                alert("خطأ في المصادقة: " + e.message);
             }
         });
 
         document.getElementById("google-auth-btn").addEventListener("click", () => {
             signInWithPopup(auth, provider).then(async (result) => {
+                console.log("Debug: Google login success");
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                console.error("Firebase Error:", e);
-                alert("فشل تسجيل الدخول: " + e.message);
+                console.error("Google Auth Error:", e);
+                alert("فشل تسجيل الدخول عبر جوجل: " + e.message);
             });
         });
 
