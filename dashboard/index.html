@@ -429,17 +429,22 @@
         .modal-user-sticky {
             flex-shrink: 0;
             margin-bottom: 15px;
+            width: 100%;
             display: flex;
             justify-content: center;
         }
+        
         .modal-user-sticky .wallet-card {
             width: 100%;
-            padding: 12px 20px;
-            background: rgba(46, 88, 34, 0.85); /* Exact same background as home */
+            background: rgba(46, 88, 34, 0.85);
+            border-radius: 18px;
+            padding: 10px 15px;
+            box-shadow: var(--shadow-soft);
         }
+        
         .modal-user-sticky .toggle-visibility,
         .modal-user-sticky .avatar-box {
-            display: flex !important; /* Restore exactly as home */
+            display: none !important;
         }
 
         .detail-modal-overlay {
@@ -716,16 +721,13 @@
             const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
             const data = activeFilter === 'SMM Services' ? smmTransactions : depositTransactions;
             
-            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
+            document.getElementById('modal-title').innerText = isAr ? (activeFilter === 'SMM Services' ? 'سجل العمليات' : 'سجل الإيداعات') : (activeFilter === 'SMM Services' ? 'SMM History' : 'Deposit History');
 
             // Clone user wallet and wallet content for the sticky area
             const walletOriginal = document.getElementById('main-wallet-card').cloneNode(true);
             walletOriginal.id = "modal-wallet-sticky";
             document.getElementById('modal-user-info-area').innerHTML = '';
             document.getElementById('modal-user-info-area').appendChild(walletOriginal);
-            
-            // Re-render data for the cloned wallet specifically
-            window.renderUserData();
 
             if (data.length === 0) {
                 document.getElementById('modal-content').innerHTML = `
@@ -994,9 +996,9 @@
         };
 
         window.renderUserData = function() {
-            const nameEls = document.querySelectorAll('#user-full-name');
-            const emailEls = document.querySelectorAll('#user-email');
-            const eyeIcons = document.querySelectorAll('#eye-icon');
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
+            const eyeIcon = document.getElementById('eye-icon');
             
             const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
             const hideEmail = localStorage.getItem('hide_email') === "true";
@@ -1005,35 +1007,29 @@
             const rawName = window.currentName || cached.name || "";
             const rawEmail = window.currentEmail || cached.email || "";
 
-            nameEls.forEach(el => {
-                if (hideUser && rawName) {
-                    el.innerText = "*****";
-                } else {
-                    el.innerText = rawName;
-                }
-            });
+            if (hideUser && rawName) {
+                nameEl.innerText = "*****";
+            } else {
+                nameEl.innerText = rawName;
+            }
 
-            emailEls.forEach(el => {
-                if (hideEmail && rawEmail) {
-                    const parts = rawEmail.split('@');
-                    if (parts.length === 2) {
-                        const local = parts[0];
-                        const domain = parts[1];
-                        const maskedLocal = local.length > 2 ? local.substring(0, 2) + "****" : local + "****";
-                        el.innerText = maskedLocal + "@" + domain;
-                    } else {
-                        el.innerText = "****";
-                    }
+            if (hideEmail && rawEmail) {
+                const parts = rawEmail.split('@');
+                if (parts.length === 2) {
+                    const local = parts[0];
+                    const domain = parts[1];
+                    const maskedLocal = local.length > 2 ? local.substring(0, 2) + "****" : local + "****";
+                    emailEl.innerText = maskedLocal + "@" + domain;
                 } else {
-                    el.innerText = rawEmail;
+                    emailEl.innerText = "****";
                 }
-            });
+            } else {
+                emailEl.innerText = rawEmail;
+            }
             
-            eyeIcons.forEach(el => {
-                el.innerHTML = (hideEmail || hideUser) ? 
-                    '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
-                    '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-            });
+            eyeIcon.innerHTML = (hideEmail || hideUser) ? 
+                '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
+                '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
         };
 
         window.onload = () => {
