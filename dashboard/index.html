@@ -226,27 +226,39 @@
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         
-        /* Updated Icon Boxes Styling */
+        /* Optimized Icon Boxes Styling */
         .icon-box { 
-            width: 65px; 
-            height: 65px; 
-            background: #F3F2F2; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05), inset 0 -2px 0 rgba(0,0,0,0.02); 
+            width: 68px; 
+            height: 68px; 
+            background: #FFFFFF; 
+            border-radius: 22px; 
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06), inset 0 -3px 0 rgba(0,0,0,0.03); 
             display: flex; 
             align-items: center; 
             justify-content: center;
             border: 1px solid #E2E7F0;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative;
         }
-        .icon-box:active { transform: scale(0.92); }
+        .icon-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .icon-box:active { transform: scale(0.9) translateY(2px); }
+        .icon-box:active::after { opacity: 0.05; }
         
-        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
+        .shortcut-label { font-size: 11px; font-weight: 800; color: #334155; text-align: center; white-space: nowrap; margin-top: -2px; }
         
         /* Specialized Colors and Sizing for Icons */
-        .icon-svg-smm { width: 28px; height: 28px; fill: #2E5822; }
-        .icon-svg-deposit { width: 30px; height: 30px; fill: #10b981; }
-        .icon-svg-menu { width: 28px; height: 28px; fill: #475569; }
-        .icon-svg-logout { width: 26px; height: 26px; fill: #ef4444; }
+        .icon-svg-smm { width: 32px; height: 32px; fill: #2E5822; filter: drop-shadow(0 2px 4px rgba(46,88,34,0.1)); }
+        .icon-svg-deposit { width: 34px; height: 34px; fill: #10b981; filter: drop-shadow(0 2px 4px rgba(16,185,129,0.1)); }
+        .icon-svg-menu { width: 32px; height: 32px; fill: #64748b; filter: drop-shadow(0 2px 4px rgba(100,116,139,0.1)); }
+        .icon-svg-logout { width: 30px; height: 30px; fill: #ef4444; filter: drop-shadow(0 2px 4px rgba(239,68,68,0.1)); }
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
@@ -535,25 +547,25 @@
             <div class="new-header-content">
                 <div class="shortcuts-scroll-wrapper">
                     <a href="smm-services/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
+                        <div class="icon-box" style="color: #2E5822">
                             <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
                         </div>
                         <span class="shortcut-label" id="txt-smm"></span>
                     </a>
                     <a href="deposit/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
+                        <div class="icon-box" style="color: #10b981">
                             <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
                         </div>
                         <span class="shortcut-label" id="txt-deposit"></span>
                     </a>
                     <a href="menu/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
+                        <div class="icon-box" style="color: #64748b">
                             <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
                         </div>
                         <span class="shortcut-label" id="txt-menu"></span>
                     </a>
                     <div class="shortcut-item simulate-link" onclick="handleLogout()">
-                        <div class="icon-box">
+                        <div class="icon-box" style="color: #ef4444">
                             <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
                         </div>
                         <span class="shortcut-label" id="txt-logout"></span>
