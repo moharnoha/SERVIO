@@ -561,20 +561,50 @@
                 window.location.href = "dashboard/";
             } catch (error) {
                 console.error("Firestore Save Error:", error);
-                alert("خطأ في حفظ البيانات: " + error.message);
+                const errorMsg = localStorage.getItem('pref_lang') === 'en' ? "Data save error: " : "خطأ في حفظ البيانات: ";
+                alert(errorMsg + error.message);
             }
         }
 
-        document.getElementById("email-action-btn").addEventListener("click", async () => {
-            const email = document.getElementById("auth-email").value;
-            const password = document.getElementById("auth-password").value;
-            const username = document.getElementById("auth-username").value;
+        function validatePassword(pass) {
+            const hasUpper = /[A-Z]/.test(pass);
+            const hasLower = /[a-z]/.test(pass);
+            const hasNumber = /[0-9]/.test(pass);
+            const isLongEnough = pass.length >= 6;
+            return hasUpper && hasLower && hasNumber && isLongEnough;
+        }
 
-            if(!email || !password) return alert("يرجى ملء البيانات");
+        document.getElementById("email-action-btn").addEventListener("click", async () => {
+            const email = document.getElementById("auth-email").value.trim();
+            const password = document.getElementById("auth-password").value;
+            const username = document.getElementById("auth-username").value.trim();
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+
+            const msgs = {
+                ar: {
+                    empty: "يرجى ملء جميع الحقول المطلوبة",
+                    passWeak: "كلمة المرور ضعيفة! يجب أن تكون 6 خانات على الأقل، وتحتوي على حرف كبير، حرف صغير، وأرقام.",
+                    userSame: "لا يمكن استخدام اسم المستخدم ككلمة مرور لدواعي أمنية.",
+                    userRequired: "يرجى كتابة اسم المستخدم",
+                    authError: "خطأ في المصادقة: "
+                },
+                en: {
+                    empty: "Please fill in all required fields",
+                    passWeak: "Password too weak! Must be at least 6 characters, including uppercase, lowercase, and numbers.",
+                    userSame: "Username and password cannot be the same for security reasons.",
+                    userRequired: "Please enter a username",
+                    authError: "Authentication error: "
+                }
+            };
+
+            if(!email || !password) return alert(msgs[lang].empty);
 
             try {
                 if(isSignUpMode) {
-                    if(!username) return alert("يرجى كتابة اسم المستخدم");
+                    if(!username) return alert(msgs[lang].userRequired);
+                    if(username.toLowerCase() === password.toLowerCase()) return alert(msgs[lang].userSame);
+                    if(!validatePassword(password)) return alert(msgs[lang].passWeak);
+
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: username });
                     await saveUserToFirestore(res.user, username);
@@ -584,17 +614,19 @@
                 }
             } catch (e) {
                 console.error("Auth Action Error:", e);
-                alert("خطأ في المصادقة: " + e.message);
+                alert(msgs[lang].authError + e.message);
             }
         });
 
         document.getElementById("google-auth-btn").addEventListener("click", () => {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
             signInWithPopup(auth, provider).then(async (result) => {
                 console.log("Debug: Google login success");
                 await saveUserToFirestore(result.user);
             }).catch(e => {
                 console.error("Google Auth Error:", e);
-                alert("فشل تسجيل الدخول عبر جوجل: " + e.message);
+                const errorMsg = lang === 'en' ? "Google sign-in failed: " : "فشل تسجيل الدخول عبر جوجل: ";
+                alert(errorMsg + e.message);
             });
         });
 
