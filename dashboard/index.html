@@ -226,56 +226,27 @@
         .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
         .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
         
-        /* Updated Icon Boxes Styling - Service Industry Standard */
+        /* Updated Icon Boxes Styling - Circular Simple White Style */
         .icon-box { 
-            width: 68px; 
-            height: 68px; 
+            width: 65px; 
+            height: 65px; 
             background: #FFFFFF; 
-            border-radius: 22px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
             display: flex; 
             align-items: center; 
             justify-content: center;
-            border: 1px solid rgba(0,0,0,0.03);
-            position: relative;
-            overflow: hidden;
+            border: 1px solid #E2E7F0;
         }
+        .icon-box:active { transform: scale(0.92); }
         
-        .icon-box::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            opacity: 0.6;
-        }
-
-        /* Color Coding for Professional UX */
-        .shortcut-item:nth-child(1) .icon-box { background: #E8F5E9; border: 1px solid #C8E6C9; } /* SMM - Green Tint */
-        .shortcut-item:nth-child(1) .icon-box::after { background: #2E5822; }
-        
-        .shortcut-item:nth-child(2) .icon-box { background: #E0F2F1; border: 1px solid #B2DFDB; } /* Deposit - Teal Tint */
-        .shortcut-item:nth-child(2) .icon-box::after { background: #10b981; }
-        
-        .shortcut-item:nth-child(3) .icon-box { background: #F8FAFC; border: 1px solid #E2E8F0; } /* Menu - Blue Gray */
-        .shortcut-item:nth-child(3) .icon-box::after { background: #475569; }
-        
-        .shortcut-item:nth-child(4) .icon-box { background: #FFEBEE; border: 1px solid #FFCDD2; } /* Logout - Red Tint */
-        .shortcut-item:nth-child(4) .icon-box::after { background: #ef4444; }
-
-        .icon-box:active { 
-            transform: scale(0.90);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        
-        .shortcut-label { font-size: 11px; font-weight: 800; color: #1e293b; text-align: center; white-space: nowrap; margin-top: -4px; letter-spacing: -0.2px; }
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
         
         /* Specialized Colors and Sizing for Icons */
-        .icon-svg-smm { width: 30px; height: 30px; fill: #2E5822; filter: drop-shadow(0 2px 4px rgba(46, 88, 34, 0.1)); }
-        .icon-svg-deposit { width: 32px; height: 32px; fill: #10b981; filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.1)); }
-        .icon-svg-menu { width: 30px; height: 30px; fill: #475569; filter: drop-shadow(0 2px 4px rgba(71, 85, 105, 0.1)); }
-        .icon-svg-logout { width: 28px; height: 28px; fill: #ef4444; filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.1)); }
+        .icon-svg-smm { width: 28px; height: 28px; fill: #2E5822; }
+        .icon-svg-deposit { width: 30px; height: 30px; fill: #10b981; }
+        .icon-svg-menu { width: 28px; height: 28px; fill: #475569; }
+        .icon-svg-logout { width: 26px; height: 26px; fill: #ef4444; }
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
