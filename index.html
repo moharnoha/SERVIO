@@ -537,16 +537,18 @@
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
 
+            const userData = {
+                name: customName || user.displayName || "User",
+                email: user.email,
+                uid: user.uid,
+                selected_region: currentRegionName,
+                selected_language: currentLanguageName
+            };
+
             if (!docSnap.exists()) {
-                await setDoc(userRef, {
-                    name: customName || user.displayName || "User",
-                    balance: 0,
-                    total_spend: 0,
-                    email: user.email,
-                    uid: user.uid,
-                    selected_region: currentRegionName,
-                    selected_language: currentLanguageName
-                });
+                userData.balance = 0;
+                userData.total_spend = 0;
+                await setDoc(userRef, userData);
             } else {
                 await setDoc(userRef, {
                     selected_region: currentRegionName,
