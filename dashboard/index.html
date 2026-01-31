@@ -433,14 +433,16 @@
             justify-content: center;
         }
         .modal-user-sticky .wallet-card {
-            width: auto;
-            min-width: 250px;
-            padding: 12px 20px;
-            background: #2E5822;
-        }
-        .modal-user-sticky .toggle-visibility,
-        .modal-user-sticky .avatar-box {
-            display: none !important;
+            width: 100%;
+            max-width: 450px;
+            padding: 10px 15px;
+            background: rgba(46, 88, 34, 0.85);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
         }
 
         .detail-modal-overlay {
@@ -765,7 +767,7 @@
                                     <span class="trans-date">${dateStr}</span>
                                 </div>
                             </div>
-                            <span class="trans-val" style="color: ${isDep ? '#10b981' : '#1e293b'}">${amountLabel}</span>
+                            <span class="trans-val" style="color: #1e293b">${amountLabel}</span>
                         </div>`;
                 });
                 document.getElementById('modal-content').innerHTML = html;
@@ -831,7 +833,7 @@
                                 <span class="trans-date">${dateStr}</span>
                             </div>
                         </div>
-                        <span class="trans-val">${amountLabel}</span>
+                        <span class="trans-val" style="color: #1e293b">${amountLabel}</span>
                     </div>`;
             });
             container.innerHTML = html;
