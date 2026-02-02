@@ -402,7 +402,7 @@
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
                     <div id="err-email" class="input-error-msg"></div>
                     
-                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="رمز سري (6 أرقام)" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                     <div id="err-password" class="input-error-msg"></div>
                     
                     <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
@@ -500,6 +500,7 @@
             const toggleLink = document.getElementById('toggle-link');
             const sheetTitle = document.getElementById('sheet-title');
             const sheetSubtitle = document.getElementById('sheet-subtitle');
+            const passwordInput = document.getElementById('auth-password');
             
             if(isSignUpMode) {
                 signupFields.style.display = "flex";
@@ -508,6 +509,7 @@
                 actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
                 toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
                 toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                passwordInput.placeholder = lang === 'ar' ? "رمز سري (6 أرقام)" : "Secret Code (6 digits)";
             } else {
                 signupFields.style.display = "none";
                 sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
@@ -515,6 +517,7 @@
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
                 toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
                 toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
+                passwordInput.placeholder = lang === 'ar' ? "رمز سري (6 أرقام)" : "Secret Code (6 digits)";
             }
         }
 
@@ -683,13 +686,6 @@
             }
         }
 
-        function validatePassword(pass) {
-            const hasUpper = /[A-Z]/.test(pass);
-            const hasLower = /[a-z]/.test(pass);
-            const hasNumber = /[0-9]/.test(pass);
-            return hasUpper && hasLower && hasNumber && pass.length >= 6;
-        }
-
         document.getElementById("email-action-btn").addEventListener("click", async () => {
             clearErrors();
             const email = document.getElementById("auth-email").value.trim();
@@ -701,46 +697,44 @@
             const msgs = {
                 ar: {
                     empty: "يرجى تعبئة جميع الحقول المطلوبة.",
-                    passWeak: "كلمة المرور ضعيفة! يجب أن تتكون من 6 خانات، حرف كبير، حرف صغير، ورقم.",
+                    passWeak: "يجب أن يتكون الرمز السري من 6 أرقام.",
                     userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
-                    nameReq: "يرجى إدخال الاسم واللقب.",
-                    wrongPassTitle: "عذراً، كلمة المرور غير صحيحة",
-                    wrongPassText: "تأكد من كتابة كلمة المرور بشكل صحيح ثم حاول مرة أخرى.",
-                    userNotFoundTitle: "لم نجد هذا الحساب",
-                    userNotFoundText: "البريد الإلكتروني الذي أدخلته غير مسجل لدينا.",
-                    emailInvalid: "يرجى إدخال بريد إلكتروني صالح.",
-                    authError: "ملاحظة",
-                    emailTaken: "هذا البريد الإلكتروني مستخدم بالفعل."
+                    nameReq: "يرجى إدخال الاسم الأول.",
+                    lastNameReq: "يرجى إدخال اللقب.",
+                    wrongPassTitle: "خطأ في الدخول",
+                    wrongPassText: "الرمز السري غير صحيح، يرجى إعادة المحاولة.",
+                    userNotFoundTitle: "تنبيه",
+                    userNotFoundText: "هذا الحساب غير موجود لدينا.",
+                    emailInvalid: "يرجى إدخال بريد إلكتروني صحيح.",
+                    authError: "حدث خطأ",
+                    emailTaken: "هذا الحساب مسجل لدينا بالفعل."
                 },
                 en: {
-                    empty: "Please fill in all required fields.",
-                    passWeak: "Weak password! Needs 6 chars, uppercase, lowercase, and a number.",
-                    userSame: "Name and password cannot be identical.",
-                    nameReq: "First name and Last name are required.",
-                    wrongPassTitle: "Incorrect Password",
-                    wrongPassText: "Please check your password and try again.",
-                    userNotFoundTitle: "Account Not Found",
-                    userNotFoundText: "This email address is not registered.",
-                    emailInvalid: "Please enter a valid email address.",
-                    authError: "Notification",
-                    emailTaken: "This email is already registered."
+                    empty: "Please fill in all fields.",
+                    passWeak: "Secret code must be 6 digits.",
+                    userSame: "Name and code cannot be identical.",
+                    nameReq: "First name is required.",
+                    lastNameReq: "Last name is required.",
+                    wrongPassTitle: "Login Error",
+                    wrongPassText: "Incorrect secret code, please try again.",
+                    userNotFoundTitle: "Notice",
+                    userNotFoundText: "No account found with this email.",
+                    emailInvalid: "Invalid email format.",
+                    authError: "An error occurred",
+                    emailTaken: "Email already registered. Please login."
                 }
             };
 
             if(isSignUpMode) {
                 let hasErr = false;
                 if(!firstName) { showError('err-firstname', msgs[lang].nameReq); hasErr = true; }
-                if(!lastName) { showError('err-lastname', msgs[lang].nameReq); hasErr = true; }
+                if(!lastName) { showError('err-lastname', msgs[lang].lastNameReq); hasErr = true; }
                 if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
                 if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
                 
                 if(hasErr) return;
 
-                if(firstName.toLowerCase() === password.toLowerCase() || lastName.toLowerCase() === password.toLowerCase()) {
-                    showError('err-password', msgs[lang].userSame);
-                    return;
-                }
-                if(!validatePassword(password)) {
+                if(password.length !== 6 || isNaN(password)) {
                     showError('err-password', msgs[lang].passWeak);
                     return;
                 }
@@ -779,7 +773,7 @@
             signInWithPopup(auth, provider).then(async (result) => {
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                const errTitle = lang === 'ar' ? 'فشل الاتصال' : 'Connection Failed';
+                const errTitle = lang === 'ar' ? 'خطأ في الربط' : 'Linking Error';
                 showDialog(errTitle, e.message);
             });
         });
