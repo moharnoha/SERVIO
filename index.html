@@ -629,8 +629,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -646,7 +646,7 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        async function saveUserToFirestore(user, customName = null) {
+        async function saveUserToFirestore(user, customName = null, lastName = null) {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
@@ -662,6 +662,7 @@
                 if (!docSnap.exists()) {
                     await setDoc(userRef, {
                         name: customName || user.displayName || "User",
+                        lastName: lastName || "",
                         balance: 0,
                         total_spend: 0,
                         email: user.email,
@@ -704,10 +705,11 @@
                     wrongPassTitle: "خطأ في الدخول",
                     wrongPassText: "الرمز السري غير صحيح، يرجى إعادة المحاولة.",
                     userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "هذا الحساب غير موجود لدينا.",
+                    userNotFoundText: "هذا الحساب غير موجود لدينا، يرجى إنشاء حساب أولاً.",
                     emailInvalid: "يرجى إدخال بريد إلكتروني صحيح.",
                     authError: "حدث خطأ",
-                    emailTaken: "هذا الحساب مسجل لدينا بالفعل."
+                    emailTaken: "هذا الحساب مسجل لدينا بالفعل.",
+                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، نقترح عليك: "
                 },
                 en: {
                     empty: "Please fill in all fields.",
@@ -718,10 +720,11 @@
                     wrongPassTitle: "Login Error",
                     wrongPassText: "Incorrect secret code, please try again.",
                     userNotFoundTitle: "Notice",
-                    userNotFoundText: "No account found with this email.",
+                    userNotFoundText: "No account found with this email, please create an account.",
                     emailInvalid: "Invalid email format.",
                     authError: "An error occurred",
-                    emailTaken: "Email already registered. Please login."
+                    emailTaken: "Email already registered. Please login.",
+                    lastNameSuggestion: "This Last name is taken, we suggest: "
                 }
             };
 
@@ -734,6 +737,15 @@
                 
                 if(hasErr) return;
 
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("lastName", "==", lastName));
+                const querySnapshot = await getDocs(q);
+                
+                if (!querySnapshot.empty) {
+                    showError('err-lastname', msgs[lang].lastNameSuggestion + lastName + "1");
+                    return;
+                }
+
                 if(password.length !== 6 || isNaN(password)) {
                     showError('err-password', msgs[lang].passWeak);
                     return;
@@ -743,7 +755,7 @@
                 try {
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: fullName });
-                    await saveUserToFirestore(res.user, fullName);
+                    await saveUserToFirestore(res.user, firstName, lastName);
                 } catch (e) {
                     if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
                     else if(e.code === 'auth/email-already-in-use') showError('err-email', msgs[lang].emailTaken);
@@ -751,7 +763,14 @@
                 }
             } else {
                 if(!email || !password) return showDialog(msgs[lang].authError, msgs[lang].empty);
+                
                 try {
+                    const methods = await fetchSignInMethodsForEmail(auth, email);
+                    if (methods.length === 0) {
+                        showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
+                        return;
+                    }
+
                     const res = await signInWithEmailAndPassword(auth, email, password);
                     await saveUserToFirestore(res.user);
                 } catch (e) {
