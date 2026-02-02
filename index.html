@@ -651,8 +651,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -738,7 +738,7 @@
                     passWeak: "يجب أن يتكون الرمز السري من 6 أرقام.",
                     passSimple: "لا يمكن استخدام رموز سهلة التخمين مثل 000000 أو 111111.",
                     userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
-                    nameReq: "يرجى إدخال الاسم الأول.",
+                    nameReq: "يرجى إدخل الاسم الأول.",
                     lastNameReq: "يرجى إدخال اللقب.",
                     wrongPassTitle: "خطأ في الدخول",
                     wrongPassText: "الرمز السري غير صحيح، يرجى التأكد من البيانات أو استعادة الرمز.",
@@ -747,7 +747,7 @@
                     emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
                     authError: "حدث خطأ في المصادقة",
                     emailTaken: "البريد الإلكتروني مستخدم بالفعل، يرجى تسجيل الدخول.",
-                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، نقترح عليك: ",
+                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، يرجى اختيار لقب فريد.",
                     tooManyRequests: "محاولات كثيرة خاطئة، تم حظر الجهاز مؤقتاً."
                 },
                 en: {
@@ -764,12 +764,11 @@
                     emailInvalid: "Invalid email format.",
                     authError: "Authentication Error",
                     emailTaken: "Email already registered. Please login.",
-                    lastNameSuggestion: "This Last name is taken, we suggest: ",
+                    lastNameSuggestion: "This Last name is taken, please choose a unique one.",
                     tooManyRequests: "Too many failed attempts. Device temporarily blocked."
                 }
             };
 
-            // منع الرموز المكررة
             if (isSignUpMode && password.length === 6) {
                 const isRepeated = /^(\d)\1{5}$/.test(password);
                 if (isRepeated) {
@@ -789,27 +788,42 @@
                 
                 if(hasErr) { toggleLoading(false); return; }
 
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, where("lastName", "==", lastName));
-                const querySnapshot = await getDocs(q);
-                
-                if (!querySnapshot.empty) {
-                    showError('err-lastname', msgs[lang].lastNameSuggestion + lastName + "1");
-                    toggleLoading(false);
-                    return;
-                }
-
                 if(password.length !== 6 || isNaN(password)) {
                     showError('err-password', msgs[lang].passWeak);
                     toggleLoading(false);
                     return;
                 }
 
-                const fullName = firstName + " " + lastName;
                 try {
+                    const nicknameRef = doc(db, "usernames", lastName);
+                    const nickSnap = await getDoc(nicknameRef);
+                    if (nickSnap.exists()) {
+                        showError('err-lastname', msgs[lang].lastNameSuggestion);
+                        toggleLoading(false);
+                        return;
+                    }
+
                     const res = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(res.user, { displayName: fullName });
-                    await saveUserToFirestore(res.user, firstName, lastName);
+                    const batch = writeBatch(db);
+                    
+                    const userRef = doc(db, "users", res.user.uid);
+                    batch.set(userRef, {
+                        name: firstName,
+                        lastName: lastName,
+                        balance: 0,
+                        total_spend: 0,
+                        email: email,
+                        uid: res.user.uid,
+                        createdAt: new Date().toISOString()
+                    });
+
+                    batch.set(nicknameRef, {
+                        uid: res.user.uid
+                    });
+
+                    await batch.commit();
+                    await updateProfile(res.user, { displayName: firstName + " " + lastName });
+                    window.location.href = "dashboard/";
                 } catch (e) {
                     toggleLoading(false);
                     if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
@@ -818,7 +832,6 @@
                 }
             } else {
                 if(!email || !password) { toggleLoading(false); return showDialog(msgs[lang].authError, msgs[lang].empty); }
-                
                 try {
                     const res = await signInWithEmailAndPassword(auth, email, password);
                     await saveUserToFirestore(res.user);
