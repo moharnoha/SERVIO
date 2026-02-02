@@ -404,8 +404,8 @@
 
         <div class="login-sticky-sheet">
             <div class="auth-flex-container">
-                <div class="sheet-title" id="sheet-title">مرحباً بك مجدداً</div>
-                <div class="sheet-subtext" id="sheet-subtitle">سجّل الدخول للوصول إلى خدماتك الرقمية</div>
+                <div class="sheet-title" id="sheet-title">مرحباً بك</div>
+                <div class="sheet-subtext" id="sheet-subtitle">سجل دخولك الآن</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
                     <div id="signup-fields" style="display: none; flex-direction: column; gap: 14px;">
@@ -419,24 +419,24 @@
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
                     <div id="err-email" class="input-error-msg"></div>
                     
-                    <input type="password" id="auth-password" class="auth-input" placeholder="رمز سري (6 أرقام)" inputmode="numeric" pattern="[0-9]*" maxlength="6">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="الرمز السري" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                     <div id="err-password" class="input-error-msg"></div>
                     
                     <button class="auth-btn email-btn" id="email-action-btn">
                         <span class="loader" id="btn-loader"></span>
-                        <span id="btn-text">تسجيل الدخول</span>
+                        <span id="btn-text">دخول</span>
                     </button>
                     <div class="toggle-auth-mode" id="toggle-container">
-                        <span id="toggle-question">ليس لديك حساب؟</span>
-                        <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب</span>
+                        <span id="toggle-question">لا تملك حساباً؟</span>
+                        <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">تسجيل جديد</span>
                     </div>
                 </div>
 
-                <div class="divider">أو عبر المنصات التالية</div>
+                <div class="divider">أو عبر</div>
 
                 <button class="auth-btn google-btn" id="google-auth-btn">
                     <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    <span id="google-btn-label">استمر مع جوجل</span>
+                    <span id="google-btn-label">جوجل</span>
                 </button>
 
                 <div style="font-size: 10px; color: #a0aec0; text-align: center; line-height: 1.6; margin-top: 15px; padding: 0 10px;">
@@ -524,20 +524,20 @@
             
             if(isSignUpMode) {
                 signupFields.style.display = "flex";
-                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
-                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
-                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                passwordInput.placeholder = lang === 'ar' ? "رمز سري (6 أرقام)" : "Secret Code (6 digits)";
+                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
+                sheetSubtitle.innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
+                actionBtn.innerText = lang === 'ar' ? "تسجيل" : "Register";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
+                toggleLink.innerText = lang === 'ar' ? "دخول" : "Login";
+                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
             } else {
                 signupFields.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
-                sheetSubtitle.innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                passwordInput.placeholder = lang === 'ar' ? "رمز سري (6 أرقام)" : "Secret Code (6 digits)";
+                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
+                sheetSubtitle.innerText = lang === 'ar' ? "سجل دخولك الآن" : "Sign in now";
+                actionBtn.innerText = lang === 'ar' ? "دخول" : "Login";
+                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
+                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
             }
         }
 
@@ -599,7 +599,7 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const list = document.getElementById('regions-list');
             list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
-                ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
+                ${lang === 'ar' ? 'English' : 'العربية'}
             </div>`;
             regionConfigs.forEach((reg, i) => {
                 const div = document.createElement('div');
@@ -620,23 +620,23 @@
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
+            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "جوجل" : "Google";
             
             const toggleQuestion = document.getElementById('toggle-question');
             const toggleLink = document.getElementById('toggle-link');
 
             if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
-                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل دخولك الآن" : "Sign in now";
+                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "دخول" : "Login";
             } else {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
+                toggleLink.innerText = lang === 'ar' ? "دخول" : "Login";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل" : "Register";
             }
             
             const promo = {
@@ -704,7 +704,7 @@
             } catch (error) {
                 console.error("Firestore Save Error:", error);
                 const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                const errMsg = lang === 'ar' ? 'خطأ في حفظ البيانات: ' : 'Data save error: ';
+                const errMsg = lang === 'ar' ? 'فشل الحفظ: ' : 'Save failed: ';
                 showDialog(errTitle, errMsg + error.message);
                 toggleLoading(false);
             }
@@ -734,38 +734,38 @@
 
             const msgs = {
                 ar: {
-                    empty: "يرجى تعبئة جميع الحقول المطلوبة.",
-                    passWeak: "يجب أن يتكون الرمز السري من 6 أرقام.",
-                    passSimple: "لا يمكن استخدام رموز سهلة التخمين مثل 000000 أو 111111.",
-                    userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
-                    nameReq: "يرجى إدخل الاسم الأول.",
-                    lastNameReq: "يرجى إدخال اللقب.",
-                    wrongPassTitle: "خطأ في الدخول",
-                    wrongPassText: "الرمز السري غير صحيح، يرجى التأكد من البيانات أو استعادة الرمز.",
+                    empty: "يرجى ملء الحقول.",
+                    passWeak: "الرمز يجب أن يكون 6 أرقام.",
+                    passSimple: "الرمز سهل التخمين.",
+                    userSame: "البيانات متطابقة.",
+                    nameReq: "الاسم مطلوب.",
+                    lastNameReq: "اللقب مطلوب.",
+                    wrongPassTitle: "خطأ",
+                    wrongPassText: "الرمز غير صحيح.",
                     userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "لا يوجد حساب بهذا البريد، يرجى إنشاء حساب جديد.",
-                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
-                    authError: "حدث خطأ في المصادقة",
-                    emailTaken: "البريد الإلكتروني مستخدم بالفعل، يرجى تسجيل الدخول.",
-                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، يرجى اختيار لقب فريد.",
-                    tooManyRequests: "محاولات كثيرة خاطئة، تم حظر الجهاز مؤقتاً."
+                    userNotFoundText: "الحساب غير موجود.",
+                    emailInvalid: "بريد غير صالح.",
+                    authError: "خطأ",
+                    emailTaken: "البريد مسجل مسبقاً.",
+                    lastNameSuggestion: "اللقب مستخدم.",
+                    tooManyRequests: "محاولات كثيرة، تم الحظر مؤقتاً."
                 },
                 en: {
-                    empty: "Please fill in all fields.",
-                    passWeak: "Secret code must be 6 digits.",
-                    passSimple: "Simple codes like 000000 or 111111 are not allowed.",
-                    userSame: "Name and code cannot be identical.",
-                    nameReq: "First name is required.",
-                    lastNameReq: "Last name is required.",
-                    wrongPassTitle: "Login Error",
-                    wrongPassText: "Incorrect secret code, please check and try again.",
+                    empty: "Please fill fields.",
+                    passWeak: "Code must be 6 digits.",
+                    passSimple: "Code too simple.",
+                    userSame: "Data identical.",
+                    nameReq: "Name required.",
+                    lastNameReq: "Last name required.",
+                    wrongPassTitle: "Error",
+                    wrongPassText: "Incorrect code.",
                     userNotFoundTitle: "Notice",
-                    userNotFoundText: "No account found with this email, please sign up.",
-                    emailInvalid: "Invalid email format.",
-                    authError: "Authentication Error",
-                    emailTaken: "Email already registered. Please login.",
-                    lastNameSuggestion: "This Last name is taken, please choose a unique one.",
-                    tooManyRequests: "Too many failed attempts. Device temporarily blocked."
+                    userNotFoundText: "Account not found.",
+                    emailInvalid: "Invalid email.",
+                    authError: "Error",
+                    emailTaken: "Email already exists.",
+                    lastNameSuggestion: "Name taken.",
+                    tooManyRequests: "Too many attempts. Blocked."
                 }
             };
 
@@ -857,7 +857,7 @@
             signInWithPopup(auth, provider).then(async (result) => {
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                const errTitle = lang === 'ar' ? 'خطأ في الربط' : 'Linking Error';
+                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
                 showDialog(errTitle, e.message);
             });
         });
