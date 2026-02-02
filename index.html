@@ -768,7 +768,7 @@
         });
 
         // Logic for Email Check
-        document.getElementById("auth-email").addEventListener("blur", async (e) => {
+        document.getElementById("auth-email").addEventListener("input", async (e) => {
             const email = e.target.value.trim();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             if(!email || !isSignUpMode) return;
@@ -776,7 +776,12 @@
             try {
                 const methods = await fetchSignInMethodsForEmail(auth, email);
                 if(methods.length > 0) {
-                    showError('err-email', lang === 'ar' ? "لديك حساب بالفعل، قم بتسجيل الدخول." : "You already have an account, please login.");
+                    showError('err-email', lang === 'ar' ? "البريد مسجل مسبقا" : "Email already exists.");
+                } else {
+                    const errEl = document.getElementById('err-email');
+                    if(errEl && (errEl.innerText === "البريد مسجل مسبقا" || errEl.innerText === "Email already exists.")) {
+                        errEl.style.display = 'none';
+                    }
                 }
             } catch(e) {}
         });
