@@ -216,6 +216,7 @@
             border: none;
             font-size: 16px; 
             font-weight: 800; 
+            position: relative;
         }
 
         .email-btn {
@@ -239,6 +240,22 @@
 
         .auth-btn:active {
             transform: scale(0.96);
+        }
+
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            display: none;
+            margin-right: 10px;
+            order: 2;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .toggle-auth-mode {
@@ -405,7 +422,10 @@
                     <input type="password" id="auth-password" class="auth-input" placeholder="رمز سري (6 أرقام)" inputmode="numeric" pattern="[0-9]*" maxlength="6">
                     <div id="err-password" class="input-error-msg"></div>
                     
-                    <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
+                    <button class="auth-btn email-btn" id="email-action-btn">
+                        <span class="loader" id="btn-loader"></span>
+                        <span id="btn-text">تسجيل الدخول</span>
+                    </button>
                     <div class="toggle-auth-mode" id="toggle-container">
                         <span id="toggle-question">ليس لديك حساب؟</span>
                         <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب</span>
@@ -495,7 +515,7 @@
             isSignUpMode = !isSignUpMode;
             clearErrors();
             const signupFields = document.getElementById('signup-fields');
-            const actionBtn = document.getElementById('email-action-btn');
+            const actionBtn = document.getElementById('btn-text');
             const toggleQuestion = document.getElementById('toggle-question');
             const toggleLink = document.getElementById('toggle-link');
             const sheetTitle = document.getElementById('sheet-title');
@@ -610,11 +630,13 @@
                 document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
                 toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
                 toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
             } else {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
                 document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
                 toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
                 toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
             }
             
             const promo = {
@@ -684,6 +706,21 @@
                 const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
                 const errMsg = lang === 'ar' ? 'خطأ في حفظ البيانات: ' : 'Data save error: ';
                 showDialog(errTitle, errMsg + error.message);
+                toggleLoading(false);
+            }
+        }
+
+        function toggleLoading(show) {
+            const loader = document.getElementById("btn-loader");
+            const btn = document.getElementById("email-action-btn");
+            if (show) {
+                loader.style.display = "block";
+                btn.style.opacity = "0.8";
+                btn.style.pointerEvents = "none";
+            } else {
+                loader.style.display = "none";
+                btn.style.opacity = "1";
+                btn.style.pointerEvents = "auto";
             }
         }
 
@@ -699,34 +736,49 @@
                 ar: {
                     empty: "يرجى تعبئة جميع الحقول المطلوبة.",
                     passWeak: "يجب أن يتكون الرمز السري من 6 أرقام.",
+                    passSimple: "لا يمكن استخدام رموز سهلة التخمين مثل 000000 أو 111111.",
                     userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
                     nameReq: "يرجى إدخال الاسم الأول.",
                     lastNameReq: "يرجى إدخال اللقب.",
                     wrongPassTitle: "خطأ في الدخول",
-                    wrongPassText: "الرمز السري غير صحيح، يرجى إعادة المحاولة.",
+                    wrongPassText: "الرمز السري غير صحيح، يرجى التأكد من البيانات أو استعادة الرمز.",
                     userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "هذا الحساب غير موجود لدينا، يرجى إنشاء حساب أولاً.",
-                    emailInvalid: "يرجى إدخال بريد إلكتروني صحيح.",
-                    authError: "حدث خطأ",
-                    emailTaken: "هذا الحساب مسجل لدينا بالفعل.",
-                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، نقترح عليك: "
+                    userNotFoundText: "لا يوجد حساب بهذا البريد، يرجى إنشاء حساب جديد.",
+                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
+                    authError: "حدث خطأ في المصادقة",
+                    emailTaken: "البريد الإلكتروني مستخدم بالفعل، يرجى تسجيل الدخول.",
+                    lastNameSuggestion: "هذا اللقب مستخدم بالفعل، نقترح عليك: ",
+                    tooManyRequests: "محاولات كثيرة خاطئة، تم حظر الجهاز مؤقتاً."
                 },
                 en: {
                     empty: "Please fill in all fields.",
                     passWeak: "Secret code must be 6 digits.",
+                    passSimple: "Simple codes like 000000 or 111111 are not allowed.",
                     userSame: "Name and code cannot be identical.",
                     nameReq: "First name is required.",
                     lastNameReq: "Last name is required.",
                     wrongPassTitle: "Login Error",
-                    wrongPassText: "Incorrect secret code, please try again.",
+                    wrongPassText: "Incorrect secret code, please check and try again.",
                     userNotFoundTitle: "Notice",
-                    userNotFoundText: "No account found with this email, please create an account.",
+                    userNotFoundText: "No account found with this email, please sign up.",
                     emailInvalid: "Invalid email format.",
-                    authError: "An error occurred",
+                    authError: "Authentication Error",
                     emailTaken: "Email already registered. Please login.",
-                    lastNameSuggestion: "This Last name is taken, we suggest: "
+                    lastNameSuggestion: "This Last name is taken, we suggest: ",
+                    tooManyRequests: "Too many failed attempts. Device temporarily blocked."
                 }
             };
+
+            // منع الرموز المكررة
+            if (isSignUpMode && password.length === 6) {
+                const isRepeated = /^(\d)\1{5}$/.test(password);
+                if (isRepeated) {
+                    showError('err-password', msgs[lang].passSimple);
+                    return;
+                }
+            }
+
+            toggleLoading(true);
 
             if(isSignUpMode) {
                 let hasErr = false;
@@ -735,7 +787,7 @@
                 if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
                 if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
                 
-                if(hasErr) return;
+                if(hasErr) { toggleLoading(false); return; }
 
                 const usersRef = collection(db, "users");
                 const q = query(usersRef, where("lastName", "==", lastName));
@@ -743,11 +795,13 @@
                 
                 if (!querySnapshot.empty) {
                     showError('err-lastname', msgs[lang].lastNameSuggestion + lastName + "1");
+                    toggleLoading(false);
                     return;
                 }
 
                 if(password.length !== 6 || isNaN(password)) {
                     showError('err-password', msgs[lang].passWeak);
+                    toggleLoading(false);
                     return;
                 }
 
@@ -757,23 +811,27 @@
                     await updateProfile(res.user, { displayName: fullName });
                     await saveUserToFirestore(res.user, firstName, lastName);
                 } catch (e) {
+                    toggleLoading(false);
                     if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
                     else if(e.code === 'auth/email-already-in-use') showError('err-email', msgs[lang].emailTaken);
                     else showDialog(msgs[lang].authError, e.message);
                 }
             } else {
-                if(!email || !password) return showDialog(msgs[lang].authError, msgs[lang].empty);
+                if(!email || !password) { toggleLoading(false); return showDialog(msgs[lang].authError, msgs[lang].empty); }
                 
                 try {
                     const res = await signInWithEmailAndPassword(auth, email, password);
                     await saveUserToFirestore(res.user);
                 } catch (e) {
+                    toggleLoading(false);
                     if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
                         showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
                     } else if(e.code === 'auth/user-not-found') {
                         showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
                     } else if(e.code === 'auth/invalid-email') {
                          showError('err-email', msgs[lang].emailInvalid);
+                    } else if(e.code === 'auth/too-many-requests') {
+                         showDialog(msgs[lang].authError, msgs[lang].tooManyRequests);
                     } else {
                         showDialog(msgs[lang].authError, e.message);
                     }
