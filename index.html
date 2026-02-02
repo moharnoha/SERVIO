@@ -125,28 +125,25 @@
             text-align: center;
         }
 
-        /* Modern Auth Design Enhancement - Now Integrated */
+        /* Integrated Login Section */
         .login-sticky-sheet {
-            width: 92%;
-            max-width: 440px;
+            width: 100%;
             background: #ffffff;
             padding: 35px 25px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-radius: 35px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-            margin: -25px auto 30px auto;
             position: relative;
             z-index: 10;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
         .auth-flex-container {
             display: flex;
             flex-direction: column;
             width: 100%;
+            max-width: 440px;
             align-items: center;
         }
 
@@ -246,12 +243,19 @@
 
         .toggle-auth-mode {
             font-size: 13px;
+            color: #000000;
+            font-weight: 500;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .toggle-link {
             color: #386E2C;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 15px;
             text-decoration: none;
             display: inline-block;
+            margin-right: 5px;
         }
 
         .divider {
@@ -397,7 +401,10 @@
                     <div id="err-password" class="input-error-msg"></div>
                     
                     <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
-                    <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ليس لديك حساب؟ إنشاء حساب</div>
+                    <div class="toggle-auth-mode" id="toggle-container">
+                        <span id="toggle-question">ليس لديك حساب؟</span>
+                        <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب</span>
+                    </div>
                 </div>
 
                 <div class="divider">أو عبر المنصات التالية</div>
@@ -486,7 +493,8 @@
             clearErrors();
             const usernameInput = document.getElementById('auth-username');
             const actionBtn = document.getElementById('email-action-btn');
-            const toggleBtn = document.getElementById('toggle-auth-mode');
+            const toggleQuestion = document.getElementById('toggle-question');
+            const toggleLink = document.getElementById('toggle-link');
             const sheetTitle = document.getElementById('sheet-title');
             const sheetSubtitle = document.getElementById('sheet-subtitle');
             
@@ -495,13 +503,15 @@
                 sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
                 sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
                 actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
-                toggleBtn.innerText = lang === 'ar' ? "لديك حساب بالفعل؟ تسجيل الدخول" : "Have an account? Sign In";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
             } else {
                 usernameInput.style.display = "none";
                 sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
                 sheetSubtitle.innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                toggleBtn.innerText = lang === 'ar' ? "ليس لديك حساب؟ إنشاء حساب" : "Don't have an account? Sign Up";
+                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
             }
         }
 
@@ -587,12 +597,19 @@
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
             document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
             
+            const toggleQuestion = document.getElementById('toggle-question');
+            const toggleLink = document.getElementById('toggle-link');
+
             if(!isSignUpMode) {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
                 document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
+                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
             } else {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
                 document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
             }
             
             const promo = {
