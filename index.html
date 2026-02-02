@@ -704,13 +704,13 @@
                     passWeak: "كلمة المرور ضعيفة! يجب أن تتكون من 6 خانات، حرف كبير، حرف صغير، ورقم.",
                     userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
                     nameReq: "يرجى إدخال الاسم واللقب.",
-                    wrongPassTitle: "خطأ في كلمة المرور",
-                    wrongPassText: "كلمة المرور غير صحيحة، يرجى إعادة المحاولة.",
-                    userNotFoundTitle: "الحساب غير موجود",
-                    userNotFoundText: "لا يوجد حساب مرتبط بهذا البريد الإلكتروني.",
-                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
-                    authError: "تنبيه أمني",
-                    emailTaken: "هذا البريد الإلكتروني مسجل مسبقاً."
+                    wrongPassTitle: "عذراً، كلمة المرور غير صحيحة",
+                    wrongPassText: "تأكد من كتابة كلمة المرور بشكل صحيح ثم حاول مرة أخرى.",
+                    userNotFoundTitle: "لم نجد هذا الحساب",
+                    userNotFoundText: "البريد الإلكتروني الذي أدخلته غير مسجل لدينا.",
+                    emailInvalid: "يرجى إدخال بريد إلكتروني صالح.",
+                    authError: "ملاحظة",
+                    emailTaken: "هذا البريد الإلكتروني مستخدم بالفعل."
                 },
                 en: {
                     empty: "Please fill in all required fields.",
@@ -718,12 +718,12 @@
                     userSame: "Name and password cannot be identical.",
                     nameReq: "First name and Last name are required.",
                     wrongPassTitle: "Incorrect Password",
-                    wrongPassText: "The password you entered is incorrect.",
+                    wrongPassText: "Please check your password and try again.",
                     userNotFoundTitle: "Account Not Found",
-                    userNotFoundText: "No account found with this email.",
-                    emailInvalid: "Invalid email format.",
-                    authError: "Security Alert",
-                    emailTaken: "Email already exists. Please login."
+                    userNotFoundText: "This email address is not registered.",
+                    emailInvalid: "Please enter a valid email address.",
+                    authError: "Notification",
+                    emailTaken: "This email is already registered."
                 }
             };
 
@@ -779,7 +779,7 @@
             signInWithPopup(auth, provider).then(async (result) => {
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                const errTitle = lang === 'ar' ? 'خطأ في الربط' : 'Linking Error';
+                const errTitle = lang === 'ar' ? 'فشل الاتصال' : 'Connection Failed';
                 showDialog(errTitle, e.message);
             });
         });
