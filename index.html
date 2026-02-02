@@ -391,8 +391,13 @@
                 <div class="sheet-subtext" id="sheet-subtitle">سجّل الدخول للوصول إلى خدماتك الرقمية</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
-                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
-                    <div id="err-username" class="input-error-msg"></div>
+                    <div id="signup-fields" style="display: none; flex-direction: column; gap: 14px;">
+                        <input type="text" id="auth-firstname" class="auth-input" placeholder="الاسم الأول">
+                        <div id="err-firstname" class="input-error-msg"></div>
+                        
+                        <input type="text" id="auth-lastname" class="auth-input" placeholder="اللقب">
+                        <div id="err-lastname" class="input-error-msg"></div>
+                    </div>
                     
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
                     <div id="err-email" class="input-error-msg"></div>
@@ -435,7 +440,7 @@
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
                 <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
                 <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
-                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
             </div>
         </div>
     </div>
@@ -470,15 +475,18 @@
         }
 
         function clearErrors() {
-            document.getElementById('err-username').style.display = 'none';
+            document.getElementById('err-firstname').style.display = 'none';
+            document.getElementById('err-lastname').style.display = 'none';
             document.getElementById('err-email').style.display = 'none';
             document.getElementById('err-password').style.display = 'none';
         }
 
         function showError(id, msg) {
             const el = document.getElementById(id);
-            el.innerText = msg;
-            el.style.display = 'block';
+            if(el) {
+                el.innerText = msg;
+                el.style.display = 'block';
+            }
         }
 
         let isSignUpMode = false;
@@ -486,7 +494,7 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
             clearErrors();
-            const usernameInput = document.getElementById('auth-username');
+            const signupFields = document.getElementById('signup-fields');
             const actionBtn = document.getElementById('email-action-btn');
             const toggleQuestion = document.getElementById('toggle-question');
             const toggleLink = document.getElementById('toggle-link');
@@ -494,14 +502,14 @@
             const sheetSubtitle = document.getElementById('sheet-subtitle');
             
             if(isSignUpMode) {
-                usernameInput.style.display = "block";
+                signupFields.style.display = "flex";
                 sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Create New Account";
                 sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا واستمتع بأفضل الخدمات" : "Join us and enjoy premium services";
                 actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
                 toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
                 toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
             } else {
-                usernameInput.style.display = "none";
+                signupFields.style.display = "none";
                 sheetTitle.innerText = lang === 'ar' ? "مرحباً بك مجدداً" : "Welcome Back";
                 sheetSubtitle.innerText = lang === 'ar' ? "سجّل الدخول للوصول إلى خدماتك الرقمية" : "Sign in to access your digital services";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
@@ -686,47 +694,49 @@
             clearErrors();
             const email = document.getElementById("auth-email").value.trim();
             const password = document.getElementById("auth-password").value;
-            const username = document.getElementById("auth-username").value.trim();
+            const firstName = document.getElementById("auth-firstname").value.trim();
+            const lastName = document.getElementById("auth-lastname").value.trim();
             const lang = localStorage.getItem('pref_lang') || 'ar';
 
             const msgs = {
                 ar: {
                     empty: "يرجى تعبئة جميع الحقول المطلوبة.",
-                    passWeak: "كلمة المرور ضعيفة جداً! يجب أن تحتوي على 6 خانات على الأقل، حرف كبير، حرف صغير، ورقم واحد.",
-                    userSame: "لا يمكن أن يكون اسم المستخدم وكلمة المرور متطابقين لأسباب أمنية.",
-                    userReq: "يرجى إدخال الاسم والنسب (الاسم الكامل).",
-                    wrongPassTitle: "كلمة السر غير صحيحة",
-                    wrongPassText: "كلمة السر التي أدخلتها غير مطابقة للحساب. يرجى التأكد وإعادة المحاولة.",
-                    userNotFoundTitle: "المستخدم غير موجود",
-                    userNotFoundText: "عذراً، لم نتمكن من العثور على حساب مرتبط بهذا البريد الإلكتروني.",
-                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة، يرجى كتابته بشكل سليم.",
+                    passWeak: "كلمة المرور ضعيفة! يجب أن تتكون من 6 خانات، حرف كبير، حرف صغير، ورقم.",
+                    userSame: "لا يمكن أن يتطابق الاسم وكلمة المرور.",
+                    nameReq: "يرجى إدخال الاسم واللقب.",
+                    wrongPassTitle: "خطأ في كلمة المرور",
+                    wrongPassText: "كلمة المرور غير صحيحة، يرجى إعادة المحاولة.",
+                    userNotFoundTitle: "الحساب غير موجود",
+                    userNotFoundText: "لا يوجد حساب مرتبط بهذا البريد الإلكتروني.",
+                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
                     authError: "تنبيه أمني",
-                    emailTaken: "هذا البريد الإلكتروني مسجل مسبقاً، يرجى تسجيل الدخول بدلاً من ذلك."
+                    emailTaken: "هذا البريد الإلكتروني مسجل مسبقاً."
                 },
                 en: {
                     empty: "Please fill in all required fields.",
-                    passWeak: "Weak password! It must be at least 6 characters, including uppercase, lowercase, and a number.",
-                    userSame: "Username and password cannot be identical for security reasons.",
-                    userReq: "Please enter your full name (First and Last name).",
+                    passWeak: "Weak password! Needs 6 chars, uppercase, lowercase, and a number.",
+                    userSame: "Name and password cannot be identical.",
+                    nameReq: "First name and Last name are required.",
                     wrongPassTitle: "Incorrect Password",
-                    wrongPassText: "The password you entered is incorrect. Please double-check and try again.",
+                    wrongPassText: "The password you entered is incorrect.",
                     userNotFoundTitle: "Account Not Found",
-                    userNotFoundText: "Sorry, we couldn't find an account associated with this email address.",
-                    emailInvalid: "The email format is invalid. Please check and correct it.",
+                    userNotFoundText: "No account found with this email.",
+                    emailInvalid: "Invalid email format.",
                     authError: "Security Alert",
-                    emailTaken: "This email is already registered. Please sign in instead."
+                    emailTaken: "Email already exists. Please login."
                 }
             };
 
             if(isSignUpMode) {
                 let hasErr = false;
-                if(!username) { showError('err-username', msgs[lang].userReq); hasErr = true; }
+                if(!firstName) { showError('err-firstname', msgs[lang].nameReq); hasErr = true; }
+                if(!lastName) { showError('err-lastname', msgs[lang].nameReq); hasErr = true; }
                 if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
                 if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
                 
                 if(hasErr) return;
 
-                if(username.toLowerCase() === password.toLowerCase()) {
+                if(firstName.toLowerCase() === password.toLowerCase() || lastName.toLowerCase() === password.toLowerCase()) {
                     showError('err-password', msgs[lang].userSame);
                     return;
                 }
@@ -734,15 +744,12 @@
                     showError('err-password', msgs[lang].passWeak);
                     return;
                 }
-                if(!username.includes(' ')) {
-                    showError('err-username', msgs[lang].userReq);
-                    return;
-                }
 
+                const fullName = firstName + " " + lastName;
                 try {
                     const res = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(res.user, { displayName: username });
-                    await saveUserToFirestore(res.user, username);
+                    await updateProfile(res.user, { displayName: fullName });
+                    await saveUserToFirestore(res.user, fullName);
                 } catch (e) {
                     if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
                     else if(e.code === 'auth/email-already-in-use') showError('err-email', msgs[lang].emailTaken);
