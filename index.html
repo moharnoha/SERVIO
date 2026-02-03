@@ -503,7 +503,7 @@
         html[lang="en"] .title-box, 
         html[lang="en"] .section-header,
         html[lang="en"] .intro-promo-section {
-            text-align: left !important;
+            text-align: center !important;
         }
         html[lang="en"] .brand-section {
             flex-direction: row !important;
@@ -798,7 +798,9 @@
                 en: { main: "All Social Media Services in One Place.", sub: "Proven results from serviocmm" }
             };
             document.getElementById('promo-main').innerText = promo[lang].main;
+            document.getElementById('promo-main').style.textAlign = "center";
             document.getElementById('promo-sub').innerText = promo[lang].sub;
+            document.getElementById('promo-sub').style.textAlign = "center";
         }
         updateUI();
     </script>
