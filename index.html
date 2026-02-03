@@ -22,7 +22,50 @@
             min-height: 100vh;
             display: flex; flex-direction: column;
             direction: rtl !important; 
+            overflow-x: hidden;
         }
+
+        /* --- Blurred Gradient Circles Start --- */
+        .bg-blobs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
+        }
+        .blob-1 {
+            width: 300px; height: 300px;
+            background: #386E2C;
+            top: -100px; right: -50px;
+        }
+        .blob-2 {
+            width: 250px; height: 250px;
+            background: #2b5421;
+            top: 200px; left: -80px;
+            animation-delay: -5s;
+        }
+        .blob-3 {
+            width: 200px; height: 200px;
+            background: #EAF0E9;
+            top: 100px; right: 20%;
+            opacity: 0.4;
+            animation-delay: -10s;
+        }
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(30px, 50px) scale(1.1); }
+        }
+        /* --- Blurred Gradient Circles End --- */
 
         .mobile-container { 
             width: 100%; 
@@ -30,29 +73,7 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
-            overflow: hidden;
-        }
-
-        /* Blurred Gradient Orbs */
-        .gradient-orb {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .orb-1 {
-            background: radial-gradient(circle, #386E2C 0%, transparent 70%);
-            top: -50px;
-            right: -100px;
-        }
-        .orb-2 {
-            background: radial-gradient(circle, #EAF0E9 0%, transparent 70%);
-            top: 150px;
-            left: -120px;
+            z-index: 1;
         }
 
         header { 
@@ -204,8 +225,7 @@
             font-size: 15px;
             font-weight: 600;
             outline: none;
-            background-color: rgba(248, 250, 252, 0.8);
-            backdrop-filter: blur(5px);
+            background-color: #f8fafc;
             transition: all 0.3s ease;
             color: #2d3748;
         }
@@ -323,8 +343,6 @@
             box-sizing: border-box;
             background-color: transparent;
             text-align: center;
-            position: relative;
-            z-index: 10;
         }
 
         .promo-title {
@@ -351,13 +369,10 @@
         }
 
         .video-placeholder-icon {
-            width: 60px;
-            height: 60px;
-            fill: #ffffff;
-            opacity: 0.8;
+            width: 60px; height: 60px; fill: #ffffff; opacity: 0.8;
         }
 
-        .platforms-wrapper { background-color: transparent; padding: 25px 0; position: relative; z-index: 10; }
+        .platforms-wrapper { background-color: transparent; padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
         .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
@@ -367,11 +382,10 @@
             padding: 0 20px; max-width: 600px; margin: 0 auto;
         }
         .platform-box {
-            background: rgba(255, 255, 255, 0.9); border-radius: 18px; padding: 18px 5px;
+            background: #ffffff; border-radius: 18px; padding: 18px 5px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;
             transition: transform 0.2s; text-decoration: none; cursor: pointer;
-            backdrop-filter: blur(5px);
         }
         .platform-box:active { transform: scale(0.92); }
         .p-img { width: 40px; height: 40px; object-fit: contain; }
@@ -384,15 +398,8 @@
         }
         
         @media (min-width: 768px) {
-            .selection-overlay {
-                align-items: center;
-            }
-            .selection-sheet {
-                width: 90%;
-                max-width: 400px;
-                border-radius: 20px !important;
-                height: 70vh !important;
-            }
+            .selection-overlay { align-items: center; }
+            .selection-sheet { width: 90%; max-width: 400px; border-radius: 20px !important; height: 70vh !important; }
         }
 
         .selection-sheet {
@@ -421,72 +428,36 @@
         }
         
         .suggestion-box {
-            display: none;
-            background: #fff9e6;
-            border: 1px solid #ffeeba;
-            border-radius: 12px;
-            padding: 10px 15px;
-            margin-top: -5px;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #856404;
+            display: none; background: #fff9e6; border: 1px solid #ffeeba;
+            border-radius: 12px; padding: 10px 15px; margin-top: -5px;
+            margin-bottom: 10px; font-size: 13px; color: #856404;
         }
         .suggestion-item {
-            color: #386E2C;
-            font-weight: 800;
-            text-decoration: underline;
-            cursor: pointer;
-            margin: 0 5px;
+            color: #386E2C; font-weight: 800; text-decoration: underline;
+            cursor: pointer; margin: 0 5px;
         }
 
         /* Personalized Header Updates */
-        .sheet-title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1a202c;
-            text-align: center;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .sheet-subtext {
-            font-size: 18px;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 30px;
-            text-align: center;
-        }
+        .sheet-title { font-size: 32px; font-weight: 800; color: #1a202c; text-align: center; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .sheet-subtext { font-size: 18px; font-weight: 600; color: #4a5568; margin-bottom: 30px; text-align: center; }
 
         /* New Stat Info Styling */
         .login-stat-info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #386E2C;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
-            padding: 8px 15px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            margin-bottom: 10px; font-size: 12px; font-weight: 700; color: #386E2C;
+            background: #fff; padding: 8px 15px; border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03); border: 1px solid #edf2f7;
         }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .stat-icon {
-            width: 16px;
-            height: 16px;
-            fill: #386E2C;
-        }
+        .stat-item { display: flex; align-items: center; gap: 5px; }
+        .stat-icon { width: 16px; height: 16px; fill: #386E2C; }
     </style>
 </head>
 <body class="notranslate">
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
 
     <div class="mobile-container">
         <header>
@@ -511,9 +482,6 @@
                 </div>
             </div>
         </header>
-
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
 
         <section class="intro-promo-section">
             <h2 class="promo-title">أكبر منصة بيع وزيادة متابعين في الشرق الاوسط</h2>
@@ -639,10 +607,7 @@
 
         function showError(id, msg) {
             const el = document.getElementById(id);
-            if(el) {
-                el.innerText = msg;
-                el.style.display = 'block';
-            }
+            if(el) { el.innerText = msg; el.style.display = 'block'; }
         }
 
         let isSignUpMode = false;
@@ -728,16 +693,12 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx];
-            
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
-            
             document.getElementById('google-btn-label').innerText = lang === 'ar' ? "جوجل" : "Google";
-            
             const toggleQuestion = document.getElementById('toggle-question');
             const toggleLink = document.getElementById('toggle-link');
-
             if(!isSignUpMode) {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
                 document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل دخولك الآن" : "Sign in now";
@@ -751,7 +712,6 @@
                 toggleLink.innerText = lang === 'ar' ? "دخول" : "Login";
                 document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل" : "Register";
             }
-            
             const promo = {
                 ar: { main: "جميع خدمات التواصل الاجتماعي في مكان واحد.", sub: "نتائج مثبتة من serviocmm" },
                 en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
@@ -786,39 +746,29 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
             const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
-            
             const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
             const currentLanguageName = lang === 'ar' ? "العربية" : "English";
-
             try {
                 const userRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(userRef);
-
                 if (!docSnap.exists()) {
                     await setDoc(userRef, {
                         name: customName || user.displayName || "User",
                         lastName: lastName || "",
-                        balance: 0,
-                        total_spend: 0,
-                        email: user.email,
-                        uid: user.uid,
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
+                        balance: 0, total_spend: 0, email: user.email, uid: user.uid,
+                        selected_region: currentRegionName, selected_language: currentLanguageName,
                         createdAt: new Date().toISOString()
                     });
                 } else {
                     await setDoc(userRef, {
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
+                        selected_region: currentRegionName, selected_language: currentLanguageName,
                         lastLogin: new Date().toISOString()
                     }, { merge: true });
                 }
                 window.location.href = "dashboard/";
             } catch (error) {
-                console.error("Firestore Save Error:", error);
                 const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                const errMsg = lang === 'ar' ? 'فشل الحفظ: ' : 'Save failed: ';
-                showDialog(errTitle, errMsg + error.message);
+                showDialog(errTitle, (lang === 'ar' ? 'فشل الحفظ: ' : 'Save failed: ') + error.message);
                 toggleLoading(false);
             }
         }
@@ -826,27 +776,17 @@
         function toggleLoading(show) {
             const loader = document.getElementById("btn-loader");
             const btn = document.getElementById("email-action-btn");
-            if (show) {
-                loader.style.display = "block";
-                btn.style.opacity = "0.8";
-                btn.style.pointerEvents = "none";
-            } else {
-                loader.style.display = "none";
-                btn.style.opacity = "1";
-                btn.style.pointerEvents = "auto";
-            }
+            if (show) { loader.style.display = "block"; btn.style.opacity = "0.8"; btn.style.pointerEvents = "none"; } 
+            else { loader.style.display = "none"; btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; }
         }
 
-        // Logic for Real-time Nickname Suggestion
         document.getElementById("auth-lastname").addEventListener("input", async (e) => {
             const val = e.target.value.trim();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const box = document.getElementById("suggestion-box");
             if(val.length < 3 || !isSignUpMode) { box.style.display = "none"; return; }
-            
             const nickRef = doc(db, "usernames", val);
             const snap = await getDoc(nickRef);
-            
             if(snap.exists()) {
                 const sug1 = val + Math.floor(Math.random() * 99);
                 const sug2 = val + "_" + Math.floor(Math.random() * 9);
@@ -854,26 +794,19 @@
                                 `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug1}'; document.getElementById('suggestion-box').style.display='none'">${sug1}</span>` +
                                 `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug2}'; document.getElementById('suggestion-box').style.display='none'">${sug2}</span>`;
                 box.style.display = "block";
-            } else {
-                box.style.display = "none";
-            }
+            } else { box.style.display = "none"; }
         });
 
-        // Logic for Email Check
         document.getElementById("auth-email").addEventListener("input", async (e) => {
             const email = e.target.value.trim();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             if(!email || !isSignUpMode) return;
-            
             try {
                 const methods = await fetchSignInMethodsForEmail(auth, email);
-                if(methods.length > 0) {
-                    showError('err-email', lang === 'ar' ? "البريد مسجل مسبقا" : "Email already exists.");
-                } else {
+                if(methods.length > 0) showError('err-email', lang === 'ar' ? "البريد مسجل مسبقا" : "Email already exists.");
+                else {
                     const errEl = document.getElementById('err-email');
-                    if(errEl && (errEl.innerText === "البريد مسجل مسبقا" || errEl.innerText === "Email already exists.")) {
-                        errEl.style.display = 'none';
-                    }
+                    if(errEl && (errEl.innerText === "البريد مسجل مسبقا" || errEl.innerText === "Email already exists.")) errEl.style.display = 'none';
                 }
             } catch(e) {}
         });
@@ -885,96 +818,26 @@
             const firstName = document.getElementById("auth-firstname").value.trim();
             const lastName = document.getElementById("auth-lastname").value.trim();
             const lang = localStorage.getItem('pref_lang') || 'ar';
-
-            const msgs = {
-                ar: {
-                    empty: "يرجى ملء الحقول.",
-                    passWeak: "الرمز يجب أن يكون 6 أرقام.",
-                    passSimple: "الرمز سهل التخمين.",
-                    userSame: "البيانات متطابقة.",
-                    nameReq: "الاسم مطلوب.",
-                    lastNameReq: "اللقب مطلوب.",
-                    wrongPassTitle: "خطأ",
-                    wrongPassText: "الرمز غير صحيح.",
-                    userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "الحساب غير موجود.",
-                    emailInvalid: "بريد غير صالح.",
-                    authError: "خطأ",
-                    emailTaken: "البريد مسجل مسبقاً.",
-                    lastNameSuggestion: "اللقب مستخدم، اختر من الاقتراحات.",
-                    tooManyRequests: "محاولات كثيرة، تم الحظر مؤقتاً."
-                },
-                en: {
-                    empty: "Please fill fields.",
-                    passWeak: "Code must be 6 digits.",
-                    passSimple: "Code too simple.",
-                    userSame: "Data identical.",
-                    nameReq: "Name required.",
-                    lastNameReq: "Last name required.",
-                    wrongPassTitle: "Error",
-                    wrongPassText: "Incorrect code.",
-                    userNotFoundTitle: "Notice",
-                    userNotFoundText: "Account not found.",
-                    emailInvalid: "Invalid email.",
-                    authError: "Error",
-                    emailTaken: "Email already exists.",
-                    lastNameSuggestion: "Name taken, use suggestions.",
-                    tooManyRequests: "Too many attempts. Blocked."
-                }
-            };
-
-            if (isSignUpMode && password.length === 6) {
-                const isRepeated = /^(\d)\1{5}$/.test(password);
-                if (isRepeated) {
-                    showError('err-password', msgs[lang].passSimple);
-                    return;
-                }
-            }
-
+            const msgs = { ar: { empty: "يرجى ملء الحقول.", passWeak: "الرمز يجب أن يكون 6 أرقام.", passSimple: "الرمز سهل التخمين.", userSame: "البيانات متطابقة.", nameReq: "الاسم مطلوب.", lastNameReq: "اللقب مطلوب.", wrongPassTitle: "خطأ", wrongPassText: "الرمز غير صحيح.", userNotFoundTitle: "تنبيه", userNotFoundText: "الحساب غير موجود.", emailInvalid: "بريد غير صالح.", authError: "خطأ", emailTaken: "البريد مسجل مسبقاً.", lastNameSuggestion: "اللقب مستخدم، اختر من الاقتراحات.", tooManyRequests: "محاولات كثيرة، تم الحظر مؤقتاً." }, en: { empty: "Please fill fields.", passWeak: "Code must be 6 digits.", passSimple: "Code too simple.", userSame: "Data identical.", nameReq: "Name required.", lastNameReq: "Last name required.", wrongPassTitle: "Error", wrongPassText: "Incorrect code.", userNotFoundTitle: "Notice", userNotFoundText: "Account not found.", emailInvalid: "Invalid email.", authError: "Error", emailTaken: "Email already exists.", lastNameSuggestion: "Name taken, use suggestions.", tooManyRequests: "Too many attempts. Blocked." } };
+            if (isSignUpMode && password.length === 6) { if (/^(\d)\1{5}$/.test(password)) { showError('err-password', msgs[lang].passSimple); return; } }
             toggleLoading(true);
-
             if(isSignUpMode) {
                 let hasErr = false;
                 if(!firstName) { showError('err-firstname', msgs[lang].nameReq); hasErr = true; }
                 if(!lastName) { showError('err-lastname', msgs[lang].lastNameReq); hasErr = true; }
                 if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
                 if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
-                
                 if(hasErr) { toggleLoading(false); return; }
-
-                if(password.length !== 6 || isNaN(password)) {
-                    showError('err-password', msgs[lang].passWeak);
-                    toggleLoading(false);
-                    return;
-                }
-
+                if(password.length !== 6 || isNaN(password)) { showError('err-password', msgs[lang].passWeak); toggleLoading(false); return; }
                 try {
                     const nicknameRef = doc(db, "usernames", lastName);
                     const nickSnap = await getDoc(nicknameRef);
-                    if (nickSnap.exists()) {
-                        showError('err-lastname', msgs[lang].lastNameSuggestion);
-                        toggleLoading(false);
-                        return;
-                    }
-
+                    if (nickSnap.exists()) { showError('err-lastname', msgs[lang].lastNameSuggestion); toggleLoading(false); return; }
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     const batch = writeBatch(db);
-                    
                     const userRef = doc(db, "users", res.user.uid);
-                    batch.set(userRef, {
-                        name: firstName,
-                        lastName: lastName,
-                        balance: 0,
-                        total_spend: 0,
-                        email: email,
-                        uid: res.user.uid,
-                        createdAt: new Date().toISOString()
-                    });
-
-                    batch.set(nicknameRef, {
-                        uid: res.user.uid
-                    });
-
+                    batch.set(userRef, { name: firstName, lastName: lastName, balance: 0, total_spend: 0, email: email, uid: res.user.uid, createdAt: new Date().toISOString() });
+                    batch.set(nicknameRef, { uid: res.user.uid });
                     await batch.commit();
                     await updateProfile(res.user, { displayName: firstName + " " + lastName });
                     window.location.href = "dashboard/";
@@ -991,29 +854,19 @@
                     await saveUserToFirestore(res.user);
                 } catch (e) {
                     toggleLoading(false);
-                    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-                        showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
-                    } else if(e.code === 'auth/user-not-found') {
-                        showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
-                    } else if(e.code === 'auth/invalid-email') {
-                         showError('err-email', msgs[lang].emailInvalid);
-                    } else if(e.code === 'auth/too-many-requests') {
-                         showDialog(msgs[lang].authError, msgs[lang].tooManyRequests);
-                    } else {
-                        showDialog(msgs[lang].authError, e.message);
-                    }
+                    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
+                    else if(e.code === 'auth/user-not-found') showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
+                    else if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
+                    else if(e.code === 'auth/too-many-requests') showDialog(msgs[lang].authError, msgs[lang].tooManyRequests);
+                    else showDialog(msgs[lang].authError, e.message);
                 }
             }
         });
 
         document.getElementById("google-auth-btn").addEventListener("click", () => {
             const lang = localStorage.getItem('pref_lang') || 'ar';
-            signInWithPopup(auth, provider).then(async (result) => {
-                await saveUserToFirestore(result.user);
-            }).catch(e => {
-                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                showDialog(errTitle, e.message);
-            });
+            signInWithPopup(auth, provider).then(async (result) => { await saveUserToFirestore(result.user); })
+            .catch(e => { showDialog(lang === 'ar' ? 'خطأ' : 'Error', e.message); });
         });
     </script>
 </body>
