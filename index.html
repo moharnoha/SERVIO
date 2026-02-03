@@ -30,6 +30,29 @@
             display: flex; flex-direction: column; 
             position: relative;
             flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Blurred Gradient Orbs */
+        .gradient-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .orb-1 {
+            background: radial-gradient(circle, #386E2C 0%, transparent 70%);
+            top: -50px;
+            right: -100px;
+        }
+        .orb-2 {
+            background: radial-gradient(circle, #EAF0E9 0%, transparent 70%);
+            top: 150px;
+            left: -120px;
         }
 
         header { 
@@ -128,7 +151,7 @@
         /* Integrated Login Section */
         .login-sticky-sheet {
             width: 100%;
-            background: #F2F1F0;
+            background: transparent;
             padding: 35px 25px;
             box-sizing: border-box;
             display: flex;
@@ -181,7 +204,8 @@
             font-size: 15px;
             font-weight: 600;
             outline: none;
-            background-color: #f8fafc;
+            background-color: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(5px);
             transition: all 0.3s ease;
             color: #2d3748;
         }
@@ -297,8 +321,10 @@
             width: 100%;
             padding: 40px 20px;
             box-sizing: border-box;
-            background-color: #F2F1F0;
+            background-color: transparent;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         .promo-title {
@@ -331,7 +357,7 @@
             opacity: 0.8;
         }
 
-        .platforms-wrapper { background-color: #F2F1F0; padding: 25px 0; }
+        .platforms-wrapper { background-color: transparent; padding: 25px 0; position: relative; z-index: 10; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
         .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
@@ -341,10 +367,11 @@
             padding: 0 20px; max-width: 600px; margin: 0 auto;
         }
         .platform-box {
-            background: #ffffff; border-radius: 18px; padding: 18px 5px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 18px; padding: 18px 5px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;
             transition: transform 0.2s; text-decoration: none; cursor: pointer;
+            backdrop-filter: blur(5px);
         }
         .platform-box:active { transform: scale(0.92); }
         .p-img { width: 40px; height: 40px; object-fit: contain; }
@@ -440,7 +467,8 @@
             font-size: 12px;
             font-weight: 700;
             color: #386E2C;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
             padding: 8px 15px;
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.03);
@@ -483,6 +511,9 @@
                 </div>
             </div>
         </header>
+
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
 
         <section class="intro-promo-section">
             <h2 class="promo-title">أكبر منصة بيع وزيادة متابعين في الشرق الاوسط</h2>
