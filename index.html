@@ -430,30 +430,28 @@
             text-align: center;
         }
 
-        .auth-promo-badge {
+        /* New Stat Info Styling */
+        .login-stat-info {
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             gap: 15px;
-            background: #ffffff;
-            border: 1px solid #edf2f7;
-            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #386E2C;
+            background: #fff;
             padding: 8px 15px;
-            margin-bottom: 12px;
-            width: 100%;
-            box-sizing: border-box;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
         }
-
-        .promo-badge-item {
+        .stat-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 800;
-            color: #2d3748;
+            gap: 5px;
         }
-
-        .promo-badge-item svg {
+        .stat-icon {
             width: 16px;
             height: 16px;
             fill: #386E2C;
@@ -520,6 +518,18 @@
                 <div class="sheet-subtext" id="sheet-subtitle">سجل دخولك الآن</div>
                 
                 <div class="email-auth-box" id="email-auth-section">
+                    <div id="login-only-stats" class="login-stat-info">
+                        <div class="stat-item">
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M20 8l-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.11-.89-2-2-2z"/></svg>
+                            <span>أكبر عدد طلبات</span>
+                        </div>
+                        <span style="opacity: 0.2">|</span>
+                        <div class="stat-item">
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M16 13c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 13c-2.21 0-4 1.79-4 4s1.79 4 4 4h1c.42 0 .81-.13 1.14-.35C10.45 20.12 10 19.11 10 18s.45-2.12 1.14-2.65c-.33-.22-.72-.35-1.14-.35H9m3-4c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2-2-2z"/></svg>
+                            <span>أكثر عدد أعضاء</span>
+                        </div>
+                    </div>
+
                     <div id="signup-fields" style="display: none; flex-direction: column; gap: 14px;">
                         <input type="text" id="auth-firstname" class="auth-input" placeholder="الاسم الأول">
                         <div id="err-firstname" class="input-error-msg"></div>
@@ -527,17 +537,6 @@
                         <input type="text" id="auth-lastname" class="auth-input" placeholder="اللقب">
                         <div id="err-lastname" class="input-error-msg"></div>
                         <div id="suggestion-box" class="suggestion-box"></div>
-                    </div>
-
-                    <div class="auth-promo-badge">
-                        <div class="promo-badge-item">
-                            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                            <span>أكبر عدد طلبات</span>
-                        </div>
-                        <div class="promo-badge-item">
-                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                            <span>أكثر عدد أعضاء</span>
-                        </div>
                     </div>
                     
                     <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
@@ -627,9 +626,11 @@
             const sheetTitle = document.getElementById('sheet-title');
             const sheetSubtitle = document.getElementById('sheet-subtitle');
             const passwordInput = document.getElementById('auth-password');
+            const loginStats = document.getElementById('login-only-stats');
             
             if(isSignUpMode) {
                 signupFields.style.display = "flex";
+                loginStats.style.display = "none";
                 sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
                 sheetSubtitle.innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
                 actionBtn.innerText = lang === 'ar' ? "تسجيل" : "Register";
@@ -638,6 +639,7 @@
                 passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
             } else {
                 signupFields.style.display = "none";
+                loginStats.style.display = "flex";
                 sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
                 sheetSubtitle.innerText = lang === 'ar' ? "سجل دخولك الآن" : "Sign in now";
                 actionBtn.innerText = lang === 'ar' ? "دخول" : "Login";
