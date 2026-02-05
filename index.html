@@ -244,16 +244,16 @@
 
         .auth-input {
             width: 100%;
-            height: 54px;
-            border-radius: 16px;
-            border: 1.5px solid #edf2f7;
-            padding: 0 20px;
+            height: 52px;
+            border-radius: 8px;
+            border: 1.5px solid #dee2e6;
+            padding: 0 15px;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
             outline: none;
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             transition: all 0.3s ease;
             color: #2d3748;
         }
@@ -261,7 +261,6 @@
         .auth-input:focus {
             border-color: #386E2C;
             background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(56, 110, 44, 0.1);
         }
 
         .input-error-msg {
@@ -274,7 +273,7 @@
         }
 
         .auth-btn {
-            border-radius: 16px; 
+            border-radius: 8px; 
             height: 56px;
             padding: 0 20px;
             display: flex; 
@@ -381,27 +380,9 @@
             line-height: 1.3;
         }
 
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .video-placeholder-icon {
-            width: 60px;
-            height: 60px;
-            fill: #ffffff;
-            opacity: 0.8;
-        }
+        /* Improved Text Colors */
+        .text-black { color: #000000; }
+        .text-green { color: #386E2C; }
 
         .platforms-wrapper { background-color: #F2F1F0; padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
@@ -550,12 +531,14 @@
 
         <div class="content-sections-wrapper">
             <section class="intro-promo-section">
-                <h2 class="promo-title" id="promo-main-title">أكبر منصة بيع وزيادة متابعين في الشرق الاوسط</h2>
-                <div class="video-container">
-                    <svg class="video-placeholder-icon" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </div>
+                <h2 class="promo-title" id="promo-main-title">
+                    <span class="text-black">أكبر</span> 
+                    <span class="text-green">منصة</span> 
+                    <span class="text-black">بيع</span> 
+                    <span class="text-black">وزيادة</span> 
+                    <span class="text-green">متابعين</span> 
+                    <span class="text-black">في الشرق الاوسط</span>
+                </h2>
             </section>
 
             <div class="login-section">
@@ -584,39 +567,6 @@
                         <div class="social-item" title="Spotify"><svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.492 17.306c-.215.352-.676.463-1.028.248-2.844-1.738-6.425-2.13-10.637-1.17-.402.092-.803-.16-.895-.562-.092-.403.159-.803.562-.895 4.608-1.054 8.567-.611 11.751 1.341.352.215.464.676.247 1.038zm1.467-3.264c-.271.441-.849.582-1.29.311-3.256-2.001-8.222-2.584-12.071-1.416-.497.151-1.023-.131-1.173-.628-.151-.498.13-1.024.628-1.174 4.399-1.336 9.879-.684 13.6 1.604.441.271.581.849.311 1.29-.005.008-.005.008-.005.008zm.126-3.414C15.19 8.27 8.755 8.057 5.035 9.186c-.571.173-1.171-.155-1.344-.726-.173-.572.155-1.172.726-1.345 4.253-1.291 11.365-1.042 15.81 1.597.514.305.681.97.376 1.484-.305.514-.97.681-1.484.376z"/></svg></div>
                         <div class="social-item" title="Telegram"><svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M11.944 0C5.347 0 0 5.347 0 11.944c0 6.597 5.347 11.944 11.944 11.944 6.597 0 11.944-5.347 11.944-11.944C23.888 5.347 18.541 0 11.944 0zm5.632 8.169l-1.928 9.098c-.145.65-.53.811-1.074.507l-2.937-2.164-1.417 1.364c-.157.157-.289.289-.592.289l.211-2.992 5.446-4.921c.237-.211-.052-.328-.369-.118l-6.73 4.237-2.9-.907c-.631-.197-.644-.631.131-.933l11.337-4.368c.526-.197.986.118.822.908z"/></svg></div>
                         <div class="social-item" title="WhatsApp"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.301-.15-1.781-.88-2.053-.98-.271-.1-.47-.15-.668.15-.199.299-.77.979-.942 1.179-.173.199-.346.224-.646.075-.3-.15-1.268-.468-2.416-1.492-.893-.797-1.497-1.781-1.672-2.081-.176-.3-.018-.462.13-.61.135-.133.301-.35.452-.524.151-.174.2-.299.3-.499.1-.2.05-.375-.025-.524-.075-.15-.668-1.61-.916-2.21-.242-.584-.487-.504-.668-.514-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.299-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.781-.727 2.03-1.428.247-.699.247-1.299.174-1.428-.072-.128-.266-.204-.567-.354zM12.01 21c-1.63 0-3.22-.43-4.61-1.24L3 21l1.26-4.22c-.89-1.53-1.36-3.27-1.36-5.06 0-5.37 4.38-9.75 9.75-9.75 5.37 0 9.75 4.38 9.75 9.75s-4.38 9.75-9.75 9.75z"/></svg></div>
-                    </div>
-
-                    <div class="live-impact-box">
-                        <div class="impact-header">
-                            <div class="pulse-indicator">
-                                <span class="dot"></span>
-                                <span id="text-live-now">نشط الآن</span>
-                            </div>
-                            <div style="font-size: 10px; color: #a0aec0; font-weight: 600;">LIVE FEED</div>
-                        </div>
-                        <div class="stats-grid">
-                            <div class="impact-item">
-                                <div class="impact-value">
-                                    <span id="count-likes">12.5</span><span>K</span>
-                                    <span class="up-indicator">▲</span>
-                                </div>
-                                <span class="impact-label" id="label-likes">إعجابات</span>
-                            </div>
-                            <div class="impact-item">
-                                <div class="impact-value">
-                                    <span id="count-views">84.2</span><span>K</span>
-                                    <span class="up-indicator">▲</span>
-                                </div>
-                                <span class="impact-label" id="label-views">مشاهدات</span>
-                            </div>
-                            <div class="impact-item">
-                                <div class="impact-value">
-                                    <span id="count-comments">3.1</span><span>K</span>
-                                    <span class="up-indicator">▲</span>
-                                </div>
-                                <span class="impact-label" id="label-comments">تعليقات</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -648,7 +598,7 @@
                         </button>
                         <div class="toggle-auth-mode" id="toggle-container">
                             <span id="toggle-question">لا تملك حساباً؟</span>
-                            <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">تسجيل جديد</span>
+                            <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب جديد</span>
                         </div>
                     </div>
 
@@ -717,17 +667,6 @@
             }, 3000);
         }
 
-        function updateLiveImpact() {
-            const likes = document.getElementById('count-likes');
-            const views = document.getElementById('count-views');
-            const comments = document.getElementById('count-comments');
-            setInterval(() => {
-                if(likes) likes.innerText = (parseFloat(likes.innerText) + (Math.random() * 0.2)).toFixed(1);
-                if(views) views.innerText = (parseFloat(views.innerText) + (Math.random() * 0.5)).toFixed(1);
-                if(comments) comments.innerText = (parseFloat(comments.innerText) + (Math.random() * 0.1)).toFixed(1);
-            }, 2500);
-        }
-
         // Original UI Logic
         function showDialog(title, text) {
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -773,19 +712,19 @@
             if(isSignUpMode) {
                 signupFields.style.display = "flex";
                 sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                sheetSubtitle.innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل" : "Register";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
+                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا الآن" : "Join us now";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                passwordInput.placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
             } else {
                 signupFields.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
-                sheetSubtitle.innerText = lang === 'ar' ? "تسجيل الدخول الآن" : "Sign in now";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
-                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
+                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome Back";
+                sheetSubtitle.innerText = lang === 'ar' ? "سجل دخولك للمتابعة" : "Sign in to continue";
+                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Sign Up";
+                passwordInput.placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
             }
         }
 
@@ -851,7 +790,9 @@
             document.getElementById('divider-text').innerText = lang === 'ar' ? "أو عبر" : "OR VIA";
             
             const promoTitle = document.getElementById('promo-main-title');
-            promoTitle.innerText = lang === 'ar' ? "أكبر منصة بيع وزيادة متابعين في الشرق الاوسط" : "The Largest Platform for Followers & Services in MENA";
+            promoTitle.innerHTML = lang === 'ar' ? 
+                `<span class="text-black">أكبر</span> <span class="text-green">منصة</span> <span class="text-black">بيع</span> <span class="text-black">وزيادة</span> <span class="text-green">متابعين</span> <span class="text-black">في الشرق الاوسط</span>` : 
+                `<span class="text-black">The Largest</span> <span class="text-green">Platform</span> <span class="text-black">for</span> <span class="text-green">Followers</span> <span class="text-black">& Services in MENA</span>`;
 
             // Update Garena UI texts
             const loginHead = document.getElementById('text-login-head');
@@ -862,15 +803,6 @@
             if(inputPlr) inputPlr.placeholder = (lang === 'ar') ? "يرجى إدخال البريد الإلكتروني" : "Enter Email Address";
             const socialInfo = document.getElementById('text-social-info');
             if(socialInfo) socialInfo.innerText = (lang === 'ar') ? "جميع خدمات التواصل الاجتماعي في مكان واحد." : "All social media services in one place.";
-            
-            const liveNow = document.getElementById('text-live-now');
-            if(liveNow) liveNow.innerText = (lang === 'ar') ? "نشط الآن" : "Active Now";
-            const lblLikes = document.getElementById('label-likes');
-            if(lblLikes) lblLikes.innerText = (lang === 'ar') ? "إعجابات" : "Likes";
-            const lblViews = document.getElementById('label-views');
-            if(lblViews) lblViews.innerText = (lang === 'ar') ? "مشاهدات" : "Views";
-            const lblComments = document.getElementById('label-comments');
-            if(lblComments) lblComments.innerText = (lang === 'ar') ? "تعليقات" : "Comments";
 
             const toggleQuestion = document.getElementById('toggle-question');
             const toggleLink = document.getElementById('toggle-link');
@@ -880,19 +812,19 @@
                 `By using the app, you agree to our <span style="color: #386E2C; font-weight: 700;">Terms of Service</span> and <span style="color: #386E2C; font-weight: 700;">Privacy Policy</span>.`;
 
             if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "تسجيل الدخول الآن" : "Sign in now";
-                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
+                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome Back";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل دخولك للمتابعة" : "Sign in to continue";
+                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
+                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Sign Up";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
                 document.getElementById('auth-email').placeholder = lang === 'ar' ? "البريد الإلكتروني" : "Email Address";
-                document.getElementById('auth-password').placeholder = lang === 'ar' ? "الرمز السري" : "Password";
+                document.getElementById('auth-password').placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
             } else {
                 document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل" : "Register";
+                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا الآن" : "Join us now";
+                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
+                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                document.getElementById('btn-text').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
                 document.getElementById('auth-firstname').placeholder = lang === 'ar' ? "الاسم الأول" : "First Name";
                 document.getElementById('auth-lastname').placeholder = lang === 'ar' ? "اللقب" : "Last Name";
             }
@@ -900,7 +832,6 @@
 
         window.onload = () => {
             updateUI();
-            updateLiveImpact();
         };
     </script>
 
@@ -991,7 +922,7 @@
             if(snap.exists()) {
                 const sug1 = val + Math.floor(Math.random() * 99);
                 const sug2 = val + "_" + Math.floor(Math.random() * 9);
-                box.innerHTML = (lang === 'ar' ? "اللقب مستخدم، جرب: " : "Taken, try: ") + 
+                box.innerHTML = (lang === 'ar' ? "اسم المستخدم محجوز، جرب: " : "Username taken, try: ") + 
                                 `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug1}'; document.getElementById('suggestion-box').style.display='none'">${sug1}</span>` +
                                 `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug2}'; document.getElementById('suggestion-box').style.display='none'">${sug2}</span>`;
                 box.style.display = "block";
@@ -1008,10 +939,10 @@
             try {
                 const methods = await fetchSignInMethodsForEmail(auth, email);
                 if(methods.length > 0) {
-                    showError('err-email', lang === 'ar' ? "البريد مسجل مسبقا" : "Email already exists.");
+                    showError('err-email', lang === 'ar' ? "هذا البريد مسجل بالفعل" : "Email already registered.");
                 } else {
                     const errEl = document.getElementById('err-email');
-                    if(errEl && (errEl.innerText === "البريد مسجل مسبقا" || errEl.innerText === "Email already exists.")) {
+                    if(errEl && (errEl.innerText === "هذا البريد مسجل بالفعل" || errEl.innerText === "Email already registered.")) {
                         errEl.style.display = 'none';
                     }
                 }
@@ -1028,38 +959,38 @@
 
             const msgs = {
                 ar: {
-                    empty: "يرجى ملء الحقول.",
-                    passWeak: "الرمز يجب أن يكون 6 أرقام.",
-                    passSimple: "الرمز سهل التخمين.",
+                    empty: "يرجى تعبئة كافة الحقول المطلوبة.",
+                    passWeak: "يجب أن تتكون كلمة المرور من 6 أرقام.",
+                    passSimple: "كلمة المرور ضعيفة جداً، يرجى اختيار رمز آخر.",
                     userSame: "البيانات متطابقة.",
-                    nameReq: "الاسم مطلوب.",
-                    lastNameReq: "اللقب مطلوب.",
-                    wrongPassTitle: "خطأ",
-                    wrongPassText: "الرمز غير صحيح.",
+                    nameReq: "حقل الاسم مطلوب.",
+                    lastNameReq: "حقل اللقب مطلوب.",
+                    wrongPassTitle: "عذراً",
+                    wrongPassText: "كلمة المرور التي أدخلتها غير صحيحة.",
                     userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "الحساب غير موجود.",
-                    emailInvalid: "بريد غير صالح.",
-                    authError: "خطأ",
-                    emailTaken: "البريد مسجل مسبقاً.",
-                    lastNameSuggestion: "اللقب مستخدم، اختر من الاقتراحات.",
-                    tooManyRequests: "محاولات كثيرة، تم الحظر مؤقتاً."
+                    userNotFoundText: "لا يوجد حساب مرتبط بهذا البريد.",
+                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
+                    authError: "حدث خطأ",
+                    emailTaken: "البريد الإلكتروني مستخدم بالفعل.",
+                    lastNameSuggestion: "هذا اللقب مستخدم، يرجى اختيار اسم آخر.",
+                    tooManyRequests: "محاولات تسجيل دخول كثيرة، يرجى المحاولة لاحقاً."
                 },
                 en: {
-                    empty: "Please fill fields.",
-                    passWeak: "Code must be 6 digits.",
-                    passSimple: "Code too simple.",
+                    empty: "Please fill in all required fields.",
+                    passWeak: "Password must be at least 6 digits.",
+                    passSimple: "Password is too weak, please choose another.",
                     userSame: "Data identical.",
-                    nameReq: "Name required.",
-                    lastNameReq: "Last name required.",
+                    nameReq: "Name is required.",
+                    lastNameReq: "Last name is required.",
                     wrongPassTitle: "Error",
-                    wrongPassText: "Incorrect code.",
+                    wrongPassText: "The password you entered is incorrect.",
                     userNotFoundTitle: "Notice",
-                    userNotFoundText: "Account not found.",
-                    emailInvalid: "Invalid email.",
-                    authError: "Error",
-                    emailTaken: "Email already exists.",
-                    lastNameSuggestion: "Name taken, use suggestions.",
-                    tooManyRequests: "Too many attempts. Blocked."
+                    userNotFoundText: "No account found with this email.",
+                    emailInvalid: "Invalid email address format.",
+                    authError: "Error occurred",
+                    emailTaken: "Email is already in use.",
+                    lastNameSuggestion: "This username is taken, please pick another.",
+                    tooManyRequests: "Too many login attempts. Please try again later."
                 }
             };
 
