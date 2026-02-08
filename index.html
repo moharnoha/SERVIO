@@ -671,13 +671,12 @@
             
             if (errorDiv) errorDiv.style.display = 'none';
             
-            googleBtn.style.opacity = "1";
-            googleBtn.style.pointerEvents = "auto";
+            googleBtn.style.opacity = "0.7";
+            googleBtn.style.pointerEvents = "none";
 
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    console.log("Success:", result.user);
-                    window.location.href = "dashboard/index.html";
+                    window.location.href = "https://serviocmm.com/dashboard/index.html";
                 })
                 .catch((error) => {
                     console.error("Firebase Error:", error);
@@ -695,22 +694,30 @@
             const errorDiv = document.getElementById('auth-error');
             const container = document.getElementById('auth-content');
             
-            const email = container.querySelector('input[type="email"]').value;
-            const password = container.querySelector('input[type="password"]').value;
+            const emailInput = container.querySelector('input[type="email"]');
+            const passwordInput = container.querySelector('input[type="password"]');
+            
+            if (!emailInput || !passwordInput) return;
+            
+            const email = emailInput.value;
+            const password = passwordInput.value;
             
             spinner.style.display = 'block';
             errorDiv.style.display = 'none';
+            btn.style.pointerEvents = 'none';
 
             if (type === 'join') {
-                const name = container.querySelector('input[type="text"]').value;
+                const nameInput = container.querySelector('input[type="text"]');
+                const name = nameInput ? nameInput.value : "";
                 createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         return updateProfile(userCredential.user, { displayName: name });
                     })
                     .then(() => {
-                        window.location.href = "dashboard/index.html";
+                        window.location.href = "https://serviocmm.com/dashboard/index.html";
                     })
                     .catch((error) => {
+                        btn.style.pointerEvents = 'auto';
                         spinner.style.display = 'none';
                         errorDiv.style.display = 'flex';
                         errorDiv.querySelector('span').innerText = error.message;
@@ -718,9 +725,10 @@
             } else {
                 signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
-                        window.location.href = "dashboard/index.html";
+                        window.location.href = "https://serviocmm.com/dashboard/index.html";
                     })
                     .catch((error) => {
+                        btn.style.pointerEvents = 'auto';
                         spinner.style.display = 'none';
                         errorDiv.style.display = 'flex';
                         errorDiv.querySelector('span').innerText = error.message;
@@ -756,9 +764,11 @@
             
             if (errorDiv) errorDiv.style.display = 'none';
             spinner.style.display = 'block';
+            btn.style.pointerEvents = 'none';
             
             setTimeout(() => {
                 spinner.style.display = 'none';
+                btn.style.pointerEvents = 'auto';
                 openAuthModal(type);
             }, 800);
         }
