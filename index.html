@@ -418,15 +418,6 @@
         .social-btn .google-icon-svg { width: 24px; height: 24px; position: absolute; left: 20px; }
         [dir="rtl"] .social-btn .google-icon-svg { left: auto; right: 20px; }
         
-        /* Spinner integration for Google Button */
-        .social-btn .exact-8-spinner {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.45);
-            margin: 0;
-        }
-
         .auth-footer { margin: 40px 0 20px; color: #6b7280; font-size: 16px; text-align: center; font-weight: 500; }
         
         .auth-footer span { font-weight: 800; color: #000; cursor: pointer; text-decoration: none; }
@@ -675,38 +666,33 @@
         const provider = new GoogleAuthProvider();
 
         window.handleGoogleLogin = function() {
+            const errorDiv = document.getElementById('auth-error');
             const googleBtn = document.querySelector('.social-btn');
             const spinner = googleBtn.querySelector('.exact-8-spinner');
-            const errorDiv = document.getElementById('auth-error');
-
-            if (errorDiv) errorDiv.style.display = 'none';
             
-            // Show loading in google button for 3 seconds professional effect
-            spinner.style.display = "block";
+            if (errorDiv) errorDiv.style.display = 'none';
+            if (spinner) spinner.style.display = 'block';
+            
             googleBtn.style.opacity = "0.7";
             googleBtn.style.pointerEvents = "none";
 
-            setTimeout(() => {
-                signInWithPopup(auth, provider)
-                    .then((result) => {
-                        console.log("Success:", result.user);
-                        // Professional Redirect to dashboard
-                        window.location.href = "dashboard/index.html";
-                    })
-                    .catch((error) => {
-                        console.error("Firebase Error:", error);
-                        spinner.style.display = "none";
-                        googleBtn.style.opacity = "1";
-                        googleBtn.style.pointerEvents = "auto";
-                        if (errorDiv) {
-                            errorDiv.style.display = 'flex';
-                            errorDiv.querySelector('span').innerText = error.message;
-                        }
-                    });
-            }, 3000); // 3 seconds delay for professional feel as requested
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // إخفاء الواجهة الحالية وإظهار سبينر التحميل قبل الانتقال
+                    document.getElementById('global-spinner-overlay').style.display = 'flex';
+                    window.location.href = "dashboard/index.html";
+                })
+                .catch((error) => {
+                    googleBtn.style.opacity = "1";
+                    googleBtn.style.pointerEvents = "auto";
+                    if (spinner) spinner.style.display = 'none';
+                    if (errorDiv) {
+                        errorDiv.style.display = 'flex';
+                        errorDiv.querySelector('span').innerText = error.message;
+                    }
+                });
         };
 
-        // Show body after load
         window.addEventListener('load', () => {
             document.body.style.opacity = "1";
         });
@@ -777,37 +763,27 @@
             
             const t = {
                 ar: {
-                    joinTitle: "انضم إلى serviocmm",
-                    loginTitle: "تسجيل الدخول",
-                    namePlace: "الاسم",
-                    emailPlace: "البريد الإلكتروني",
-                    passPlace: "كلمة المرور",
+                    joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول",
+                    namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور",
                     news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.",
                     legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.",
                     legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.",
-                    joinBtn: "انضم الآن",
-                    loginBtn: "تسجيل الدخول",
-                    google: "المتابعة باستخدام Google",
-                    haveAccount: "لديك حساب؟",
-                    noAccount: "ليس لديك حساب؟",
+                    joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول",
+                    google: type === 'join' ? "انضم الآن باستخدام Google" : "تسجيل الدخول باستخدام Google",
+                    haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟",
                     forgot: "هل نسيت كلمة المرور؟",
                     errorJoin: "عنوان البريد الإلكتروني هذا مرتبط بالفعل بحساب serviocmm.",
                     errorLogin: "يرجى إدخال عنوان بريد إلكتروني و/أو كلمة مرور صالحة."
                 },
                 en: {
-                    joinTitle: "Join serviocmm",
-                    loginTitle: "Log in",
-                    namePlace: "Name",
-                    emailPlace: "Email",
-                    passPlace: "Password",
+                    joinTitle: "Join serviocmm", loginTitle: "Log in",
+                    namePlace: "Name", emailPlace: "Email", passPlace: "Password",
                     news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.",
                     legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.",
                     legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.",
-                    joinBtn: "Join",
-                    loginBtn: "Log in",
-                    google: "Continue with Google",
-                    haveAccount: "Have an account?",
-                    noAccount: "Don't have an account?",
+                    joinBtn: "Join", loginBtn: "Log in",
+                    google: type === 'join' ? "Join now with Google" : "Log in with Google",
+                    haveAccount: "Have an account?", noAccount: "Don't have an account?",
                     forgot: "Forgot password?",
                     errorJoin: "This email address is already connected to a serviocmm account.",
                     errorLogin: "Please enter a valid email address and/or password."
