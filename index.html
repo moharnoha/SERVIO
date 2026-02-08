@@ -646,6 +646,42 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
+            authDomain: "serviocmm-a65ed.firebaseapp.com",
+            projectId: "serviocmm-a65ed",
+            storageBucket: "serviocmm-a65ed.firebasestorage.app",
+            messagingSenderId: "975373759034",
+            appId: "1:975373759034:web:645cb5fb48772839453b03"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        window.handleGoogleLogin = function() {
+            const errorDiv = document.getElementById('auth-error');
+            if (errorDiv) errorDiv.style.display = 'none';
+
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    console.log("Success:", result.user);
+                    closeAuthModal();
+                })
+                .catch((error) => {
+                    console.error("Firebase Error:", error);
+                    if (errorDiv) {
+                        errorDiv.style.display = 'flex';
+                        errorDiv.querySelector('span').innerText = error.message;
+                    }
+                });
+        };
+    </script>
+
     <script>
         let currentIndexNew = 0;
         const totalSlidesNew = 4;
@@ -667,7 +703,7 @@
             const spinner = btn.querySelector('.exact-8-spinner');
             const errorDiv = document.getElementById('main-error-display');
             
-            errorDiv.style.display = 'none';
+            if (errorDiv) errorDiv.style.display = 'none';
             spinner.style.display = 'block';
             
             setTimeout(() => {
@@ -773,7 +809,7 @@
                         <span>${cur.joinBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn">${googleIconSvg} ${cur.google}</div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
                 `;
             } else {
@@ -794,7 +830,7 @@
                         <span>${cur.loginBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn">${googleIconSvg} ${cur.google}</div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.noAccount} <span onclick="openAuthModal('join')">${cur.joinBtn}</span></div>
                 `;
             }
