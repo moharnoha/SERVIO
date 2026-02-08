@@ -27,6 +27,8 @@
             min-height: 100vh;
             display: flex; flex-direction: column;
             direction: rtl !important; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .mobile-container { 
@@ -416,6 +418,15 @@
         .social-btn .google-icon-svg { width: 24px; height: 24px; position: absolute; left: 20px; }
         [dir="rtl"] .social-btn .google-icon-svg { left: auto; right: 20px; }
         
+        /* Spinner integration for Google Button */
+        .social-btn .exact-8-spinner {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.45);
+            margin: 0;
+        }
+
         .auth-footer { margin: 40px 0 20px; color: #6b7280; font-size: 16px; text-align: center; font-weight: 500; }
         
         .auth-footer span { font-weight: 800; color: #000; cursor: pointer; text-decoration: none; }
@@ -664,22 +675,41 @@
         const provider = new GoogleAuthProvider();
 
         window.handleGoogleLogin = function() {
+            const googleBtn = document.querySelector('.social-btn');
+            const spinner = googleBtn.querySelector('.exact-8-spinner');
             const errorDiv = document.getElementById('auth-error');
-            if (errorDiv) errorDiv.style.display = 'none';
 
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    console.log("Success:", result.user);
-                    closeAuthModal();
-                })
-                .catch((error) => {
-                    console.error("Firebase Error:", error);
-                    if (errorDiv) {
-                        errorDiv.style.display = 'flex';
-                        errorDiv.querySelector('span').innerText = error.message;
-                    }
-                });
+            if (errorDiv) errorDiv.style.display = 'none';
+            
+            // Show loading in google button for 3 seconds professional effect
+            spinner.style.display = "block";
+            googleBtn.style.opacity = "0.7";
+            googleBtn.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        console.log("Success:", result.user);
+                        // Professional Redirect to dashboard
+                        window.location.href = "dashboard/index.html";
+                    })
+                    .catch((error) => {
+                        console.error("Firebase Error:", error);
+                        spinner.style.display = "none";
+                        googleBtn.style.opacity = "1";
+                        googleBtn.style.pointerEvents = "auto";
+                        if (errorDiv) {
+                            errorDiv.style.display = 'flex';
+                            errorDiv.querySelector('span').innerText = error.message;
+                        }
+                    });
+            }, 3000); // 3 seconds delay for professional feel as requested
         };
+
+        // Show body after load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = "1";
+        });
     </script>
 
     <script>
@@ -809,7 +839,10 @@
                         <span>${cur.joinBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">
+                        ${googleIconSvg} <span>${cur.google}</span>
+                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    </div>
                     <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
                 `;
             } else {
@@ -830,7 +863,10 @@
                         <span>${cur.loginBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">
+                        ${googleIconSvg} <span>${cur.google}</span>
+                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    </div>
                     <div class="auth-footer">${cur.noAccount} <span onclick="openAuthModal('join')">${cur.joinBtn}</span></div>
                 `;
             }
