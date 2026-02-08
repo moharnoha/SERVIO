@@ -40,6 +40,50 @@
             align-items: center; 
         }
         
+        /* Main Application Loading Screen (Updated Section) */
+        #app-init-loader {
+            display: none;
+        }
+
+        .loader-right-side {
+            position: fixed !important;
+            /* Explicit Right Anchor - Never changes */
+            right: 0 !important;
+            left: auto !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            z-index: 100001;
+            padding-right: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        .loader-welcome-msg {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            padding-right: 15px;
+            /* Force RTL & Right Alignment regardless of global settings */
+            direction: rtl !important;
+            text-align: right !important;
+            white-space: nowrap;
+            font-family: 'Cairo', sans-serif;
+            display: block;
+            width: 100%;
+        }
+
+        .loader-right-side img {
+            width: 240px;
+            height: auto;
+            border-radius: 4px 0 0 4px;
+            display: block;
+            /* Prevent image mirroring */
+            transform: none !important;
+        }
+
         /* Global Click Loading Overlay */
         #global-loading {
             position: fixed;
