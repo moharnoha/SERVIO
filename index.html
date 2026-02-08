@@ -668,11 +668,11 @@
         window.handleGoogleLogin = function() {
             const errorDiv = document.getElementById('auth-error');
             const googleBtn = document.querySelector('.social-btn');
-
+            
             if (errorDiv) errorDiv.style.display = 'none';
             
+            // Note: Removed the spinner change to keep the Google icon visible and prevent it from "freezing" away
             googleBtn.style.opacity = "0.7";
-            googleBtn.style.pointerEvents = "none";
 
             signInWithPopup(auth, provider)
                 .then((result) => {
@@ -682,7 +682,6 @@
                 .catch((error) => {
                     console.error("Firebase Error:", error);
                     googleBtn.style.opacity = "1";
-                    googleBtn.style.pointerEvents = "auto";
                     if (errorDiv) {
                         errorDiv.style.display = 'flex';
                         errorDiv.querySelector('span').innerText = error.message;
