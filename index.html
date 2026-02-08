@@ -650,7 +650,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
@@ -671,7 +671,6 @@
             
             if (errorDiv) errorDiv.style.display = 'none';
             
-            // Keep button fully active and clickable
             googleBtn.style.opacity = "1";
             googleBtn.style.pointerEvents = "auto";
 
@@ -682,7 +681,6 @@
                 })
                 .catch((error) => {
                     console.error("Firebase Error:", error);
-                    // Ensure it stays at original appearance even on error/back
                     googleBtn.style.opacity = "1";
                     googleBtn.style.pointerEvents = "auto";
                     if (errorDiv) {
@@ -690,6 +688,44 @@
                         errorDiv.querySelector('span').innerText = error.message;
                     }
                 });
+        };
+
+        window.handleAuthSubmit = function(btn, type) {
+            const spinner = btn.querySelector('.exact-8-spinner');
+            const errorDiv = document.getElementById('auth-error');
+            const container = document.getElementById('auth-content');
+            
+            const email = container.querySelector('input[type="email"]').value;
+            const password = container.querySelector('input[type="password"]').value;
+            
+            spinner.style.display = 'block';
+            errorDiv.style.display = 'none';
+
+            if (type === 'join') {
+                const name = container.querySelector('input[type="text"]').value;
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        return updateProfile(userCredential.user, { displayName: name });
+                    })
+                    .then(() => {
+                        window.location.href = "dashboard/index.html";
+                    })
+                    .catch((error) => {
+                        spinner.style.display = 'none';
+                        errorDiv.style.display = 'flex';
+                        errorDiv.querySelector('span').innerText = error.message;
+                    });
+            } else {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        window.location.href = "dashboard/index.html";
+                    })
+                    .catch((error) => {
+                        spinner.style.display = 'none';
+                        errorDiv.style.display = 'flex';
+                        errorDiv.querySelector('span').innerText = error.message;
+                    });
+            }
         };
 
         window.addEventListener('load', () => {
@@ -725,19 +761,6 @@
                 spinner.style.display = 'none';
                 openAuthModal(type);
             }, 800);
-        }
-
-        function handleAuthSubmit(btn) {
-            const spinner = btn.querySelector('.exact-8-spinner');
-            const errorDiv = document.getElementById('auth-error');
-            
-            spinner.style.display = 'block';
-            errorDiv.style.display = 'none';
-
-            setTimeout(() => {
-                spinner.style.display = 'none';
-                errorDiv.style.display = 'flex';
-            }, 2000);
         }
 
         function togglePassword(icon) {
@@ -820,7 +843,7 @@
                         <div class="error-icon-circle">!</div>
                         <span>${errorMsg}</span>
                     </div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this)">
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')">
                         <span>${cur.joinBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
@@ -841,7 +864,7 @@
                         <div class="error-icon-circle">!</div>
                         <span>${errorMsg}</span>
                     </div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this)">
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')">
                         <span>${cur.loginBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
