@@ -668,24 +668,24 @@
         window.handleGoogleLogin = function() {
             const errorDiv = document.getElementById('auth-error');
             const googleBtn = document.querySelector('.social-btn');
-            const spinner = googleBtn.querySelector('.exact-8-spinner');
-            
+            const originalContent = googleBtn.innerHTML;
+
             if (errorDiv) errorDiv.style.display = 'none';
-            if (spinner) spinner.style.display = 'block';
             
+            // Show loading in google button
             googleBtn.style.opacity = "0.7";
             googleBtn.style.pointerEvents = "none";
 
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    // إخفاء الواجهة الحالية وإظهار سبينر التحميل قبل الانتقال
-                    document.getElementById('global-spinner-overlay').style.display = 'flex';
+                    console.log("Success:", result.user);
+                    // Redirect to dashboard
                     window.location.href = "dashboard/index.html";
                 })
                 .catch((error) => {
+                    console.error("Firebase Error:", error);
                     googleBtn.style.opacity = "1";
                     googleBtn.style.pointerEvents = "auto";
-                    if (spinner) spinner.style.display = 'none';
                     if (errorDiv) {
                         errorDiv.style.display = 'flex';
                         errorDiv.querySelector('span').innerText = error.message;
@@ -693,6 +693,7 @@
                 });
         };
 
+        // Show body after load
         window.addEventListener('load', () => {
             document.body.style.opacity = "1";
         });
@@ -763,27 +764,37 @@
             
             const t = {
                 ar: {
-                    joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول",
-                    namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور",
+                    joinTitle: "انضم إلى serviocmm",
+                    loginTitle: "تسجيل الدخول",
+                    namePlace: "الاسم",
+                    emailPlace: "البريد الإلكتروني",
+                    passPlace: "كلمة المرور",
                     news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.",
                     legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.",
                     legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.",
-                    joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول",
-                    google: type === 'join' ? "انضم الآن باستخدام Google" : "تسجيل الدخول باستخدام Google",
-                    haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟",
+                    joinBtn: "انضم الآن",
+                    loginBtn: "تسجيل الدخول",
+                    google: "المتابعة باستخدام Google",
+                    haveAccount: "لديك حساب؟",
+                    noAccount: "ليس لديك حساب؟",
                     forgot: "هل نسيت كلمة المرور؟",
                     errorJoin: "عنوان البريد الإلكتروني هذا مرتبط بالفعل بحساب serviocmm.",
                     errorLogin: "يرجى إدخال عنوان بريد إلكتروني و/أو كلمة مرور صالحة."
                 },
                 en: {
-                    joinTitle: "Join serviocmm", loginTitle: "Log in",
-                    namePlace: "Name", emailPlace: "Email", passPlace: "Password",
+                    joinTitle: "Join serviocmm",
+                    loginTitle: "Log in",
+                    namePlace: "Name",
+                    emailPlace: "Email",
+                    passPlace: "Password",
                     news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.",
                     legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.",
                     legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.",
-                    joinBtn: "Join", loginBtn: "Log in",
-                    google: type === 'join' ? "Join now with Google" : "Log in with Google",
-                    haveAccount: "Have an account?", noAccount: "Don't have an account?",
+                    joinBtn: "Join",
+                    loginBtn: "Log in",
+                    google: "Continue with Google",
+                    haveAccount: "Have an account?",
+                    noAccount: "Don't have an account?",
                     forgot: "Forgot password?",
                     errorJoin: "This email address is already connected to a serviocmm account.",
                     errorLogin: "Please enter a valid email address and/or password."
@@ -815,10 +826,7 @@
                         <span>${cur.joinBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn" onclick="handleGoogleLogin()">
-                        ${googleIconSvg} <span>${cur.google}</span>
-                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                    </div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
                 `;
             } else {
@@ -839,10 +847,7 @@
                         <span>${cur.loginBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
-                    <div class="social-btn" onclick="handleGoogleLogin()">
-                        ${googleIconSvg} <span>${cur.google}</span>
-                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                    </div>
+                    <div class="social-btn" onclick="handleGoogleLogin()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.noAccount} <span onclick="openAuthModal('join')">${cur.joinBtn}</span></div>
                 `;
             }
