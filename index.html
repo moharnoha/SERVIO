@@ -651,6 +651,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
@@ -663,7 +664,30 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
+
+        async function saveUserToFirestore(user) {
+            const userRef = doc(db, "users", user.uid);
+            
+            const regions_ar = ["الجزائر", "مصر", "العراق", "الأردن", "الشرق الأوسط وشمال أفريقيا", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "الإمارات"];
+            const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
+
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+
+            const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
+            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
+
+            await setDoc(userRef, {
+                uid: user.uid,
+                displayName: user.displayName || "Unknown",
+                email: user.email,
+                selected_region: currentRegionName,
+                selected_language: currentLanguageName,
+                lastLogin: serverTimestamp()
+            }, { merge: true });
+        }
 
         window.handleGoogleLogin = function() {
             const errorDiv = document.getElementById('auth-error');
@@ -675,7 +699,8 @@
             googleBtn.style.pointerEvents = "none";
 
             signInWithPopup(auth, provider)
-                .then((result) => {
+                .then(async (result) => {
+                    await saveUserToFirestore(result.user);
                     window.location.href = "https://serviocmm.com/dashboard/index.html";
                 })
                 .catch((error) => {
@@ -710,10 +735,9 @@
                 const nameInput = container.querySelector('input[type="text"]');
                 const name = nameInput ? nameInput.value : "";
                 createUserWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        return updateProfile(userCredential.user, { displayName: name });
-                    })
-                    .then(() => {
+                    .then(async (userCredential) => {
+                        await updateProfile(userCredential.user, { displayName: name });
+                        await saveUserToFirestore(userCredential.user);
                         window.location.href = "https://serviocmm.com/dashboard/index.html";
                     })
                     .catch((error) => {
@@ -724,7 +748,8 @@
                     });
             } else {
                 signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
+                    .then(async (userCredential) => {
+                        await saveUserToFirestore(userCredential.user);
                         window.location.href = "https://serviocmm.com/dashboard/index.html";
                     })
                     .catch((error) => {
