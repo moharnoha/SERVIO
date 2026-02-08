@@ -4,46 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Final Version</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>serviocmm - Pro Wallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --login-bg: #386E2C; 
-            --google-section-bg: #EAF0E9; 
-            --platform-bg: #F2F1F0;
-            --garena-red: #386E2C;
-            --success-green: #22c55e;
+            --sub-green: #F3F2F2; 
+            --platform-bg: #F3F2F2;
+            --bg-gradient: linear-gradient(135deg, #F3F2F2 0%, #F3F2F2 100%);
+            --text-dark: #1A2419;
+            --brand-green: #2E5822;
+            --brand-red: #C62828;
+            --brand-deposit: #10b981; 
+            --card-white: #FFFFFF;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
+            --sidebar-gray: #f1f5f9;
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Cairo', 'Inter', sans-serif; 
-            background-color: #F2F1F0; 
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            direction: rtl !important; 
-        }
-
-        .mobile-container { 
-            width: 100%; 
-            min-height: 100vh; 
-            display: flex; flex-direction: column; 
+        html, body { 
+            height: auto; 
+            min-height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden; 
+            overflow-y: scroll !important; 
+            width: 100vw;
             position: relative;
-            flex-grow: 1;
+        }
+        body { 
+            font-family: 'Cairo', 'Inter', sans-serif; 
+            background-color: var(--platform-bg); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        
+        /* Main Application Loading Screen (Updated Section) */
+        #app-init-loader {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            /* Prevent any inversion or layout shift */
+            direction: rtl !important; 
+            unicode-bidi: isolate;
         }
 
-        header { 
-            width: 100%; height: 70px; 
-            background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px;
-            box-sizing: border-box;
-            position: sticky; 
-            top: 0; z-index: 1000;
+        .loader-right-side {
+            position: fixed !important;
+            /* Explicit Right Anchor - Never changes */
+            right: 0 !important;
+            left: auto !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            z-index: 100001;
+            padding-right: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        .loader-welcome-msg {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            padding-right: 15px;
+            /* Force RTL & Right Alignment regardless of global settings */
             direction: rtl !important;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: right !important;
+            white-space: nowrap;
+            font-family: 'Cairo', sans-serif;
+            display: block;
+            width: 100%;
+        }
+
+        .loader-right-side img {
+            width: 240px;
+            height: auto;
+            border-radius: 4px 0 0 4px;
+            display: block;
+            /* Prevent image mirroring */
+            transform: none !important;
+        }
+
+        /* Global Click Loading Overlay */
+        #global-loading {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.19);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            display: none; /* Hidden by default */
+        }
+        .ios-loader {
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        * { 
+            transition: all 0.3s ease !important; 
+            animation: none !important; 
+            -webkit-tap-highlight-color: transparent; 
+            box-sizing: border-box;
+        }
+
+        .top-header { 
+            min-height: 70px; background-color: var(--header-green); 
+            display: flex; align-items: center; justify-content: space-between; 
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            padding: 10px 15px;
+            box-sizing: border-box;
+            direction: rtl !important;
         }
 
         .header-content {
@@ -53,681 +142,738 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            direction: rtl !important;
         }
 
         @media (min-width: 481px) {
+            .top-header {
+                height: 70px;
+            }
             .header-content {
                 max-width: 100%;
                 padding: 0 40px;
             }
         }
 
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
-        .logo-img { height: 35px; width: auto; display: block; }
+        .brand-section { display: flex; align-items: center; }
+        .logo-img { height: 35px; width: auto; }
         .v-line { width: 1px; height: 30px; background-color: rgba(0,0,0,0.1); margin: 0 12px; }
+        .title-box { display: flex; flex-direction: column; text-align: right; }
+        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1A2419; }
+        .title-box span:last-child { font-size: 9px; font-weight: 600; color: rgba(26,36,25,0.6); }
+        .region-badge { display: flex; align-items: center; background: #FFFFFF; border: 1px solid #E2E7F0; border-radius: 8px; padding: 0 10px; height: 40px; gap: 8px; direction: rtl !important; }
+        .region-text { font-size: 11px; font-weight: 700; color: #1A2419; display: flex; gap: 5px; }
+
+        .bottom-header {
+            background-color: var(--platform-bg);
+            width: 100%; display: flex; justify-content: center;
+            position: relative;
+        }
+        .bottom-header-content {
+            width: 100%; max-width: 480px; padding: 10px 15px; box-sizing: border-box;
+        }
+
+        .wallet-card {
+            background: rgba(46, 88, 34, 0.85);
+            border-radius: 18px; padding: 10px 15px;
+            display: flex; flex-direction: column; gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px); min-height: auto;
+        }
+
+        .user-meta-info { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: none; padding-bottom: 5px; }
+        .avatar-box { width: 32px; height: 32px; background: rgba(255, 255, 255, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .avatar-box svg { width: 100%; height: 100%; padding: 4px; fill: #ffffff; }
+        .name-stack { display: flex; flex-direction: column; gap: 1px; overflow: hidden; flex: 1; align-items: flex-start; }
         
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1a202c; margin-bottom: 2px; letter-spacing: 0px; }
-        .title-box span:last-child { font-size: 9px; font-weight: 600; color: #64748b; letter-spacing: 0px; }
+        .welcome-row { display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+        .welcome-label { font-size: 9px; color: rgba(255,255,255,0.9); font-weight: 600; }
+        
+        .full-name-val { font-size: 14px; color: #ffffff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; margin-top: -2px; }
+        
+        .email-privacy-row { display: flex; align-items: center; gap: 5px; width: 100%; justify-content: flex-start; }
+        .user-email-val { font-size: 10px; color: rgba(255,255,255,0.85); font-weight: 500; direction: ltr; font-family: 'Inter', sans-serif; overflow: hidden; text-overflow: ellipsis; }
+        
+        .toggle-visibility { background: rgba(255,255,255,0.2); border: none; padding: 2px 4px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; }
+        .toggle-visibility svg { width: 12px; height: 12px; fill: #ffffff !important; }
 
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: #FFFFFF; 
-            border: 1px solid #E2E8F0; border-radius: 8px; 
-            padding: 0 10px; height: 40px; cursor: pointer;
-            box-sizing: border-box; gap: 8px; flex-direction: row !important;
+        .balance-stack { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 2px 0; }
+        .bal-title { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .bal-amount { 
+            font-size: 24px; 
+            color: #ffffff; 
+            font-weight: 900; 
+            line-height: 1; 
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            direction: ltr;
         }
-        .display-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
-        .nav-icon { width: 22px; height: 22px; fill: #1e293b !important; display: block; flex-shrink: 0; }
+        .bal-amount sup { font-size: 0.6em; margin-left: 1px; }
 
-        /* Garena Section Styles */
-        .login-section { padding: 0 10%; background: #F2F1F0; margin-top: -10px; } 
-        .login-card {
-            background: #ffffff; border-radius: 12px; padding: 30px;
-            border: 1px solid #e9ecef;
-            max-width: 600px; margin: 0 auto;
-        }
-        .login-title {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 18px; font-weight: 700; color: #333; margin-bottom: 20px;
-        }
-        .input-group-container {
-            display: flex; background: #f8f9fa; border-radius: 8px;
-            border: 1.5px solid #dee2e6; overflow: hidden; margin-bottom: 25px;
-            transition: all 0.3s ease;
-            height: 52px;
-        }
-        html[dir="ltr"] .input-group-container { flex-direction: row-reverse; }
-        .input-group-container.error-border { border-color: var(--garena-red) !important; animation: shake 0.4s ease-in-out; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .locked-interaction { pointer-events: none !important; opacity: 0.7; cursor: not-allowed !important; }
-        .platform-btn {
-            background-color: var(--garena-red); 
-            color: white; border: none; padding: 0 15px; 
-            font-weight: 800; font-size: 14px; cursor: pointer;
-            white-space: nowrap; transition: all 0.3s ease;
-            flex-shrink: 0; min-width: fit-content;
-            font-family: 'Cairo', sans-serif;
-        }
-        .player-input-field {
-            flex: 1; border: none; padding: 0 15px; outline: none;
-            font-size: 15px; background: transparent; min-width: 0; font-family: 'Cairo', sans-serif;
-        }
-        html[dir="rtl"] .player-input-field { text-align: right; }
-        html[dir="ltr"] .player-input-field { text-align: left; }
-        .social-login-label { font-size: 14px; color: #666; margin-bottom: 15px; font-weight: 500; }
-        .social-icons-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 25px; justify-content: center; }
-        .social-item {
-            width: 45px; height: 45px; border-radius: 50%; background: white;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08); border: 1.5px solid #eee;
-            cursor: pointer; transition: transform 0.2s; overflow: hidden;
-        }
-        .social-item:hover { transform: scale(1.1); border-color: var(--garena-red); }
-        .social-item svg { width: 24px; height: 24px; }
-        .social-img { width: 100%; height: 100%; object-fit: cover; }
-        .live-impact-box {
-            background: #ffffff; border-radius: 12px; padding: 15px;
-            border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            margin-top: 5px;
-        }
-        .impact-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
-        .pulse-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--success-green); }
-        .dot { width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%; position: relative; }
-        .dot::after { content: ''; position: absolute; width: 100%; height: 100%; background: var(--success-green); border-radius: 50%; animation: pulse-ring 1.5s infinite; }
-        @keyframes pulse-ring { 0% { transform: scale(.7); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .impact-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .impact-value { font-size: 15px; font-weight: 800; color: #2d3748; display: flex; align-items: center; gap: 2px; direction: ltr !important; }
-        .impact-label { font-size: 10px; color: #718096; font-weight: 600; }
-        .up-indicator { font-size: 10px; color: var(--success-green); animation: bounce-up 1s infinite alternate; }
-        @keyframes bounce-up { from { transform: translateY(0); } to { transform: translateY(-3px); } }
-
-        /* Background Effects */
-        .content-sections-wrapper {
-            position: relative;
-            background: #F2F1F0;
-            overflow: hidden;
-        }
-
-        .login-bar {
-            width: 100%; background-color: var(--login-bg);
-            padding: 15px 0; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+        .new-header-container {
+            background: var(--platform-bg); 
+            width: 100%; display: flex; justify-content: center;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: none;
             position: relative;
         }
-
-        .ticker-wrap {
-            width: 100%;
-            overflow: hidden;
+        .new-header-content {
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
-
-        .ticker-move {
-            display: flex;
-            width: 100%;
-            justify-content: space-around;
-        }
-
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-            white-space: nowrap;
-        }
-
-        .ticker-icon {
-            width: 24px;
-            height: 24px;
-            fill: white;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .counter-badge {
-            font-size: 11px;
-            font-weight: 800;
-            margin-left: -10px;
-            margin-right: 5px;
-            background: rgba(255,255,255,0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        /* Integrated Login Section */
-        .login-sticky-sheet {
-            width: 100%;
-            background: #F2F1F0;
-            padding: 0 25px 35px 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .auth-flex-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 440px;
-            align-items: center;
-        }
-
-        .sheet-header-text {
-            font-size: 24px;
-            font-weight: 800;
-            color: #1a202c;
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .sheet-subtext {
-            font-size: 13px;
-            color: #718096;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .email-auth-box {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 15px;
-        }
-
-        .auth-input {
-            width: 100%;
-            height: 52px;
-            border-radius: 8px;
-            border: 1.5px solid #dee2e6;
-            padding: 0 15px;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            outline: none;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-            color: #2d3748;
-        }
-
-        .auth-input:focus {
-            border-color: #386E2C;
-            background-color: #ffffff;
-        }
-
-        .input-error-msg {
-            color: #e53e3e;
-            font-size: 12px;
-            font-weight: 700;
-            margin-top: -8px;
-            padding-right: 10px;
-            display: none;
-        }
-
-        .auth-btn {
-            border-radius: 8px; 
-            height: 56px;
-            padding: 0 20px;
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        
+        /* Updated Icon Boxes Styling - Circular Simple White Style */
+        .icon-box { 
+            width: 65px; 
+            height: 65px; 
+            background: #FFFFFF; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
             display: flex; 
             align-items: center; 
-            justify-content: center; 
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            justify-content: center;
+            border: 1px solid #E2E7F0;
+        }
+        .icon-box:active { transform: scale(0.92); }
+        
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
+        
+        /* Specialized Colors and Sizing for Icons */
+        .icon-svg-smm { width: 28px; height: 28px; fill: #2E5822; }
+        .icon-svg-deposit { width: 30px; height: 30px; fill: #10b981; }
+        .icon-svg-menu { width: 28px; height: 28px; fill: #475569; }
+        .icon-svg-logout { width: 26px; height: 26px; fill: #ef4444; }
+
+        .transactions-header { 
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            background: transparent; 
+            margin-top: 10px;
+            flex: none;
+            overflow: visible; 
+        }
+        .transactions-content {
+            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-soft);
+            margin: 0 15px 30px 15px;
+            border: 1px solid #E2E7F0;
+        }
+        
+        .filter-options { display: none; }
+
+        .trans-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-top: 5px;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .trans-list::-webkit-scrollbar { display: none; }
+
+        .trans-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #E2E7F0;
+            contain: content; cursor: pointer;
             width: 100%;
-            border: none;
-            font-size: 16px; 
-            font-weight: 800; 
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .status-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            margin-right: 8px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #000000 !important;
+            background: #f1f5f9 !important;
+        }
+
+        .trans-date-container { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .status-badge { display: none; }
+        .trans-date { font-size: 10px; color: #94a3b8; direction: ltr; display: block; }
+        .trans-val { font-size: 15px; font-weight: 700; direction: ltr; color: #1e293b; font-family: 'Inter', sans-serif; letter-spacing: -0.3px; }
+        
+        .empty-state { 
+            text-align: center; 
+            padding: 50px 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex: 1;
+        }
+        .empty-state-icon {
+            width: 90px; height: 90px;
+            background: transparent;
+            display: flex; align-items: center; justify-content: center;
+            color: #2E5822;
             position: relative;
         }
-
-        .email-btn {
-            background: linear-gradient(135deg, #386E2C 0%, #2b5421 100%);
-            color: white;
-            box-shadow: 0 10px 20px rgba(56, 110, 44, 0.2);
-            margin-top: 10px;
+        .empty-state-icon svg {
+            width: 110px; 
+            height: 110px;
+            fill: #2E5822;
+            opacity: 0.8;
         }
-
-        .google-btn {
-            background-color: #ffffff; 
-            color: #1a202c;
-            border: 1.5px solid #edf2f7;
-            margin-bottom: 10px;
-        }
-        
-        .apple-btn {
-            background-color: #000000;
-            color: #ffffff;
-        }
-
-        .auth-btn:active {
-            transform: scale(0.96);
-        }
-
-        .loader {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            display: none;
-            margin-right: 10px;
-            order: 2;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .toggle-auth-mode {
-            font-size: 13px;
-            color: #000000;
-            font-weight: 500;
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .toggle-link {
-            color: #386E2C;
+        .empty-state-text {
+            font-size: 14px;
             font-weight: 800;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 5px;
+            color: #2E5822;
         }
 
-        .divider {
-            width: 100%;
+        svg.icon, .nav-icon { width: 22px; height: 22px; fill: #1A2419 !important; }
+        .nav-flag { width: 22px; height: 15px; border-radius: 2px; object-fit: cover; }
+
+        .modal-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: #F3F2F2; 
+            display: none; 
+            align-items: flex-start; 
+            justify-content: center; 
+            z-index: 9999;
+        }
+        .modal-card {
+            background: #F3F2F2; 
+            width: 100%; 
+            height: 100%;
+            padding: 0;
+            position: relative; 
+            overflow: hidden;
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header-accent {
+            padding: 12px 20px; 
+            background-color: #ffffff;
+            color: #000000;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            text-align: center;
-            color: #a0aec0;
-            font-size: 12px;
-            font-weight: 700;
-            margin: 20px 0;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1.5px solid #edf2f7;
-        }
-        .divider:not(:empty)::before { margin-left: 15px; }
-        .divider:not(:empty)::after { margin-right: 15px; }
-
-        /* Promo Section Styling */
-        .intro-promo-section {
+            justify-content: space-between;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            min-height: 60px;
             width: 100%;
-            padding: 20px 20px;
-            box-sizing: border-box;
-            background-color: #F2F1F0;
+        }
+        .modal-header-inner {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title-text { 
+            font-weight: 900; 
+            font-size: 19px; 
+            margin: 0;
+            color: #000000;
+            flex: 1;
             text-align: center;
         }
-
-        .promo-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 25px;
-            line-height: 1.3;
+        .modal-body { 
+            padding: 15px; 
+            font-size: 13px; 
+            color: var(--text-dark); 
+            background: #F3F2F2;
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
         }
-
-        /* Improved Text Colors */
-        .text-black { color: #000000; }
-        .text-green { color: #386E2C; }
-
-        .platforms-wrapper { background-color: #F2F1F0; padding: 25px 0; }
-        .section-header { text-align: center; padding: 0 20px 20px 20px; }
-        .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
-        .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
-
-        .platforms-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-            padding: 0 20px; max-width: 600px; margin: 0 auto;
-        }
-        .platform-box {
-            background: #ffffff; border-radius: 18px; padding: 18px 5px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;
-            transition: transform 0.2s; text-decoration: none; cursor: pointer;
-        }
-        .platform-box:active { transform: scale(0.92); }
-        .p-img { width: 40px; height: 40px; object-fit: contain; }
-        .p-svg { width: 36px; height: 36px; }
-        .platform-name { font-size: 11px; font-weight: 700; color: #334155; }
-
-        .selection-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
-        }
-        
-        @media (min-width: 768px) {
-            .selection-overlay {
-                align-items: center;
-            }
-            .selection-sheet {
-                width: 90%;
-                max-width: 400px;
-                border-radius: 20px !important;
-                height: 70vh !important;
-            }
-        }
-
-        .selection-sheet {
-            width: 100%; max-width: 500px; background: white; border-radius: 24px 24px 0 0; 
-            padding: 24px; box-sizing: border-box; height: 50vh; overflow-y: auto;
-        }
-        .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .flag-container { display: flex; align-items: center; margin-right: 15px; }
-        .icon-dark { width: 24px; height: 24px; fill: #64748b; }
-
-        /* Dialog Alert Styling */
-        .custom-dialog-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 10001; justify-content: center; align-items: center;
-        }
-        .custom-dialog {
-            width: 80%; max-width: 300px; background: white; border-radius: 14px; overflow: hidden;
-            display: flex; flex-direction: column; text-align: center;
-        }
-        .dialog-body { padding: 25px 20px; }
-        .dialog-title { font-weight: 800; font-size: 16px; margin-bottom: 8px; color: #000; }
-        .dialog-text { font-size: 13px; color: #333; line-height: 1.5; }
-        .dialog-btn {
-            border-top: 1px solid #eee; padding: 15px; font-weight: 700; color: #007aff;
-            cursor: pointer; text-align: center; font-size: 15px;
-        }
-        
-        .suggestion-box {
-            display: none;
-            background: #fff9e6;
-            border: 1px solid #ffeeba;
-            border-radius: 12px;
-            padding: 10px 15px;
-            margin-top: -5px;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #856404;
-        }
-        .suggestion-item {
-            color: #386E2C;
-            font-weight: 800;
-            text-decoration: underline;
+        .modal-close-icon {
             cursor: pointer;
-            margin: 0 5px;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: #000000;
+        }
+        
+        /* User Info Section in Modal */
+        .modal-user-sticky {
+            flex-shrink: 0;
+            margin-bottom: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .modal-user-sticky .wallet-card {
+            width: 100%;
+            background: rgba(46, 88, 34, 0.85);
+            border-radius: 18px;
+            padding: 10px 15px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .modal-user-sticky .toggle-visibility,
+        .modal-user-sticky .avatar-box {
+            display: none !important;
         }
 
-        .sheet-title {
-            font-size: 32px;
+        .detail-modal-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
+            z-index: 10000; padding: 20px; box-sizing: border-box;
+        }
+        .detail-card {
+            background: #fff; width: 100%; max-width: 360px; border-radius: 24px; padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .detail-row {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid #E2E7F0; gap: 15px;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-weight: 600; font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .detail-value { font-weight: 700; font-size: 12px; color: #1e293b; text-align: left; line-height: 1.4; }
+        .detail-value.is-active { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
+        .detail-value.is-activated { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
+        .detail-value.is-rejected { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
+
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
+        
+        .view-more-link {
+            color: #2E5822;
+            font-size: 14px;
             font-weight: 800;
-            color: #1a202c;
-            text-align: center;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+        .view-more-link:active { background: #f1f5f9; }
+
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
         }
 
-        .sheet-subtext {
-            font-size: 18px;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        /* Language-specific Layout Rules */
-        html[lang="en"] body {
-            direction: ltr !important;
-        }
-        html[lang="en"] .title-box, 
-        html[lang="en"] .section-header,
-        html[lang="en"] .intro-promo-section {
-            text-align: center !important;
-        }
-        html[lang="en"] .brand-section {
-            flex-direction: row !important;
-        }
-
-        @media (max-width: 480px) {
-            .login-section { padding: 10px 15px; }
-            .login-card { padding: 20px; }
-            .platform-btn { font-size: 13px; padding: 0 10px; }
-            .social-item { width: 40px; height: 40px; }
+        .loader-spin {
+            animation: spin 0.8s linear infinite !important;
         }
     </style>
 </head>
 <body class="notranslate">
 
-    <div class="mobile-container">
-        <header>
+    <div id="app-init-loader">
+        <div class="loader-right-side">
+            <div id="loader-welcome-txt" class="loader-welcome-msg">مرحباً بك في</div>
+            <a href="https://postimg.cc/dk8H8qw8" target="_blank">
+                <img src="https://i.postimg.cc/rmHB2mHY/servio.png" alt="servio.png">
+            </a>
+        </div>
+    </div>
+
+    <div id="global-loading">
+        <div class="ios-loader"></div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="top-header">
             <div class="header-content">
                 <div class="brand-section">
                     <img src="https://i.postimg.cc/MKdMnLSy/servio.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
-                    <div class="title-box">
-                        <span style="text-align: right !important;">مركز الخدمات الرقمية</span>
-                        <span style="text-align: right !important;">Digital Services Center</span>
-                    </div>
+                    <div class="title-box"><span>مركز الخدمات الرقمية</span><span>Digital Services Center</span></div>
                 </div>
-                <div class="header-left-group">
-                    <div class="info-display-wrapper" onclick="openSelection()">
-                        <div id="flag-display"></div>
-                        <div class="display-text">
-                            <span id="label-reg">---</span>
-                            <span style="opacity:0.3">|</span>
-                            <span id="label-lng">--</span>
-                        </div>
-                    </div>
+                <div class="region-badge">
+                    <div id="flag-ui"></div>
+                    <div class="region-text"><span id="reg-name"></span><span style="opacity:0.3">|</span><span id="lang-name"></span></div>
                 </div>
             </div>
-        </header>
+        </div>
 
-        <div class="content-sections-wrapper">
-            <section class="intro-promo-section">
-                <h2 class="promo-title" id="promo-main-title">
-                    <span class="text-black">أكبر</span> 
-                    <span class="text-green">منصة</span> 
-                    <span class="text-black">بيع</span> 
-                    <span class="text-black">وزيادة</span> 
-                    <span class="text-green">متابعين</span> 
-                    <span class="text-black">في الشرق الاوسط</span>
-                </h2>
-            </section>
-
-            <div class="login-section">
-                <div class="login-card">
-                    <div class="login-title">
-                        <span id="text-login-head">مرحباً بك</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    </div>
-                    
-                    <div class="input-group-container" id="input-wrapper">
-                        <button class="platform-btn" id="text-platform-btn" onclick="startLoginProcess()">تسجيل الدخول</button>
-                        <input type="text" class="player-input-field" id="input-player" placeholder="يرجى إدخال البريد الإلكتروني" oninput="validateInput(this)" autocomplete="off">
-                    </div>
-
-                    <div class="social-login-label" id="text-social-info">جميع خدمات التواصل الاجتماعي في مكان واحد.</div>
-                    
-                    <div class="social-icons-row" id="social-container">
-                        <div class="social-item" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
-                        <div class="social-item" title="TikTok"><svg viewBox="0 0 24 24" fill="#000000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.23-2.74.12-.69.29-1.27.87-1.62 1.54-.34.66-.46 1.43-.37 2.16.14 1.23.86 2.36 1.94 2.96.9.52 2 .61 3 .29.9-.25 1.69-.93 2.1-1.77.34-.65.48-1.4.47-2.14-.02-3.95-.01-7.9-.02-11.85z"/></svg></div>
-                        <div class="social-item" title="Twitch"><svg viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg></div>
-                        <div class="social-item" title="Instagram"><svg viewBox="0 0 24 24"><defs><radialGradient id="rg" r="150%" cx="30%" cy="107%"><stop stop-color="#fdf497" offset="0%"/><stop stop-color="#fdf497" offset="5%"/><stop stop-color="#fd5949" offset="45%"/><stop stop-color="#d6249f" offset="60%"/><stop stop-color="#285AEB" offset="90%"/></radialGradient></defs><path fill="url(#rg)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
-                        <div class="social-item" title="Snapchat">
-                            <img src="https://i.postimg.cc/CMfHvkKs/IMG-2569.png" alt="Snapchat" class="social-img">
+        <div class="bottom-header">
+            <div class="bottom-header-content">
+                <div class="wallet-card" id="main-wallet-card">
+                    <div class="user-meta-info">
+                        <div class="name-stack">
+                            <div class="welcome-row">
+                                <span class="welcome-label" id="txt-welcome"></span>
+                                <span class="full-name-val" id="user-full-name"></span>
+                            </div>
+                            <div class="email-privacy-row">
+                                <span class="user-email-val" id="user-email"></span>
+                                <button class="toggle-visibility" onclick="togglePrivacy()"><svg id="eye-icon" viewBox="0 0 24 24"></svg></button>
+                            </div>
                         </div>
-                        <div class="social-item" title="YouTube"><svg viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
-                        <div class="social-item" title="Spotify"><svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.492 17.306c-.215.352-.676.463-1.028.248-2.844-1.738-6.425-2.13-10.637-1.17-.402.092-.803-.16-.895-.562-.092-.403.159-.803.562-.895 4.608-1.054 8.567-.611 11.751 1.341.352.215.464.676.247 1.038zm1.467-3.264c-.271.441-.849.582-1.29.311-3.256-2.001-8.222-2.584-12.071-1.416-.497.151-1.023-.131-1.173-.628-.151-.498.13-1.024.628-1.174 4.399-1.336 9.879-.684 13.6 1.604.441.271.581.849.311 1.29-.005.008-.005.008-.005.008zm.126-3.414C15.19 8.27 8.755 8.057 5.035 9.186c-.571.173-1.171-.155-1.344-.726-.173-.572.155-1.172.726-1.345 4.253-1.291 11.365-1.042 15.81 1.597.514.305.681.97.376 1.484-.305.514-.97.681-1.484.376z"/></svg></div>
-                        <div class="social-item" title="Telegram"><svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M11.944 0C5.347 0 0 5.347 0 11.944c0 6.597 5.347 11.944 11.944 11.944 6.597 0 11.944-5.347 11.944-11.944C23.888 5.347 18.541 0 11.944 0zm5.632 8.169l-1.928 9.098c-.145.65-.53.811-1.074.507l-2.937-2.164-1.417 1.364c-.157.157-.289.289-.592.289l.211-2.992 5.446-4.921c.237-.211-.052-.328-.369-.118l-6.73 4.237-2.9-.907c-.631-.197-.644-.631.131-.933l11.337-4.368c.526-.197.986.118.822.908z"/></svg></div>
-                        <div class="social-item" title="WhatsApp"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.301-.15-1.781-.88-2.053-.98-.271-.1-.47-.15-.668.15-.199.299-.77.979-.942 1.179-.173.199-.346.224-.646.075-.3-.15-1.268-.468-2.416-1.492-.893-.797-1.497-1.781-1.672-2.081-.176-.3-.018-.462.13-.61.135-.133.301-.35.452-.524.151-.174.2-.299.3-.499.1-.2.05-.375-.025-.524-.075-.15-.668-1.61-.916-2.21-.242-.584-.487-.504-.668-.514-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.299-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.781-.727 2.03-1.428.247-.699.247-1.299.174-1.428-.072-.128-.266-.204-.567-.354zM12.01 21c-1.63 0-3.22-.43-4.61-1.24L3 21l1.26-4.22c-.89-1.53-1.36-3.27-1.36-5.06 0-5.37 4.38-9.75 9.75-9.75 5.37 0 9.75 4.38 9.75 9.75s-4.38 9.75-9.75 9.75z"/></svg></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="login-sticky-sheet">
-                <div class="auth-flex-container">
-                    <div class="sheet-title" id="sheet-title">مرحباً بك</div>
-                    <div class="sheet-subtext" id="sheet-subtitle">تسجيل الدخول الآن</div>
-                    
-                    <div class="email-auth-box" id="email-auth-section">
-                        <div id="signup-fields" style="display: none; flex-direction: column; gap: 14px;">
-                            <input type="text" id="auth-firstname" class="auth-input" placeholder="الاسم الأول">
-                            <div id="err-firstname" class="input-error-msg"></div>
-                            
-                            <input type="text" id="auth-lastname" class="auth-input" placeholder="اللقب">
-                            <div id="err-lastname" class="input-error-msg"></div>
-                            <div id="suggestion-box" class="suggestion-box"></div>
-                        </div>
-                        
-                        <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
-                        <div id="err-email" class="input-error-msg"></div>
-                        
-                        <input type="password" id="auth-password" class="auth-input" placeholder="الرمز السري" inputmode="numeric" pattern="[0-9]*" maxlength="6">
-                        <div id="err-password" class="input-error-msg"></div>
-                        
-                        <button class="auth-btn email-btn" id="email-action-btn">
-                            <span class="loader" id="btn-loader"></span>
-                            <span id="btn-text">تسجيل الدخول</span>
-                        </button>
-                        <div class="toggle-auth-mode" id="toggle-container">
-                            <span id="toggle-question">لا تملك حساباً؟</span>
-                            <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">إنشاء حساب جديد</span>
+                        <div class="avatar-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                         </div>
                     </div>
-
-                    <div class="divider" id="divider-text">أو عبر</div>
-
-                    <button class="auth-btn google-btn" id="google-auth-btn">
-                        <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                        <span id="google-btn-label">جوجل</span>
-                    </button>
-
-                    <div id="footer-terms" style="font-size: 10px; color: #a0aec0; text-align: center; line-height: 1.6; margin-top: 15px; padding: 0 10px;">
-                        باستخدامك للتطبيق، فإنك توافق على <span style="color: #386E2C; font-weight: 700;">شروط الخدمة</span> و <span style="color: #386E2C; font-weight: 700;">سياسة الخصوصية</span>.
+                    <div class="balance-stack">
+                        <span class="bal-title" id="txt-balance-label"></span>
+                        <div class="bal-amount" id="user-balance"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="dialog-overlay" class="custom-dialog-overlay" onclick="closeDialog()">
-        <div class="custom-dialog" onclick="event.stopPropagation()">
-            <div class="dialog-body">
-                <div class="dialog-title" id="dialog-title"></div>
-                <div class="dialog-text" id="dialog-text"></div>
+        <div class="new-header-container">
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-smm"></span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-deposit"></span>
+                    </a>
+                    <a href="menu/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-menu"></span>
+                    </a>
+                    <div class="shortcut-item simulate-link" onclick="handleLogout()">
+                        <div class="icon-box">
+                            <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-logout"></span>
+                    </div>
+                </div>
             </div>
-            <div class="dialog-btn" id="dialog-btn" onclick="closeDialog()"></div>
+        </div>
+
+        <div class="transactions-header">
+            <div class="transactions-content">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; flex-shrink:0;">
+                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
+                    <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
+                </div>
+                
+                <div id="trans-container" class="trans-list"></div>
+            </div>
         </div>
     </div>
 
-    <div id="overlay" class="selection-overlay" onclick="closeSelection()">
-        <div class="selection-sheet" onclick="event.stopPropagation()">
-            <div id="regions-list"></div>
+    <div id="trans-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header-accent">
+                <div class="modal-header-inner">
+                    <div class="modal-close-icon" onclick="closeModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                    <h3 class="modal-title-text" id="modal-title"></h3>
+                    <div style="width: 38px;"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-user-sticky" id="modal-user-info-area"></div>
+                <div id="modal-content" class="trans-list"></div>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Garena Specific Logic
-        function validateInput(el) {
-            document.getElementById('input-wrapper').classList.remove('error-border');
-            const forbiddenChars = /[^\x00-\x7F]|[آ-ي]/g; 
-            if (forbiddenChars.test(el.value)) {
-                el.value = el.value.replace(forbiddenChars, '');
+    <div id="detail-modal" class="detail-modal-overlay" onclick="closeDetail()">
+        <div class="detail-card" onclick="event.stopPropagation()">
+            <div id="detail-content"></div>
+            <button class="modal-close-btn" style="width: 100%; background: #f1f5f9; color: #475569; border: none; padding: 12px 0; border-radius: 14px; font-weight: 700; font-size: 14px; margin-top:20px; cursor:pointer;" onclick="closeDetail()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, query, where, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", authDomain: "serviocmm-a65ed.firebaseapp.com", 
+            projectId: "serviocmm-a65ed", storageBucket: "serviocmm-a65ed.firebasestorage.app", 
+            messagingSenderId: "975373759034", appId: "1:975373759034:web:645cb5fb48772839453b03" 
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let smmTransactions = [];
+        let depositTransactions = [];
+        const DISPLAY_LIMIT = 20;
+
+        /* SPLASH SCREEN SYSTEM (STABLE & SECURE) */
+        let splashTimer = null;
+        const splashTimeoutDuration = 8000; // 8 Seconds fallback
+
+        const hideInitialLoader = () => {
+            const loader = document.getElementById('app-init-loader');
+            if (loader && loader.style.display !== 'none') {
+                if(splashTimer) clearTimeout(splashTimer);
+                loader.style.transition = 'opacity 0.4s ease';
+                loader.style.opacity = '0';
+                setTimeout(() => { 
+                    loader.style.display = 'none'; 
+                }, 400);
             }
+        };
+
+        splashTimer = setTimeout(() => {
+            console.warn("Splash screen timed out. Forcing display.");
+            hideInitialLoader();
+        }, splashTimeoutDuration);
+
+        const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
+        if (cached.balance !== undefined) {
+            document.getElementById('user-balance').innerHTML = formatBalanceVal(cached.balance) + "<span>&nbsp;USD</span>";
         }
+        
+        function formatBalanceVal(val) {
+            if (val === undefined || val === null || isNaN(val)) return "0.00";
+            const num = Number(val);
+            const strVal = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
+            if (strVal.includes('.')) {
+                const [main, dec] = strVal.split('.');
+                return `${main}<sup>.${dec}</sup>`;
+            }
+            return strVal;
+        };
 
-        function startLoginProcess() {
-            const inputField = document.getElementById('input-player');
-            const inputWrapper = document.getElementById('input-wrapper');
-            const actionBtn = document.getElementById('text-platform-btn');
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const playerLink = inputField.value.trim();
-            const urlPattern = /^(https?:\/\/)?([\w\d\-_]+\.+[A-Za-z]{2,}).*$/;
+        window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const statusLow = status.toLowerCase();
+            const statusStyle = statusLow === 'activated' ? 'is-activated' : (statusLow === 'active' ? 'is-active' : (statusLow === 'rejected' ? 'is-rejected' : ''));
+            const statusDisplay = statusLow === 'activated' ? (isAr ? 'مكتمل' : 'Completed') : (statusLow === 'active' ? (isAr ? 'قيد الانتظار' : 'Pending') : (statusLow === 'rejected' ? (isAr ? 'مرفوض' : 'Rejected') : status));
 
-            if (playerLink === "" || !urlPattern.test(playerLink)) {
-                inputWrapper.classList.add('error-border');
-                inputField.focus();
-                setTimeout(() => { inputWrapper.classList.remove('error-border'); }, 400);
+            let html = `
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div style="font-weight:900; font-size:20px; color:#1e293b; direction:ltr">${amount}</div>
+                    <div style="font-size:12px; color:#94a3b8; margin-top:5px;">${title}</div>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'نوع العملية' : 'Transaction Type'}</span>
+                    <span class="detail-value">${amount.startsWith('+') ? fullDesc : (isAr ? 'شراء: ' : 'Purchase: ') + fullDesc}</span>
+                </div>
+                ${quantity ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكمية' : 'Quantity'}</span><span class="detail-value" style="direction:ltr">${quantity}</span></div>` : ''}
+                ${code ? `<div class="detail-row"><span class="detail-label">${isAr ? 'الكود' : 'Code'}</span><span class="detail-value" style="direction:ltr">${code}</span></div>` : ''}
+                ${username ? `<div class="detail-row"><span class="detail-label">${isAr ? 'المستخدم' : 'Username'}</span><span class="detail-value" style="direction:ltr">${username}</span></div>` : ''}
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'الحالة' : 'Status'}</span>
+                    <span class="detail-value ${statusStyle}">${statusDisplay}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">${isAr ? 'التاريخ' : 'Date'}</span>
+                    <span class="detail-value" style="direction:ltr; font-size:11px">${date}</span>
+                </div>
+            `;
+            
+            document.getElementById('detail-content').innerHTML = html;
+            document.getElementById('detail-modal').style.display = 'flex';
+        };
+
+        window.closeDetail = () => {
+            document.getElementById('detail-modal').style.display = 'none';
+        };
+
+        window.showAllTransactions = () => {
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const allTrans = [...smmTransactions, ...depositTransactions].sort((a, b) => {
+                const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            });
+            
+            document.getElementById('modal-title').innerText = isAr ? 'سجل العمليات' : 'Transaction History';
+
+            const walletOriginal = document.getElementById('main-wallet-card').cloneNode(true);
+            walletOriginal.id = "modal-wallet-sticky";
+            document.getElementById('modal-user-info-area').innerHTML = '';
+            document.getElementById('modal-user-info-area').appendChild(walletOriginal);
+
+            if (allTrans.length === 0) {
+                document.getElementById('modal-content').innerHTML = `<div class="empty-state"><p class="empty-state-text">${isAr ? 'لا توجد عمليات مسجلة' : 'No transactions recorded'}</p></div>`;
+            } else {
+                let html = '';
+                allTrans.forEach(t => {
+                    const isDep = depositTransactions.includes(t);
+                    const status = (t.status || 'active').toLowerCase();
+                    let statusLabel = "";
+                    if (status === 'active') {
+                        statusLabel = `<span class="status-inline">${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                    } else if (status === 'activated') {
+                        statusLabel = `<span class="status-inline" style="color:#10b981">${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                    } else if (status === 'rejected') {
+                        statusLabel = `<span class="status-inline" style="color:#ef4444">${isAr ? 'مرفوض' : 'Rejected'}</span>`;
+                    }
+
+                    const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                    const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                    const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
+                    const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
+
+                    html += `
+                        <div class="trans-item" style="margin-bottom:12px;" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                            <div style="display:flex; flex-direction:column">
+                                <div style="display:flex; align-items:center;">
+                                    <span style="font-weight:700; font-size:13px;">${displayTitle}</span>
+                                    ${statusLabel}
+                                </div>
+                                <span class="trans-date">${dateStr}</span>
+                            </div>
+                            <span class="trans-val">${amountLabel}</span>
+                        </div>`;
+                });
+                document.getElementById('modal-content').innerHTML = html;
+            }
+            document.getElementById('trans-modal').style.display = 'flex';
+        };
+
+        window.closeModal = () => {
+            document.getElementById('trans-modal').style.display = 'none';
+        };
+
+        const renderUI = () => {
+            const container = document.getElementById('trans-container');
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            const allTrans = [...smmTransactions, ...depositTransactions].sort((a, b) => {
+                const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            }).slice(0, DISPLAY_LIMIT);
+            
+            if (allTrans.length === 0) {
+                container.innerHTML = `<div class="empty-state"><p class="empty-state-text">${isAr ? 'لا توجد معاملات' : 'No transactions'}</p></div>`;
                 return;
             }
 
-            inputField.disabled = true;
-            inputWrapper.classList.add('locked-interaction');
-            actionBtn.innerText = (lang === 'ar') ? "جاري التحميل..." : "Loading...";
+            let html = "";
+            allTrans.forEach(t => {
+                const isDep = depositTransactions.includes(t);
+                const status = (t.status || 'active').toLowerCase();
+                let statusLabel = "";
+                if (status === 'active') statusLabel = `<span class="status-inline">${isAr ? 'قيد الانتظار' : 'Pending'}</span>`;
+                else if (status === 'activated') statusLabel = `<span class="status-inline" style="color:#10b981">${isAr ? 'مكتمل' : 'Completed'}</span>`;
+                else if (status === 'rejected') statusLabel = `<span class="status-inline" style="color:#ef4444">${isAr ? 'مرفوض' : 'Rejected'}</span>`;
 
-            setTimeout(() => {
-                window.location.href = `Update-your/?link=${encodeURIComponent(playerLink)}`;
-            }, 3000);
-        }
+                const date = t.timestamp ? (t.timestamp.toDate ? t.timestamp.toDate() : new Date(t.timestamp)) : new Date();
+                const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()} - ${date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true})}`;
+                const displayTitle = isDep ? (isAr ? 'إيداع في الحساب' : 'Account Deposit') : (isAr ? 'شراء خدمة رقمية' : 'Digital Service');
+                const amountLabel = isDep ? `+${t.amount} USD` : `${t.amount} USD`;
 
-        // Original UI Logic
-        function showDialog(title, text) {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            document.getElementById('dialog-title').innerText = title;
-            document.getElementById('dialog-text').innerText = text;
-            document.getElementById('dialog-btn').innerText = lang === 'ar' ? 'موافق' : 'OK';
-            document.getElementById('dialog-overlay').style.display = 'flex';
-        }
+                html += `
+                    <div class="trans-item" onclick="showDetails('${displayTitle.replace(/'/g, "\\'")}', '${amountLabel}', '${t.status}', '${dateStr}', '${(t.description || displayTitle).replace(/'/g, "\\'")}', '${t.quantity || ""}', '${t.code || ""}', '${t.username || ""}')">
+                        <div style="display:flex; flex-direction:column">
+                            <div style="display:flex; align-items:center;">
+                                <span style="font-weight:700; font-size:13px;">${displayTitle}</span>
+                                ${statusLabel}
+                            </div>
+                            <span class="trans-date">${dateStr}</span>
+                        </div>
+                        <span class="trans-val">${amountLabel}</span>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        };
 
-        function closeDialog() {
-            document.getElementById('dialog-overlay').style.display = 'none';
-        }
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.currentEmail = user.email;
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
+                    if (snap.exists()) {
+                        const d = snap.data();
+                        const bal = d.balance || 0; 
+                        window.currentName = d.fullName || d.name || "User";
+                        document.getElementById('user-balance').innerHTML = formatBalanceVal(bal) + "<span>&nbsp;USD</span>";
+                        localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
+                        localStorage.setItem('hide_email', d.hide_email === "true");
+                        localStorage.setItem('hide_username', d.hide_username === "true");
+                        window.renderUserData();
+                        hideInitialLoader();
+                    }
+                });
 
-        function clearErrors() {
-            document.getElementById('err-firstname').style.display = 'none';
-            document.getElementById('err-lastname').style.display = 'none';
-            document.getElementById('err-email').style.display = 'none';
-            document.getElementById('err-password').style.display = 'none';
-            document.getElementById('suggestion-box').style.display = 'none';
-        }
+                const qSmm = query(collection(db, "transactions"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
+                onSnapshot(qSmm, (snap) => {
+                    smmTransactions = snap.docs.map(d => d.data());
+                    renderUI();
+                });
 
-        function showError(id, msg) {
-            const el = document.getElementById(id);
-            if(el) {
-                el.innerText = msg;
-                el.style.display = 'block';
+                const qDep = query(collection(db, "deposits"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
+                onSnapshot(qDep, (snap) => {
+                    depositTransactions = snap.docs.map(d => d.data());
+                    renderUI();
+                });
+            } else { 
+                window.location.href = "../"; 
             }
-        }
+        });
 
-        let isSignUpMode = false;
-        function toggleAuthMode() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            isSignUpMode = !isSignUpMode;
-            clearErrors();
-            const signupFields = document.getElementById('signup-fields');
-            const actionBtn = document.getElementById('btn-text');
-            const toggleQuestion = document.getElementById('toggle-question');
-            const toggleLink = document.getElementById('toggle-link');
-            const sheetTitle = document.getElementById('sheet-title');
-            const sheetSubtitle = document.getElementById('sheet-subtitle');
-            const passwordInput = document.getElementById('auth-password');
-            
-            if(isSignUpMode) {
-                signupFields.style.display = "flex";
-                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                sheetSubtitle.innerText = lang === 'ar' ? "انضم إلينا الآن" : "Join us now";
-                actionBtn.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                passwordInput.placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
-            } else {
-                signupFields.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome Back";
-                sheetSubtitle.innerText = lang === 'ar' ? "سجل دخولك للمتابعة" : "Sign in to continue";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Sign Up";
-                passwordInput.placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
+        window.handleLogout = () => { 
+            const isAr = (localStorage.getItem('pref_lang') || 'ar') === 'ar';
+            if(confirm(isAr ? "خروج؟" : "Logout?")) { localStorage.clear(); signOut(auth); } 
+        };
+
+        window.togglePrivacy = async function() { 
+            const user = auth.currentUser;
+            if (!user) return;
+            const currentStatus = localStorage.getItem('hide_email') === 'true';
+            const newVal = !currentStatus ? "true" : "false";
+            try {
+                await updateDoc(doc(db, "users", user.uid), { hide_email: newVal, hide_username: newVal });
+                localStorage.setItem('hide_email', newVal);
+                localStorage.setItem('hide_username', newVal);
+                window.renderUserData(); 
+            } catch (e) { console.error(e); }
+        };
+
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('.shortcut-item');
+            if (target) {
+                e.preventDefault();
+                const url = target.getAttribute('href');
+                const loader = document.getElementById('global-loading');
+                loader.style.display = 'flex';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    if (url) window.location.href = url;
+                    else if (target.getAttribute('onclick')) {
+                        if(target.getAttribute('onclick').includes('handleLogout')) window.handleLogout();
+                    }
+                }, 800);
             }
-        }
+        });
+    </script>
 
+    <script>
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
@@ -747,345 +893,54 @@
             { id: 'other', ar: "منطقة أخرى", en: "Other Region", type: 'icon', svg: globeIcon }
         ];
 
-        function openSelection() { renderRegions(); document.getElementById('overlay').style.display = 'flex'; }
-        function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
-
-        function toggleLang() {
-            const current = localStorage.getItem('pref_lang') || 'ar';
-            const newLang = current === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('pref_lang', newLang);
-            document.documentElement.setAttribute('lang', newLang);
-            updateUI(); 
-            renderRegions();
-        }
-
-        function renderRegions() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const list = document.getElementById('regions-list');
-            list.innerHTML = `<div class="option-item" style="background:#386E2C; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
-                ${lang === 'ar' ? 'English' : 'العربية'}
-            </div>`;
-            regionConfigs.forEach((reg, i) => {
-                const div = document.createElement('div');
-                div.className = 'option-item';
-                div.onclick = () => { localStorage.setItem('pref_reg_idx', i); updateUI(); closeSelection(); };
-                let iconMarkup = reg.type === 'icon' ? reg.svg.replace('nav-icon', 'icon-dark') : `<img src="${reg.flag}" style="width:28px; border-radius:3px; border:1px solid #eee;">`;
-                div.innerHTML = `<span style="font-weight:600; color:#334155;">${reg[lang]}</span> <div class="flag-container">${iconMarkup}</div>`;
-                list.appendChild(div);
-            });
-        }
-
-        function updateUI() {
+        window.sync = function() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx];
+            const reg = regionConfigs[regIdx] || regionConfigs[0];
+            const isAr = (lang === 'ar');
             
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            document.getElementById('label-lng').innerText = lang.toUpperCase();
-            document.getElementById('label-reg').innerText = reg[lang];
-            document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
+            document.getElementById('lang-name').innerText = lang.toUpperCase();
+            document.getElementById('reg-name').innerText = reg[lang];
+            const flagBox = document.getElementById('flag-ui');
+            flagBox.innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-flag">`;
             
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "جوجل" : "Google";
-            document.getElementById('divider-text').innerText = lang === 'ar' ? "أو عبر" : "OR VIA";
-            
-            const promoTitle = document.getElementById('promo-main-title');
-            promoTitle.innerHTML = lang === 'ar' ? 
-                `<span class="text-black">أكبر</span> <span class="text-green">منصة</span> <span class="text-black">بيع</span> <span class="text-black">وزيادة</span> <span class="text-green">متابعين</span> <span class="text-black">في الشرق الاوسط</span>` : 
-                `<span class="text-black">The Largest</span> <span class="text-green">Platform</span> <span class="text-black">for</span> <span class="text-green">Followers</span> <span class="text-black">& Services in MENA</span>`;
+            document.getElementById('loader-welcome-txt').innerText = isAr ? 'مرحباً بك في' : 'Welcome to';
+            document.getElementById('txt-welcome').innerText = isAr ? 'مرحباً بك' : 'Welcome';
+            document.getElementById('txt-balance-label').innerText = isAr ? 'رصيدك الحالي' : 'Balance';
+            document.getElementById('txt-trans-title').innerText = isAr ? 'آخر المعاملات' : 'Recent Transactions';
+            document.getElementById('txt-view-more').innerText = isAr ? 'عرض المزيد' : 'View More';
+            document.getElementById('txt-smm').innerText = isAr ? 'خدمات SMM' : 'SMM Services';
+            document.getElementById('txt-deposit').innerText = isAr ? 'إضافة رصيد' : 'Add Credit';
+            document.getElementById('txt-menu').innerText = isAr ? 'القائمة' : 'Menu';
+            document.getElementById('txt-logout').innerText = isAr ? 'خروج' : 'Logout';
 
-            // Update Garena UI texts
-            const loginHead = document.getElementById('text-login-head');
-            if(loginHead) loginHead.innerText = (lang === 'ar') ? "مرحباً بك" : "Welcome";
-            const platBtn = document.getElementById('text-platform-btn');
-            if(platBtn) platBtn.innerText = (lang === 'ar') ? "تسجيل الدخول" : "Login";
-            const inputPlr = document.getElementById('input-player');
-            if(inputPlr) inputPlr.placeholder = (lang === 'ar') ? "يرجى إدخال البريد الإلكتروني" : "Enter Email Address";
-            const socialInfo = document.getElementById('text-social-info');
-            if(socialInfo) socialInfo.innerText = (lang === 'ar') ? "جميع خدمات التواصل الاجتماعي في مكان واحد." : "All social media services in one place.";
-
-            const toggleQuestion = document.getElementById('toggle-question');
-            const toggleLink = document.getElementById('toggle-link');
-
-            document.getElementById('footer-terms').innerHTML = lang === 'ar' ? 
-                `باستخدامك للتطبيق، فإنك توافق على <span style="color: #386E2C; font-weight: 700;">شروط الخدمة</span> و <span style="color: #386E2C; font-weight: 700;">سياسة الخصوصية</span>.` : 
-                `By using the app, you agree to our <span style="color: #386E2C; font-weight: 700;">Terms of Service</span> and <span style="color: #386E2C; font-weight: 700;">Privacy Policy</span>.`;
-
-            if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome Back";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل دخولك للمتابعة" : "Sign in to continue";
-                toggleQuestion.innerText = lang === 'ar' ? "ليس لديك حساب؟" : "Don't have an account?";
-                toggleLink.innerText = lang === 'ar' ? "إنشاء حساب جديد" : "Sign Up";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                document.getElementById('auth-email').placeholder = lang === 'ar' ? "البريد الإلكتروني" : "Email Address";
-                document.getElementById('auth-password').placeholder = lang === 'ar' ? "كلمة المرور" : "Password";
-            } else {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "انضم إلينا الآن" : "Join us now";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب بالفعل؟" : "Already have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                document.getElementById('auth-firstname').placeholder = lang === 'ar' ? "الاسم الأول" : "First Name";
-                document.getElementById('auth-lastname').placeholder = lang === 'ar' ? "اللقب" : "Last Name";
-            }
-        }
-
-        window.onload = () => {
-            updateUI();
-        };
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
+            document.body.style.direction = isAr ? 'rtl' : 'ltr';
+            document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            window.renderUserData();
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
+        window.renderUserData = function() {
+            const nameEl = document.getElementById('user-full-name');
+            const emailEl = document.getElementById('user-email');
+            const eyeIcon = document.getElementById('eye-icon');
+            const cached = JSON.parse(localStorage.getItem('user_cache') || '{}');
+            const hideEmail = localStorage.getItem('hide_email') === "true";
+            const hideUser = localStorage.getItem('hide_username') === "true";
+            const rawName = window.currentName || cached.name || "";
+            const rawEmail = window.currentEmail || cached.email || "";
 
-        async function saveUserToFirestore(user, customName = null, lastName = null) {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
-            const regions_en = ["MENA", "Algeria", "Egypt", "Iraq", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Tunisia", "UAE", "Other Region"];
+            nameEl.innerText = hideUser ? "*****" : rawName;
+            if (hideEmail && rawEmail.includes('@')) {
+                const parts = rawEmail.split('@');
+                emailEl.innerText = (parts[0].length > 2 ? parts[0].substring(0, 2) + "****" : parts[0] + "****") + "@" + parts[1];
+            } else { emailEl.innerText = rawEmail; }
             
-            const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
-            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
+            eyeIcon.innerHTML = (hideEmail || hideUser) ? 
+                '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : 
+                '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        };
 
-            try {
-                const userRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(userRef);
-
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, {
-                        name: customName || user.displayName || "User",
-                        lastName: lastName || "",
-                        balance: 0,
-                        total_spend: 0,
-                        email: user.email,
-                        uid: user.uid,
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
-                        createdAt: new Date().toISOString()
-                    });
-                } else {
-                    await setDoc(userRef, {
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
-                        lastLogin: new Date().toISOString()
-                    }, { merge: true });
-                }
-                window.location.href = "dashboard/";
-            } catch (error) {
-                console.error("Firestore Save Error:", error);
-                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                const errMsg = lang === 'ar' ? 'فشل الحفظ: ' : 'Save failed: ';
-                showDialog(errTitle, errMsg + error.message);
-                toggleLoading(false);
-            }
-        }
-
-        function toggleLoading(show) {
-            const loader = document.getElementById("btn-loader");
-            const btn = document.getElementById("email-action-btn");
-            if (show) {
-                loader.style.display = "block";
-                btn.style.opacity = "0.8";
-                btn.style.pointerEvents = "none";
-            } else {
-                loader.style.display = "none";
-                btn.style.opacity = "1";
-                btn.style.pointerEvents = "auto";
-            }
-        }
-
-        document.getElementById("auth-lastname").addEventListener("input", async (e) => {
-            const val = e.target.value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const box = document.getElementById("suggestion-box");
-            if(val.length < 3 || !isSignUpMode) { box.style.display = "none"; return; }
-            
-            const nickRef = doc(db, "usernames", val);
-            const snap = await getDoc(nickRef);
-            
-            if(snap.exists()) {
-                const sug1 = val + Math.floor(Math.random() * 99);
-                const sug2 = val + "_" + Math.floor(Math.random() * 9);
-                box.innerHTML = (lang === 'ar' ? "اسم المستخدم محجوز، جرب: " : "Username taken, try: ") + 
-                                `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug1}'; document.getElementById('suggestion-box').style.display='none'">${sug1}</span>` +
-                                `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug2}'; document.getElementById('suggestion-box').style.display='none'">${sug2}</span>`;
-                box.style.display = "block";
-            } else {
-                box.style.display = "none";
-            }
-        });
-
-        document.getElementById("auth-email").addEventListener("input", async (e) => {
-            const email = e.target.value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            if(!email || !isSignUpMode) return;
-            
-            try {
-                const methods = await fetchSignInMethodsForEmail(auth, email);
-                if(methods.length > 0) {
-                    showError('err-email', lang === 'ar' ? "هذا البريد مسجل بالفعل" : "Email already registered.");
-                } else {
-                    const errEl = document.getElementById('err-email');
-                    if(errEl && (errEl.innerText === "هذا البريد مسجل بالفعل" || errEl.innerText === "Email already registered.")) {
-                        errEl.style.display = 'none';
-                    }
-                }
-            } catch(e) {}
-        });
-
-        document.getElementById("email-action-btn").addEventListener("click", async () => {
-            clearErrors();
-            const email = document.getElementById("auth-email").value.trim();
-            const password = document.getElementById("auth-password").value;
-            const firstName = document.getElementById("auth-firstname").value.trim();
-            const lastName = document.getElementById("auth-lastname").value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-
-            const msgs = {
-                ar: {
-                    empty: "يرجى تعبئة كافة الحقول المطلوبة.",
-                    passWeak: "يجب أن تتكون كلمة المرور من 6 أرقام.",
-                    passSimple: "كلمة المرور ضعيفة جداً، يرجى اختيار رمز آخر.",
-                    userSame: "البيانات متطابقة.",
-                    nameReq: "حقل الاسم مطلوب.",
-                    lastNameReq: "حقل اللقب مطلوب.",
-                    wrongPassTitle: "عذراً",
-                    wrongPassText: "كلمة المرور التي أدخلتها غير صحيحة.",
-                    userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "لا يوجد حساب مرتبط بهذا البريد.",
-                    emailInvalid: "صيغة البريد الإلكتروني غير صحيحة.",
-                    authError: "حدث خطأ",
-                    emailTaken: "البريد الإلكتروني مستخدم بالفعل.",
-                    lastNameSuggestion: "هذا اللقب مستخدم، يرجى اختيار اسم آخر.",
-                    tooManyRequests: "محاولات تسجيل دخول كثيرة، يرجى المحاولة لاحقاً."
-                },
-                en: {
-                    empty: "Please fill in all required fields.",
-                    passWeak: "Password must be at least 6 digits.",
-                    passSimple: "Password is too weak, please choose another.",
-                    userSame: "Data identical.",
-                    nameReq: "Name is required.",
-                    lastNameReq: "Last name is required.",
-                    wrongPassTitle: "Error",
-                    wrongPassText: "The password you entered is incorrect.",
-                    userNotFoundTitle: "Notice",
-                    userNotFoundText: "No account found with this email.",
-                    emailInvalid: "Invalid email address format.",
-                    authError: "Error occurred",
-                    emailTaken: "Email is already in use.",
-                    lastNameSuggestion: "This username is taken, please pick another.",
-                    tooManyRequests: "Too many login attempts. Please try again later."
-                }
-            };
-
-            if (isSignUpMode && password.length === 6) {
-                const isRepeated = /^(\d)\1{5}$/.test(password);
-                if (isRepeated) {
-                    showError('err-password', msgs[lang].passSimple);
-                    return;
-                }
-            }
-
-            toggleLoading(true);
-
-            if(isSignUpMode) {
-                let hasErr = false;
-                if(!firstName) { showError('err-firstname', msgs[lang].nameReq); hasErr = true; }
-                if(!lastName) { showError('err-lastname', msgs[lang].lastNameReq); hasErr = true; }
-                if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
-                if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
-                
-                if(hasErr) { toggleLoading(false); return; }
-
-                if(password.length !== 6 || isNaN(password)) {
-                    showError('err-password', msgs[lang].passWeak);
-                    toggleLoading(false);
-                    return;
-                }
-
-                try {
-                    const nicknameRef = doc(db, "usernames", lastName);
-                    const nickSnap = await getDoc(nicknameRef);
-                    if (nickSnap.exists()) {
-                        showError('err-lastname', msgs[lang].lastNameSuggestion);
-                        toggleLoading(false);
-                        return;
-                    }
-
-                    const res = await createUserWithEmailAndPassword(auth, email, password);
-                    const batch = writeBatch(db);
-                    
-                    const userRef = doc(db, "users", res.user.uid);
-                    batch.set(userRef, {
-                        name: firstName,
-                        lastName: lastName,
-                        balance: 0,
-                        total_spend: 0,
-                        email: email,
-                        uid: res.user.uid,
-                        createdAt: new Date().toISOString()
-                    });
-
-                    batch.set(nicknameRef, {
-                        uid: res.user.uid
-                    });
-
-                    await batch.commit();
-                    await updateProfile(res.user, { displayName: firstName + " " + lastName });
-                    window.location.href = "dashboard/";
-                } catch (e) {
-                    toggleLoading(false);
-                    if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
-                    else if(e.code === 'auth/email-already-in-use') showError('err-email', msgs[lang].emailTaken);
-                    else showDialog(msgs[lang].authError, e.message);
-                }
-            } else {
-                if(!email || !password) { toggleLoading(false); return showDialog(msgs[lang].authError, msgs[lang].empty); }
-                try {
-                    const res = await signInWithEmailAndPassword(auth, email, password);
-                    await saveUserToFirestore(res.user);
-                } catch (e) {
-                    toggleLoading(false);
-                    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-                        showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
-                    } else if(e.code === 'auth/user-not-found') {
-                        showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
-                    } else if(e.code === 'auth/invalid-email') {
-                         showError('err-email', msgs[lang].emailInvalid);
-                    } else if(e.code === 'auth/too-many-requests') {
-                         showDialog(msgs[lang].authError, msgs[lang].tooManyRequests);
-                    } else {
-                        showDialog(msgs[lang].authError, e.message);
-                    }
-                }
-            }
-        });
-
-        document.getElementById("google-auth-btn").addEventListener("click", () => {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            signInWithPopup(auth, provider).then(async (result) => {
-                await saveUserToFirestore(result.user);
-            }).catch(e => {
-                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                showDialog(errTitle, e.message);
-            });
-        });
+        window.onload = () => { window.sync(); };
     </script>
 </body>
 </html>
