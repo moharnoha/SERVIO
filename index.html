@@ -12,13 +12,13 @@
             --header-green: #FFFFFF; 
             --login-bg: #386E2C; 
             --google-section-bg: #EAF0E9; 
-            --platform-bg: #F2F1F0;
+            --platform-bg: #f7fafc;
         }
 
         body { 
             margin: 0; padding: 0; 
             font-family: 'Cairo', 'Inter', sans-serif; 
-            background-color: #F2F1F0; 
+            background-color: #f7fafc; 
             min-height: 100vh;
             display: flex; flex-direction: column;
             direction: rtl !important; 
@@ -77,45 +77,6 @@
         .display-text { font-size: 11px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
         .nav-icon { width: 22px; height: 22px; fill: #1e293b !important; display: block; flex-shrink: 0; }
 
-        /* Modified Background with Animated Effects */
-        .content-sections-wrapper {
-            position: relative;
-            background: #F2F1F0;
-            overflow: hidden;
-        }
-
-        .content-sections-wrapper::before {
-            content: '';
-            position: absolute;
-            top: -100px; right: -100px;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(56,110,44,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-            animation: moveEffect 15s infinite alternate;
-        }
-
-        .content-sections-wrapper::after {
-            content: '';
-            position: absolute;
-            bottom: 20%; left: -50px;
-            width: 250px; height: 250px;
-            background: radial-gradient(circle, rgba(24,119,242,0.05) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-            animation: moveEffect 20s infinite alternate-reverse;
-        }
-
-        @keyframes moveEffect {
-            from { transform: translate(0, 0); }
-            to { transform: translate(30px, 50px); }
-        }
-
-        .intro-promo-section, .platforms-wrapper, .login-sticky-sheet {
-            position: relative;
-            z-index: 1;
-        }
-
         .login-bar {
             width: 100%; background-color: var(--login-bg);
             padding: 15px 0; box-sizing: border-box;
@@ -164,111 +125,89 @@
             text-align: center;
         }
 
-        /* Integrated Login Section */
+        /* Update: Single Unified Layout Styling */
         .login-sticky-sheet {
             width: 100%;
-            background: transparent;
-            padding: 35px 25px;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 24px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            z-index: 10;
+            justify-content: center;
+            border-radius: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin: 20px auto;
         }
 
         .auth-flex-container {
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 440px;
             align-items: center;
+            gap: 12px;
         }
 
         .sheet-header-text {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            color: #1a202c;
+            color: #000000;
             text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .sheet-subtext {
-            font-size: 13px;
-            color: #718096;
-            margin-bottom: 25px;
-            text-align: center;
+            margin: 0;
+            margin-bottom: 5px;
         }
 
         .email-auth-box {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .auth-input {
             width: 100%;
-            height: 54px;
-            border-radius: 16px;
-            border: 1.5px solid #edf2f7;
-            padding: 0 20px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 0 15px;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 14px;
             outline: none;
-            background-color: #f8fafc;
-            transition: all 0.3s ease;
-            color: #2d3748;
         }
 
         .auth-input:focus {
-            border-color: #386E2C;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(56, 110, 44, 0.1);
-        }
-
-        .input-error-msg {
-            color: #e53e3e;
-            font-size: 12px;
-            font-weight: 700;
-            margin-top: -8px;
-            padding-right: 10px;
-            display: none;
+            border-color: var(--login-bg);
         }
 
         .auth-btn {
-            border-radius: 16px; 
-            height: 56px;
+            border-radius: 14px; 
+            height: 52px;
             padding: 0 20px;
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 12px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             width: 100%;
             border: none;
-            font-size: 16px; 
-            font-weight: 800; 
-            position: relative;
+            font-size: 15px; 
+            font-weight: 700; 
         }
 
         .email-btn {
-            background: linear-gradient(135deg, #386E2C 0%, #2b5421 100%);
+            background-color: var(--login-bg);
             color: white;
-            box-shadow: 0 10px 20px rgba(56, 110, 44, 0.2);
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .google-btn {
-            background-color: #ffffff; 
-            color: #1a202c;
-            border: 1.5px solid #edf2f7;
-            margin-bottom: 10px;
+            background-color: #f2f2f2; 
+            color: #000000;
         }
         
         .apple-btn {
@@ -277,40 +216,16 @@
         }
 
         .auth-btn:active {
-            transform: scale(0.96);
-        }
-
-        .loader {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            display: none;
-            margin-right: 10px;
-            order: 2;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            transform: scale(0.97);
+            opacity: 0.9;
         }
 
         .toggle-auth-mode {
-            font-size: 13px;
-            color: #000000;
-            font-weight: 500;
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .toggle-link {
+            font-size: 12px;
             color: #386E2C;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 5px;
+            margin-top: 5px;
         }
 
         .divider {
@@ -318,59 +233,19 @@
             display: flex;
             align-items: center;
             text-align: center;
-            color: #a0aec0;
-            font-size: 12px;
-            font-weight: 700;
-            margin: 20px 0;
+            color: #94a3b8;
+            font-size: 11px;
+            margin: 10px 0;
         }
         .divider::before, .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1.5px solid #edf2f7;
+            border-bottom: 1px solid #e2e8f0;
         }
-        .divider:not(:empty)::before { margin-left: 15px; }
-        .divider:not(:empty)::after { margin-right: 15px; }
+        .divider:not(:empty)::before { margin-left: .5em; }
+        .divider:not(:empty)::after { margin-right: .5em; }
 
-        /* Promo Section Styling */
-        .intro-promo-section {
-            width: 100%;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            background-color: transparent;
-            text-align: center;
-        }
-
-        .promo-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 25px;
-            line-height: 1.3;
-        }
-
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .video-placeholder-icon {
-            width: 60px;
-            height: 60px;
-            fill: #ffffff;
-            opacity: 0.8;
-        }
-
-        .platforms-wrapper { background-color: transparent; padding: 25px 0; }
+        .platforms-wrapper { background-color: var(--platform-bg); padding: 25px 0; }
         .section-header { text-align: center; padding: 0 20px 20px 20px; }
         .section-title { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
         .section-subtitle { font-size: 12px; font-weight: 600; color: #386E2C; }
@@ -414,100 +289,6 @@
         .option-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
         .flag-container { display: flex; align-items: center; margin-right: 15px; }
         .icon-dark { width: 24px; height: 24px; fill: #64748b; }
-
-        /* Dialog Alert Styling */
-        .custom-dialog-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 10001; justify-content: center; align-items: center;
-        }
-        .custom-dialog {
-            width: 80%; max-width: 300px; background: white; border-radius: 14px; overflow: hidden;
-            display: flex; flex-direction: column; text-align: center;
-        }
-        .dialog-body { padding: 25px 20px; }
-        .dialog-title { font-weight: 800; font-size: 16px; margin-bottom: 8px; color: #000; }
-        .dialog-text { font-size: 13px; color: #333; line-height: 1.5; }
-        .dialog-btn {
-            border-top: 1px solid #eee; padding: 15px; font-weight: 700; color: #007aff;
-            cursor: pointer; text-align: center; font-size: 15px;
-        }
-        
-        .suggestion-box {
-            display: none;
-            background: #fff9e6;
-            border: 1px solid #ffeeba;
-            border-radius: 12px;
-            padding: 10px 15px;
-            margin-top: -5px;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #856404;
-        }
-        .suggestion-item {
-            color: #386E2C;
-            font-weight: 800;
-            text-decoration: underline;
-            cursor: pointer;
-            margin: 0 5px;
-        }
-
-        /* Personalized Header Updates */
-        .sheet-title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1a202c;
-            text-align: center;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .sheet-subtext {
-            font-size: 18px;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        /* New Stat Info Styling */
-        .login-stat-info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #386E2C;
-            background: #fff;
-            padding: 8px 15px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .stat-icon {
-            width: 16px;
-            height: 16px;
-            fill: #386E2C;
-        }
-
-        /* Language-specific Layout Rules */
-        html[lang="en"] body {
-            direction: ltr !important;
-        }
-        html[lang="en"] .title-box, 
-        html[lang="en"] .section-header,
-        html[lang="en"] .intro-promo-section {
-            text-align: center !important;
-        }
-        html[lang="en"] .brand-section {
-            flex-direction: row !important;
-        }
     </style>
 </head>
 <body class="notranslate">
@@ -519,8 +300,8 @@
                     <img src="https://i.postimg.cc/MKdMnLSy/servio.png" alt="logo" class="logo-img">
                     <div class="v-line"></div>
                     <div class="title-box">
-                        <span style="text-align: right !important;">مركز الخدمات الرقمية</span>
-                        <span style="text-align: right !important;">Digital Services Center</span>
+                        <span>مركز الخدمات الرقمية</span>
+                        <span>Digital Services Center</span>
                     </div>
                 </div>
                 <div class="header-left-group">
@@ -536,100 +317,73 @@
             </div>
         </header>
 
-        <div class="content-sections-wrapper">
-            <section class="intro-promo-section">
-                <h2 class="promo-title" id="promo-main-title">أكبر منصة بيع وزيادة متابعين في الشرق الاوسط</h2>
-                <div class="video-container">
-                    <svg class="video-placeholder-icon" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </div>
-            </section>
-
-            <div class="platforms-wrapper">
-                <div class="section-header">
-                    <div class="section-title" id="promo-main">جميع خدمات التواصل الاجتماعي في مكان واحد.</div>
-                    <div class="section-subtitle" id="promo-sub">نتائج مثبتة من serviocmm</div>
-                </div>
-
-                <div class="platforms-grid">
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="platform-name">YouTube</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="platform-name">Facebook</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 0-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.778 6.98 6.978 1.28.058 1.688.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg><span class="platform-name">Instagram</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.23-2.74.24-.73.42-1.31 1.1-1.58 1.9-.2.55-.2 1.14-.11 1.72.17.91.71 1.74 1.44 2.3 1.02.82 2.5.94 3.63.31.95-.51 1.59-1.5 1.76-2.58.11-.64.1-1.29.1-1.93V.02z"/></svg><span class="platform-name">TikTok</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/snapchat--v1.png" class="p-img" alt="Snapchat"><span class="platform-name">Snapchat</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
-                    <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
-                </div>
-            </div>
-
-            <div class="login-sticky-sheet">
-                <div class="auth-flex-container">
-                    <div class="sheet-title" id="sheet-title">مرحباً بك</div>
-                    <div class="sheet-subtext" id="sheet-subtitle">تسجيل الدخول الآن</div>
-                    
-                    <div class="email-auth-box" id="email-auth-section">
-                        <div id="login-only-stats" class="login-stat-info">
-                            <div class="stat-item">
-                                <svg class="stat-icon" viewBox="0 0 24 24"><path d="M20 8l-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.11-.89-2-2-2z"/></svg>
-                                <span id="stat-label-1">أكبر عدد طلبات</span>
-                            </div>
-                            <span style="opacity: 0.2">|</span>
-                            <div class="stat-item">
-                                <svg class="stat-icon" viewBox="0 0 24 24"><path d="M16 13c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 13c-2.21 0-4 1.79-4 4s1.79 4 4 4h1c.42 0 .81-.13 1.14-.35C10.45 20.12 10 19.11 10 18s.45-2.12 1.14-2.65c-.33-.22-.72-.35-1.14-.35H9m3-4c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2-2-2z"/></svg>
-                                <span id="stat-label-2">أكثر عدد أعضاء</span>
-                            </div>
-                        </div>
-
-                        <div id="signup-fields" style="display: none; flex-direction: column; gap: 14px;">
-                            <input type="text" id="auth-firstname" class="auth-input" placeholder="الاسم الأول">
-                            <div id="err-firstname" class="input-error-msg"></div>
-                            
-                            <input type="text" id="auth-lastname" class="auth-input" placeholder="اللقب">
-                            <div id="err-lastname" class="input-error-msg"></div>
-                            <div id="suggestion-box" class="suggestion-box"></div>
-                        </div>
+        <div class="login-bar">
+            <div class="ticker-wrap">
+                <div class="ticker-move" dir="ltr">
+                    <div class="ticker-item">
+                        <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        <span class="counter-badge" id="c1">428k</span>
                         
-                        <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
-                        <div id="err-email" class="input-error-msg"></div>
+                        <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        <span class="counter-badge" id="c2">1.2M</span>
                         
-                        <input type="password" id="auth-password" class="auth-input" placeholder="الرمز السري" inputmode="numeric" pattern="[0-9]*" maxlength="6">
-                        <div id="err-password" class="input-error-msg"></div>
-                        
-                        <button class="auth-btn email-btn" id="email-action-btn">
-                            <span class="loader" id="btn-loader"></span>
-                            <span id="btn-text">تسجيل الدخول</span>
-                        </button>
-                        <div class="toggle-auth-mode" id="toggle-container">
-                            <span id="toggle-question">لا تملك حساباً؟</span>
-                            <span class="toggle-link" id="toggle-link" onclick="toggleAuthMode()">تسجيل جديد</span>
-                        </div>
-                    </div>
+                        <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <span class="counter-badge" id="c3">84.5k</span>
 
-                    <div class="divider" id="divider-text">أو عبر</div>
-
-                    <button class="auth-btn google-btn" id="google-auth-btn">
-                        <svg viewBox="0 0 48 48" width="24px" height="24px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                        <span id="google-btn-label">جوجل</span>
-                    </button>
-
-                    <div id="footer-terms" style="font-size: 10px; color: #a0aec0; text-align: center; line-height: 1.6; margin-top: 15px; padding: 0 10px;">
-                        باستخدامك للتطبيق، فإنك توافق على <span style="color: #386E2C; font-weight: 700;">شروط الخدمة</span> و <span style="color: #386E2C; font-weight: 700;">سياسة الخصوصية</span>.
+                        <svg class="ticker-icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                        <span class="counter-badge" id="c5">2.4M</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="dialog-overlay" class="custom-dialog-overlay" onclick="closeDialog()">
-        <div class="custom-dialog" onclick="event.stopPropagation()">
-            <div class="dialog-body">
-                <div class="dialog-title" id="dialog-title"></div>
-                <div class="dialog-text" id="dialog-text"></div>
+        <div class="login-sticky-sheet">
+            <div class="auth-flex-container">
+                <div class="sheet-header-text" id="sheet-title">سجّل الدخول للمتابعة</div>
+                
+                <div class="email-auth-box" id="email-auth-section">
+                    <input type="text" id="auth-username" class="auth-input" placeholder="اسم المستخدم" style="display: none;">
+                    <input type="email" id="auth-email" class="auth-input" placeholder="البريد الإلكتروني">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="كلمة المرور">
+                    <button class="auth-btn email-btn" id="email-action-btn">تسجيل الدخول</button>
+                    <div class="toggle-auth-mode" id="toggle-auth-mode" onclick="toggleAuthMode()">ليس لديك حساب؟ إنشاء حساب</div>
+                </div>
+
+                <div class="divider">أو عبر</div>
+
+                <button class="auth-btn google-btn" id="google-auth-btn">
+                    <svg viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                    <span id="google-btn-label">استمر مع جوجل</span>
+                </button>
+
+                <button class="auth-btn apple-btn" id="apple-auth-btn">
+                    <svg viewBox="0 0 384 512" width="20px" height="20px" fill="white"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                    <span id="apple-btn-label">استمر مع ابل</span>
+                </button>
+
+                <div style="font-size: 9px; color: #94a3b8; text-align: center; line-height: 1.4; margin-top: 4px;">
+                    بالنقر على "استمرار"، فإنك توافق على شروط الخدمة وسياسة الخصوصية وتخزين بياناتك.
+                </div>
             </div>
-            <div class="dialog-btn" id="dialog-btn" onclick="closeDialog()"></div>
+        </div>
+
+        <div class="platforms-wrapper">
+            <div class="section-header">
+                <div class="section-title" id="promo-main">اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام</div>
+                <div class="section-subtitle" id="promo-sub">نمو سريع، حقيقي وبأفضل الأسعار!</div>
+            </div>
+
+            <div class="platforms-grid">
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="platform-name">YouTube</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="platform-name">Facebook</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.778 6.98 6.978 1.28.058 1.688.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg><span class="platform-name">Instagram</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.23-2.74.24-.73.42-1.31 1.1-1.58 1.9-.2.55-.2 1.14-.11 1.72.17.91.71 1.74 1.44 2.3 1.02.82 2.5.94 3.63.31.95-.51 1.59-1.5 1.76-2.58.11-.64.1-1.29.1-1.93V.02z"/></svg><span class="platform-name">TikTok</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/snapchat--v1.png" class="p-img" alt="Snapchat"><span class="platform-name">Snapchat</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/color/144/telegram-app.png" class="p-img" alt="Telegram"><span class="platform-name">Telegram</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span class="platform-name">Twitch</span></a>
+                <a href="javascript:void(0)" class="platform-box"><img src="https://img.icons8.com/ios-filled/150/threads.png" class="p-img" alt="Threads"><span class="platform-name">Threads</span></a>
+                <a href="javascript:void(0)" class="platform-box"><svg class="p-svg" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span class="platform-name">WhatsApp</span></a>
+            </div>
         </div>
     </div>
 
@@ -640,68 +394,50 @@
     </div>
 
     <script>
-        function showDialog(title, text) {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            document.getElementById('dialog-title').innerText = title;
-            document.getElementById('dialog-text').innerText = text;
-            document.getElementById('dialog-btn').innerText = lang === 'ar' ? 'موافق' : 'OK';
-            document.getElementById('dialog-overlay').style.display = 'flex';
-        }
-
-        function closeDialog() {
-            document.getElementById('dialog-overlay').style.display = 'none';
-        }
-
-        function clearErrors() {
-            document.getElementById('err-firstname').style.display = 'none';
-            document.getElementById('err-lastname').style.display = 'none';
-            document.getElementById('err-email').style.display = 'none';
-            document.getElementById('err-password').style.display = 'none';
-            document.getElementById('suggestion-box').style.display = 'none';
-        }
-
-        function showError(id, msg) {
-            const el = document.getElementById(id);
-            if(el) {
-                el.innerText = msg;
-                el.style.display = 'block';
-            }
-        }
-
         let isSignUpMode = false;
         function toggleAuthMode() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             isSignUpMode = !isSignUpMode;
-            clearErrors();
-            const signupFields = document.getElementById('signup-fields');
-            const actionBtn = document.getElementById('btn-text');
-            const toggleQuestion = document.getElementById('toggle-question');
-            const toggleLink = document.getElementById('toggle-link');
-            const sheetTitle = document.getElementById('sheet-title');
-            const sheetSubtitle = document.getElementById('sheet-subtitle');
-            const passwordInput = document.getElementById('auth-password');
-            const loginStats = document.getElementById('login-only-stats');
+            const usernameInput = document.getElementById('auth-username');
+            const actionBtn = document.getElementById('email-action-btn');
+            const toggleBtn = document.getElementById('toggle-auth-mode');
             
             if(isSignUpMode) {
-                signupFields.style.display = "flex";
-                loginStats.style.display = "none";
-                sheetTitle.innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                sheetSubtitle.innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل" : "Register";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
+                usernameInput.style.display = "block";
+                actionBtn.innerText = lang === 'ar' ? "إنشاء الحساب" : "Create Account";
+                toggleBtn.innerText = lang === 'ar' ? "لديك حساب بالفعل؟ تسجيل الدخول" : "Have an account? Sign In";
             } else {
-                signupFields.style.display = "none";
-                loginStats.style.display = "flex";
-                sheetTitle.innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
-                sheetSubtitle.innerText = lang === 'ar' ? "تسجيل الدخول الآن" : "Sign in now";
-                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
-                passwordInput.placeholder = lang === 'ar' ? "الرمز السري" : "Secret Code";
+                usernameInput.style.display = "none";
+                actionBtn.innerText = lang === 'ar' ? "تسجيل الدخول" : "Sign In";
+                toggleBtn.innerText = lang === 'ar' ? "ليس لديك حساب؟ إنشاء حساب" : "Don't have an account? Sign Up";
             }
         }
+
+        const stats = [
+            { id: 'c1', current: 428.2, step: 0.1, suffix: 'k' },
+            { id: 'c2', current: 1.254, step: 0.001, suffix: 'M' },
+            { id: 'c3', current: 84.56, step: 0.05, suffix: 'k' },
+            { id: 'c5', current: 2.412, step: 0.002, suffix: 'M' }
+        ];
+
+        function updateStats() {
+            stats.forEach(s => {
+                s.current += (Math.random() * s.step * 1.5);
+                const el = document.getElementById(s.id);
+                if(el) {
+                    let display;
+                    if(s.suffix === 'M') {
+                        display = s.current.toFixed(3) + 'M';
+                    } else if(s.suffix === 'k') {
+                        display = s.current.toFixed(1) + 'k';
+                    }
+                    el.innerText = display;
+                }
+            });
+            setTimeout(updateStats, 500);
+        }
+        
+        updateStats();
 
         const menaIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
         const globeIcon = `<svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
@@ -727,18 +463,15 @@
 
         function toggleLang() {
             const current = localStorage.getItem('pref_lang') || 'ar';
-            const newLang = current === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('pref_lang', newLang);
-            document.documentElement.setAttribute('lang', newLang);
-            updateUI(); 
-            renderRegions();
+            localStorage.setItem('pref_lang', current === 'ar' ? 'en' : 'ar');
+            updateUI(); renderRegions();
         }
 
         function renderRegions() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const list = document.getElementById('regions-list');
             list.innerHTML = `<div class="option-item" style="background:#2E5822; color:white; border-radius:12px; margin-bottom:20px; justify-content:center; font-weight:800;" onclick="toggleLang()">
-                ${lang === 'ar' ? 'English' : 'العربية'}
+                ${lang === 'ar' ? 'تغيير إلى English' : 'Switch to Arabic'}
             </div>`;
             regionConfigs.forEach((reg, i) => {
                 const div = document.createElement('div');
@@ -755,60 +488,28 @@
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const reg = regionConfigs[regIdx];
             
-            document.documentElement.setAttribute('lang', lang);
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
             document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;">`;
             
-            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "جوجل" : "Google";
-            document.getElementById('divider-text').innerText = lang === 'ar' ? "أو عبر" : "OR VIA";
-            
-            const promoTitle = document.getElementById('promo-main-title');
-            promoTitle.innerText = lang === 'ar' ? "أكبر منصة بيع وزيادة متابعين في الشرق الاوسط" : "The Largest Platform for Followers & Services in MENA";
-
-            const toggleQuestion = document.getElementById('toggle-question');
-            const toggleLink = document.getElementById('toggle-link');
-
-            document.getElementById('stat-label-1').innerText = lang === 'ar' ? "أكبر عدد طلبات" : "Highest Orders";
-            document.getElementById('stat-label-2').innerText = lang === 'ar' ? "أكثر عدد أعضاء" : "Most Members";
-            document.getElementById('footer-terms').innerHTML = lang === 'ar' ? 
-                `باستخدامك للتطبيق، فإنك توافق على <span style="color: #386E2C; font-weight: 700;">شروط الخدمة</span> و <span style="color: #386E2C; font-weight: 700;">سياسة الخصوصية</span>.` : 
-                `By using the app, you agree to our <span style="color: #386E2C; font-weight: 700;">Terms of Service</span> and <span style="color: #386E2C; font-weight: 700;">Privacy Policy</span>.`;
-
-            if(!isSignUpMode) {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "مرحباً بك" : "Welcome";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "تسجيل الدخول الآن" : "Sign in now";
-                toggleQuestion.innerText = lang === 'ar' ? "لا تملك حساباً؟" : "New user?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل جديد" : "Sign Up";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                document.getElementById('auth-email').placeholder = lang === 'ar' ? "البريد الإلكتروني" : "Email Address";
-                document.getElementById('auth-password').placeholder = lang === 'ar' ? "الرمز السري" : "Password";
-            } else {
-                document.getElementById('sheet-title').innerText = lang === 'ar' ? "إنشاء حساب" : "Sign Up";
-                document.getElementById('sheet-subtitle').innerText = lang === 'ar' ? "سجل الآن مجاناً" : "Register for free";
-                toggleQuestion.innerText = lang === 'ar' ? "لديك حساب؟" : "Have an account?";
-                toggleLink.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
-                document.getElementById('btn-text').innerText = lang === 'ar' ? "تسجيل" : "Register";
-                document.getElementById('auth-firstname').placeholder = lang === 'ar' ? "الاسم الأول" : "First Name";
-                document.getElementById('auth-lastname').placeholder = lang === 'ar' ? "اللقب" : "Last Name";
-            }
+            document.getElementById('google-btn-label').innerText = lang === 'ar' ? "استمر مع جوجل" : "Continue with Google";
+            document.getElementById('apple-btn-label').innerText = lang === 'ar' ? "استمر مع ابل" : "Continue with Apple";
+            document.getElementById('sheet-title').innerText = lang === 'ar' ? "سجّل الدخول للمتابعة" : "Sign in to continue";
             
             const promo = {
-                ar: { main: "جميع خدمات التواصل الاجتماعي في مكان واحد.", sub: "نتائج مثبتة من serviocmm" },
-                en: { main: "All Social Media Services in One Place.", sub: "Proven results from serviocmm" }
+                ar: { main: "اشتر مشتركي يوتيوب ومتابعي فيسبوك وإنستغرام", sub: "نمو سريع، حقيقي وبأفضل الأسعار!" },
+                en: { main: "Buy YouTube, Facebook & Instagram Followers", sub: "Fast, real growth at best prices!" }
             };
             document.getElementById('promo-main').innerText = promo[lang].main;
-            document.getElementById('promo-main').style.textAlign = "center";
             document.getElementById('promo-sub').innerText = promo[lang].sub;
-            document.getElementById('promo-sub').style.textAlign = "center";
         }
         updateUI();
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -824,7 +525,7 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        async function saveUserToFirestore(user, customName = null, lastName = null) {
+        async function saveUserToFirestore(user, customName = null) {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
             const regions_ar = ["الشرق الأوسط", "الجزائر", "مصر", "العراق", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "تونس", "الإمارات", "منطقة أخرى"];
@@ -833,230 +534,61 @@
             const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
             const currentLanguageName = lang === 'ar' ? "العربية" : "English";
 
-            try {
-                const userRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(userRef);
+            const userRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(userRef);
 
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, {
-                        name: customName || user.displayName || "User",
-                        lastName: lastName || "",
-                        balance: 0,
-                        total_spend: 0,
-                        email: user.email,
-                        uid: user.uid,
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
-                        createdAt: new Date().toISOString()
-                    });
-                } else {
-                    await setDoc(userRef, {
-                        selected_region: currentRegionName,
-                        selected_language: currentLanguageName,
-                        lastLogin: new Date().toISOString()
-                    }, { merge: true });
-                }
-                window.location.href = "dashboard/";
-            } catch (error) {
-                console.error("Firestore Save Error:", error);
-                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                const errMsg = lang === 'ar' ? 'فشل الحفظ: ' : 'Save failed: ';
-                showDialog(errTitle, errMsg + error.message);
-                toggleLoading(false);
-            }
-        }
-
-        function toggleLoading(show) {
-            const loader = document.getElementById("btn-loader");
-            const btn = document.getElementById("email-action-btn");
-            if (show) {
-                loader.style.display = "block";
-                btn.style.opacity = "0.8";
-                btn.style.pointerEvents = "none";
+            if (!docSnap.exists()) {
+                await setDoc(userRef, {
+                    name: customName || user.displayName || "User",
+                    balance: 0,
+                    total_spend: 0,
+                    email: user.email,
+                    uid: user.uid,
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName
+                });
             } else {
-                loader.style.display = "none";
-                btn.style.opacity = "1";
-                btn.style.pointerEvents = "auto";
+                await setDoc(userRef, {
+                    selected_region: currentRegionName,
+                    selected_language: currentLanguageName
+                }, { merge: true });
             }
+            window.location.href = "dashboard/";
         }
-
-        // Logic for Real-time Nickname Suggestion
-        document.getElementById("auth-lastname").addEventListener("input", async (e) => {
-            const val = e.target.value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const box = document.getElementById("suggestion-box");
-            if(val.length < 3 || !isSignUpMode) { box.style.display = "none"; return; }
-            
-            const nickRef = doc(db, "usernames", val);
-            const snap = await getDoc(nickRef);
-            
-            if(snap.exists()) {
-                const sug1 = val + Math.floor(Math.random() * 99);
-                const sug2 = val + "_" + Math.floor(Math.random() * 9);
-                box.innerHTML = (lang === 'ar' ? "اللقب مستخدم، جرب: " : "Taken, try: ") + 
-                                `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug1}'; document.getElementById('suggestion-box').style.display='none'">${sug1}</span>` +
-                                `<span class="suggestion-item" onclick="document.getElementById('auth-lastname').value='${sug2}'; document.getElementById('suggestion-box').style.display='none'">${sug2}</span>`;
-                box.style.display = "block";
-            } else {
-                box.style.display = "none";
-            }
-        });
-
-        // Logic for Email Check
-        document.getElementById("auth-email").addEventListener("input", async (e) => {
-            const email = e.target.value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            if(!email || !isSignUpMode) return;
-            
-            try {
-                const methods = await fetchSignInMethodsForEmail(auth, email);
-                if(methods.length > 0) {
-                    showError('err-email', lang === 'ar' ? "البريد مسجل مسبقا" : "Email already exists.");
-                } else {
-                    const errEl = document.getElementById('err-email');
-                    if(errEl && (errEl.innerText === "البريد مسجل مسبقا" || errEl.innerText === "Email already exists.")) {
-                        errEl.style.display = 'none';
-                    }
-                }
-            } catch(e) {}
-        });
 
         document.getElementById("email-action-btn").addEventListener("click", async () => {
-            clearErrors();
-            const email = document.getElementById("auth-email").value.trim();
+            const email = document.getElementById("auth-email").value;
             const password = document.getElementById("auth-password").value;
-            const firstName = document.getElementById("auth-firstname").value.trim();
-            const lastName = document.getElementById("auth-lastname").value.trim();
-            const lang = localStorage.getItem('pref_lang') || 'ar';
+            const username = document.getElementById("auth-username").value;
 
-            const msgs = {
-                ar: {
-                    empty: "يرجى ملء الحقول.",
-                    passWeak: "الرمز يجب أن يكون 6 أرقام.",
-                    passSimple: "الرمز سهل التخمين.",
-                    userSame: "البيانات متطابقة.",
-                    nameReq: "الاسم مطلوب.",
-                    lastNameReq: "اللقب مطلوب.",
-                    wrongPassTitle: "خطأ",
-                    wrongPassText: "الرمز غير صحيح.",
-                    userNotFoundTitle: "تنبيه",
-                    userNotFoundText: "الحساب غير موجود.",
-                    emailInvalid: "بريد غير صالح.",
-                    authError: "خطأ",
-                    emailTaken: "البريد مسجل مسبقاً.",
-                    lastNameSuggestion: "اللقب مستخدم، اختر من الاقتراحات.",
-                    tooManyRequests: "محاولات كثيرة، تم الحظر مؤقتاً."
-                },
-                en: {
-                    empty: "Please fill fields.",
-                    passWeak: "Code must be 6 digits.",
-                    passSimple: "Code too simple.",
-                    userSame: "Data identical.",
-                    nameReq: "Name required.",
-                    lastNameReq: "Last name required.",
-                    wrongPassTitle: "Error",
-                    wrongPassText: "Incorrect code.",
-                    userNotFoundTitle: "Notice",
-                    userNotFoundText: "Account not found.",
-                    emailInvalid: "Invalid email.",
-                    authError: "Error",
-                    emailTaken: "Email already exists.",
-                    lastNameSuggestion: "Name taken, use suggestions.",
-                    tooManyRequests: "Too many attempts. Blocked."
-                }
-            };
+            if(!email || !password) return alert("يرجى ملء البيانات");
 
-            if (isSignUpMode && password.length === 6) {
-                const isRepeated = /^(\d)\1{5}$/.test(password);
-                if (isRepeated) {
-                    showError('err-password', msgs[lang].passSimple);
-                    return;
-                }
-            }
-
-            toggleLoading(true);
-
-            if(isSignUpMode) {
-                let hasErr = false;
-                if(!firstName) { showError('err-firstname', msgs[lang].nameReq); hasErr = true; }
-                if(!lastName) { showError('err-lastname', msgs[lang].lastNameReq); hasErr = true; }
-                if(!email) { showError('err-email', msgs[lang].empty); hasErr = true; }
-                if(!password) { showError('err-password', msgs[lang].empty); hasErr = true; }
-                
-                if(hasErr) { toggleLoading(false); return; }
-
-                if(password.length !== 6 || isNaN(password)) {
-                    showError('err-password', msgs[lang].passWeak);
-                    toggleLoading(false);
-                    return;
-                }
-
-                try {
-                    const nicknameRef = doc(db, "usernames", lastName);
-                    const nickSnap = await getDoc(nicknameRef);
-                    if (nickSnap.exists()) {
-                        showError('err-lastname', msgs[lang].lastNameSuggestion);
-                        toggleLoading(false);
-                        return;
-                    }
-
+            try {
+                if(isSignUpMode) {
+                    if(!username) return alert("يرجى كتابة اسم المستخدم");
                     const res = await createUserWithEmailAndPassword(auth, email, password);
-                    const batch = writeBatch(db);
-                    
-                    const userRef = doc(db, "users", res.user.uid);
-                    batch.set(userRef, {
-                        name: firstName,
-                        lastName: lastName,
-                        balance: 0,
-                        total_spend: 0,
-                        email: email,
-                        uid: res.user.uid,
-                        createdAt: new Date().toISOString()
-                    });
-
-                    batch.set(nicknameRef, {
-                        uid: res.user.uid
-                    });
-
-                    await batch.commit();
-                    await updateProfile(res.user, { displayName: firstName + " " + lastName });
-                    window.location.href = "dashboard/";
-                } catch (e) {
-                    toggleLoading(false);
-                    if(e.code === 'auth/invalid-email') showError('err-email', msgs[lang].emailInvalid);
-                    else if(e.code === 'auth/email-already-in-use') showError('err-email', msgs[lang].emailTaken);
-                    else showDialog(msgs[lang].authError, e.message);
-                }
-            } else {
-                if(!email || !password) { toggleLoading(false); return showDialog(msgs[lang].authError, msgs[lang].empty); }
-                try {
+                    await updateProfile(res.user, { displayName: username });
+                    await saveUserToFirestore(res.user, username);
+                } else {
                     const res = await signInWithEmailAndPassword(auth, email, password);
                     await saveUserToFirestore(res.user);
-                } catch (e) {
-                    toggleLoading(false);
-                    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-                        showDialog(msgs[lang].wrongPassTitle, msgs[lang].wrongPassText);
-                    } else if(e.code === 'auth/user-not-found') {
-                        showDialog(msgs[lang].userNotFoundTitle, msgs[lang].userNotFoundText);
-                    } else if(e.code === 'auth/invalid-email') {
-                         showError('err-email', msgs[lang].emailInvalid);
-                    } else if(e.code === 'auth/too-many-requests') {
-                         showDialog(msgs[lang].authError, msgs[lang].tooManyRequests);
-                    } else {
-                        showDialog(msgs[lang].authError, e.message);
-                    }
                 }
+            } catch (e) {
+                alert("خطأ: " + e.message);
             }
         });
 
         document.getElementById("google-auth-btn").addEventListener("click", () => {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
             signInWithPopup(auth, provider).then(async (result) => {
                 await saveUserToFirestore(result.user);
             }).catch(e => {
-                const errTitle = lang === 'ar' ? 'خطأ' : 'Error';
-                showDialog(errTitle, e.message);
+                console.error("Firebase Error:", e);
+                alert("فشل تسجيل الدخول: " + e.message);
             });
+        });
+
+        document.getElementById("apple-auth-btn").addEventListener("click", () => {
+             alert(localStorage.getItem('pref_lang') === 'en' ? "Apple Sign-In coming soon!" : "تسجيل دخول ابل يتوفر قريباً!");
         });
     </script>
 </body>
