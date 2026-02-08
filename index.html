@@ -668,18 +668,15 @@
         window.handleGoogleLogin = function() {
             const errorDiv = document.getElementById('auth-error');
             const googleBtn = document.querySelector('.social-btn');
-            const originalContent = googleBtn.innerHTML;
 
             if (errorDiv) errorDiv.style.display = 'none';
             
-            // Show loading in google button
             googleBtn.style.opacity = "0.7";
             googleBtn.style.pointerEvents = "none";
 
             signInWithPopup(auth, provider)
                 .then((result) => {
                     console.log("Success:", result.user);
-                    // Redirect to dashboard
                     window.location.href = "dashboard/index.html";
                 })
                 .catch((error) => {
@@ -693,7 +690,6 @@
                 });
         };
 
-        // Show body after load
         window.addEventListener('load', () => {
             document.body.style.opacity = "1";
         });
