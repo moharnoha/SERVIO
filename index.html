@@ -671,8 +671,9 @@
             
             if (errorDiv) errorDiv.style.display = 'none';
             
-            // Note: Removed the spinner change to keep the Google icon visible and prevent it from "freezing" away
-            googleBtn.style.opacity = "0.7";
+            // Keep button fully active and clickable
+            googleBtn.style.opacity = "1";
+            googleBtn.style.pointerEvents = "auto";
 
             signInWithPopup(auth, provider)
                 .then((result) => {
@@ -681,7 +682,9 @@
                 })
                 .catch((error) => {
                     console.error("Firebase Error:", error);
+                    // Ensure it stays at original appearance even on error/back
                     googleBtn.style.opacity = "1";
+                    googleBtn.style.pointerEvents = "auto";
                     if (errorDiv) {
                         errorDiv.style.display = 'flex';
                         errorDiv.querySelector('span').innerText = error.message;
