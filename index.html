@@ -378,25 +378,48 @@
 
         .auth-title { font-size: 34px; font-weight: 900; margin: 50px 0 40px; color: #000; text-align: center; letter-spacing: -0.5px; }
         .auth-input-group { margin-bottom: 8px; position: relative; }
+        
         .auth-input {
             width: 100%; padding: 16px 0; border: none; border-bottom: 1.5px solid #e5e7eb;
+            border-radius: 0;
             font-size: 18px; outline: none; color: #000;
             font-weight: 400;
             box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .auth-input.invalid-email-border {
+            border-bottom-color: #ff0000 !important;
+        }
+        .email-error-msg {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            font-weight: 600;
         }
         .auth-input::placeholder { color: #9ca3af; }
         
         [dir="rtl"] .auth-input {
             text-align: right;
         }
+        [dir="rtl"] .email-error-msg {
+            text-align: right;
+        }
 
         .auth-submit-btn {
             width: 100%; padding: 18px; background: var(--primary-green); border: none; border-radius: 12px;
             color: #fff; font-size: 20px; font-weight: 800; margin: 30px 0 15px; cursor: pointer;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, background-color 0.2s;
             display: flex; align-items: center; justify-content: center; position: relative;
         }
         
+        .auth-submit-btn:disabled {
+            background-color: var(--primary-green) !important;
+            opacity: 0.35;
+            cursor: not-allowed;
+            color: #d1d5db;
+        }
+
         .auth-submit-btn span { flex: 1; text-align: center; }
         .auth-submit-btn .exact-8-spinner {
             position: absolute;
@@ -429,6 +452,33 @@
         .custom-checkbox { width: 22px; height: 22px; border: 2px solid #000; border-radius: 6px; flex-shrink: 0; margin-top: 2px; position: relative; transition: background 0.2s; }
         .custom-checkbox.checked { background: #000; }
         .custom-checkbox.checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 14px; font-weight: 800; }
+
+        /* Error Message Style - Updated for Red Theme */
+        .auth-error-banner {
+            color: #ff0000;
+            padding: 8px 0;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            animation: fadeInError 0.3s ease-out;
+            direction: inherit;
+        }
+        @keyframes fadeInError {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .error-icon-red {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #ff0000;
+        }
     </style>
     <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
@@ -666,7 +716,9 @@
             try {
                 const res = await signInWithEmailAndPassword(auth, email, password);
                 await saveUserToFirestore(res.user);
-            } catch (e) { alert("Error: " + e.message); }
+            } catch (e) {
+                window.showAuthError(e.message);
+            }
         };
 
         window.firebaseJoin = async (name, email, password) => {
@@ -674,14 +726,18 @@
                 const res = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(res.user, { displayName: name });
                 await saveUserToFirestore(res.user, name);
-            } catch (e) { alert("Error: " + e.message); }
+            } catch (e) {
+                window.showAuthError(e.message);
+            }
         };
 
         window.firebaseGoogle = async () => {
             try {
                 const result = await signInWithPopup(auth, provider);
                 await saveUserToFirestore(result.user);
-            } catch (e) { alert("Error: " + e.message); }
+            } catch (e) {
+                window.showAuthError(e.message);
+            }
         };
     </script>
 
@@ -712,11 +768,14 @@
         }
 
         function handleAuthSubmit(btn, type) {
+            const emailInput = document.getElementById('auth-email-in');
+            if (emailInput && !validateEmail(emailInput.value)) {
+                return;
+            }
             const spinner = btn.querySelector('.exact-8-spinner');
             spinner.style.display = 'block';
-            const email = document.getElementById('auth-email-in')?.value;
+            const email = emailInput?.value;
             const pass = document.getElementById('auth-pass-in')?.value;
-            
             if(type === 'login') {
                 window.firebaseLogin(email, pass).finally(() => spinner.style.display = 'none');
             } else {
@@ -725,11 +784,64 @@
             }
         }
 
+        window.showAuthError = function(firebaseError) {
+            const banner = document.getElementById('auth-error-banner');
+            const errorText = document.getElementById('error-message-text');
+            if (banner && errorText) {
+                const lang = localStorage.getItem('pref_lang') || 'ar';
+                let msg = (lang === 'ar') ? "حدث خطأ أثناء تسجيل الدخول. يرجى التحقق من بياناتك." : "Login error. Please check your credentials.";
+                
+                if (firebaseError.includes('auth/invalid-credential') || firebaseError.includes('auth/wrong-password') || firebaseError.includes('auth/user-not-found')) {
+                    msg = (lang === 'ar') ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
+                } else if (firebaseError.includes('auth/email-already-in-use')) {
+                    msg = (lang === 'ar') ? "هذا البريد الإلكتروني مستخدم بالفعل." : "This email is already in use.";
+                }
+
+                errorText.innerText = msg;
+                banner.style.display = 'flex';
+                banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        };
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@gmail\.com$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function checkFormValidity() {
+            const emailInput = document.getElementById('auth-email-in');
+            const passInput = document.getElementById('auth-pass-in');
+            const nameInput = document.getElementById('auth-name-in');
+            const submitBtn = document.querySelector('.auth-submit-btn');
+            
+            const isEmailValid = emailInput && validateEmail(emailInput.value);
+            const isPassValid = passInput && passInput.value.length >= 1;
+            const isNameValid = nameInput ? nameInput.value.length >= 1 : true;
+
+            if (submitBtn) {
+                submitBtn.disabled = !(isEmailValid && isPassValid && isNameValid);
+            }
+        }
+
+        function handleEmailInput(input) {
+            checkFormValidity();
+        }
+
+        function handleEmailBlur(input) {
+            const errorMsg = document.getElementById('email-error-msg');
+            if (input.value !== "" && !validateEmail(input.value)) {
+                input.classList.add('invalid-email-border');
+                if (errorMsg) errorMsg.style.display = 'block';
+            } else {
+                input.classList.remove('invalid-email-border');
+                if (errorMsg) errorMsg.style.display = 'none';
+            }
+        }
+
         function togglePassword(icon) {
             const input = icon.parentElement.querySelector('input');
             const isPassword = input.type === 'password';
             input.type = isPassword ? 'text' : 'password';
-            
             if (isPassword) {
                 icon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
             } else {
@@ -743,18 +855,21 @@
             const container = document.getElementById('auth-content');
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const t = {
-                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟" },
-                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?" }
+                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح" },
+                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email" }
             };
             const cur = t[lang];
 
             if (type === 'join') {
                 container.innerHTML = `
                     <div class="auth-title">${cur.joinTitle}</div>
-                    <div class="auth-input-group"><input type="text" id="auth-name-in" class="auth-input" placeholder="${cur.namePlace}"></div>
-                    <div class="auth-input-group"><input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}"></div>
+                    <div class="auth-input-group"><input type="text" id="auth-name-in" class="auth-input" placeholder="${cur.namePlace}" oninput="checkFormValidity()"></div>
                     <div class="auth-input-group">
-                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}">
+                        <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
+                        <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}" oninput="checkFormValidity()">
                         <div class="toggle-password" onclick="togglePassword(this)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg></div>
                     </div>
                     <div class="custom-checkbox-wrapper" onclick="toggleCheckbox(this.querySelector('.custom-checkbox'))">
@@ -762,7 +877,13 @@
                         <div style="font-size:14px; color:#000; line-height:1.4; font-weight:500;">${cur.news}</div>
                     </div>
                     <p class="auth-legal-small">${cur.legalJoin}</p>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')">
+                    <div id="auth-error-banner" class="auth-error-banner">
+                        <div class="error-icon-red">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                        <span id="error-message-text"></span>
+                    </div>
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')" disabled>
                         <span>${cur.joinBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
@@ -772,14 +893,23 @@
             } else {
                 container.innerHTML = `
                     <div class="auth-title">${cur.loginTitle}</div>
-                    <div class="auth-input-group"><input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}"></div>
                     <div class="auth-input-group">
-                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}">
+                        <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
+                        <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}" oninput="checkFormValidity()">
                         <div class="toggle-password" onclick="togglePassword(this)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg></div>
                     </div>
                     <div style="text-align:inherit; font-size:15px; color:#9ca3af; margin: 15px 0 25px; font-weight:500;">${cur.forgot}</div>
                     <p class="auth-legal-small">${cur.legalLogin}</p>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')">
+                    <div id="auth-error-banner" class="auth-error-banner">
+                        <div class="error-icon-red">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                        <span id="error-message-text"></span>
+                    </div>
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')" disabled>
                         <span>${cur.loginBtn}</span>
                         <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                     </button>
