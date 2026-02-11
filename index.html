@@ -684,7 +684,7 @@
         async function saveUserToFirestore(user, customName = null) {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const regions_ar = ["الجزائر", "مصر", "العراق", "الأردن", "الشرق الأوسط وشمال أفريقيا", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "الإمارات"];
+            const regions_ar = ["الجزائر", "مصر", "العراق", "الأردن", "الشرق الأوسط", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "الإمارات"];
             const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
             
             const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
