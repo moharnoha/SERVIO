@@ -454,6 +454,7 @@
         .custom-checkbox.checked { background: #000; }
         .custom-checkbox.checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 14px; font-weight: 800; }
 
+        /* Error Message Style - Updated for Red Theme */
         .auth-error-banner {
             color: #ff0000;
             padding: 8px 0;
@@ -479,54 +480,6 @@
             flex-shrink: 0;
             color: #ff0000;
         }
-
-        /* Saved Accounts Section Styles */
-        .saved-accounts-section {
-            margin-bottom: 25px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 15px;
-        }
-        .saved-accounts-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #6b7280;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .account-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: #f9fafb;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-            border: 1px solid transparent;
-        }
-        .account-item:hover {
-            background: #f3f4f6;
-            border-color: #e5e7eb;
-        }
-        .account-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-green);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        [dir="rtl"] .account-avatar { margin-right: 0; margin-left: 12px; }
-        .account-info { flex-grow: 1; overflow: hidden; }
-        .account-name { font-weight: 700; color: #111827; font-size: 15px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .account-email { font-size: 13px; color: #6b7280; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     </style>
     <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
@@ -741,19 +694,6 @@
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
 
-            // Save for Quick Login
-            let savedAccounts = JSON.parse(localStorage.getItem('saved_accounts') || '[]');
-            const accountExists = savedAccounts.some(acc => acc.uid === user.uid);
-            if (!accountExists) {
-                savedAccounts.push({
-                    uid: user.uid,
-                    name: customName || user.displayName || "User",
-                    email: user.email,
-                    photo: user.photoURL
-                });
-                localStorage.setItem('saved_accounts', JSON.stringify(savedAccounts));
-            }
-
             if (!docSnap.exists()) {
                 await setDoc(userRef, {
                     name: customName || user.displayName || "User",
@@ -799,15 +739,6 @@
             } catch (e) {
                 window.showAuthError(e.message);
             }
-        };
-
-        window.quickLogin = async (uid) => {
-             // For a real professional implementation, quick login would use a secure token.
-             // Here we initiate the flow by pre-filling or showing the selection as requested.
-             document.getElementById('global-spinner-overlay').style.display = 'flex';
-             setTimeout(() => {
-                 window.location.href = "dashboard/";
-             }, 1000);
         };
     </script>
 
@@ -925,8 +856,8 @@
             const container = document.getElementById('auth-content');
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const t = {
-                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح", savedTitle: "الحسابات المحفوظة" },
-                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email", savedTitle: "Saved Accounts" }
+                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح" },
+                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email" }
             };
             const cur = t[lang];
 
@@ -961,28 +892,8 @@
                     <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
                 `;
             } else {
-                let savedAccountsHtml = '';
-                const savedAccounts = JSON.parse(localStorage.getItem('saved_accounts') || '[]');
-                if (savedAccounts.length > 0) {
-                    savedAccountsHtml = `<div class="saved-accounts-section">
-                        <div class="saved-accounts-title">${cur.savedTitle}</div>`;
-                    savedAccounts.forEach(acc => {
-                        const initial = acc.name.charAt(0).toUpperCase();
-                        savedAccountsHtml += `
-                            <div class="account-item" onclick="window.quickLogin('${acc.uid}')">
-                                <div class="account-avatar">${initial}</div>
-                                <div class="account-info">
-                                    <span class="account-name">${acc.name}</span>
-                                    <span class="account-email">${acc.email}</span>
-                                </div>
-                            </div>`;
-                    });
-                    savedAccountsHtml += `</div>`;
-                }
-
                 container.innerHTML = `
                     <div class="auth-title">${cur.loginTitle}</div>
-                    ${savedAccountsHtml}
                     <div class="auth-input-group">
                         <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
                         <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
