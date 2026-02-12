@@ -802,8 +802,6 @@
         };
 
         window.quickLogin = async (uid) => {
-             // For a real professional implementation, quick login would use a secure token.
-             // Here we initiate the flow by pre-filling or showing the selection as requested.
              document.getElementById('global-spinner-overlay').style.display = 'flex';
              setTimeout(() => {
                  window.location.href = "dashboard/";
@@ -1144,16 +1142,30 @@
             document.querySelector('#btn-join-label span').innerText = translations[lang].join;
             document.querySelector('#btn-login-label span').innerText = translations[lang].login;
             document.getElementById('legal-label').innerHTML = translations[lang].legal;
+            
             if (document.getElementById('auth-modal').style.display === 'flex') {
-                const isJoin = document.querySelector('.auth-title').innerText.includes('Join') || document.querySelector('.auth-title').innerText.includes('انضم');
-                openAuthModal(isJoin ? 'join' : 'login');
+                const titleEl = document.querySelector('.auth-title');
+                if (titleEl) {
+                    const isJoin = titleEl.innerText.includes('Join') || titleEl.innerText.includes('انضم');
+                    openAuthModal(isJoin ? 'join' : 'login');
+                }
             }
         }
 
         function closeDialog() { document.getElementById('dialog-overlay').style.display = 'none'; }
+
+        // Logic to maintain auth modal state on back navigation
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                const savedAccounts = JSON.parse(localStorage.getItem('saved_accounts') || '[]');
+                if (savedAccounts.length > 0) {
+                    openAuthModal('login');
+                }
+            }
+        });
+
         updateUI();
         initSlider();
     </script>
 </body>
 </html>
-
