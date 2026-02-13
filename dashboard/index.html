@@ -767,7 +767,7 @@
             const allTrans = [...smmTransactions, ...depositTransactions].sort((a, b) => {
                 const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
                 const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
-                return dateB - dateA;
+                return dateB -_dateA;
             }).slice(0, DISPLAY_LIMIT);
             
             if (allTrans.length === 0) {
@@ -812,10 +812,22 @@
                         const d = snap.data();
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
+                        
+                        // Update Language and Region from Firebase
+                        const fireLanguage = d.selected_language || "ar";
+                        const fireRegionName = d.selected_region || "mena";
+                        localStorage.setItem('pref_lang', fireLanguage);
+                        
+                        // Match Region Name with internal database
+                        const regFoundIdx = regionConfigs.findIndex(r => r.id === fireRegionName || r.en === fireRegionName || r.ar === fireRegionName);
+                        localStorage.setItem('pref_reg_idx', regFoundIdx !== -1 ? regFoundIdx : 0);
+                        
                         document.getElementById('user-balance').innerHTML = formatBalanceVal(bal) + "<span>&nbsp;USD</span>";
                         localStorage.setItem('user_cache', JSON.stringify({name: window.currentName, email: user.email, balance: bal}));
                         localStorage.setItem('hide_email', d.hide_email === "true");
                         localStorage.setItem('hide_username', d.hide_username === "true");
+                        
+                        window.sync(); // Refresh Header UI
                         window.renderUserData();
                         hideInitialLoader();
                     }
