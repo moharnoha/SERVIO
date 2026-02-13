@@ -271,7 +271,7 @@
         /* --- Updated Language & Region Selection Sheet --- */
         .selection-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: flex-end;
+            background: rgba(0,0,0,0.6); z-index: 10010; justify-content: center; align-items: flex-end;
         }
         
         .selection-sheet {
@@ -538,6 +538,21 @@
         .account-info { flex-grow: 1; overflow: hidden; }
         .account-name { font-weight: 700; color: #111827; font-size: 15px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .account-email { font-size: 13px; color: #6b7280; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Region Choice Box */
+        .region-select-box {
+            width: 100%;
+            padding: 16px 0;
+            border-bottom: 1.5px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        .region-select-box .label { font-size: 18px; color: #9ca3af; }
+        .region-select-box .value { font-size: 18px; color: #000; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .region-select-box .chevron { color: #9ca3af; width: 24px; height: 24px; }
     </style>
     <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
@@ -584,10 +599,10 @@
                     </div>
                 </div>
                 <div class="header-left-group">
-                    <div class="info-display-wrapper" onclick="openSelection()">
-                        <div id="flag-display"></div>
+                    <div class="info-display-wrapper" onclick="openSelection('lang-only')">
+                        <div id="flag-display" style="display:none;"></div>
                         <div class="display-text">
-                            <span id="label-reg"></span>
+                            <span id="label-reg" style="display:none;"></span>
                             <span id="separator-bar" style="opacity:0.3; display:none;">|</span>
                             <span id="label-lng"></span>
                         </div>
@@ -689,25 +704,38 @@
         </div>
     </div>
 
-    <div id="overlay" class="selection-overlay" onclick="closeSelection()">
+    <div id="overlay-lang" class="selection-overlay" onclick="closeSelection('lang')">
         <div class="selection-sheet" onclick="event.stopPropagation()">
             <div class="sheet-header">
-                <div class="close-sheet" onclick="closeSelection()">
+                <div class="close-sheet" onclick="closeSelection('lang')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </div>
-                <div class="sheet-title" id="sheet-title-label">لغة/منطقة</div>
+                <div class="sheet-title" id="sheet-title-label-lang">اللغة</div>
             </div>
-
-            <div class="section-label" id="lang-section-label">لغة</div>
-            <div class="options-grid">
-                <div class="option-box" id="lang-en" onclick="setTempLang('en')"><span>English</span></div>
-                <div class="option-box" id="lang-ar" onclick="setTempLang('ar')"><span>العربية</span></div>
+            <div id="sheet-lang-part">
+                <div class="section-label" id="lang-section-label">اللغة</div>
+                <div class="options-grid">
+                    <div class="option-box" id="lang-en" onclick="setTempLang('en')"><span>English</span></div>
+                    <div class="option-box" id="lang-ar" onclick="setTempLang('ar')"><span>العربية</span></div>
+                </div>
             </div>
+            <button class="save-btn" id="save-btn-label-lang" onclick="applyChanges('lang')">حفظ</button>
+        </div>
+    </div>
 
-            <div class="section-label" id="region-section-label">منطقة</div>
-            <div class="options-grid" id="regions-grid-container"></div>
-
-            <button class="save-btn" id="save-btn-label" onclick="applyChanges()">حفظ</button>
+    <div id="overlay-reg" class="selection-overlay" onclick="closeSelection('reg')">
+        <div class="selection-sheet" onclick="event.stopPropagation()">
+            <div class="sheet-header">
+                <div class="close-sheet" onclick="closeSelection('reg')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </div>
+                <div class="sheet-title" id="sheet-title-label-reg">المنطقة</div>
+            </div>
+            <div id="sheet-region-part">
+                <div class="section-label" id="region-section-label">المنطقة</div>
+                <div class="options-grid" id="regions-grid-container"></div>
+            </div>
+            <button class="save-btn" id="save-btn-label-reg" onclick="applyChanges('reg')">حفظ</button>
         </div>
     </div>
 
@@ -941,16 +969,30 @@
         function openAuthModal(type) {
             const container = document.getElementById('auth-content');
             const lang = localStorage.getItem('pref_lang') || 'ar';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const currentReg = regionConfigs[regIdx];
+            
             const t = {
-                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح", savedTitle: "الحسابات المحفوظة" },
-                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email", savedTitle: "Saved Accounts" }
+                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح", savedTitle: "الحسابات المحفوظة", regionLabel: "المنطقة" },
+                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email", savedTitle: "Saved Accounts", regionLabel: "Region" }
             };
             const cur = t[lang];
+
+            const regDisplay = currentReg.type === 'icon' ? currentReg.svg : `<img src="${currentReg.flag}" style="width:24px; height:16px; border-radius:2px;">`;
 
             if (type === 'join') {
                 container.innerHTML = `
                     <div class="auth-title">${cur.joinTitle}</div>
                     <div class="auth-input-group"><input type="text" id="auth-name-in" class="auth-input" placeholder="${cur.namePlace}" oninput="checkFormValidity()"></div>
+                    
+                    <div class="region-select-box" onclick="openSelection('reg')">
+                        <span class="label">${cur.regionLabel}</span>
+                        <span class="value">
+                            ${currentReg[lang]} ${regDisplay}
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+
                     <div class="auth-input-group">
                         <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
                         <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
@@ -1102,8 +1144,25 @@
             { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' }
         ];
 
-        function openSelection() { tempLang = localStorage.getItem('pref_lang') || 'ar'; tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0; renderSheet(); document.getElementById('overlay').style.display = 'flex'; }
-        function closeSelection() { document.getElementById('overlay').style.display = 'none'; }
+        function openSelection(mode = 'lang') { 
+            tempLang = localStorage.getItem('pref_lang') || 'ar'; 
+            tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0; 
+            
+            renderSheet(); 
+            if (mode === 'reg') {
+                document.getElementById('overlay-reg').style.display = 'flex'; 
+            } else {
+                document.getElementById('overlay-lang').style.display = 'flex'; 
+            }
+        }
+
+        function closeSelection(mode = 'lang') { 
+            if (mode === 'reg') {
+                document.getElementById('overlay-reg').style.display = 'none';
+            } else {
+                document.getElementById('overlay-lang').style.display = 'none';
+            }
+        }
         function setTempLang(l) { tempLang = l; renderSheet(); }
         function setTempReg(i) { tempRegIdx = i; renderSheet(); }
 
@@ -1120,22 +1179,38 @@
                 box.innerHTML = `<span>${reg[tempLang]}</span>` + icon;
                 container.appendChild(box);
             });
-            const labels = { ar: { title: "لغة/منطقة", lang: "اللغة", reg: "المنطقة", save: "حفظ" }, en: { title: "Language/Region", lang: "Language", reg: "Region", save: "Save" } };
-            document.getElementById('sheet-title-label').innerText = labels[tempLang].title;
+            const labels = { ar: { title_lang: "اللغة", title_reg: "المنطقة", lang: "اللغة", reg: "المنطقة", save: "حفظ" }, en: { title_lang: "Language", title_reg: "Region", lang: "Language", reg: "Region", save: "Save" } };
+            document.getElementById('sheet-title-label-lang').innerText = labels[tempLang].title_lang;
+            document.getElementById('sheet-title-label-reg').innerText = labels[tempLang].title_reg;
             document.getElementById('lang-section-label').innerText = labels[tempLang].lang;
             document.getElementById('region-section-label').innerText = labels[tempLang].reg;
-            document.getElementById('save-btn-label').innerText = labels[tempLang].save;
+            document.getElementById('save-btn-label-lang').innerText = labels[tempLang].save;
+            document.getElementById('save-btn-label-reg').innerText = labels[tempLang].save;
         }
 
-        function applyChanges() {
-            closeSelection();
-            document.getElementById('global-spinner-overlay').style.display = 'flex';
+        function applyChanges(mode = 'lang') {
+            const loader = document.getElementById('global-spinner-overlay');
+            loader.style.display = 'flex';
+            
+            // Apply immediately to local storage
+            localStorage.setItem('pref_lang', tempLang);
+            localStorage.setItem('pref_reg_idx', tempRegIdx);
+            
+            // Small delay to simulate processing then update UI and close
             setTimeout(() => {
-                localStorage.setItem('pref_lang', tempLang);
-                localStorage.setItem('pref_reg_idx', tempRegIdx);
                 updateUI();
-                document.getElementById('global-spinner-overlay').style.display = 'none';
-            }, 2000);
+                
+                // Update Auth Modal if open
+                const authModal = document.getElementById('auth-modal');
+                if (authModal.style.display === 'flex') {
+                    const titleText = document.querySelector('.auth-title').innerText;
+                    const isJoin = titleText.includes('Join') || titleText.includes('انضم');
+                    openAuthModal(isJoin ? 'join' : 'login');
+                }
+
+                closeSelection(mode);
+                loader.style.display = 'none';
+            }, 300);
         }
 
         function updateUI() {
@@ -1146,8 +1221,6 @@
             document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             document.getElementById('label-reg').innerText = reg[lang];
-            document.getElementById('separator-bar').style.display = 'inline';
-            document.getElementById('flag-display').innerHTML = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}" class="nav-icon" style="width:24px; height:16px; border-radius:2px; object-fit:cover;" decoding="async">`;
             
             const headerBox = document.getElementById('header-dynamic-title');
             if(lang === 'ar') {
@@ -1161,10 +1234,6 @@
             document.querySelector('#btn-join-label span').innerText = translations[lang].join;
             document.querySelector('#btn-login-label span').innerText = translations[lang].login;
             document.getElementById('legal-label').innerHTML = translations[lang].legal;
-            if (document.getElementById('auth-modal').style.display === 'flex') {
-                const isJoin = document.querySelector('.auth-title').innerText.includes('Join') || document.querySelector('.auth-title').innerText.includes('انضم');
-                openAuthModal(isJoin ? 'join' : 'login');
-            }
         }
 
         function closeDialog() { document.getElementById('dialog-overlay').style.display = 'none'; }
