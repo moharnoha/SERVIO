@@ -741,6 +741,7 @@
 
         async function saveUserToFirestore(user, customName = null, isNewUser = false) {
             const userRef = doc(db, "users", user.uid);
+            const selectedRegion = window.regionConfigs[window.currentRegIdx].en;
 
             if (isNewUser) {
                 // إنشاء الحساب بناءً على قواعد Firestore Rules
@@ -749,6 +750,7 @@
                     email: user.email,
                     balance: 0,
                     total_spend: 0,
+                    selected_region: selectedRegion,
                     uid: user.uid
                 });
             }
@@ -992,7 +994,7 @@
         }
 
         const mdiLocation = `<svg class="nav-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C8.14,2,5,5.14,5,9c0,5.25,7,13,7,13s7-7.75,7-13C19,5.14,15.86,2,12,2z M12,11.5c-1.38,0-2.5-1.12-2.5-2.5s1.12-2.5,2.5-2.5s2.5,1.12,2.5,2.5S13.38,11.5,12,11.5z"/></svg>`;
-        const regionConfigs = [
+        window.regionConfigs = [
             { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
             { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
             { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
@@ -1025,7 +1027,7 @@
             container.innerHTML = '';
             document.getElementById('lang-en').className = tempLang === 'en' ? 'option-box selected' : 'option-box';
             document.getElementById('lang-ar').className = tempLang === 'ar' ? 'option-box selected' : 'option-box';
-            regionConfigs.forEach((reg, i) => {
+            window.regionConfigs.forEach((reg, i) => {
                 const box = document.createElement('div');
                 box.className = i === tempRegIdx ? 'option-box selected' : 'option-box';
                 box.onclick = () => setTempReg(i);
