@@ -18,7 +18,9 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
             direction: rtl !important;
-            overflow: hidden; 
+            /* تم تعديل overflow للسماح بالتمرير العمودي */
+            overflow-y: auto; 
+            overflow-x: hidden;
         }
 
         header { 
@@ -146,20 +148,18 @@
             fill: #94a3b8;
         }
 
-        /* الحاوية المنحنية - تعديل الموقع والارتفاع لتناسب الصفحة الواحدة */
+        /* الحاوية المنحنية - تعديل الموقع والارتفاع لتناسب التمرير الحر */
         .content-card {
             background-color: #F4F2F2;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
-            position: fixed;
-            top: 170px; 
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: relative; /* تم التغيير من fixed للسماح بالتمرير */
+            margin-top: 170px; 
+            min-height: calc(100vh - 170px);
             padding: 10px 0;
             box-shadow: 0px -10px 30px rgba(0,0,0,0.03);
             z-index: 1002;
-            overflow: hidden; 
+            overflow: visible; 
             display: flex;
             flex-direction: column;
         }
@@ -267,10 +267,10 @@
         }
 
         html, body { 
-            height: 100%; 
+            height: auto; 
             margin: 0; 
             padding: 0; 
-            overflow: hidden !important; 
+            overflow: visible !important; 
             width: 100vw;
             position: relative;
         }
@@ -446,7 +446,7 @@
             background: transparent; 
             margin-top: 5px;
             flex: 1;
-            overflow: hidden; 
+            overflow: visible; 
         }
         .transactions-content {
             width: 90%; 
@@ -456,13 +456,15 @@
             background: #ffffff;
             display: flex;
             flex-direction: column;
+            min-height: 250px; /* ضمان ارتفاع أدنى للمحتوى */
             height: auto;
             flex: 1;
             border-radius: 28px;
             box-shadow: var(--shadow-soft);
             margin: 0 auto;
             border: 1px solid #E2E7F0;
-            overflow: hidden;
+            overflow: visible;
+            margin-bottom: 20px; /* مسافة إضافية في الأسفل */
         }
         
         .filter-options { display: none; }
@@ -472,13 +474,10 @@
             flex-direction: column; 
             gap: 10px; 
             margin-top: 5px;
-            overflow-y: auto;
+            overflow: visible;
             flex: 1;
             padding-right: 2px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
         }
-        .trans-list::-webkit-scrollbar { display: none; }
 
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
@@ -599,7 +598,7 @@
             color: var(--text-dark); 
             background: #F3F2F2;
             flex: 1;
-            overflow: hidden;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -652,9 +651,9 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            height: 100%; 
+            height: auto; 
             background-color: var(--platform-bg); 
-            overflow: hidden; 
+            overflow: visible; 
         }
         
         .view-more-link {
