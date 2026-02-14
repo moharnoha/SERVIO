@@ -723,7 +723,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -739,7 +739,7 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        async function saveUserToFirestore(user, customName = null) {
+        async function saveUserToFirestore(user, customName = null, isNewUser = false) {
             const lang = window.currentLang || 'en';
             const regIdx = window.currentRegIdx !== undefined ? window.currentRegIdx : 4;
             const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
@@ -748,24 +748,26 @@
             const currentLanguageName = lang === 'ar' ? "العربية" : "English";
 
             const userRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(userRef);
 
-            if (!docSnap.exists()) {
+            if (isNewUser) {
+                // نضام آمن لإنشاء الحساب يتوافق مع القواعد (Rules)
                 await setDoc(userRef, {
-                    name: customName || user.displayName || "User",
-                    balance: 0,
-                    total_spend: 0,
-                    wallet: 0,
-                    total_value: 0,
+                    name: (customName || user.displayName || "User").trim(),
                     email: user.email,
                     uid: user.uid,
+                    balance: 0,
+                    total_spend: 0,
                     selected_region: currentRegionName,
-                    selected_language: currentLanguageName
+                    selected_language: currentLanguageName,
+                    role: "user",
+                    createdAt: serverTimestamp()
                 });
             } else {
+                // تحديث البيانات غير الحساسة فقط لضمان التوافق مع القواعد
                 await setDoc(userRef, {
                     selected_region: currentRegionName,
-                    selected_language: currentLanguageName
+                    selected_language: currentLanguageName,
+                    lastLogin: serverTimestamp()
                 }, { merge: true });
             }
             window.location.replace("dashboard/");
@@ -774,9 +776,9 @@
         window.firebaseLogin = async (email, password) => {
             try {
                 const res = await signInWithEmailAndPassword(auth, email, password);
-                await saveUserToFirestore(res.user);
+                await saveUserToFirestore(res.user, null, false);
             } catch (e) {
-                window.showAuthError(e.message);
+                window.showAuthError(e.code);
             }
         };
 
@@ -784,18 +786,20 @@
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(res.user, { displayName: name });
-                await saveUserToFirestore(res.user, name);
+                await saveUserToFirestore(res.user, name, true);
             } catch (e) {
-                window.showAuthError(e.message);
+                window.showAuthError(e.code);
             }
         };
 
         window.firebaseGoogle = async () => {
             try {
                 const result = await signInWithPopup(auth, provider);
-                await saveUserToFirestore(result.user);
+                const userRef = doc(db, "users", result.user.uid);
+                const docSnap = await getDoc(userRef);
+                await saveUserToFirestore(result.user, null, !docSnap.exists());
             } catch (e) {
-                window.showAuthError(e.message);
+                window.showAuthError(e.code);
             }
         };
     </script>
