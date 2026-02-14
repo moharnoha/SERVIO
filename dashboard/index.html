@@ -16,11 +16,9 @@
             padding: 0;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #FFFFFF;
             direction: rtl !important;
-            /* تم تعديل overflow للسماح بالتمرير العمودي */
-            overflow-y: auto; 
-            overflow-x: hidden;
+            overflow: hidden; 
         }
 
         header { 
@@ -148,18 +146,20 @@
             fill: #94a3b8;
         }
 
-        /* الحاوية المنحنية - تعديل الموقع والارتفاع لتناسب التمرير الحر */
+        /* الحاوية المنحنية - تعديل الموقع والارتفاع لتناسب الصفحة الواحدة */
         .content-card {
-            background-color: #F4F2F2;
+            background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
-            position: relative; /* تم التغيير من fixed للسماح بالتمرير */
-            margin-top: 170px; 
-            min-height: calc(100vh - 170px);
+            position: fixed;
+            top: 170px; 
+            bottom: 0;
+            left: 0;
+            right: 0;
             padding: 10px 0;
             box-shadow: 0px -10px 30px rgba(0,0,0,0.03);
             z-index: 1002;
-            overflow: visible; 
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
         }
@@ -254,9 +254,9 @@
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --sub-green: #F3F2F2; 
-            --platform-bg: #F3F2F2;
-            --bg-gradient: linear-gradient(135deg, #F3F2F2 0%, #F3F2F2 100%);
+            --sub-green: #FFFFFF; 
+            --platform-bg: #FFFFFF;
+            --bg-gradient: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 100%);
             --text-dark: #1A2419;
             --brand-green: #2E5822;
             --brand-red: #C62828;
@@ -267,10 +267,10 @@
         }
 
         html, body { 
-            height: auto; 
+            height: 100%; 
             margin: 0; 
             padding: 0; 
-            overflow: visible !important; 
+            overflow: hidden !important; 
             width: 100vw;
             position: relative;
         }
@@ -446,7 +446,7 @@
             background: transparent; 
             margin-top: 5px;
             flex: 1;
-            overflow: visible; 
+            overflow: hidden; 
         }
         .transactions-content {
             width: 90%; 
@@ -456,15 +456,13 @@
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            min-height: 250px; /* ضمان ارتفاع أدنى للمحتوى */
             height: auto;
             flex: 1;
             border-radius: 28px;
             box-shadow: var(--shadow-soft);
             margin: 0 auto;
             border: 1px solid #E2E7F0;
-            overflow: visible;
-            margin-bottom: 20px; /* مسافة إضافية في الأسفل */
+            overflow: hidden;
         }
         
         .filter-options { display: none; }
@@ -474,10 +472,13 @@
             flex-direction: column; 
             gap: 10px; 
             margin-top: 5px;
-            overflow: visible;
+            overflow-y: auto;
             flex: 1;
             padding-right: 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+        .trans-list::-webkit-scrollbar { display: none; }
 
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
@@ -547,14 +548,14 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: #F3F2F2; 
+            background: #FFFFFF; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             z-index: 9999;
         }
         .modal-card {
-            background: #F3F2F2; 
+            background: #FFFFFF; 
             width: 100%; 
             height: 100%;
             padding: 0;
@@ -596,9 +597,9 @@
             padding: 15px; 
             font-size: 13px; 
             color: var(--text-dark); 
-            background: #F3F2F2;
+            background: #FFFFFF;
             flex: 1;
-            overflow-y: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -651,9 +652,9 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            height: auto; 
+            height: 100%; 
             background-color: var(--platform-bg); 
-            overflow: visible; 
+            overflow: hidden; 
         }
         
         .view-more-link {
