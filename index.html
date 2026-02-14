@@ -740,12 +740,12 @@
         const provider = new GoogleAuthProvider();
 
         async function saveUserToFirestore(user, customName = null) {
-            const lang = 'en';
-            const regIdx = 4;
+            const lang = window.currentLang || 'en';
+            const regIdx = window.currentRegIdx !== undefined ? window.currentRegIdx : 4;
             const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
             
             const currentRegionName = regions_en[regIdx];
-            const currentLanguageName = "English";
+            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
 
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
@@ -805,6 +805,8 @@
         let sliderTimer;
         let isTransitioning = false;
         
+        window.currentLang = 'en';
+        window.currentRegIdx = 4;
         let tempLang = 'en';
         let tempRegIdx = 4;
 
@@ -858,9 +860,9 @@
             const banner = document.getElementById('auth-error-banner');
             const errorText = document.getElementById('error-message-text');
             if (banner && errorText) {
-                const lang = 'en';
-                let msg = "Login error occurred.";
-                if (firebaseError.includes('auth/invalid-credential')) msg = "Invalid email or password.";
+                const lang = window.currentLang || 'en';
+                let msg = lang === 'ar' ? "حدث خطأ في تسجيل الدخول." : "Login error occurred.";
+                if (firebaseError.includes('auth/invalid-credential')) msg = lang === 'ar' ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
                 errorText.innerText = msg;
                 banner.style.display = 'flex';
             }
@@ -898,8 +900,8 @@
 
         function openAuthModal(type) {
             const container = document.getElementById('auth-content');
-            const lang = 'en';
-            const regIdx = 4;
+            const lang = window.currentLang || 'en';
+            const regIdx = window.currentRegIdx !== undefined ? window.currentRegIdx : 4;
             const currentReg = regionConfigs[regIdx];
             
             const t = {
@@ -1013,8 +1015,8 @@
         ];
 
         function openSelection(mode = 'lang') { 
-            tempLang = 'en'; 
-            tempRegIdx = 4; 
+            tempLang = window.currentLang; 
+            tempRegIdx = window.currentRegIdx; 
             renderSheet(); 
             document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'flex'; 
         }
@@ -1050,6 +1052,8 @@
         function applyChanges(mode = 'lang') {
             document.getElementById('global-spinner-overlay').style.display = 'flex';
             setTimeout(() => {
+                window.currentLang = tempLang;
+                window.currentRegIdx = tempRegIdx;
                 updateUI();
                 if (document.getElementById('auth-modal').style.display === 'flex') {
                     const isJoin = document.querySelector('.auth-title').innerText.match(/Join|انضم/);
@@ -1061,13 +1065,17 @@
         }
 
         function updateUI() {
-            const lang = 'en';
+            const lang = window.currentLang || 'en';
             document.documentElement.setAttribute('lang', lang);
-            document.documentElement.dir = 'ltr';
-            document.getElementById('label-lng').innerText = 'EN';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('label-lng').innerText = lang === 'ar' ? 'AR' : 'EN';
             
             const headerBox = document.getElementById('header-dynamic-title');
-            headerBox.innerHTML = `<span>Digital Services</span><span>Center</span>`;
+            if(lang === 'ar') {
+                headerBox.innerHTML = `<span>مركز الخدمات</span><span>الرقمية</span>`;
+            } else {
+                headerBox.innerHTML = `<span>Digital Services</span><span>Center</span>`;
+            }
 
             const translations = { ar: { hero: "المنصة الأكبر للمتابعين والخدمات في الشرق الأوسط", join: "انضم مجاناً", login: "تسجيل الدخول", legal: "باستخدام تطبيق serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا." }, en: { hero: "The Largest Platform for Followers & Services in MENA", join: "Join for free", login: "Log in", legal: "By using the serviocmm app, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>." } };
             document.getElementById('hero-text-label').innerText = translations[lang].hero;
