@@ -76,7 +76,6 @@
 
         .header-left-group { display: flex; align-items: center; gap: 10px; flex-direction: row !important; }
 
-        /* Modified Language Switcher UI */
         .info-display-wrapper { 
             display: flex; align-items: center; background: #F3F4F6; 
             border-radius: 20px; 
@@ -88,7 +87,6 @@
         .display-text { font-size: 12px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
         .lang-globe-icon { width: 18px; height: 18px; fill: #64748b; }
 
-        /* Profile Icon Styling - Updated to match language switcher icon color */
         .profile-icon-svg {
             width: 28px; 
             height: 28px; 
@@ -282,7 +280,6 @@
             text-decoration: underline; font-weight: 600; color: #386E2C !important;
         }
 
-        /* --- Updated Language & Region Selection Sheet --- */
         .selection-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 10010; justify-content: center; align-items: flex-end;
@@ -346,7 +343,6 @@
             transition: opacity 0.2s;
         }
         .save-btn:active { opacity: 0.9; transform: scale(0.99); }
-        /* -------------------------------------------------- */
 
         .custom-dialog-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -505,7 +501,6 @@
             color: #ff0000;
         }
 
-        /* Region Choice Box */
         .region-select-box {
             width: 100%;
             padding: 16px 0;
@@ -560,8 +555,8 @@
                     </svg>
                     <div class="v-line"></div>
                     <div class="title-box" id="header-dynamic-title">
-                        <span style="text-align: inherit !important;">Digital Services</span>
-                        <span style="text-align: inherit !important;">Center</span>
+                        <span>Digital Services</span>
+                        <span>Center</span>
                     </div>
                 </div>
                 <div class="header-left-group">
@@ -745,13 +740,12 @@
         const provider = new GoogleAuthProvider();
 
         async function saveUserToFirestore(user, customName = null) {
-            const lang = localStorage.getItem('pref_lang') || 'en';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4;
-            const regions_ar = ["الجزائر", "مصر", "العراق", "الأردن", "الشرق الأوسط", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "الإمارات"];
+            const lang = 'en';
+            const regIdx = 4;
             const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
             
-            const currentRegionName = lang === 'ar' ? regions_ar[regIdx] : regions_en[regIdx];
-            const currentLanguageName = lang === 'ar' ? "العربية" : "English";
+            const currentRegionName = regions_en[regIdx];
+            const currentLanguageName = "English";
 
             const userRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(userRef);
@@ -811,14 +805,8 @@
         let sliderTimer;
         let isTransitioning = false;
         
-        // Initial setup from storage
-        if (!localStorage.getItem('pref_lang')) {
-            localStorage.setItem('pref_lang', 'en');
-            localStorage.setItem('pref_reg_idx', '4');
-        }
-        
-        let tempLang = localStorage.getItem('pref_lang');
-        let tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx'));
+        let tempLang = 'en';
+        let tempRegIdx = 4;
 
         window.addEventListener('pageshow', function(event) {
             const globalSpinner = document.getElementById('global-spinner-overlay');
@@ -870,9 +858,9 @@
             const banner = document.getElementById('auth-error-banner');
             const errorText = document.getElementById('error-message-text');
             if (banner && errorText) {
-                const lang = localStorage.getItem('pref_lang') || 'en';
-                let msg = (lang === 'ar') ? "حدث خطأ أثناء تسجيل الدخول." : "Login error occurred.";
-                if (firebaseError.includes('auth/invalid-credential')) msg = (lang === 'ar') ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
+                const lang = 'en';
+                let msg = "Login error occurred.";
+                if (firebaseError.includes('auth/invalid-credential')) msg = "Invalid email or password.";
                 errorText.innerText = msg;
                 banner.style.display = 'flex';
             }
@@ -910,8 +898,8 @@
 
         function openAuthModal(type) {
             const container = document.getElementById('auth-content');
-            const lang = localStorage.getItem('pref_lang') || 'en';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4;
+            const lang = 'en';
+            const regIdx = 4;
             const currentReg = regionConfigs[regIdx];
             
             const t = {
@@ -1025,8 +1013,8 @@
         ];
 
         function openSelection(mode = 'lang') { 
-            tempLang = localStorage.getItem('pref_lang') || 'en'; 
-            tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4; 
+            tempLang = 'en'; 
+            tempRegIdx = 4; 
             renderSheet(); 
             document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'flex'; 
         }
@@ -1061,8 +1049,6 @@
 
         function applyChanges(mode = 'lang') {
             document.getElementById('global-spinner-overlay').style.display = 'flex';
-            localStorage.setItem('pref_lang', tempLang);
-            localStorage.setItem('pref_reg_idx', tempRegIdx);
             setTimeout(() => {
                 updateUI();
                 if (document.getElementById('auth-modal').style.display === 'flex') {
@@ -1075,13 +1061,13 @@
         }
 
         function updateUI() {
-            const lang = localStorage.getItem('pref_lang') || 'en';
+            const lang = 'en';
             document.documentElement.setAttribute('lang', lang);
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('label-lng').innerText = lang.toUpperCase();
+            document.documentElement.dir = 'ltr';
+            document.getElementById('label-lng').innerText = 'EN';
             
             const headerBox = document.getElementById('header-dynamic-title');
-            headerBox.innerHTML = lang === 'ar' ? `<span>مركز الخدمات</span><span>الرقمية</span>` : `<span>Digital Services</span><span>Center</span>`;
+            headerBox.innerHTML = `<span>Digital Services</span><span>Center</span>`;
 
             const translations = { ar: { hero: "المنصة الأكبر للمتابعين والخدمات في الشرق الأوسط", join: "انضم مجاناً", login: "تسجيل الدخول", legal: "باستخدام تطبيق serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا." }, en: { hero: "The Largest Platform for Followers & Services in MENA", join: "Join for free", login: "Log in", legal: "By using the serviocmm app, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>." } };
             document.getElementById('hero-text-label').innerText = translations[lang].hero;
