@@ -187,29 +187,22 @@
         .icon-box { 
             width: 58px; 
             height: 58px; 
-            background: #f8fafc; 
-            border-radius: 16px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            background: #FFFFFF; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
             display: flex; 
             align-items: center; 
             justify-content: center;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #E2E7F0;
         }
         .icon-box:active { transform: scale(0.92); }
         
-        /* تحسين الألوان للأيقونات */
-        .shortcut-label { font-size: 10px; font-weight: 800; color: #475569; text-align: center; white-space: nowrap; margin-top: -2px; }
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
         
-        .icon-svg-smm { width: 24px; height: 24px; fill: #2E5822; }
-        .icon-svg-deposit { width: 26px; height: 26px; fill: #059669; }
-        .icon-svg-menu { width: 24px; height: 24px; fill: #334155; }
-        .icon-svg-logout { width: 22px; height: 22px; fill: #dc2626; }
-
-        /* تغيير خلفيات صناديق الأيقونات لتعطي طابعاً عصرياً */
-        .shortcut-item:nth-child(1) .icon-box { background: #f0fdf4; border-color: #dcfce7; }
-        .shortcut-item:nth-child(2) .icon-box { background: #ecfdf5; border-color: #d1fae5; }
-        .shortcut-item:nth-child(3) .icon-box { background: #f1f5f9; border-color: #e2e8f0; }
-        .shortcut-item:nth-child(4) .icon-box { background: #fef2f2; border-color: #fee2e2; }
+        .icon-svg-smm { width: 24px; height: 24px; fill: #000000; }
+        .icon-svg-deposit { width: 26px; height: 26px; fill: #000000; }
+        .icon-svg-menu { width: 24px; height: 24px; fill: #000000; }
+        .icon-svg-logout { width: 22px; height: 22px; fill: #000000; }
     </style>
 </head>
 <body>
@@ -486,14 +479,14 @@
         .transactions-content {
             width: calc(100% - 40px); 
             max-width: 440px; 
-            padding: 20px; 
+            padding: 15px 20px; 
             box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
             height: auto;
-            flex: 1;
-            margin: 10px auto;
+            max-height: 400px;
+            margin: 5px auto;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-radius: 40px 40px 35px 35px;
