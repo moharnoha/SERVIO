@@ -148,18 +148,15 @@
             fill: #94a3b8;
         }
 
-        /* الحاوية المنحنية - تم تغيير اللون وتعديل الارتفاع */
+        /* الحاوية المندمجة مع هيكل الصفحة */
         .content-card {
             background-color: #FFFFFF;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
             position: fixed;
             top: 245px; 
             bottom: 0;
             left: 0;
             right: 0;
             padding: 10px 0;
-            box-shadow: 0px -10px 30px rgba(0,0,0,0.03);
             z-index: 1002;
             overflow: hidden; 
             display: flex;
@@ -301,19 +298,11 @@
     </div>
 
     <div class="content-card">
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" class="notranslate" translate="no"> 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google" content="notranslate">
-    <title>serviocmm - Pro Wallet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --sub-green: #FFFFFF; 
+            --sub-green: #F3F2F2; 
             --platform-bg: #FFFFFF;
             --bg-gradient: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 100%);
             --text-dark: #1A2419;
@@ -321,7 +310,7 @@
             --brand-red: #C62828;
             --brand-deposit: #10b981; 
             --card-white: #FFFFFF;
-            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
+            --shadow-soft: none;
             --sidebar-gray: #f1f5f9;
         }
 
@@ -478,25 +467,22 @@
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
-            background: transparent; 
+            background: #FFFFFF; 
             margin-top: 5px;
             flex: 1;
             overflow: hidden; 
         }
         .transactions-content {
-            width: 90%; 
-            max-width: 400px; 
-            padding: 15px 20px; 
+            width: 100%; 
+            max-width: 480px; 
+            padding: 15px 25px; 
             box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
             height: auto;
             flex: 1;
-            border-radius: 28px;
-            box-shadow: var(--shadow-soft);
             margin: 0 auto;
-            border: 1px solid #E2E7F0;
             overflow: hidden;
         }
         
@@ -517,11 +503,10 @@
 
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px; background: #ffffff; border-radius: 16px; border: 1px solid #E2E7F0;
+            padding: 12px 0px; background: #ffffff; border-bottom: 1px solid #f1f5f9;
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -712,8 +697,6 @@
             animation: spin 0.8s linear infinite !important;
         }
     </style>
-</head>
-<body class="notranslate">
 
     <div id="app-init-loader">
         <div class="loader-right-side">
@@ -1031,8 +1014,6 @@
 
         window.onload = () => { window.sync(); };
     </script>
-</body>
-</html>
     </div>
 
 </body>
