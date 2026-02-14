@@ -173,7 +173,7 @@
             letter-spacing: 1px;
         }
 
-        /* تنسيق الأيقونات الأربعة - تم تحديث الألوان وتحسين الخطوط */
+        /* تنسيق الأيقونات الأربعة - إزالة الحواف وتعديل الألوان */
         .shortcuts-scroll-wrapper { 
             display: flex; 
             justify-content: space-between; 
@@ -186,22 +186,22 @@
         .icon-box { 
             width: 54px; 
             height: 54px; 
-            background: #305822; 
+            background: #F0F0F0; 
             border-radius: 50%; 
             display: flex; 
             align-items: center; 
             justify-content: center;
             border: none;
-            box-shadow: 0 2px 8px rgba(48, 88, 34, 0.2);
+            box-shadow: none;
         }
-        .icon-box:active { transform: scale(0.95); opacity: 0.9; }
+        .icon-box:active { transform: scale(0.95); background: #E5E5EA; }
         
-        .shortcut-label { font-size: 12px; font-weight: 700; color: #000000; text-align: center; white-space: nowrap; margin-top: 2px; font-family: 'Cairo', sans-serif; }
+        .shortcut-label { font-size: 11px; font-weight: 700; color: #000000; text-align: center; white-space: nowrap; margin-top: 2px; font-family: 'Cairo', sans-serif; }
         
-        .icon-svg-smm { width: 22px; height: 22px; fill: #FFFFFF; }
-        .icon-svg-deposit { width: 22px; height: 22px; fill: #FFFFFF; }
-        .icon-svg-menu { width: 22px; height: 22px; fill: #FFFFFF; }
-        .icon-svg-logout { width: 22px; height: 22px; fill: #FFFFFF; }
+        .icon-svg-smm { width: 22px; height: 22px; fill: #FFFFFF; stroke: #FFFFFF; stroke-width: 0.5; }
+        .icon-svg-deposit { width: 22px; height: 22px; fill: #FFFFFF; stroke: #FFFFFF; stroke-width: 0.5; }
+        .icon-svg-menu { width: 22px; height: 22px; fill: #FFFFFF; stroke: #FFFFFF; stroke-width: 0.5; }
+        .icon-svg-logout { width: 22px; height: 22px; fill: #FFFFFF; stroke: #FFFFFF; stroke-width: 0.5; }
     </style>
 </head>
 <body>
@@ -838,6 +838,10 @@
             
             document.getElementById('detail-content').innerHTML = html;
             document.getElementById('detail-modal').style.display = 'flex';
+        };
+
+        window.closeDetail = () => {
+            document.getElementById('detail-modal').style.display = 'none';
         };
 
         window.showAllTransactions = () => {
