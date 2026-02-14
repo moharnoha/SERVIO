@@ -4,320 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google" content="notranslate">
-    <title>تحديث الواجهة - تناسق الشعار</title>
-    
-    <style>
-        :root { 
-            --header-bg: #FFFFFF; 
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F4F2F2;
-            direction: rtl !important;
-            overflow: hidden; 
-        }
-
-        header { 
-            width: 100%; height: 70px; 
-            background-color: var(--header-bg); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px;
-            box-sizing: border-box;
-            position: fixed; 
-            top: 0; z-index: 1001;
-            direction: rtl !important;
-        }
-
-        .header-content {
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        @media (min-width: 481px) {
-            .header-content {
-                max-width: 100%;
-                padding: 0 40px;
-            }
-        }
-
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
-        .logo-img { height: 35px; width: auto; display: block; }
-        
-        .site-name-center {
-            font-size: 20px;
-            font-weight: 800;
-            color: #000000;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-left-group { display: flex; align-items: center; gap: 10px; flex-direction: row !important; }
-
-        .profile-icon-svg {
-            width: 28px; 
-            height: 28px; 
-            vertical-align: middle; 
-            fill: #64748b; 
-            overflow: hidden;
-        }
-
-        /* الهيدر الثالث - تم تحديث الألوان والخطوط */
-        .header-main {
-            background-color: #F4F2F2;
-            height: auto; 
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; 
-            align-items: flex-start;
-            position: fixed;
-            top: 70px; 
-            width: 100%;
-            z-index: 1000;
-            padding: 15px 25px;
-            box-sizing: border-box;
-            border-bottom: none;
-        }
-
-        /* حاوية الرصيد */
-        .balance-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: right;
-            width: auto;
-            margin-bottom: 15px;
-        }
-
-        .balance-label-row {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 6px;
-            color: #8E8E93;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-
-        .balance-amount-row {
-            display: flex;
-            align-items: baseline;
-            justify-content: flex-start;
-            gap: 8px;
-        }
-
-        .balance-value {
-            font-size: 34px; 
-            font-weight: 700;
-            color: #000000;
-            line-height: 1;
-            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        .currency-section {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .currency-tag {
-            font-size: 16px;
-            font-weight: 600;
-            color: #000000;
-        }
-
-        .icon-arrow-gray {
-            width: 12px;
-            height: 12px;
-            fill: #8E8E93;
-        }
-
-        .icon-eye-gray {
-            width: 16px;
-            height: 16px;
-            fill: #8E8E93;
-        }
-
-        /* الحاوية المندمجة مع هيكل الصفحة */
-        .content-card {
-            background-color: #F4F2F2;
-            position: fixed;
-            top: 245px; 
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 10px 0;
-            z-index: 1002;
-            overflow: hidden; 
-            display: flex;
-            flex-direction: column;
-        }
-
-        .dots-menu {
-            position: absolute;
-            right: 30px; 
-            top: 40px;
-            font-size: 26px;
-            font-weight: bold;
-            color: #8a8d91;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        /* تنسيق الأيقونات الأربعة - إزالة الحواف وتعديل الألوان */
-        .shortcuts-scroll-wrapper { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 10px; 
-            width: 100%;
-            max-width: 480px;
-        }
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 8px; text-decoration: none; cursor: pointer; }
-        
-        .icon-box { 
-            width: 54px; 
-            height: 54px; 
-            background: #DBD9D9; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border: none;
-            box-shadow: none;
-        }
-        .icon-box:active { transform: scale(0.95); background: #4a5568; }
-        
-        .shortcut-label { font-size: 12px; font-weight: 700; color: #000000; text-align: center; white-space: nowrap; margin-top: 2px; font-family: 'Cairo', sans-serif; }
-        
-        .icon-svg-smm { width: 22px; height: 22px; fill: #010000; }
-        .icon-svg-deposit { width: 22px; height: 22px; fill: #010000; }
-        .icon-svg-menu { width: 22px; height: 22px; fill: #010000; }
-        .icon-svg-logout { width: 22px; height: 22px; fill: #010000; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="header-content">
-            <div class="brand-section">
-                <svg class="logo-img" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="deepGreenHeader" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2d5a1e;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#1a3611;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="vibrantGreenHeader" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#74a367;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#5a854f;stop-opacity:1" />
-                        </linearGradient>
-                        <mask id="whiteGapHeader">
-                            <rect width="1000" height="800" fill="white" />
-                            <circle cx="350" cy="400" r="362" fill="black" />
-                        </mask>
-                    </defs>
-                    <circle cx="350" cy="400" r="350" fill="url(#deepGreenHeader)" />
-                    <circle cx="650" cy="400" r="350" fill="url(#vibrantGreenHeader)" mask="url(#whiteGapHeader)" fill-opacity="0.95" />
-                    <g transform="rotate(-38 500 400)">
-                        <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                        <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
-                        <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                    </g>
-                </svg>
-            </div>
-
-            <div class="site-name-center">serviocmm</div>
-
-            <div class="header-left-group">
-                <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <clipPath id="circleView">
-                            <circle cx="512" cy="512" r="512" />
-                        </clipPath>
-                    </defs>
-                    <circle cx="512" cy="512" r="512" fill="#f0f0f0" />
-                    <g clip-path="url(#circleView)">
-                        <circle cx="512" cy="380" r="170.7" />
-                        <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" />
-                    </g>
-                </svg>
-            </div>
-        </div>
-    </header>
-
-    <div class="header-main">
-        <div class="balance-container">
-            <div class="balance-label-row">
-                <svg class="icon-eye-gray" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                <span>الرصيد المتاح</span>
-                <svg class="icon-arrow-gray" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-            </div>
-            <div class="balance-amount-row">
-                <span class="balance-value" id="header-balance-val">0.00</span>
-                <div class="currency-section">
-                    <span class="currency-tag">USD</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="shortcuts-scroll-wrapper">
-            <a href="smm-services/" class="shortcut-item simulate-link">
-                <div class="icon-box">
-                    <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
-                </div>
-                <span class="shortcut-label" id="txt-smm"></span>
-            </a>
-            <a href="deposit/" class="shortcut-item simulate-link">
-                <div class="icon-box">
-                    <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
-                </div>
-                <span class="shortcut-label" id="txt-deposit"></span>
-            </a>
-            <a href="menu/" class="shortcut-item simulate-link">
-                <div class="icon-box">
-                    <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
-                </div>
-                <span class="shortcut-label" id="txt-menu"></span>
-            </a>
-            <div class="shortcut-item simulate-link" onclick="handleLogout()">
-                <div class="icon-box">
-                    <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                </div>
-                <span class="shortcut-label" id="txt-logout"></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="content-card">
+    <title>serviocmm - Pro Wallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --sub-green: #F4F2F2; 
-            --platform-bg: #F4F2F2;
-            --bg-gradient: linear-gradient(135deg, #F4F2F2 0%, #F4F2F2 100%);
+            --sub-green: #F3F2F2; 
+            --platform-bg: #F3F2F2;
+            --bg-gradient: linear-gradient(135deg, #F3F2F2 0%, #F3F2F2 100%);
             --text-dark: #1A2419;
             --brand-green: #2E5822;
             --brand-red: #C62828;
             --brand-deposit: #10b981; 
             --card-white: #FFFFFF;
-            --shadow-soft: none;
+            --shadow-soft: 0 8px 24px rgba(46, 88, 34, 0.08);
             --sidebar-gray: #f1f5f9;
         }
 
         html, body { 
-            height: 100%; 
+            height: auto; 
+            min-height: 100%; 
             margin: 0; 
             padding: 0; 
-            overflow: hidden !important; 
+            overflow-x: hidden; 
+            overflow-y: scroll !important; 
             width: 100vw;
             position: relative;
         }
@@ -449,47 +160,65 @@
             position: relative;
         }
         .bottom-header-content {
-            width: 100%; max-width: 480px; padding: 0px 15px; box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 10px 15px; box-sizing: border-box;
         }
 
         .wallet-card {
             display: none !important;
         }
 
-        /* تعديل المسافات لتثبيت الصفحة */
         .new-header-container {
-            display: none !important;
+            background: var(--platform-bg); 
+            width: 100%; display: flex; justify-content: center;
+            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
+            box-shadow: none;
+            position: relative;
         }
         .new-header-content {
-            width: 100%; max-width: 480px; padding: 15px 20px 10px 20px; box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 25px 20px 30px 20px; box-sizing: border-box;
         }
+        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 12px; text-decoration: none; cursor: pointer; }
+        
+        /* Updated Icon Boxes Styling - Circular Simple White Style */
+        .icon-box { 
+            width: 65px; 
+            height: 65px; 
+            background: #FFFFFF; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border: 1px solid #E2E7F0;
+        }
+        .icon-box:active { transform: scale(0.92); }
+        
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
+        
+        /* Specialized Colors and Sizing for Icons */
+        .icon-svg-smm { width: 28px; height: 28px; fill: #2E5822; }
+        .icon-svg-deposit { width: 30px; height: 30px; fill: #10b981; }
+        .icon-svg-menu { width: 28px; height: 28px; fill: #475569; }
+        .icon-svg-logout { width: 26px; height: 26px; fill: #ef4444; }
 
         .transactions-header { 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            background: #F4F2F2; 
-            margin: 5px 0;
-            flex: 1;
-            overflow: hidden; 
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            background: transparent; 
+            margin-top: 10px;
+            flex: none;
+            overflow: visible; 
         }
-        
         .transactions-content {
-            width: calc(100% - 40px); 
-            max-width: 440px; 
-            padding: 15px 20px; 
-            box-sizing: border-box;
+            width: 100%; max-width: 480px; padding: 25px 20px; box-sizing: border-box;
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            height: auto;
-            max-height: 400px;
-            margin: 5px auto;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-radius: 40px 40px 35px 35px;
-            border: 1px solid #f1f5f9;
+            height: 380px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-soft);
+            margin: 0 15px 30px 15px;
+            border: 1px solid #E2E7F0;
         }
         
         .filter-options { display: none; }
@@ -497,7 +226,7 @@
         .trans-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 10px; 
+            gap: 12px; 
             margin-top: 5px;
             overflow-y: auto;
             flex: 1;
@@ -509,10 +238,11 @@
 
         .trans-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 0px; background: #ffffff; border-bottom: 1px solid #f1f5f9;
+            padding: 16px; background: #ffffff; border-radius: 16px; border: 1px solid #E2E7F0;
             contain: content; cursor: pointer;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -538,7 +268,7 @@
         
         .empty-state { 
             text-align: center; 
-            padding: 30px 20px; 
+            padding: 50px 20px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -547,15 +277,15 @@
             flex: 1;
         }
         .empty-state-icon {
-            width: 70px; height: 70px;
+            width: 90px; height: 90px;
             background: transparent;
             display: flex; align-items: center; justify-content: center;
             color: #2E5822;
             position: relative;
         }
         .empty-state-icon svg {
-            width: 90px; 
-            height: 90px;
+            width: 110px; 
+            height: 110px;
             fill: #2E5822;
             opacity: 0.8;
         }
@@ -574,14 +304,14 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: #FFFFFF; 
+            background: #F3F2F2; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             z-index: 9999;
         }
         .modal-card {
-            background: #FFFFFF; 
+            background: #F3F2F2; 
             width: 100%; 
             height: 100%;
             padding: 0;
@@ -623,7 +353,7 @@
             padding: 15px; 
             font-size: 13px; 
             color: var(--text-dark); 
-            background: #FFFFFF;
+            background: #F3F2F2;
             flex: 1;
             overflow: hidden;
             display: flex;
@@ -644,6 +374,7 @@
             color: #000000;
         }
         
+        /* User Info Section in Modal */
         .modal-user-sticky {
             flex-shrink: 0;
             margin-bottom: 15px;
@@ -673,15 +404,7 @@
         .detail-value.is-activated { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
         .detail-value.is-rejected { color: #000000; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E7F0; }
 
-        .page-wrapper { 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            height: 100%; 
-            background-color: var(--platform-bg); 
-            overflow: hidden; 
-        }
+        .page-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%; background-color: var(--platform-bg); overflow: visible; }
         
         .view-more-link {
             color: #2E5822;
@@ -703,6 +426,8 @@
             animation: spin 0.8s linear infinite !important;
         }
     </style>
+</head>
+<body class="notranslate">
 
     <div id="app-init-loader">
         <div class="loader-right-side">
@@ -723,10 +448,41 @@
             </div>
         </div>
 
+        <div class="new-header-container">
+            <div class="new-header-content">
+                <div class="shortcuts-scroll-wrapper">
+                    <a href="smm-services/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-smm"></span>
+                    </a>
+                    <a href="deposit/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-deposit"></span>
+                    </a>
+                    <a href="menu/" class="shortcut-item simulate-link">
+                        <div class="icon-box">
+                            <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-menu"></span>
+                    </a>
+                    <div class="shortcut-item simulate-link" onclick="handleLogout()">
+                        <div class="icon-box">
+                            <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                        </div>
+                        <span class="shortcut-label" id="txt-logout"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="transactions-header">
             <div class="transactions-content">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-shrink:0;">
-                    <div class="section-title" id="txt-trans-title" style="font-size:15px; font-weight:800"></div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; flex-shrink:0;">
+                    <div class="section-title" id="txt-trans-title" style="font-size:16px; font-weight:800"></div>
                     <a class="view-more-link" id="txt-view-more" onclick="showAllTransactions()"></a>
                 </div>
                 
@@ -805,7 +561,13 @@
         
         function formatBalanceVal(val) {
             if (val === undefined || val === null || isNaN(val)) return "0.00";
-            return Number(val).toFixed(2);
+            const num = Number(val);
+            const strVal = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 });
+            if (strVal.includes('.')) {
+                const [main, dec] = strVal.split('.');
+                return `${main}<sup>.${dec}</sup>`;
+            }
+            return strVal;
         };
 
         window.showDetails = (title, amount, status, date, fullDesc, quantity, code, username) => {
@@ -948,8 +710,7 @@
                         const bal = d.balance || 0; 
                         window.currentName = d.fullName || d.name || "User";
                         
-                        document.getElementById('header-balance-val').innerText = formatBalanceVal(bal);
-                        
+                        // Update Language and Region from Firebase
                         const fireLanguage = d.selected_language || "ar";
                         localStorage.setItem('pref_lang', fireLanguage);
                         
@@ -957,7 +718,7 @@
                         localStorage.setItem('hide_email', d.hide_email === "true");
                         localStorage.setItem('hide_username', d.hide_username === "true");
                         
-                        window.sync(); 
+                        window.sync(); // Refresh Header UI
                         hideInitialLoader();
                     }
                 });
@@ -989,9 +750,9 @@
                 e.preventDefault();
                 const url = target.getAttribute('href');
                 const loader = document.getElementById('global-loading');
-                if (loader) loader.style.display = 'flex';
+                loader.style.display = 'flex';
                 setTimeout(() => {
-                    if (loader) loader.style.display = 'none';
+                    loader.style.display = 'none';
                     if (url) window.location.href = url;
                     else if (target.getAttribute('onclick')) {
                         if(target.getAttribute('onclick').includes('handleLogout')) window.handleLogout();
@@ -1020,7 +781,5 @@
 
         window.onload = () => { window.sync(); };
     </script>
-    </div>
-
 </body>
 </html>
