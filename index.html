@@ -505,8 +505,6 @@
             color: #ff0000;
         }
 
-        /* Saved Accounts Section Styles Removed */
-
         /* Region Choice Box */
         .region-select-box {
             width: 100%;
@@ -562,15 +560,15 @@
                     </svg>
                     <div class="v-line"></div>
                     <div class="title-box" id="header-dynamic-title">
-                        <span style="text-align: inherit !important;">مركز الخدمات</span>
-                        <span style="text-align: inherit !important;">الرقمية</span>
+                        <span style="text-align: inherit !important;">Digital Services</span>
+                        <span style="text-align: inherit !important;">Center</span>
                     </div>
                 </div>
                 <div class="header-left-group">
                     <div class="info-display-wrapper" onclick="openSelection('lang-only')">
                         <svg class="lang-globe-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                         <div class="display-text">
-                            <span id="label-lng">AR</span>
+                            <span id="label-lng">EN</span>
                         </div>
                     </div>
                     <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -688,16 +686,16 @@
                 <div class="close-sheet" onclick="closeSelection('lang')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </div>
-                <div class="sheet-title" id="sheet-title-label-lang">اللغة</div>
+                <div class="sheet-title" id="sheet-title-label-lang">Language</div>
             </div>
             <div id="sheet-lang-part">
-                <div class="section-label" id="lang-section-label">اللغة</div>
+                <div class="section-label" id="lang-section-label">Language</div>
                 <div class="options-grid">
                     <div class="option-box" id="lang-en" onclick="setTempLang('en')"><span>English</span></div>
                     <div class="option-box" id="lang-ar" onclick="setTempLang('ar')"><span>العربية</span></div>
                 </div>
             </div>
-            <button class="save-btn" id="save-btn-label-lang" onclick="applyChanges('lang')">حفظ</button>
+            <button class="save-btn" id="save-btn-label-lang" onclick="applyChanges('lang')">Save</button>
         </div>
     </div>
 
@@ -707,13 +705,13 @@
                 <div class="close-sheet" onclick="closeSelection('reg')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </div>
-                <div class="sheet-title" id="sheet-title-label-reg">المنطقة</div>
+                <div class="sheet-title" id="sheet-title-label-reg">Region</div>
             </div>
             <div id="sheet-region-part">
-                <div class="section-label" id="region-section-label">المنطقة</div>
+                <div class="section-label" id="region-section-label">Region</div>
                 <div class="options-grid" id="regions-grid-container"></div>
             </div>
-            <button class="save-btn" id="save-btn-label-reg" onclick="applyChanges('reg')">حفظ</button>
+            <button class="save-btn" id="save-btn-label-reg" onclick="applyChanges('reg')">Save</button>
         </div>
     </div>
 
@@ -747,8 +745,8 @@
         const provider = new GoogleAuthProvider();
 
         async function saveUserToFirestore(user, customName = null) {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const lang = localStorage.getItem('pref_lang') || 'en';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4;
             const regions_ar = ["الجزائر", "مصر", "العراق", "الأردن", "الشرق الأوسط", "المغرب", "نيجيريا", "عمان", "فلسطين", "قطر", "السعودية", "الإمارات"];
             const regions_en = ["Algeria", "Egypt", "Iraq", "Jordan", "MENA", "Morocco", "Nigeria", "Oman", "Palestine", "Qatar", "Saudi Arabia", "UAE"];
             
@@ -774,7 +772,7 @@
                     selected_language: currentLanguageName
                 }, { merge: true });
             }
-            window.location.href = "dashboard/";
+            window.location.replace("dashboard/");
         }
 
         window.firebaseLogin = async (email, password) => {
@@ -804,13 +802,6 @@
                 window.showAuthError(e.message);
             }
         };
-
-        window.quickLogin = async (uid) => {
-             document.getElementById('global-spinner-overlay').style.display = 'flex';
-             setTimeout(() => {
-                 window.location.href = "dashboard/";
-             }, 1000);
-        };
     </script>
 
     <script>
@@ -820,24 +811,21 @@
         let sliderTimer;
         let isTransitioning = false;
         
-        let tempLang = localStorage.getItem('pref_lang') || 'ar';
-        let tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+        // Initial setup from storage
+        if (!localStorage.getItem('pref_lang')) {
+            localStorage.setItem('pref_lang', 'en');
+            localStorage.setItem('pref_reg_idx', '4');
+        }
+        
+        let tempLang = localStorage.getItem('pref_lang');
+        let tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx'));
 
         window.addEventListener('pageshow', function(event) {
             const globalSpinner = document.getElementById('global-spinner-overlay');
-            if (globalSpinner) {
-                globalSpinner.style.display = 'none';
-            }
+            if (globalSpinner) globalSpinner.style.display = 'none';
             document.body.style.overflow = '';
-            
-            // Fix sticky buttons/forms on back navigation
             document.querySelectorAll('.exact-8-spinner').forEach(s => s.style.display = 'none');
             document.querySelectorAll('button').forEach(b => b.disabled = false);
-            
-            // Re-check form validity if modal is open
-            if(document.getElementById('auth-modal').style.display === 'flex') {
-                checkFormValidity();
-            }
         });
 
         const googleIconSvg = `<svg class="google-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -858,9 +846,7 @@
 
         function handleAuthSubmit(btn, type) {
             const emailInput = document.getElementById('auth-email-in');
-            if (emailInput && !validateEmail(emailInput.value)) {
-                return;
-            }
+            if (emailInput && !validateEmail(emailInput.value)) return;
             const spinner = btn.querySelector('.exact-8-spinner');
             spinner.style.display = 'block';
             btn.disabled = true;
@@ -884,45 +870,26 @@
             const banner = document.getElementById('auth-error-banner');
             const errorText = document.getElementById('error-message-text');
             if (banner && errorText) {
-                const lang = localStorage.getItem('pref_lang') || 'ar';
-                let msg = (lang === 'ar') ? "حدث خطأ أثناء تسجيل الدخول. يرجى التحقق من بياناتك." : "Login error. Please check your credentials.";
-                
-                if (firebaseError.includes('auth/invalid-credential') || firebaseError.includes('auth/wrong-password') || firebaseError.includes('auth/user-not-found')) {
-                    msg = (lang === 'ar') ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
-                } else if (firebaseError.includes('auth/email-already-in-use')) {
-                    msg = (lang === 'ar') ? "هذا البريد الإلكتروني مستخدم بالفعل." : "This email is already in use.";
-                }
-
+                const lang = localStorage.getItem('pref_lang') || 'en';
+                let msg = (lang === 'ar') ? "حدث خطأ أثناء تسجيل الدخول." : "Login error occurred.";
+                if (firebaseError.includes('auth/invalid-credential')) msg = (lang === 'ar') ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
                 errorText.innerText = msg;
                 banner.style.display = 'flex';
-                banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         };
 
-        function validateEmail(email) {
-            const re = /^[^\s@]+@gmail\.com$/;
-            return re.test(String(email).toLowerCase());
-        }
+        function validateEmail(email) { return /^[^\s@]+@gmail\.com$/.test(String(email).toLowerCase()); }
 
         function checkFormValidity() {
             const emailInput = document.getElementById('auth-email-in');
             const passInput = document.getElementById('auth-pass-in');
             const nameInput = document.getElementById('auth-name-in');
             const submitBtn = document.querySelector('.auth-submit-btn');
-            
-            const isEmailValid = emailInput && validateEmail(emailInput.value);
-            const isPassValid = passInput && passInput.value.length >= 1;
-            const isNameValid = nameInput ? nameInput.value.length >= 1 : true;
-
-            if (submitBtn) {
-                submitBtn.disabled = !(isEmailValid && isPassValid && isNameValid);
-            }
+            const isValid = (emailInput && validateEmail(emailInput.value)) && (passInput && passInput.value.length > 0) && (!nameInput || nameInput.value.length > 0);
+            if (submitBtn) submitBtn.disabled = !isValid;
         }
 
-        function handleEmailInput(input) {
-            checkFormValidity();
-        }
-
+        function handleEmailInput(input) { checkFormValidity(); }
         function handleEmailBlur(input) {
             const errorMsg = document.getElementById('email-error-msg');
             if (input.value !== "" && !validateEmail(input.value)) {
@@ -936,21 +903,15 @@
 
         function togglePassword(icon) {
             const input = icon.parentElement.querySelector('input');
-            const isPassword = input.type === 'password';
-            input.type = isPassword ? 'text' : 'password';
-            if (isPassword) {
-                icon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11-8 11-8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-            } else {
-                icon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg>`;
-            }
+            input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         function toggleCheckbox(el) { el.classList.toggle('checked'); }
 
         function openAuthModal(type) {
             const container = document.getElementById('auth-content');
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
+            const lang = localStorage.getItem('pref_lang') || 'en';
+            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4;
             const currentReg = regionConfigs[regIdx];
             
             const t = {
@@ -958,14 +919,12 @@
                 en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email", regionLabel: "Region" }
             };
             const cur = t[lang];
-
             const regDisplay = currentReg.type === 'icon' ? currentReg.svg : `<img src="${currentReg.flag}" style="width:24px; height:16px; border-radius:2px;">`;
 
             if (type === 'join') {
                 container.innerHTML = `
                     <div class="auth-title">${cur.joinTitle}</div>
                     <div class="auth-input-group"><input type="text" id="auth-name-in" class="auth-input" placeholder="${cur.namePlace}" oninput="checkFormValidity()"></div>
-                    
                     <div class="auth-input-group">
                         <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
                         <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
@@ -976,26 +935,15 @@
                     </div>
                     <div class="region-select-box" onclick="openSelection('reg')">
                         <span class="label">${cur.regionLabel}</span>
-                        <span class="value">
-                            ${currentReg[lang]} ${regDisplay}
-                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
+                        <span class="value">${currentReg[lang]} ${regDisplay} <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
                     </div>
                     <div class="custom-checkbox-wrapper" onclick="toggleCheckbox(this.querySelector('.custom-checkbox'))">
                         <div class="custom-checkbox"></div>
                         <div style="font-size:14px; color:#000; line-height:1.4; font-weight:500;">${cur.news}</div>
                     </div>
                     <p class="auth-legal-small">${cur.legalJoin}</p>
-                    <div id="auth-error-banner" class="auth-error-banner">
-                        <div class="error-icon-red">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        </div>
-                        <span id="error-message-text"></span>
-                    </div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')" disabled>
-                        <span>${cur.joinBtn}</span>
-                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                    </button>
+                    <div id="auth-error-banner" class="auth-error-banner"><span id="error-message-text"></span></div>
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')" disabled><span>${cur.joinBtn}</span><div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>
                     <div class="social-btn" onclick="window.firebaseGoogle()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
                 `;
@@ -1010,18 +958,9 @@
                         <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}" oninput="checkFormValidity()">
                         <div class="toggle-password" onclick="togglePassword(this)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg></div>
                     </div>
-                    <div style="text-align:inherit; font-size:15px; color:#9ca3af; margin: 15px 0 25px; font-weight:500;">${cur.forgot}</div>
                     <p class="auth-legal-small">${cur.legalLogin}</p>
-                    <div id="auth-error-banner" class="auth-error-banner">
-                        <div class="error-icon-red">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        </div>
-                        <span id="error-message-text"></span>
-                    </div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')" disabled>
-                        <span>${cur.loginBtn}</span>
-                        <div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                    </button>
+                    <div id="auth-error-banner" class="auth-error-banner"><span id="error-message-text"></span></div>
+                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')" disabled><span>${cur.loginBtn}</span><div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>
                     <div class="social-btn" onclick="window.firebaseGoogle()">${googleIconSvg} ${cur.google}</div>
                     <div class="auth-footer">${cur.noAccount} <span onclick="openAuthModal('join')">${cur.joinBtn}</span></div>
                 `;
@@ -1030,35 +969,26 @@
             document.body.style.overflow = 'hidden'; 
         }
 
-        function closeAuthModal() {
-            document.getElementById('auth-modal').style.display = 'none';
-            document.body.style.overflow = ''; 
-        }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; document.body.style.overflow = ''; }
 
         function initSlider() {
             document.querySelectorAll('iframe[id^="vimeo-new-"]').forEach((iframe, idx) => {
                 const player = new Vimeo.Player(iframe);
                 playersNew[idx] = player;
                 player.on('loaded', () => { document.getElementById('media-loader').style.display = 'none'; });
-                player.on('ended', () => { switchVideoNew((idx + 1) % totalSlidesNew); });
-                player.on('error', () => { document.getElementById('media-loader').style.display = 'flex'; setTimeout(() => switchVideoNew((idx + 1) % totalSlidesNew), 500); });
-            });
-            document.querySelectorAll('.video-slide-new img').forEach((img, idx) => {
-                img.onerror = () => { document.getElementById('media-loader').style.display = 'flex'; switchVideoNew((currentIndexNew + 1) % totalSlidesNew); };
             });
             switchVideoNew(0);
             startAutoCycle();
         }
 
         function startAutoCycle() {
-            clearInterval(sliderTimer);
+            if (sliderTimer) clearInterval(sliderTimer);
             sliderTimer = setInterval(() => { switchVideoNew((currentIndexNew + 1) % totalSlidesNew); }, 7000); 
         }
 
         function switchVideoNew(index) {
             if (isTransitioning) return;
             isTransitioning = true;
-            const loader = document.getElementById('media-loader');
             currentIndexNew = index;
             const slides = document.querySelectorAll('.video-slide-new');
             const dots = document.querySelectorAll('.dot-new');
@@ -1066,26 +996,16 @@
             dots.forEach(dot => dot.classList.remove('active'));
             if(slides[index]) slides[index].classList.add('active');
             if(dots[index]) dots[index].classList.add('active');
-            let emergencyTimeout = setTimeout(() => { loader.style.display = 'flex'; isTransitioning = false; switchVideoNew((index + 1) % totalSlidesNew); }, 3000);
+            
             if (index < 2) {
                 playersNew.forEach((p, i) => {
-                    if (i === index && p) { p.play().then(() => { clearTimeout(emergencyTimeout); loader.style.display = 'none'; isTransitioning = false; }).catch(() => {}); } 
+                    if (i === index && p) { p.play().catch(() => {}); } 
                     else if(p) { p.pause().catch(() => {}); p.setCurrentTime(0).catch(() => {}); }
                 });
             } else {
                 playersNew.forEach(p => { if(p) { p.pause().catch(() => {}); p.setCurrentTime(0).catch(() => {}); } });
-                clearTimeout(emergencyTimeout); loader.style.display = 'none'; isTransitioning = false;
             }
-        }
-
-        let touchstartXN = 0; let touchendXN = 0;
-        const gestureZoneN = document.querySelector('.video-overlay-new');
-        gestureZoneN.addEventListener('touchstart', e => { touchstartXN = e.changedTouches[0].screenX; }, {passive: true});
-        gestureZoneN.addEventListener('touchend', e => { touchendXN = e.changedTouches[0].screenX; handleGestureN(); startAutoCycle(); }, {passive: true});
-        
-        function handleGestureN() {
-            if (touchendXN < touchstartXN - 50) switchVideoNew((currentIndexNew + 1) % totalSlidesNew);
-            if (touchendXN > touchstartXN + 50) switchVideoNew((currentIndexNew - 1 + totalSlidesNew) % totalSlidesNew);
+            setTimeout(() => { isTransitioning = false; }, 400);
         }
 
         const mdiLocation = `<svg class="nav-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C8.14,2,5,5.14,5,9c0,5.25,7,13,7,13s7-7.75,7-13C19,5.14,15.86,2,12,2z M12,11.5c-1.38,0-2.5-1.12-2.5-2.5s1.12-2.5,2.5-2.5s2.5,1.12,2.5,2.5S13.38,11.5,12,11.5z"/></svg>`;
@@ -1105,23 +1025,14 @@
         ];
 
         function openSelection(mode = 'lang') { 
-            tempLang = localStorage.getItem('pref_lang') || 'ar'; 
-            tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0; 
-            
+            tempLang = localStorage.getItem('pref_lang') || 'en'; 
+            tempRegIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 4; 
             renderSheet(); 
-            if (mode === 'reg') {
-                document.getElementById('overlay-reg').style.display = 'flex'; 
-            } else {
-                document.getElementById('overlay-lang').style.display = 'flex'; 
-            }
+            document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'flex'; 
         }
 
         function closeSelection(mode = 'lang') { 
-            if (mode === 'reg') {
-                document.getElementById('overlay-reg').style.display = 'none';
-            } else {
-                document.getElementById('overlay-lang').style.display = 'none';
-            }
+            document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'none';
         }
         function setTempLang(l) { tempLang = l; renderSheet(); }
         function setTempReg(i) { tempRegIdx = i; renderSheet(); }
@@ -1135,58 +1046,42 @@
                 const box = document.createElement('div');
                 box.className = i === tempRegIdx ? 'option-box selected' : 'option-box';
                 box.onclick = () => setTempReg(i);
-                let icon = reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}">`;
-                box.innerHTML = `<span>${reg[tempLang]}</span>` + icon;
+                box.innerHTML = `<span>${reg[tempLang]}</span>` + (reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}">`);
                 container.appendChild(box);
             });
             const labels = { ar: { title_lang: "اللغة", title_reg: "المنطقة", lang: "اللغة", reg: "المنطقة", save: "حفظ" }, en: { title_lang: "Language", title_reg: "Region", lang: "Language", reg: "Region", save: "Save" } };
-            document.getElementById('sheet-title-label-lang').innerText = labels[tempLang].title_lang;
-            document.getElementById('sheet-title-label-reg').innerText = labels[tempLang].title_reg;
-            document.getElementById('lang-section-label').innerText = labels[tempLang].lang;
-            document.getElementById('region-section-label').innerText = labels[tempLang].reg;
-            document.getElementById('save-btn-label-lang').innerText = labels[tempLang].save;
-            document.getElementById('save-btn-label-reg').innerText = labels[tempLang].save;
+            const curL = labels[tempLang];
+            document.getElementById('sheet-title-label-lang').innerText = curL.title_lang;
+            document.getElementById('sheet-title-label-reg').innerText = curL.title_reg;
+            document.getElementById('lang-section-label').innerText = curL.lang;
+            document.getElementById('region-section-label').innerText = curL.reg;
+            document.getElementById('save-btn-label-lang').innerText = curL.save;
+            document.getElementById('save-btn-label-reg').innerText = curL.save;
         }
 
         function applyChanges(mode = 'lang') {
-            const loader = document.getElementById('global-spinner-overlay');
-            loader.style.display = 'flex';
-            
+            document.getElementById('global-spinner-overlay').style.display = 'flex';
             localStorage.setItem('pref_lang', tempLang);
             localStorage.setItem('pref_reg_idx', tempRegIdx);
-            
             setTimeout(() => {
                 updateUI();
-                
-                const authModal = document.getElementById('auth-modal');
-                if (authModal.style.display === 'flex') {
-                    const titleElement = document.querySelector('.auth-title');
-                    if(titleElement) {
-                        const titleText = titleElement.innerText;
-                        const isJoin = titleText.includes('Join') || titleText.includes('انضم');
-                        openAuthModal(isJoin ? 'join' : 'login');
-                    }
+                if (document.getElementById('auth-modal').style.display === 'flex') {
+                    const isJoin = document.querySelector('.auth-title').innerText.match(/Join|انضم/);
+                    openAuthModal(isJoin ? 'join' : 'login');
                 }
-
                 closeSelection(mode);
-                loader.style.display = 'none';
+                document.getElementById('global-spinner-overlay').style.display = 'none';
             }, 300);
         }
 
         function updateUI() {
-            const lang = localStorage.getItem('pref_lang') || 'ar';
-            const regIdx = parseInt(localStorage.getItem('pref_reg_idx')) || 0;
-            const reg = regionConfigs[regIdx];
+            const lang = localStorage.getItem('pref_lang') || 'en';
             document.documentElement.setAttribute('lang', lang);
-            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('label-lng').innerText = lang.toUpperCase();
             
             const headerBox = document.getElementById('header-dynamic-title');
-            if(lang === 'ar') {
-                headerBox.innerHTML = `<span>مركز الخدمات</span><span>الرقمية</span>`;
-            } else {
-                headerBox.innerHTML = `<span>Digital Services</span><span>Center</span>`;
-            }
+            headerBox.innerHTML = lang === 'ar' ? `<span>مركز الخدمات</span><span>الرقمية</span>` : `<span>Digital Services</span><span>Center</span>`;
 
             const translations = { ar: { hero: "المنصة الأكبر للمتابعين والخدمات في الشرق الأوسط", join: "انضم مجاناً", login: "تسجيل الدخول", legal: "باستخدام تطبيق serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا." }, en: { hero: "The Largest Platform for Followers & Services in MENA", join: "Join for free", login: "Log in", legal: "By using the serviocmm app, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>." } };
             document.getElementById('hero-text-label').innerText = translations[lang].hero;
