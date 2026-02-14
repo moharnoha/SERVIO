@@ -16,7 +16,7 @@
             padding: 0;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF;
+            background-color: #f0f2f5;
             direction: rtl !important;
             overflow: hidden; 
         }
@@ -73,15 +73,16 @@
         /* الهيدر الثالث - تم تعديل التموضع لليمين وتقليل المساحات */
         .header-main {
             background-color: #FFFFFF;
-            height: 100px; 
+            height: auto; 
             display: flex;
+            flex-direction: column;
             justify-content: flex-start; 
-            align-items: center;
+            align-items: flex-start;
             position: fixed;
             top: 70px; 
             width: 100%;
             z-index: 1000;
-            padding: 0 25px;
+            padding: 15px 25px;
             box-sizing: border-box;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
@@ -93,6 +94,7 @@
             align-items: flex-start;
             text-align: right;
             width: auto;
+            margin-bottom: 15px;
         }
 
         .balance-label-row {
@@ -148,11 +150,11 @@
 
         /* الحاوية المنحنية - تعديل الموقع والارتفاع لتناسب الصفحة الواحدة */
         .content-card {
-            background-color: #FFFFFF;
+            background-color: #F4F2F2;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
             position: fixed;
-            top: 170px; 
+            top: 245px; 
             bottom: 0;
             left: 0;
             right: 0;
@@ -174,6 +176,36 @@
             cursor: pointer;
             letter-spacing: 1px;
         }
+
+        /* تنسيق الأيقونات الأربعة داخل الجزء الأبيض */
+        .shortcuts-scroll-wrapper { 
+            display: flex; 
+            justify-content: space-between; 
+            gap: 10px; 
+            width: 100%;
+            max-width: 480px;
+        }
+        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 8px; text-decoration: none; cursor: pointer; }
+        
+        .icon-box { 
+            width: 58px; 
+            height: 58px; 
+            background: #FFFFFF; 
+            border-radius: 50%; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border: 1px solid #E2E7F0;
+        }
+        .icon-box:active { transform: scale(0.92); }
+        
+        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
+        
+        .icon-svg-smm { width: 24px; height: 24px; fill: #2E5822; }
+        .icon-svg-deposit { width: 26px; height: 26px; fill: #10b981; }
+        .icon-svg-menu { width: 24px; height: 24px; fill: #475569; }
+        .icon-svg-logout { width: 22px; height: 22px; fill: #ef4444; }
     </style>
 </head>
 <body>
@@ -239,6 +271,33 @@
                 </div>
             </div>
         </div>
+
+        <div class="shortcuts-scroll-wrapper">
+            <a href="smm-services/" class="shortcut-item simulate-link">
+                <div class="icon-box">
+                    <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
+                </div>
+                <span class="shortcut-label" id="txt-smm"></span>
+            </a>
+            <a href="deposit/" class="shortcut-item simulate-link">
+                <div class="icon-box">
+                    <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+                </div>
+                <span class="shortcut-label" id="txt-deposit"></span>
+            </a>
+            <a href="menu/" class="shortcut-item simulate-link">
+                <div class="icon-box">
+                    <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
+                </div>
+                <span class="shortcut-label" id="txt-menu"></span>
+            </a>
+            <div class="shortcut-item simulate-link" onclick="handleLogout()">
+                <div class="icon-box">
+                    <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                </div>
+                <span class="shortcut-label" id="txt-logout"></span>
+            </div>
+        </div>
     </div>
 
     <div class="content-card">
@@ -254,9 +313,9 @@
     <style>
         :root { 
             --header-green: #FFFFFF; 
-            --sub-green: #FFFFFF; 
-            --platform-bg: #FFFFFF;
-            --bg-gradient: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 100%);
+            --sub-green: #F3F2F2; 
+            --platform-bg: #F3F2F2;
+            --bg-gradient: linear-gradient(135deg, #F3F2F2 0%, #F3F2F2 100%);
             --text-dark: #1A2419;
             --brand-green: #2E5822;
             --brand-red: #C62828;
@@ -411,35 +470,11 @@
 
         /* تعديل المسافات لتثبيت الصفحة */
         .new-header-container {
-            background: var(--platform-bg); 
-            width: 100%; display: flex; justify-content: center;
-            position: relative;
+            display: none !important;
         }
         .new-header-content {
             width: 100%; max-width: 480px; padding: 15px 20px 10px 20px; box-sizing: border-box;
         }
-        .shortcuts-scroll-wrapper { display: flex; justify-content: space-between; gap: 10px; }
-        .shortcut-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 8px; text-decoration: none; cursor: pointer; }
-        
-        .icon-box { 
-            width: 58px; 
-            height: 58px; 
-            background: #FFFFFF; 
-            border-radius: 50%; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border: 1px solid #E2E7F0;
-        }
-        .icon-box:active { transform: scale(0.92); }
-        
-        .shortcut-label { font-size: 10px; font-weight: 800; color: #2E5822; text-align: center; white-space: nowrap; margin-top: -2px; }
-        
-        .icon-svg-smm { width: 24px; height: 24px; fill: #2E5822; }
-        .icon-svg-deposit { width: 26px; height: 26px; fill: #10b981; }
-        .icon-svg-menu { width: 24px; height: 24px; fill: #475569; }
-        .icon-svg-logout { width: 22px; height: 22px; fill: #ef4444; }
 
         .transactions-header { 
             width: 100%; display: flex; flex-direction: column; align-items: center;
@@ -548,14 +583,14 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: #FFFFFF; 
+            background: #F3F2F2; 
             display: none; 
             align-items: flex-start; 
             justify-content: center; 
             z-index: 9999;
         }
         .modal-card {
-            background: #FFFFFF; 
+            background: #F3F2F2; 
             width: 100%; 
             height: 100%;
             padding: 0;
@@ -597,7 +632,7 @@
             padding: 15px; 
             font-size: 13px; 
             color: var(--text-dark); 
-            background: #FFFFFF;
+            background: #F3F2F2;
             flex: 1;
             overflow: hidden;
             display: flex;
@@ -696,37 +731,6 @@
     <div class="page-wrapper">
         <div class="bottom-header">
             <div class="bottom-header-content">
-            </div>
-        </div>
-
-        <div class="new-header-container">
-            <div class="new-header-content">
-                <div class="shortcuts-scroll-wrapper">
-                    <a href="smm-services/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
-                            <svg class="icon-svg-smm" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
-                        </div>
-                        <span class="shortcut-label" id="txt-smm"></span>
-                    </a>
-                    <a href="deposit/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
-                            <svg class="icon-svg-deposit" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zM11 7h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
-                        </div>
-                        <span class="shortcut-label" id="txt-deposit"></span>
-                    </a>
-                    <a href="menu/" class="shortcut-item simulate-link">
-                        <div class="icon-box">
-                            <svg class="icon-svg-menu" viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
-                        </div>
-                        <span class="shortcut-label" id="txt-menu"></span>
-                    </a>
-                    <div class="shortcut-item simulate-link" onclick="handleLogout()">
-                        <div class="icon-box">
-                            <svg class="icon-svg-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                        </div>
-                        <span class="shortcut-label" id="txt-logout"></span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -996,9 +1000,9 @@
                 e.preventDefault();
                 const url = target.getAttribute('href');
                 const loader = document.getElementById('global-loading');
-                loader.style.display = 'flex';
+                if (loader) loader.style.display = 'flex';
                 setTimeout(() => {
-                    loader.style.display = 'none';
+                    if (loader) loader.style.display = 'none';
                     if (url) window.location.href = url;
                     else if (target.getAttribute('onclick')) {
                         if(target.getAttribute('onclick').includes('handleLogout')) window.handleLogout();
