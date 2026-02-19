@@ -42,7 +42,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: height 0.3s ease;
             position: relative;
             z-index: 999;
         }
@@ -68,7 +68,6 @@
             transform: scale(1);
         }
 
-        /* أنيميشن التعبئة عند التحديث */
         body.is-refreshing .fill-layer-anim {
             animation: premiumFill 0.8s ease-in-out forwards;
         }
@@ -410,7 +409,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="balance-amount">0,00 <span class="currency-symbol">USD</span></div>
+            <div class="balance-amount"><span id="user-balance">0.00</span> <span class="currency-symbol">USD</span></div>
             
             <div class="circles-section">
                 <div class="circle-item">
@@ -460,6 +459,38 @@
         </div>
     </main>
 
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+      import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
+        authDomain: "serviocmm-a65ed.firebaseapp.com",
+        projectId: "serviocmm-a65ed",
+        storageBucket: "serviocmm-a65ed.firebasestorage.app",
+        messagingSenderId: "975373759034",
+        appId: "1:975373759034:web:645cb5fb48772839453b03"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userDocRef = doc(db, "users", user.uid);
+          onSnapshot(userDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              const balance = data.balance !== undefined ? data.balance : 0.00;
+              document.getElementById('user-balance').textContent = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }
+          });
+        }
+      });
+    </script>
+
     <script>
         let startY = 0;
         let isRefreshing = false;
@@ -484,16 +515,12 @@
                 isRefreshing = true;
                 body.classList.add('is-refreshing');
                 
-                // 1. انتظر اكتمال أنيميشن التعبئة (800ms)
                 setTimeout(() => {
-                    // 2. أغلق منطقة التحميل بنعومة
                     body.classList.remove('is-pulling');
-                    
-                    // 3. انتظر انتهاء حركة الإغلاق (400ms) ثم حدد الصفحة
-                    setTimeout(() => {
-                        location.reload();
-                    }, 400);
-                }, 800);
+                    body.classList.remove('is-refreshing');
+                    isRefreshing = false;
+                    location.reload();
+                }, 1000);
             } else {
                 body.classList.remove('is-pulling');
             }
