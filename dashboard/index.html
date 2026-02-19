@@ -109,22 +109,23 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding: 0; /* إزالة الحشو بالكامل ليبدأ مباشرة تحت الهيدر */
+            padding: 0;
         }
 
         .top-row {
             display: flex;
             align-items: center;
-            justify-content: space-between; /* توزيع احترافي للمساحة */
+            justify-content: space-between;
             width: 100%;
-            margin-bottom: 0px; /* تقليص المسافة بين النص العلوي والرصيد */
-            padding-top: 5px; /* مسافة بسيطة جداً للفصل بين الهيدر والمحتوى */
+            margin-bottom: 0px;
+            padding-top: 5px;
         }
 
         .balance-label-wrapper {
             display: flex;
             align-items: center;
             gap: 6px;
+            cursor: pointer;
         }
 
         .balance-label {
@@ -143,9 +144,16 @@
             stroke-linejoin: round;
         }
 
+        .balance-display-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 60px;
+        }
+
         .balance-amount {
-            font-size: 52px; /* تكبير بسيط للمبلغ كمركز اهتمام */
-            font-weight: 600; /* زيادة الوزن للبروز */
+            font-size: 52px;
+            font-weight: 600;
             color: var(--text-main);
             line-height: 1.1;
             display: flex;
@@ -153,7 +161,8 @@
             gap: 10px;
             letter-spacing: -2px;
             font-variant-numeric: tabular-nums;
-            margin-bottom: 0px; /* إزالة الهامش السفلي للرصيد */
+            margin-bottom: 0px;
+            transition: opacity 0.2s ease;
         }
 
         .currency-symbol {
@@ -161,11 +170,28 @@
             font-weight: 600;
             color: var(--text-main);
             letter-spacing: 0;
-            opacity: 0.7; /* تقليل البروز لجعل الرقم هو الأساس */
+            opacity: 0.7;
+        }
+
+        /* Loading Spinner Style */
+        .loader {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--border-subtle);
+            border-bottom-color: var(--primary-green);
+            border-radius: 50%;
+            animation: rotation 0.6s linear infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .card-icon-container {
-            width: 46px; /* توحيد القياس العالمي */
+            width: 46px;
             height: 46px;
             display: flex;
             align-items: center;
@@ -183,7 +209,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-top: 5px; /* تقليص المسافة جداً بين الرصيد والأيقونات */
+            margin-top: 5px;
             padding: 10px 0;
         }
 
@@ -198,13 +224,13 @@
         }
 
         .circle-item:active {
-            transform: scale(0.94); /* استجابة لمسية رشيقة */
+            transform: scale(0.94);
         }
 
         .empty-circle {
-            width: 68px; /* توحيد الحجم العالمي للأدوات */
+            width: 68px;
             height: 68px;
-            border-radius: 50%; /* إرجاع البطاقات دائرية */
+            border-radius: 50%;
             background-color: var(--circle-empty);
             border: 1px solid var(--border-subtle);
             display: flex;
@@ -216,7 +242,7 @@
         .deposit-circle {
             width: 68px;
             height: 68px;
-            border-radius: 50%; /* إرجاع البطاقات دائرية */
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--primary-green), var(--vibrant-green));
             display: flex;
             align-items: center;
@@ -228,15 +254,6 @@
         .circle-svg-icon {
             width: 30px;
             height: 30px;
-        }
-
-        .dots-icon {
-            font-size: 26px;
-            color: var(--text-main);
-            font-weight: 800;
-            letter-spacing: 1px;
-            line-height: 0;
-            margin-bottom: 6px;
         }
 
         .circle-label {
@@ -277,7 +294,7 @@
     <main class="main-container">
         <div class="content-wrapper">
             <div class="top-row">
-                <div class="balance-label-wrapper">
+                <div class="balance-label-wrapper" onclick="refreshBalance()">
                     <div class="balance-label">الرصيد المتاح</div>
                     <svg class="chevron-down-svg" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -309,7 +326,11 @@
                     </svg>
                 </div>
             </div>
-            <div class="balance-amount">0,00 <span class="currency-symbol">USD</span></div>
+
+            <div class="balance-display-container">
+                <div id="balanceAmount" class="balance-amount">0,00 <span class="currency-symbol">USD</span></div>
+                <div id="balanceLoader" class="loader"></div>
+            </div>
             
             <div class="circles-section">
                 <div class="circle-item">
@@ -351,6 +372,23 @@
             </div>
         </div>
     </main>
+
+    <script>
+        function refreshBalance() {
+            const balanceText = document.getElementById('balanceAmount');
+            const loader = document.getElementById('balanceLoader');
+
+            // إخفاء الرقم وإظهار الأيقونة
+            balanceText.style.display = 'none';
+            loader.style.display = 'block';
+
+            // محاكاة تحميل ثم إرجاع الرقم (لحين الربط بـ Firebase)
+            setTimeout(() => {
+                loader.style.display = 'none';
+                balanceText.style.display = 'flex';
+            }, 1500);
+        }
+    </script>
 
 </body>
 </html>
