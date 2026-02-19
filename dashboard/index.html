@@ -31,7 +31,7 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Lexend';
+            font-family: 'Lexend' !important;
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
         }
@@ -465,7 +465,7 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
       import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-      import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+      import { getFirestore, doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk",
@@ -480,13 +480,31 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
-      const savedBalance = localStorage.getItem('last_known_balance');
       const el = document.getElementById('user-balance');
       const sym = document.getElementById('curr-sym');
-      if (savedBalance && el) {
-          el.textContent = savedBalance;
-          sym.style.display = 'inline-block';
-      }
+
+      const updateUI = (balance) => {
+        const formatted = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        if(el) el.textContent = formatted;
+        if(sym) sym.style.display = 'inline-block';
+        localStorage.setItem('last_known_balance', formatted);
+      };
+
+      // تحميل الحالة الأولية
+      const savedBalance = localStorage.getItem('last_known_balance');
+      if (savedBalance) updateUI(parseFloat(savedBalance.replace(/,/g, '')));
+
+      window.refreshFirebaseData = async () => {
+        const user = auth.currentUser;
+        if (user) {
+          const userDocRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.balance !== undefined) updateUI(data.balance);
+          }
+        }
+      };
 
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -494,13 +512,7 @@
           onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
-              if (data.balance !== undefined) {
-                const balance = data.balance;
-                const formatted = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                if(el) el.textContent = formatted;
-                if(sym) sym.style.display = 'inline-block';
-                localStorage.setItem('last_known_balance', formatted);
-              }
+              if (data.balance !== undefined) updateUI(data.balance);
             }
           });
         }
@@ -532,19 +544,25 @@
             }
         }, {passive: false});
 
-        window.addEventListener('touchend', () => {
+        window.addEventListener('touchend', async () => {
             if (isRefreshing) return;
             const currentHeight = parseInt(pullArea.style.height) || 0;
             if (currentHeight >= THRESHOLD) {
                 isRefreshing = true;
                 body.classList.add('is-refreshing');
                 pullArea.style.height = THRESHOLD + 'px';
+                
+                // تحديث Firebase فقط بدون إعادة تحميل الصفحة
+                if (window.refreshFirebaseData) {
+                    await window.refreshFirebaseData();
+                }
+
                 setTimeout(() => {
                     pullArea.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 1, 1)';
                     pullArea.style.height = '0px';
                     setTimeout(() => {
                         body.classList.remove('is-pulling', 'is-refreshing');
-                        location.reload();
+                        isRefreshing = false;
                     }, 300);
                 }, 600);
             } else {
