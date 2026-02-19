@@ -121,6 +121,7 @@
             align-items: center; 
             justify-content: center;
             width: auto;
+            pointer-events: none;
         }
 
         .account-text {
@@ -128,7 +129,10 @@
             font-weight: 700; 
             color: var(--text-main);
             letter-spacing: -0.6px;
-            contain: content;
+            /* منع الحركة تماماً */
+            transition: none !important;
+            transform: none !important;
+            will-change: auto;
         }
 
         .profile-icon-svg {
@@ -197,7 +201,10 @@
             font-variant-numeric: tabular-nums;
             margin-bottom: 0px;
             min-height: 57px;
-            contain: layout;
+            /* منع حركة الرصيد */
+            transition: none !important;
+            transform: none !important;
+            will-change: auto;
         }
 
         .currency-symbol {
