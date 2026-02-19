@@ -42,25 +42,22 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: height 0.3s ease;
+            transition: height 0.2s ease-out;
             position: relative;
             z-index: 999;
+            pointer-events: none;
         }
 
         .pull-logo-box {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.3s ease;
+            transform: scale(0.7);
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
         .fill-layer-anim {
             clip-path: inset(100% 0 0 0);
-        }
-
-        body.is-pulling #pull-refresh-area {
-            height: 90px;
         }
 
         body.is-pulling .pull-logo-box {
@@ -69,7 +66,7 @@
         }
 
         body.is-refreshing .fill-layer-anim {
-            animation: premiumFill 0.8s ease-in-out forwards;
+            animation: premiumFill 0.5s ease-in-out forwards;
         }
 
         @keyframes premiumFill {
@@ -484,8 +481,12 @@
             if (docSnap.exists()) {
               const data = docSnap.data();
               const balance = data.balance !== undefined ? data.balance : 0.00;
-              document.getElementById('user-balance').textContent = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+              const formatted = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+              const el = document.getElementById('user-balance');
+              if(el) el.textContent = formatted;
             }
+          }, (error) => {
+              console.error("Firestore Error:", error);
           });
         }
       });
@@ -495,35 +496,70 @@
         let startY = 0;
         let isRefreshing = false;
         const body = document.body;
+        const pullArea = document.getElementById('pull-refresh-area');
+        const THRESHOLD = 75;
+
+        // التحقق من أن المستخدم في أعلى الصفحة
+        const canPull = () => window.scrollY === 0;
 
         window.addEventListener('touchstart', (e) => {
-            if (window.scrollY === 0) startY = e.touches[0].pageY;
+            if (canPull()) {
+                startY = e.touches[0].pageY;
+            }
         }, {passive: true});
 
         window.addEventListener('touchmove', (e) => {
-            if (isRefreshing) return;
+            if (isRefreshing || !canPull()) return;
+            
             const currentY = e.touches[0].pageY;
             const diff = currentY - startY;
             
-            if (window.scrollY === 0 && diff > 80) {
-                body.classList.add('is-pulling');
+            if (diff > 0) {
+                // منع التمرير الطبيعي للمتصفح أثناء السحب لأسفل
+                if (e.cancelable) e.preventDefault();
+                
+                const pullHeight = Math.min(diff * 0.4, THRESHOLD + 10); 
+                pullArea.style.height = pullHeight + 'px';
+                
+                if (pullHeight > 10) {
+                    body.classList.add('is-pulling');
+                }
             }
-        }, {passive: true});
+        }, {passive: false});
 
         window.addEventListener('touchend', () => {
-            if (body.classList.contains('is-pulling') && !isRefreshing) {
+            if (isRefreshing) return;
+            
+            const currentHeight = parseInt(pullArea.style.height) || 0;
+
+            if (currentHeight >= THRESHOLD) {
                 isRefreshing = true;
                 body.classList.add('is-refreshing');
+                pullArea.style.height = THRESHOLD + 'px';
                 
+                // أنيميشن الإغلاق والتحديث
                 setTimeout(() => {
-                    body.classList.remove('is-pulling');
-                    body.classList.remove('is-refreshing');
-                    isRefreshing = false;
-                    location.reload();
-                }, 1000);
+                    pullArea.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 1, 1)';
+                    pullArea.style.height = '0px';
+                    
+                    // تنظيف الحالات قبل إعادة التحميل لضمان السلاسة
+                    setTimeout(() => {
+                        body.classList.remove('is-pulling', 'is-refreshing');
+                        location.reload();
+                    }, 300);
+                }, 600);
             } else {
+                // إرجاع الحالة إذا لم يصل للسحب المطلوب
+                pullArea.style.height = '0px';
                 body.classList.remove('is-pulling');
             }
+        });
+
+        // حماية النظام من التعطل في حال حدوث خطأ غير متوقع
+        window.addEventListener('error', () => {
+            isRefreshing = false;
+            body.classList.remove('is-pulling', 'is-refreshing');
+            pullArea.style.height = '0px';
         });
     </script>
 </body>
