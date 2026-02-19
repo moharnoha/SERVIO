@@ -31,7 +31,7 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Lexend', sans-serif;
+            font-family: 'Lexend';
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
         }
@@ -480,7 +480,6 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
-      // استرجاع الرصيد المحفوظ لضمان الثبات عند التحديث
       const savedBalance = localStorage.getItem('last_known_balance');
       const el = document.getElementById('user-balance');
       const sym = document.getElementById('curr-sym');
