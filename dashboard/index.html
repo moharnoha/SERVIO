@@ -42,8 +42,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: height 0.2s ease-out;
-            position: relative;
+            position: absolute; /* تغيير إلى absolute لمنع التأثير على تصميم الصفحة */
+            top: 0;
+            left: 0;
             z-index: 999;
             pointer-events: none;
         }
@@ -144,7 +145,6 @@
             padding: 0 24px;
             box-sizing: border-box;
             background-color: var(--page-bg);
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .content-wrapper {
@@ -499,7 +499,6 @@
         const pullArea = document.getElementById('pull-refresh-area');
         const THRESHOLD = 75;
 
-        // التحقق من أن المستخدم في أعلى الصفحة
         const canPull = () => window.scrollY === 0;
 
         window.addEventListener('touchstart', (e) => {
@@ -515,13 +514,12 @@
             const diff = currentY - startY;
             
             if (diff > 0) {
-                // منع التمرير الطبيعي للمتصفح أثناء السحب لأسفل
                 if (e.cancelable) e.preventDefault();
                 
                 const pullHeight = Math.min(diff * 0.4, THRESHOLD + 10); 
                 pullArea.style.height = pullHeight + 'px';
                 
-                if (pullHeight > 10) {
+                if (pullHeight > 15) {
                     body.classList.add('is-pulling');
                 }
             }
@@ -537,25 +535,21 @@
                 body.classList.add('is-refreshing');
                 pullArea.style.height = THRESHOLD + 'px';
                 
-                // أنيميشن الإغلاق والتحديث
                 setTimeout(() => {
                     pullArea.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 1, 1)';
                     pullArea.style.height = '0px';
                     
-                    // تنظيف الحالات قبل إعادة التحميل لضمان السلاسة
                     setTimeout(() => {
                         body.classList.remove('is-pulling', 'is-refreshing');
                         location.reload();
                     }, 300);
                 }, 600);
             } else {
-                // إرجاع الحالة إذا لم يصل للسحب المطلوب
                 pullArea.style.height = '0px';
                 body.classList.remove('is-pulling');
             }
         });
 
-        // حماية النظام من التعطل في حال حدوث خطأ غير متوقع
         window.addEventListener('error', () => {
             isRefreshing = false;
             body.classList.remove('is-pulling', 'is-refreshing');
