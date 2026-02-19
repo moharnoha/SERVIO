@@ -50,45 +50,30 @@
             pointer-events: none;
         }
 
-        /* تنسيق أيقونة التحميل المخصصة */
-        .exact-8-spinner {
-            position: relative;
-            width: 44px;
-            height: 44px;
+        .pull-logo-box {
+            width: 40px;
+            height: 40px;
             opacity: 0;
             transform: scale(0.7);
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .exact-8-spinner div {
-            position: absolute;
-            width: 6px; 
-            height: 14px; 
-            background: #666; 
-            border-radius: 10px; 
-            left: 19px;
-            top: 0;
-            transform-origin: 3px 22px; 
-            animation: spinner-fade 0.8s linear infinite;
+        .fill-layer-anim {
+            clip-path: inset(100% 0 0 0);
         }
 
-        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
-        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
-        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
-        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
-        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
-        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
-        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
-        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
-
-        @keyframes spinner-fade {
-            0% { background: #ffffff; opacity: 1; }
-            100% { background: #666; opacity: 0.3; }
-        }
-
-        body.is-pulling .exact-8-spinner {
+        body.is-pulling .pull-logo-box {
             opacity: 1;
             transform: scale(1);
+        }
+
+        body.is-refreshing .fill-layer-anim {
+            animation: premiumFill 0.5s ease-in-out forwards;
+        }
+
+        @keyframes premiumFill {
+            0% { clip-path: inset(100% 0 0 0); }
+            100% { clip-path: inset(0% 0 0 0); }
         }
 
         header { 
@@ -146,7 +131,7 @@
             font-weight: 700; 
             color: var(--text-main);
             letter-spacing: -0.6px;
-            font-family: 'Lexend', sans-serif !important;
+            font-family: 'Lexend' !important;
             font-display: block;
             white-space: nowrap;
         }
@@ -358,9 +343,37 @@
     </header>
 
     <div id="pull-refresh-area">
-        <div class="exact-8-spinner">
-            <div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div>
+        <div class="pull-logo-box">
+            <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="pullDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#2d5a1e" />
+                        <stop offset="100%" style="stop-color:#1a3611" />
+                    </linearGradient>
+                    <mask id="pullMask">
+                        <rect width="1000" height="800" fill="white" />
+                        <circle cx="350" cy="400" r="362" fill="black" />
+                    </mask>
+                </defs>
+                <g>
+                    <circle cx="350" cy="400" r="350" fill="#EAEBEE" />
+                    <circle cx="650" cy="400" r="350" fill="#EAEBEE" mask="url(#pullMask)" />
+                    <g transform="rotate(-38 500 400)">
+                        <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#9BA0A7" />
+                        <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#9BA0A7" />
+                        <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#9BA0A7" />
+                    </g>
+                </g>
+                <g class="fill-layer-anim">
+                    <circle cx="350" cy="400" r="350" fill="url(#pullDeep)" />
+                    <circle cx="650" cy="400" r="350" fill="var(--vibrant-green)" mask="url(#pullMask)" />
+                    <g transform="rotate(-38 500 400)">
+                        <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
+                        <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
+                        <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
+                    </g>
+                </g>
+            </svg>
         </div>
     </div>
 
@@ -467,6 +480,7 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
+      // استرجاع الرصيد المحفوظ لضمان الثبات عند التحديث
       const savedBalance = localStorage.getItem('last_known_balance');
       const el = document.getElementById('user-balance');
       const sym = document.getElementById('curr-sym');
