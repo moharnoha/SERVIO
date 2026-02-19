@@ -30,7 +30,6 @@
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
             font-family: 'Lexend', sans-serif;
-            /* منع سحب المتصفح الافتراضي لتفعيل السحب الخاص بنا */
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
         }
@@ -43,7 +42,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: height 0.2s ease-out;
+            transition: height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             position: relative;
             z-index: 999;
         }
@@ -52,8 +51,8 @@
             width: 50px;
             height: 50px;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.2s ease;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
         }
 
         .fill-layer-anim {
@@ -61,7 +60,7 @@
         }
 
         body.is-pulling #pull-refresh-area {
-            height: 80px;
+            height: 90px;
         }
 
         body.is-pulling .pull-logo-box {
@@ -69,14 +68,14 @@
             transform: scale(1);
         }
 
+        /* أنيميشن التعبئة عند التحديث */
         body.is-refreshing .fill-layer-anim {
-            animation: fastFillEmpty 0.8s ease-in-out infinite;
+            animation: premiumFill 0.8s ease-in-out forwards;
         }
 
-        @keyframes fastFillEmpty {
+        @keyframes premiumFill {
             0% { clip-path: inset(100% 0 0 0); }
-            50% { clip-path: inset(0% 0 0 0); }
-            100% { clip-path: inset(100% 0 0 0); }
+            100% { clip-path: inset(0% 0 0 0); }
         }
 
         header { 
@@ -149,11 +148,7 @@
             padding: 0 24px;
             box-sizing: border-box;
             background-color: var(--page-bg);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.is-pulling .main-container {
-            transform: translateY(0px);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .content-wrapper {
@@ -353,10 +348,6 @@
                         <stop offset="0%" style="stop-color:#2d5a1e" />
                         <stop offset="100%" style="stop-color:#1a3611" />
                     </linearGradient>
-                    <linearGradient id="pullVibrant" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#74a367" />
-                        <stop offset="100%" style="stop-color:#5a854f" />
-                    </linearGradient>
                     <mask id="pullMask">
                         <rect width="1000" height="800" fill="white" />
                         <circle cx="350" cy="400" r="362" fill="black" />
@@ -373,7 +364,7 @@
                 </g>
                 <g class="fill-layer-anim">
                     <circle cx="350" cy="400" r="350" fill="url(#pullDeep)" />
-                    <circle cx="650" cy="400" r="350" fill="url(#pullVibrant)" mask="url(#pullMask)" />
+                    <circle cx="650" cy="400" r="350" fill="var(--vibrant-green)" mask="url(#pullMask)" />
                     <g transform="rotate(-38 500 400)">
                         <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
                         <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
@@ -475,9 +466,7 @@
         const body = document.body;
 
         window.addEventListener('touchstart', (e) => {
-            if (window.scrollY === 0) {
-                startY = e.touches[0].pageY;
-            }
+            if (window.scrollY === 0) startY = e.touches[0].pageY;
         }, {passive: true});
 
         window.addEventListener('touchmove', (e) => {
@@ -485,14 +474,8 @@
             const currentY = e.touches[0].pageY;
             const diff = currentY - startY;
             
-            // تفعيل السحب فقط إذا كان المستخدم يسحب للأسفل وبمقدار كافٍ
-            if (window.scrollY === 0 && diff > 10) {
-                // منع التمرير الافتراضي إذا بدأ السحب الخاص بنا
-                if (diff > 50) {
-                    body.classList.add('is-pulling');
-                }
-            } else {
-                body.classList.remove('is-pulling');
+            if (window.scrollY === 0 && diff > 80) {
+                body.classList.add('is-pulling');
             }
         }, {passive: true});
 
@@ -501,9 +484,15 @@
                 isRefreshing = true;
                 body.classList.add('is-refreshing');
                 
-                // بدء عملية التحديث
+                // 1. انتظر اكتمال أنيميشن التعبئة (800ms)
                 setTimeout(() => {
-                    location.reload();
+                    // 2. أغلق منطقة التحميل بنعومة
+                    body.classList.remove('is-pulling');
+                    
+                    // 3. انتظر انتهاء حركة الإغلاق (400ms) ثم حدد الصفحة
+                    setTimeout(() => {
+                        location.reload();
+                    }, 400);
                 }, 800);
             } else {
                 body.classList.remove('is-pulling');
