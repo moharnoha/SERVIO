@@ -127,7 +127,8 @@
             font-size: 23px; 
             font-weight: 700; 
             color: var(--text-main);
-            letter-spacing: -0.6px; 
+            letter-spacing: -0.6px;
+            contain: content;
         }
 
         .profile-icon-svg {
@@ -144,7 +145,6 @@
             padding: 0 24px;
             box-sizing: border-box;
             background-color: var(--page-bg);
-            /* تم إزالة transition الخاص بـ transform لضمان الثبات */
         }
 
         .content-wrapper {
@@ -196,6 +196,8 @@
             letter-spacing: -2px;
             font-variant-numeric: tabular-nums;
             margin-bottom: 0px;
+            min-height: 57px;
+            contain: layout;
         }
 
         .currency-symbol {
@@ -311,7 +313,7 @@
 </head>
 <body>
 
-    <header id="main-header">
+    <header>
         <div class="header-content">
             <div class="right-section">
                 <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -406,7 +408,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="balance-amount"><span id="user-balance">0.00</span> <span class="currency-symbol">USD</span></div>
+            <div class="balance-amount"><span id="user-balance"></span> <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span></div>
             
             <div class="circles-section">
                 <div class="circle-item">
@@ -480,10 +482,14 @@
           onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
-              const balance = data.balance !== undefined ? data.balance : 0.00;
-              const formatted = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-              const el = document.getElementById('user-balance');
-              if(el) el.textContent = formatted;
+              if (data.balance !== undefined) {
+                const balance = data.balance;
+                const formatted = balance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                const el = document.getElementById('user-balance');
+                const sym = document.getElementById('curr-sym');
+                if(el) el.textContent = formatted;
+                if(sym) sym.style.display = 'inline-block';
+              }
             }
           }, (error) => {
               console.error("Firestore Error:", error);
