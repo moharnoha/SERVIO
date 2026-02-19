@@ -41,17 +41,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: height 0.2s ease-out;
             position: relative;
             z-index: 999;
+            pointer-events: none;
         }
 
         .pull-logo-box {
             width: 50px;
             height: 50px;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
+            transform: scale(0.8);
+            transition: all 0.2s ease;
         }
 
         .fill-layer-anim {
@@ -64,12 +65,11 @@
 
         body.is-pulling .pull-logo-box {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        /* تعديل سرعة الأنيميشن: نصف ثانية تعبئة ونصف ثانية تفريغ */
-        body.is-pulling .fill-layer-anim {
-            animation: fastFillEmpty 1s ease-in-out forwards;
+        body.is-refreshing .fill-layer-anim {
+            animation: fastFillEmpty 0.8s ease-in-out infinite;
         }
 
         @keyframes fastFillEmpty {
@@ -372,7 +372,7 @@
                 </g>
                 <g class="fill-layer-anim">
                     <circle cx="350" cy="400" r="350" fill="url(#pullDeep)" />
-                    <circle cx="650" cy="400" r="350" fill="url(#pullVibrant)" mask="url(#pullMask)" />
+                    <circle cx="650" cy="400" r="350" fill="url(#vibrantGreen)" mask="url(#pullMask)" />
                     <g transform="rotate(-38 500 400)">
                         <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
                         <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
@@ -470,26 +470,36 @@
 
     <script>
         let startY = 0;
+        let isRefreshing = false;
         const body = document.body;
 
         window.addEventListener('touchstart', (e) => {
-            if (window.scrollY === 0) startY = e.touches[0].pageY;
+            if (window.scrollY === 0) {
+                startY = e.touches[0].pageY;
+            }
         }, {passive: true});
 
         window.addEventListener('touchmove', (e) => {
+            if (isRefreshing) return;
             const currentY = e.touches[0].pageY;
-            if (window.scrollY === 0 && currentY > startY + 60) {
+            const diff = currentY - startY;
+            
+            if (window.scrollY === 0 && diff > 70) {
                 body.classList.add('is-pulling');
+            } else if (diff < 10) {
+                body.classList.remove('is-pulling');
             }
         }, {passive: true});
 
         window.addEventListener('touchend', () => {
-            if (body.classList.contains('is-pulling')) {
-                // إغلاق المنطقة وإعادة تحميل الصفحة بعد ثانية واحدة (مدة الأنيميشن كاملة)
+            if (body.classList.contains('is-pulling') && !isRefreshing) {
+                isRefreshing = true;
+                body.classList.add('is-refreshing');
+                
+                // تفعيل الانيميشن ثم التحديث لضمان السلاسة في جميع المتصفحات
                 setTimeout(() => {
-                    body.classList.remove('is-pulling');
                     location.reload();
-                }, 1000);
+                }, 800);
             }
         });
     </script>
