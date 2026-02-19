@@ -2,51 +2,49 @@
 <html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="google" content="notranslate">
-    <title>serviocmm - Final Version</title>
-    <link rel="preconnect" href="https://player.vimeo.com">
-    <link rel="preconnect" href="https://i.postimg.cc">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
+    <title>serviocmm - Optimized UI</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root { 
-            --header-green: #FFFFFF; 
-            --login-bg: #386E2C; 
-            --google-section-bg: #EAF0E9; 
-            --platform-bg: #F2F1F0;
-            --garena-red: #386E2C;
-            --success-green: #22c55e;
-            --primary-green: #2F5822;
+            /* لوحة ألوان مستوحاة من الشعار مع تحسينات الشركات الكبرى */
+            --primary-green: #2d5a1e;    
+            --vibrant-green: #74a367;    
+            --header-bg: rgba(243, 242, 242, 0.85);        
+            --page-bg: #F3F2F2;          
+            --text-main: #121212;        
+            --text-muted: #5f6368;       
+            --circle-empty: #FFFFFF;     
+            --profile-icon: #9aa0a6;     
+            --profile-bg: #e8eaed;       
+            --border-subtle: rgba(0,0,0,0.06);
+            --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body { 
             margin: 0; padding: 0; 
-            font-family: 'Cairo', 'Inter', sans-serif; 
-            background-color: #F2F1F0; 
-            min-height: 100vh;
-            display: flex; flex-direction: column;
+            background-color: var(--page-bg); 
             direction: rtl !important; 
-        }
-
-        .mobile-container { 
-            width: 100%; 
-            min-height: 100vh; 
-            display: flex; flex-direction: column; 
-            position: relative;
-            flex-grow: 1;
+            -webkit-font-smoothing: antialiased;
+            color: var(--text-main);
+            font-family: 'Lexend', sans-serif;
         }
 
         header { 
-            width: 100%; height: 70px; 
-            background-color: var(--header-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px;
+            width: 100%; height: 72px; 
+            background-color: var(--header-bg); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; 
+            padding: 0 20px;
             box-sizing: border-box;
             position: sticky; 
             top: 0; z-index: 1000;
             direction: rtl !important;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .header-content {
@@ -56,6 +54,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
         }
 
         @media (min-width: 481px) {
@@ -65,1025 +64,330 @@
             }
         }
 
-        .brand-section { display: flex; align-items: center; flex-direction: row !important; }
-        .logo-img { height: 35px; width: auto; display: block; }
-        .v-line { width: 1px; height: 30px; background-color: rgba(0,0,0,0.1); margin: 0 12px; }
-        
-        .title-box { display: flex; flex-direction: column; text-align: right !important; }
-        .title-box span { font-family: 'Cairo', 'Inter', sans-serif; letter-spacing: 0px; display: block; }
-        .title-box span:first-child { font-size: 11px; font-weight: 800; color: #1a202c; margin-bottom: 0px; }
-        .title-box span:last-child { font-size: 11px; font-weight: 800; color: #1a202c; }
-
-        .header-left-group { display: flex; align-items: center; gap: 10px; flex-direction: row !important; }
-
-        .info-display-wrapper { 
-            display: flex; align-items: center; background: #F3F4F6; 
-            border-radius: 20px; 
-            padding: 4px 12px; height: 34px; cursor: pointer;
-            box-sizing: border-box; gap: 6px; flex-direction: row !important;
-            transition: background 0.2s;
+        .right-section { 
+            display: flex; 
+            align-items: center; 
+            flex-shrink: 0;
+            z-index: 2;
         }
-        .info-display-wrapper:active { background: #E5E7EB; }
-        .display-text { font-size: 12px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 5px; flex-direction: row !important; white-space: nowrap; }
-        .lang-globe-icon { width: 18px; height: 18px; fill: #64748b; }
+        
+        .center-section { 
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            width: auto;
+        }
+
+        .account-text {
+            font-size: 23px; 
+            font-weight: 700; 
+            color: var(--text-main);
+            letter-spacing: -0.6px; 
+        }
 
         .profile-icon-svg {
-            width: 28px; 
-            height: 28px; 
-            vertical-align: middle; 
-            fill: #64748b; 
-            overflow: hidden;
+            width: 32px; 
+            height: 32px; 
+            fill: var(--profile-icon); 
+            transition: var(--transition-main);
         }
 
-        .exact-8-spinner {
-            position: relative;
-            width: 44px;
-            height: 44px;
-            transform: scale(0.6);
-            display: none;
-        }
-        .exact-8-spinner div {
-            position: absolute;
-            width: 6px;
-            height: 14px;
-            background: #666;
-            border-radius: 10px;
-            left: 19px;
-            top: 0;
-            transform-origin: 3px 22px;
-            animation: spinner-fade 0.8s linear infinite;
-        }
-        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
-        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
-        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
-        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
-        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
-        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
-        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
-        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
-
-        @keyframes spinner-fade {
-            0% { background: #ffffff; opacity: 1; }
-            100% { background: #666; opacity: 0.3; }
-        }
-
-        #media-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20;
-            display: none;
-        }
-
-        .login-section { padding: 0 10%; background: #F2F1F0; margin-top: -10px; } 
-        .login-card {
-            background: #ffffff; border-radius: 12px; padding: 30px;
-            border: 1px solid #e9ecef;
-            max-width: 600px; margin: 0 auto;
-        }
-        
-        .new-section-container {
-            display: flex;
-            flex-direction: column;
-            height: auto;
+        .main-container {
             width: 100%;
-            background-color: #ffffff;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-
-        .hero-box-empty-new {
-            background-color: #F3F2F2; 
-            border-bottom-left-radius: 45px;
-            border-bottom-right-radius: 45px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 20px 0;
-            width: 100%;
-        }
-
-        .header-content-new {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 700;
-            color: #000000;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-family: 'Lexend', sans-serif;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-svg-new { width: 32px; height: 32px; }
-
-        .hero-video-container-new {
-            width: 80%;
-            height: 250px;
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            touch-action: pan-y;
-            transform: translateZ(0);
-        }
-
-        .video-overlay-new {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 5; background: transparent;
-        }
-
-        .video-slide-new {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.4s ease-in-out;
-            will-change: opacity;
-        }
-
-        .video-slide-new.active { opacity: 1; }
-        .hero-video-container-new iframe { width: 100%; height: 100%; border: none; }
-        .hero-video-container-new img { width: 100%; height: 100%; object-fit: contain; background-color: transparent; }
-
-        .pagination-dots-new {
-            background-color: rgba(0, 0, 0, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            display: flex;
-            gap: 8px;
-            margin: 10px 0;
-            z-index: 10;
-        }
-
-        .dot-new {
-            width: 8px; height: 8px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 50%; cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .dot-new.active { background-color: #000000; }
-
-        .hero-text-new {
-            font-size: 16px; color: #1c1c1e;
-            font-weight: 500; text-align: center;
-            padding: 0 20px;
-        }
-
-        .footer-actions-new {
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 30px 40px 30px;
-            gap: 15px;
-        }
-
-        .btn-new {
-            width: 100%; max-width: 480px;
-            padding: 18px; border-radius: 16px;
-            border: none; font-size: 18px;
-            font-weight: 700; cursor: pointer;
-            transition: transform 0.1s ease, opacity 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .btn-new span {
-            flex: 1;
-            text-align: center;
-        }
-
-        .btn-new .exact-8-spinner {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.5);
-            margin: 0;
-        }
-
-        .btn-new:active { transform: scale(0.98); opacity: 0.9; }
-        .btn-primary-new { background-color: var(--primary-green); color: #ffffff; }
-        .btn-secondary-new { background-color: #f2f2f7; color: #000000; }
-
-        .legal-new {
-            font-size: 11px; text-align: center;
-            color: #1c1c1e; line-height: 1.4;
-            max-width: 320px; margin-top: 15px;
-        }
-
-        .legal-new span, .auth-legal-small span {
-            text-decoration: underline; font-weight: 600; color: #386E2C !important;
-        }
-
-        .selection-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 10010; justify-content: center; align-items: flex-end;
-        }
-        
-        .selection-sheet {
-            width: 100%; max-width: 500px; background: white; border-radius: 24px 24px 0 0; 
-            padding: 20px 24px; box-sizing: border-box; max-height: 90vh; overflow-y: auto;
-            position: relative;
-            direction: rtl;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .sheet-header {
-            display: flex; justify-content: space-between; align-items: center;
-            position: relative; margin-bottom: 25px; padding-bottom: 15px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .sheet-title { font-size: 20px; font-weight: 800; color: #1e293b; flex-grow: 1; text-align: center; }
-        
-        .close-sheet {
-            cursor: pointer; width: 24px; height: 24px; color: #64748b;
-        }
-
-        .section-label {
-            font-size: 16px; font-weight: 700; color: #334155;
-            margin: 20px 0 14px; text-align: right; width: 100%;
-        }
-
-        .options-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-            width: 100%; margin-bottom: 10px;
-        }
-
-        .option-box {
-            background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px;
-            padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
-            gap: 12px; cursor: pointer; transition: all 0.2s ease;
-            font-size: 15px; font-weight: 700; min-height: 60px;
-            box-sizing: border-box; color: #475569;
-        }
-
-        .option-box.selected { 
-            border: 2px solid #386E2C; 
-            background: #f0fdf4;
-            color: #166534; 
-        }
-
-        .option-box img, .option-box .nav-icon { 
-            width: 26px; height: 18px; object-fit: cover; border-radius: 3px; flex-shrink: 0;
-        }
-        .option-box .nav-icon { width: 24px; height: 24px; color: inherit; }
-
-        .save-btn {
-            width: 100%; background: #386E2C; color: white;
-            padding: 16px; border-radius: 14px; border: none;
-            font-size: 18px; font-weight: 800; cursor: pointer;
-            margin-top: 30px; margin-bottom: 15px;
-            box-shadow: 0 4px 6px -1px rgba(56, 110, 44, 0.2);
-            transition: opacity 0.2s;
-        }
-        .save-btn:active { opacity: 0.9; transform: scale(0.99); }
-
-        .custom-dialog-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 10001; justify-content: center; align-items: center;
-        }
-        .custom-dialog {
-            width: 80%; max-width: 300px; background: white; border-radius: 14px; overflow: hidden;
-            display: flex; flex-direction: column; text-align: center;
-        }
-        .dialog-body { padding: 25px 20px; }
-        .dialog-title { font-weight: 800; font-size: 16px; margin-bottom: 8px; color: #000; }
-        .dialog-text { font-size: 13px; color: #333; line-height: 1.5; }
-        .dialog-btn {
-            border-top: 1px solid #eee; padding: 15px; font-weight: 700; color: #007aff;
-            cursor: pointer; text-align: center; font-size: 15px;
-        }
-
-        #global-spinner-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.7); z-index: 10002; justify-content: center; align-items: center;
-        }
-
-        .auth-modal {
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: #fff; 
-            z-index: 10005; 
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        .auth-sheet {
-            width: 100%; 
-            max-width: 480px; 
+            max-width: 480px;
             margin: 0 auto;
-            background: white; 
-            padding: 20px; 
-            box-sizing: border-box; 
-            position: relative;
-            text-align: left; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            direction: ltr !important;
-            min-height: 100vh;
+            padding: 0 24px;
+            box-sizing: border-box;
+            background-color: var(--page-bg);
+        }
+
+        .content-wrapper {
             display: flex;
             flex-direction: column;
-        }
-        
-        [dir="rtl"] .auth-sheet {
-            text-align: right;
-            direction: rtl !important;
+            align-items: flex-start;
+            padding: 0; /* إزالة الحشو بالكامل ليبدأ مباشرة تحت الهيدر */
         }
 
-        .auth-title { font-size: 34px; font-weight: 900; margin: 50px 0 40px; color: #000; text-align: center; letter-spacing: -0.5px; }
-        .auth-input-group { margin-bottom: 8px; position: relative; }
-        
-        .auth-input {
-            width: 100%; padding: 16px 0; border: none; border-bottom: 1.5px solid #e5e7eb;
-            border-radius: 0;
-            font-size: 18px; outline: none; color: #000;
-            font-weight: 400;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-        .auth-input.invalid-email-border {
-            border-bottom-color: #ff0000 !important;
-        }
-        .email-error-msg {
-            color: #ff0000;
-            font-size: 12px;
-            margin-top: 4px;
-            display: none;
-            font-weight: 600;
-        }
-        .auth-input::placeholder { color: #9ca3af; }
-        
-        [dir="rtl"] .auth-input {
-            text-align: right;
-        }
-        [dir="rtl"] .email-error-msg {
-            text-align: right;
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* توزيع احترافي للمساحة */
+            width: 100%;
+            margin-bottom: 0px; /* تقليص المسافة بين النص العلوي والرصيد */
+            padding-top: 5px; /* مسافة بسيطة جداً للفصل بين الهيدر والمحتوى */
         }
 
-        .auth-submit-btn {
-            width: 100%; padding: 18px; background: var(--primary-green); border: none; border-radius: 12px;
-            color: #fff; font-size: 20px; font-weight: 800; margin: 30px 0 15px; cursor: pointer;
-            transition: opacity 0.2s, background-color 0.2s;
-            display: flex; align-items: center; justify-content: center; position: relative;
-        }
-        
-        .auth-submit-btn:disabled {
-            background-color: var(--primary-green) !important;
-            opacity: 0.35;
-            cursor: not-allowed;
-            color: #d1d5db;
-        }
-
-        .auth-submit-btn span { flex: 1; text-align: center; }
-        .auth-submit-btn .exact-8-spinner {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.5);
-            margin: 0;
-        }
-
-        .social-btn {
-            width: 100%; padding: 18px; border: none; border-radius: 12px;
-            background: #f3f4f6; display: flex; align-items: center; justify-content: center;
-            gap: 12px; margin-bottom: 12px; font-weight: 700; cursor: pointer; font-size: 18px;
-            color: #000; box-sizing: border-box;
-            position: relative;
-        }
-        .social-btn .google-icon-svg { width: 24px; height: 24px; position: absolute; left: 20px; }
-        [dir="rtl"] .social-btn .google-icon-svg { left: auto; right: 20px; }
-        
-        .auth-footer { margin: 40px 0 20px; color: #6b7280; font-size: 16px; text-align: center; font-weight: 500; }
-        
-        .auth-footer span { font-weight: 800; color: #386E2C; cursor: pointer; text-decoration: underline; }
-        
-        .auth-legal-small { font-size: 13px; color: #000; line-height: 1.5; margin: 20px 0; font-weight: 500; }
-        
-        .toggle-password { position: absolute; right: 0; top: 16px; cursor: pointer; color: #374151; }
-        [dir="rtl"] .toggle-password { right: auto; left: 0; }
-        
-        .custom-checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; margin: 25px 0; cursor: pointer; }
-        .custom-checkbox { width: 22px; height: 22px; border: 2px solid #000; border-radius: 6px; flex-shrink: 0; margin-top: 2px; position: relative; transition: background 0.2s; }
-        .custom-checkbox.checked { background: #000; }
-        .custom-checkbox.checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 14px; font-weight: 800; }
-
-        .auth-error-banner {
-            color: #ff0000;
-            padding: 8px 0;
-            margin-bottom: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            display: none;
+        .balance-label-wrapper {
+            display: flex;
             align-items: center;
             gap: 6px;
-            animation: fadeInError 0.3s ease-out;
-            direction: inherit;
         }
-        @keyframes fadeInError {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .balance-label {
+            font-size: 15.5px;
+            font-weight: 500;
+            color: var(--text-muted);
         }
-        .error-icon-red {
-            width: 16px;
-            height: 16px;
+
+        .chevron-down-svg {
+            width: 13px;
+            height: 13px;
+            fill: none;
+            stroke: var(--text-muted);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .balance-amount {
+            font-size: 52px; /* تكبير بسيط للمبلغ كمركز اهتمام */
+            font-weight: 600; /* زيادة الوزن للبروز */
+            color: var(--text-main);
+            line-height: 1.1;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            letter-spacing: -2px;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0px; /* إزالة الهامش السفلي للرصيد */
+        }
+
+        .currency-symbol {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0;
+            opacity: 0.7; /* تقليل البروز لجعل الرقم هو الأساس */
+        }
+
+        .card-icon-container {
+            width: 46px; /* توحيد القياس العالمي */
+            height: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            color: #ff0000;
         }
 
-        .region-select-box {
+        .servio-logo-svg {
             width: 100%;
-            padding: 16px 0;
-            border-bottom: 1.5px solid #e5e7eb;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .circles-section {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 5px; /* تقليص المسافة جداً بين الرصيد والأيقونات */
+            padding: 10px 0;
+        }
+
+        .circle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px; 
+            flex: 1;
+            cursor: pointer;
+            transition: var(--transition-main);
+        }
+
+        .circle-item:active {
+            transform: scale(0.94); /* استجابة لمسية رشيقة */
+        }
+
+        .empty-circle {
+            width: 68px; /* توحيد الحجم العالمي للأدوات */
+            height: 68px;
+            border-radius: 50%; /* إرجاع البطاقات دائرية */
+            background-color: var(--circle-empty);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .deposit-circle {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%; /* إرجاع البطاقات دائرية */
+            background: linear-gradient(135deg, var(--primary-green), var(--vibrant-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(45, 90, 30, 0.2);
+            border: none;
+        }
+
+        .circle-svg-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .dots-icon {
+            font-size: 26px;
+            color: var(--text-main);
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 0;
+            margin-bottom: 6px;
+        }
+
+        .circle-label {
+            font-size: 14px;
+            font-weight: 600; 
+            color: #1a1a1a;
+            letter-spacing: -0.1px;
+        }
+
+        /* تنسيق بطاقة آخر المعاملات */
+        .transactions-card {
+            width: 100%;
+            background-color: #FFFFFF;
+            border-radius: 20px;
+            margin-top: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            margin-bottom: 8px;
         }
-        .region-select-box .label { font-size: 18px; color: #9ca3af; }
-        .region-select-box .value { font-size: 18px; color: #000; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .region-select-box .chevron { color: #9ca3af; width: 24px; height: 24px; }
+
+        .transactions-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .transactions-arrow {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+            stroke-width: 2.5;
+            fill: none;
+            transform: rotate(90deg);
+        }
     </style>
-    <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
-<body class="notranslate">
+<body>
 
-    <div id="global-spinner-overlay">
-        <div class="exact-8-spinner" style="display: block; transform: scale(1);">
-            <div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div>
+    <header>
+        <div class="header-content">
+            <div class="right-section">
+                <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="circleView">
+                            <circle cx="512" cy="512" r="512" />
+                        </clipPath>
+                    </defs>
+                    <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
+                    <g clip-path="url(#circleView)">
+                        <circle cx="512" cy="380" r="170.7" fill="var(--profile-icon)"/>
+                        <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="var(--profile-icon)"/>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="center-section">
+                <span class="account-text">ServioCmm</span>
+            </div>
+
+            <div style="width: 32px;"></div>
         </div>
-    </div>
+    </header>
 
-    <div class="mobile-container">
-        <header>
-            <div class="header-content">
-                <div class="brand-section">
-                    <svg class="logo-img" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" style="height: 35px; width: auto;">
+    <main class="main-container">
+        <div class="content-wrapper">
+            <div class="top-row">
+                <div class="balance-label-wrapper">
+                    <div class="balance-label">الرصيد المتاح</div>
+                    <svg class="chevron-down-svg" viewBox="0 0 24 24">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="card-icon-container">
+                    <svg class="servio-logo-svg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="deepGreenHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <linearGradient id="deepGreen" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#2d5a1e;stop-opacity:1" />
                                 <stop offset="100%" style="stop-color:#1a3611;stop-opacity:1" />
                             </linearGradient>
-                            <linearGradient id="vibrantGreenHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <linearGradient id="vibrantGreen" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#74a367;stop-opacity:1" />
                                 <stop offset="100%" style="stop-color:#5a854f;stop-opacity:1" />
                             </linearGradient>
-                            <mask id="whiteGapHeader">
+                            <mask id="whiteGap">
                                 <rect width="1000" height="800" fill="white" />
                                 <circle cx="350" cy="400" r="362" fill="black" />
                             </mask>
                         </defs>
-                        <circle cx="350" cy="400" r="350" fill="url(#deepGreenHeader)" />
-                        <circle cx="650" cy="400" r="350" fill="url(#vibrantGreenHeader)" mask="url(#whiteGapHeader)" fill-opacity="0.95" />
+                        <circle cx="350" cy="400" r="350" fill="url(#deepGreen)" />
+                        <circle cx="650" cy="400" r="350" fill="url(#vibrantGreen)" mask="url(#whiteGap)" fill-opacity="0.95" />
                         <g transform="rotate(-38 500 400)">
                             <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
                             <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
                             <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
                         </g>
                     </svg>
-                    <div class="v-line"></div>
-                    <div class="title-box" id="header-dynamic-title">
-                        <span>Digital Services</span>
-                        <span>Center</span>
-                    </div>
-                </div>
-                <div class="header-left-group">
-                    <div class="info-display-wrapper" onclick="openSelection('lang-only')">
-                        <svg class="lang-globe-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                        <div class="display-text">
-                            <span id="label-lng">EN</span>
-                        </div>
-                    </div>
-                    <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <clipPath id="circleView">
-                                <circle cx="512" cy="512" r="512" />
-                            </clipPath>
-                        </defs>
-                        <circle cx="512" cy="512" r="512" fill="#f0f0f0" />
-                        <g clip-path="url(#circleView)">
-                            <circle cx="512" cy="380" r="170.7" />
-                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" />
-                        </g>
-                    </svg>
                 </div>
             </div>
-        </header>
-
-        <div class="new-section-container">
-            <div class="hero-box-empty-new">
-                <div class="header-content-new">
-                    <svg class="logo-svg-new" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="deepGreenNew" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#2d5a1e;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#1a3611;stop-opacity:1" />
-                            </linearGradient>
-                            <linearGradient id="vibrantGreenNew" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#74a367;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#5a854f;stop-opacity:1" />
-                            </linearGradient>
-                            <mask id="whiteGapNew">
-                                <rect width="1000" height="800" fill="white" />
-                                <circle cx="350" cy="400" r="362" fill="black" />
-                            </mask>
-                        </defs>
-                        <circle cx="350" cy="400" r="350" fill="url(#deepGreenNew)" />
-                        <circle cx="650" cy="400" r="350" fill="url(#vibrantGreenHeader)" mask="url(#whiteGapHeader)" fill-opacity="0.95" />
-                        <g transform="rotate(-38 500 400)">
-                            <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                            <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
-                            <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                        </g>
-                    </svg>
-                    ServioCmm
-                </div>
-                
-                <div class="hero-video-container-new" id="videoContainerNew">
-                    <div id="media-loader">
-                        <div class="exact-8-spinner" style="display: block;">
-                            <div></div><div></div><div></div><div></div>
-                            <div></div><div></div><div></div><div></div>
-                        </div>
-                    </div>
-                    <div class="video-overlay-new"></div>
-                    <div class="video-slide-new active" data-index="0">
-                        <iframe id="vimeo-new-0" src="https://player.vimeo.com/video/1162647928?background=1&autoplay=1&loop=0&autopause=0&byline=0&title=0&portrait=0&muted=1&quality=auto&speed=1" allow="autoplay; fullscreen"></iframe>
-                    </div>
-                    <div class="video-slide-new" data-index="1">
-                        <iframe id="vimeo-new-1" src="https://player.vimeo.com/video/1162676708?background=1&autoplay=0&loop=0&autopause=0&byline=0&title=0&portrait=0&muted=1&quality=auto&speed=1" allow="autoplay; fullscreen"></iframe>
-                    </div>
-                    <div class="video-slide-new" data-index="2">
-                        <img src="https://i.postimg.cc/7LjvRyMB/tsmym-bdwn-ʿnwan.png" alt="Slide 3" loading="lazy" decoding="async">
-                    </div>
-                    <div class="video-slide-new" data-index="3">
-                        <img src="https://i.postimg.cc/GhgXKxjL/tsmym-bdwn-ʿnwan.png" alt="Slide 4" loading="lazy" decoding="async">
-                    </div>
-                </div>
-
-                <div class="pagination-dots-new">
-                    <div class="dot-new active" onclick="switchVideoNew(0)"></div>
-                    <div class="dot-new" onclick="switchVideoNew(1)"></div>
-                    <div class="dot-new" onclick="switchVideoNew(2)"></div>
-                    <div class="dot-new" onclick="switchVideoNew(3)"></div>
-                </div>
-                <p class="hero-text-new" id="hero-text-label">The Largest Platform for Followers & Services in MENA</p>
-            </div>
-
-            <div class="footer-actions-new">
-                <button class="btn-new btn-primary-new" id="btn-join-label" onclick="handleMainBtnClick(this, 'join')">
-                    <span>Join for free</span>
-                    <div class="exact-8-spinner">
-                        <div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div>
-                    </div>
-                </button>
-                <button class="btn-new btn-secondary-new" id="btn-login-label" onclick="handleMainBtnClick(this, 'login')">
-                    <span>Log in</span>
-                    <div class="exact-8-spinner">
-                        <div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div>
-                    </div>
-                </button>
-                <p class="legal-new" id="legal-label">
-                    By using the serviocmm app, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.
-                </p>
-            </div>
-        </div>
-
-        <div class="content-sections-wrapper"></div>
-    </div>
-
-    <div id="auth-modal" class="auth-modal">
-        <div class="auth-sheet">
-            <div class="close-sheet" style="top: 25px; right: 25px;" onclick="closeAuthModal()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </div>
-            <div id="auth-content"></div>
-        </div>
-    </div>
-
-    <div id="overlay-lang" class="selection-overlay" onclick="closeSelection('lang')">
-        <div class="selection-sheet" onclick="event.stopPropagation()">
-            <div class="sheet-header">
-                <div class="close-sheet" onclick="closeSelection('lang')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-                <div class="sheet-title" id="sheet-title-label-lang">Language</div>
-            </div>
-            <div id="sheet-lang-part">
-                <div class="section-label" id="lang-section-label">Language</div>
-                <div class="options-grid">
-                    <div class="option-box" id="lang-en" onclick="setTempLang('en')"><span>English</span></div>
-                    <div class="option-box" id="lang-ar" onclick="setTempLang('ar')"><span>العربية</span></div>
-                </div>
-            </div>
-            <button class="save-btn" id="save-btn-label-lang" onclick="applyChanges('lang')">Save</button>
-        </div>
-    </div>
-
-    <div id="overlay-reg" class="selection-overlay" onclick="closeSelection('reg')">
-        <div class="selection-sheet" onclick="event.stopPropagation()">
-            <div class="sheet-header">
-                <div class="close-sheet" onclick="closeSelection('reg')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-                <div class="sheet-title" id="sheet-title-label-reg">Region</div>
-            </div>
-            <div id="sheet-region-part">
-                <div class="section-label" id="region-section-label">Region</div>
-                <div class="options-grid" id="regions-grid-container"></div>
-            </div>
-            <button class="save-btn" id="save-btn-label-reg" onclick="applyChanges('reg')">Save</button>
-        </div>
-    </div>
-
-    <div id="dialog-overlay" class="custom-dialog-overlay" onclick="closeDialog()">
-        <div class="custom-dialog" onclick="event.stopPropagation()">
-            <div class="dialog-body">
-                <div class="dialog-title" id="dialog-title"></div>
-                <div class="dialog-text" id="dialog-text"></div>
-            </div>
-            <div class="dialog-btn" id="dialog-btn" onclick="closeDialog()"></div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
-            authDomain: "serviocmm-a65ed.firebaseapp.com", 
-            projectId: "serviocmm-a65ed", 
-            storageBucket: "serviocmm-a65ed.firebasestorage.app", 
-            messagingSenderId: "975373759034", 
-            appId: "1:975373759034:web:645cb5fb48772839453b03" 
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
-
-        async function saveUserToFirestore(user, customName = null, isNewUser = false) {
-            const userRef = doc(db, "users", user.uid);
-            const selectedRegion = window.regionConfigs[window.currentRegIdx].en;
-
-            if (isNewUser) {
-                // إنشاء الحساب بناءً على قواعد Firestore Rules
-                await setDoc(userRef, {
-                    name: (customName || user.displayName || "User").trim(),
-                    email: user.email,
-                    balance: 0,
-                    total_spend: 0,
-                    selected_region: selectedRegion,
-                    uid: user.uid
-                });
-            }
-            window.location.replace("dashboard/");
-        }
-
-        window.firebaseLogin = async (email, password) => {
-            try {
-                const res = await signInWithEmailAndPassword(auth, email, password);
-                window.location.replace("dashboard/");
-            } catch (e) {
-                window.showAuthError(e.code);
-            }
-        };
-
-        window.firebaseJoin = async (name, email, password) => {
-            try {
-                const res = await createUserWithEmailAndPassword(auth, email, password);
-                await updateProfile(res.user, { displayName: name });
-                await saveUserToFirestore(res.user, name, true);
-            } catch (e) {
-                window.showAuthError(e.code);
-            }
-        };
-
-        window.firebaseGoogle = async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const userRef = doc(db, "users", result.user.uid);
-                const docSnap = await getDoc(userRef);
-                
-                if (!docSnap.exists()) {
-                    await saveUserToFirestore(result.user, null, true);
-                } else {
-                    window.location.replace("dashboard/");
-                }
-            } catch (e) {
-                window.showAuthError(e.code);
-            }
-        };
-    </script>
-
-    <script>
-        let currentIndexNew = 0;
-        const totalSlidesNew = 4;
-        const playersNew = [];
-        let sliderTimer;
-        let isTransitioning = false;
-        
-        window.currentLang = 'en';
-        window.currentRegIdx = 4;
-        let tempLang = 'en';
-        let tempRegIdx = 4;
-
-        window.addEventListener('pageshow', function(event) {
-            const globalSpinner = document.getElementById('global-spinner-overlay');
-            if (globalSpinner) globalSpinner.style.display = 'none';
-            document.body.style.overflow = '';
-            document.querySelectorAll('.exact-8-spinner').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('button').forEach(b => b.disabled = false);
-        });
-
-        const googleIconSvg = `<svg class="google-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>`;
-
-        function handleMainBtnClick(btn, type) {
-            const spinner = btn.querySelector('.exact-8-spinner');
-            spinner.style.display = 'block';
-            setTimeout(() => {
-                spinner.style.display = 'none';
-                openAuthModal(type);
-            }, 800);
-        }
-
-        function handleAuthSubmit(btn, type) {
-            const emailInput = document.getElementById('auth-email-in');
-            if (emailInput && !validateEmail(emailInput.value)) return;
-            const spinner = btn.querySelector('.exact-8-spinner');
-            spinner.style.display = 'block';
-            btn.disabled = true;
-            const email = emailInput?.value;
-            const pass = document.getElementById('auth-pass-in')?.value;
-            if(type === 'login') {
-                window.firebaseLogin(email, pass).finally(() => {
-                    spinner.style.display = 'none';
-                    btn.disabled = false;
-                });
-            } else {
-                const name = document.getElementById('auth-name-in')?.value;
-                window.firebaseJoin(name, email, pass).finally(() => {
-                    spinner.style.display = 'none';
-                    btn.disabled = false;
-                });
-            }
-        }
-
-        window.showAuthError = function(firebaseError) {
-            const banner = document.getElementById('auth-error-banner');
-            const errorText = document.getElementById('error-message-text');
-            if (banner && errorText) {
-                const lang = window.currentLang || 'en';
-                let msg = lang === 'ar' ? "حدث خطأ في تسجيل الدخول." : "Login error occurred.";
-                if (firebaseError.includes('auth/invalid-credential')) msg = lang === 'ar' ? "البريد الإلكتروني أو كلمة المرور غير صحيحة." : "Invalid email or password.";
-                errorText.innerText = msg;
-                banner.style.display = 'flex';
-            }
-        };
-
-        function validateEmail(email) { return /^[^\s@]+@gmail\.com$/.test(String(email).toLowerCase()); }
-
-        function checkFormValidity() {
-            const emailInput = document.getElementById('auth-email-in');
-            const passInput = document.getElementById('auth-pass-in');
-            const nameInput = document.getElementById('auth-name-in');
-            const submitBtn = document.querySelector('.auth-submit-btn');
-            const isValid = (emailInput && validateEmail(emailInput.value)) && (passInput && passInput.value.length > 0) && (!nameInput || nameInput.value.length > 0);
-            if (submitBtn) submitBtn.disabled = !isValid;
-        }
-
-        function handleEmailInput(input) { checkFormValidity(); }
-        function handleEmailBlur(input) {
-            const errorMsg = document.getElementById('email-error-msg');
-            if (input.value !== "" && !validateEmail(input.value)) {
-                input.classList.add('invalid-email-border');
-                if (errorMsg) errorMsg.style.display = 'block';
-            } else {
-                input.classList.remove('invalid-email-border');
-                if (errorMsg) errorMsg.style.display = 'none';
-            }
-        }
-
-        function togglePassword(icon) {
-            const input = icon.parentElement.querySelector('input');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-
-        function toggleCheckbox(el) { el.classList.toggle('checked'); }
-
-        function openAuthModal(type) {
-            const container = document.getElementById('auth-content');
-            const lang = window.currentLang || 'en';
-            const regIdx = window.currentRegIdx !== undefined ? window.currentRegIdx : 4;
-            const currentReg = regionConfigs[regIdx];
+            <div class="balance-amount">0,00 <span class="currency-symbol">USD</span></div>
             
-            const t = {
-                ar: { joinTitle: "انضم إلى serviocmm", loginTitle: "تسجيل الدخول", namePlace: "الاسم", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", news: "أوافق على تلقي النشرات الإخبارية وتحديثات المنتجات والعروض الحصرية من serviocmm.", legalJoin: "من خلال الانضمام إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", legalLogin: "من خلال تسجيل الدخول إلى serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا.", joinBtn: "انضم الآن", loginBtn: "تسجيل الدخول", google: "المتابعة باستخدام Google", haveAccount: "لديك حساب؟", noAccount: "ليس لديك حساب؟", forgot: "هل نسيت كلمة المرور؟", emailError: "الرجاء إدخال بريد Gmail صالح", regionLabel: "المنطقة" },
-                en: { joinTitle: "Join serviocmm", loginTitle: "Log in", namePlace: "Name", emailPlace: "Email", passPlace: "Password", news: "I agree to receive newsletters, product updates, and exclusive offers from serviocmm.", legalJoin: "By joining serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", legalLogin: "By logging into serviocmm, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>.", joinBtn: "Join", loginBtn: "Log in", google: "Continue with Google", haveAccount: "Have an account?", noAccount: "Don't have an account?", forgot: "Forgot password?", emailError: "Please enter a valid Gmail email", regionLabel: "Region" }
-            };
-            const cur = t[lang];
-            const regDisplay = currentReg.type === 'icon' ? currentReg.svg : `<img src="${currentReg.flag}" style="width:24px; height:16px; border-radius:2px;">`;
-
-            if (type === 'join') {
-                container.innerHTML = `
-                    <div class="auth-title">${cur.joinTitle}</div>
-                    <div class="auth-input-group"><input type="text" id="auth-name-in" class="auth-input" placeholder="${cur.namePlace}" oninput="checkFormValidity()"></div>
-                    <div class="auth-input-group">
-                        <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
-                        <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
+            <div class="circles-section">
+                <div class="circle-item">
+                    <div class="deposit-circle">
+                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="auth-input-group">
-                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}" oninput="checkFormValidity()">
-                        <div class="toggle-password" onclick="togglePassword(this)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg></div>
+                    <span class="circle-label">إيداع</span>
+                </div>
+                <div class="circle-item">
+                    <div class="empty-circle">
+                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="region-select-box" onclick="openSelection('reg')">
-                        <span class="label">${cur.regionLabel}</span>
-                        <span class="value">${currentReg[lang]} ${regDisplay} <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+                    <span class="circle-label">متجر</span>
+                </div>
+                <div class="circle-item">
+                    <div class="empty-circle">
+                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="5" width="18" height="14" rx="3" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 10H21" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 15H7.01" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="custom-checkbox-wrapper" onclick="toggleCheckbox(this.querySelector('.custom-checkbox'))">
-                        <div class="custom-checkbox"></div>
-                        <div style="font-size:14px; color:#000; line-height:1.4; font-weight:500;">${cur.news}</div>
+                    <span class="circle-label">المحفظة</span>
+                </div>
+                <div class="circle-item">
+                    <div class="empty-circle">
+                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="5" cy="12" r="1.5" fill="#1a1a1a"/>
+                            <circle cx="12" cy="12" r="1.5" fill="#1a1a1a"/>
+                            <circle cx="19" cy="12" r="1.5" fill="#1a1a1a"/>
+                        </svg>
                     </div>
-                    <p class="auth-legal-small">${cur.legalJoin}</p>
-                    <div id="auth-error-banner" class="auth-error-banner"><span id="error-message-text"></span></div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'join')" disabled><span>${cur.joinBtn}</span><div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>
-                    <div class="social-btn" onclick="window.firebaseGoogle()">${googleIconSvg} ${cur.google}</div>
-                    <div class="auth-footer">${cur.haveAccount} <span onclick="openAuthModal('login')">${cur.loginBtn}</span></div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="auth-title">${cur.loginTitle}</div>
-                    <div class="auth-input-group">
-                        <input type="email" id="auth-email-in" class="auth-input" placeholder="${cur.emailPlace}" oninput="handleEmailInput(this)" onblur="handleEmailBlur(this)">
-                        <div id="email-error-msg" class="email-error-msg">${cur.emailError}</div>
-                    </div>
-                    <div class="auth-input-group">
-                        <input type="password" id="auth-pass-in" class="auth-input" placeholder="${cur.passPlace}" oninput="checkFormValidity()">
-                        <div class="toggle-password" onclick="togglePassword(this)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg></div>
-                    </div>
-                    <p class="auth-legal-small">${cur.legalLogin}</p>
-                    <div id="auth-error-banner" class="auth-error-banner"><span id="error-message-text"></span></div>
-                    <button class="auth-submit-btn" onclick="handleAuthSubmit(this, 'login')" disabled><span>${cur.loginBtn}</span><div class="exact-8-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>
-                    <div class="social-btn" onclick="window.firebaseGoogle()">${googleIconSvg} ${cur.google}</div>
-                    <div class="auth-footer">${cur.noAccount} <span onclick="openAuthModal('join')">${cur.joinBtn}</span></div>
-                `;
-            }
-            document.getElementById('auth-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-        }
+                    <span class="circle-label">مزيد</span>
+                </div>
+            </div>
 
-        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; document.body.style.overflow = ''; }
+            <div class="transactions-card">
+                <span class="transactions-title">آخر المعاملات</span>
+                <svg class="transactions-arrow" viewBox="0 0 24 24">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+        </div>
+    </main>
 
-        function initSlider() {
-            document.querySelectorAll('iframe[id^="vimeo-new-"]').forEach((iframe, idx) => {
-                const player = new Vimeo.Player(iframe);
-                playersNew[idx] = player;
-                player.on('loaded', () => { document.getElementById('media-loader').style.display = 'none'; });
-            });
-            switchVideoNew(0);
-            startAutoCycle();
-        }
-
-        function startAutoCycle() {
-            if (sliderTimer) clearInterval(sliderTimer);
-            sliderTimer = setInterval(() => { switchVideoNew((currentIndexNew + 1) % totalSlidesNew); }, 7000); 
-        }
-
-        function switchVideoNew(index) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            currentIndexNew = index;
-            const slides = document.querySelectorAll('.video-slide-new');
-            const dots = document.querySelectorAll('.dot-new');
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            if(slides[index]) slides[index].classList.add('active');
-            if(dots[index]) dots[index].classList.add('active');
-            
-            if (index < 2) {
-                playersNew.forEach((p, i) => {
-                    if (i === index && p) { p.play().catch(() => {}); } 
-                    else if(p) { p.pause().catch(() => {}); p.setCurrentTime(0).catch(() => {}); }
-                });
-            } else {
-                playersNew.forEach(p => { if(p) { p.pause().catch(() => {}); p.setCurrentTime(0).catch(() => {}); } });
-            }
-            setTimeout(() => { isTransitioning = false; }, 400);
-        }
-
-        const mdiLocation = `<svg class="nav-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C8.14,2,5,5.14,5,9c0,5.25,7,13,7,13s7-7.75,7-13C19,5.14,15.86,2,12,2z M12,11.5c-1.38,0-2.5-1.12-2.5-2.5s1.12-2.5,2.5-2.5s2.5,1.12,2.5,2.5S13.38,11.5,12,11.5z"/></svg>`;
-        window.regionConfigs = [
-            { id: 'algeria', ar: "الجزائر", en: "Algeria", flag: 'https://flagcdn.com/dz.svg' },
-            { id: 'egypt', ar: "مصر", en: "Egypt", flag: 'https://flagcdn.com/eg.svg' },
-            { id: 'iraq', ar: "العراق", en: "Iraq", flag: 'https://flagcdn.com/iq.svg' },
-            { id: 'jordan', ar: "الأردن", en: "Jordan", flag: 'https://flagcdn.com/jo.svg' },
-            { id: 'mena', ar: "الشرق الأوسط", en: "MENA", type: 'icon', svg: mdiLocation },
-            { id: 'morocco', ar: "المغرب", en: "Morocco", flag: 'https://flagcdn.com/ma.svg' },
-            { id: 'nigeria', ar: "نيجيريا", en: "Nigeria", flag: 'https://flagcdn.com/ng.svg' },
-            { id: 'oman', ar: "عمان", en: "Oman", flag: 'https://flagcdn.com/om.svg' },
-            { id: 'palestine', ar: "فلسطين", en: "Palestine", flag: 'https://flagcdn.com/ps.svg' },
-            { id: 'qatar', ar: "قطر", en: "Qatar", flag: 'https://flagcdn.com/qa.svg' },
-            { id: 'saudi', ar: "السعودية", en: "Saudi Arabia", flag: 'https://flagcdn.com/sa.svg' },
-            { id: 'uae', ar: "الإمارات", en: "UAE", flag: 'https://flagcdn.com/ae.svg' }
-        ];
-
-        function openSelection(mode = 'lang') { 
-            tempLang = window.currentLang; 
-            tempRegIdx = window.currentRegIdx; 
-            renderSheet(); 
-            document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'flex'; 
-        }
-
-        function closeSelection(mode = 'lang') { 
-            document.getElementById(mode === 'reg' ? 'overlay-reg' : 'overlay-lang').style.display = 'none';
-        }
-        function setTempLang(l) { tempLang = l; renderSheet(); }
-        function setTempReg(i) { tempRegIdx = i; renderSheet(); }
-
-        function renderSheet() {
-            const container = document.getElementById('regions-grid-container');
-            container.innerHTML = '';
-            document.getElementById('lang-en').className = tempLang === 'en' ? 'option-box selected' : 'option-box';
-            document.getElementById('lang-ar').className = tempLang === 'ar' ? 'option-box selected' : 'option-box';
-            window.regionConfigs.forEach((reg, i) => {
-                const box = document.createElement('div');
-                box.className = i === tempRegIdx ? 'option-box selected' : 'option-box';
-                box.onclick = () => setTempReg(i);
-                box.innerHTML = `<span>${reg[tempLang]}</span>` + (reg.type === 'icon' ? reg.svg : `<img src="${reg.flag}">`);
-                container.appendChild(box);
-            });
-            const labels = { ar: { title_lang: "اللغة", title_reg: "المنطقة", lang: "اللغة", reg: "المنطقة", save: "حفظ" }, en: { title_lang: "Language", title_reg: "Region", lang: "Language", reg: "Region", save: "Save" } };
-            const curL = labels[tempLang];
-            document.getElementById('sheet-title-label-lang').innerText = curL.title_lang;
-            document.getElementById('sheet-title-label-reg').innerText = curL.title_reg;
-            document.getElementById('lang-section-label').innerText = curL.lang;
-            document.getElementById('region-section-label').innerText = curL.reg;
-            document.getElementById('save-btn-label-lang').innerText = curL.save;
-            document.getElementById('save-btn-label-reg').innerText = curL.save;
-        }
-
-        function applyChanges(mode = 'lang') {
-            document.getElementById('global-spinner-overlay').style.display = 'flex';
-            setTimeout(() => {
-                window.currentLang = tempLang;
-                window.currentRegIdx = tempRegIdx;
-                updateUI();
-                if (document.getElementById('auth-modal').style.display === 'flex') {
-                    const isJoin = document.querySelector('.auth-title').innerText.match(/Join|انضم/);
-                    openAuthModal(isJoin ? 'join' : 'login');
-                }
-                closeSelection(mode);
-                document.getElementById('global-spinner-overlay').style.display = 'none';
-            }, 300);
-        }
-
-        function updateUI() {
-            const lang = window.currentLang || 'en';
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('label-lng').innerText = lang === 'ar' ? 'AR' : 'EN';
-            
-            const headerBox = document.getElementById('header-dynamic-title');
-            if(lang === 'ar') {
-                headerBox.innerHTML = `<span>مركز الخدمات</span><span>الرقمية</span>`;
-            } else {
-                headerBox.innerHTML = `<span>Digital Services</span><span>Center</span>`;
-            }
-
-            const translations = { ar: { hero: "المنصة الأكبر للمتابعين والخدمات في الشرق الأوسط", join: "انضم مجاناً", login: "تسجيل الدخول", legal: "باستخدام تطبيق serviocmm، فإنك توافق على <span>شروط الخدمة</span> وتقر بـ <span>سياسة الخصوصية</span> الخاصة بنا." }, en: { hero: "The Largest Platform for Followers & Services in MENA", join: "Join for free", login: "Log in", legal: "By using the serviocmm app, you agree to our <span>Terms of Service</span> and acknowledge our <span>Privacy Policy</span>." } };
-            document.getElementById('hero-text-label').innerText = translations[lang].hero;
-            document.querySelector('#btn-join-label span').innerText = translations[lang].join;
-            document.querySelector('#btn-login-label span').innerText = translations[lang].login;
-            document.getElementById('legal-label').innerHTML = translations[lang].legal;
-        }
-
-        function closeDialog() { document.getElementById('dialog-overlay').style.display = 'none'; }
-        updateUI();
-        initSlider();
-    </script>
 </body>
 </html>
