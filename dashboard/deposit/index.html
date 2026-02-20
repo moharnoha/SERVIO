@@ -6,8 +6,6 @@
     <meta name="google" content="notranslate">
     <title>serviocmm - Optimized UI</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -24,7 +22,7 @@
             --profile-bg: #e8eaed;       
             --border-subtle: rgba(0,0,0,0.06);
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --accent-green: #386E2C;
+            --accent-green: #386E2C; 
             --card-white: #ffffff;
         }
 
@@ -34,68 +32,9 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Lexend' !important;
-            overscroll-behavior-y: contain;
-            touch-action: pan-x pan-y;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Lexend', sans-serif;
         }
 
-        /* --- عرض التحميل (Pull Refresh) --- */
-        #pull-refresh-area {
-            width: 100%;
-            height: 0;
-            overflow: hidden;
-            background-color: var(--page-bg);
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            transition: height 0.2s ease-out;
-            position: relative;
-            z-index: 999;
-            pointer-events: none;
-            padding-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        .pull-logo-box {
-            width: 40px;
-            height: 40px;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .fill-layer-anim {
-            clip-path: inset(100% 0 0 0);
-        }
-
-        body.is-pulling .pull-logo-box {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        body.is-refreshing .fill-layer-anim {
-            animation: premiumFill 0.5s ease-in-out forwards;
-        }
-
-        body.is-refreshing .pull-logo-box {
-            animation: pulse-logo 0.8s infinite ease-in-out;
-        }
-
-        @keyframes premiumFill {
-            0% { clip-path: inset(100% 0 0 0); }
-            100% { clip-path: inset(0% 0 0 0); }
-        }
-
-        @keyframes pulse-logo {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.05); filter: brightness(1.2); }
-            100% { transform: scale(1); filter: brightness(1); }
-        }
-
-        /* --- الهيدر --- */
         header { 
             width: 100%; height: 72px; 
             background-color: var(--header-bg); 
@@ -120,11 +59,19 @@
             position: relative;
         }
 
+        @media (min-width: 481px) {
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+        }
+
         .right-section { 
             display: flex; 
             align-items: center; 
             flex-shrink: 0;
             z-index: 2;
+            cursor: pointer;
         }
         
         .center-section { 
@@ -135,14 +82,14 @@
             display: flex; 
             align-items: center; 
             justify-content: center;
-            width: auto;
-            pointer-events: none;
+            width: max-content;
         }
 
         .account-text {
             font-size: 18px; 
             font-weight: 700; 
             color: var(--text-main);
+            letter-spacing: -0.3px; 
             white-space: nowrap;
         }
 
@@ -156,7 +103,23 @@
             stroke-linejoin: round;
         }
 
-        /* --- محتوى الخدمات --- */
+        .left-section {
+            width: 24px; 
+        }
+
+        /* Styles from injected section */
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         
         .services-grid {
@@ -231,59 +194,62 @@
             text-align: right;
             font-family: 'Cairo', sans-serif;
         }
+
+        html[dir="ltr"] .services-grid { direction: ltr; }
+        html[dir="ltr"] .section-header { text-align: left; }
+        html[dir="ltr"] .service-title { text-align: left; }
+        html[dir="ltr"] .card-icon { right: auto; left: 10px; }
+        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        
+        #nav-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.19);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .sub-header-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
-<body>
+<body class="notranslate" translate="no">
+
+    <div id="nav-loader">
+        <div class="loading-spinner"></div>
+    </div>
 
     <header>
         <div class="header-content">
-            <div class="right-section">
+            <div class="right-section" onclick="history.back()">
                 <svg class="back-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
             </div>
+
             <div class="center-section">
-                <span class="account-text">Account ServioCmm</span>
+                <span class="account-text">Payment Methods</span>
             </div>
-            <div style="width: 24px;"></div>
+
+            <div class="left-section">
+            </div>
         </div>
     </header>
-
-    <div id="pull-refresh-area">
-        <div class="pull-logo-box">
-            <svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="pullDeep" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#2d5a1e" />
-                        <stop offset="100%" style="stop-color:#1a3611" />
-                    </linearGradient>
-                    <mask id="pullMask">
-                        <rect width="1000" height="800" fill="white" />
-                        <circle cx="350" cy="400" r="362" fill="black" />
-                    </mask>
-                </defs>
-                <g>
-                    <circle cx="350" cy="400" r="350" fill="#EAEBEE" />
-                    <circle cx="650" cy="400" r="350" fill="#EAEBEE" mask="url(#pullMask)" />
-                    <g transform="rotate(-38 500 400)">
-                        <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#9BA0A7" />
-                        <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#9BA0A7" />
-                        <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#9BA0A7" />
-                    </g>
-                </g>
-                <g class="fill-layer-anim">
-                    <circle cx="350" cy="400" r="350" fill="url(#pullDeep)" />
-                    <circle cx="650" cy="400" r="350" fill="var(--vibrant-green)" mask="url(#pullMask)" />
-                    <g transform="rotate(-38 500 400)">
-                        <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                        <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
-                        <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                    </g>
-                </g>
-            </svg>
-        </div>
-    </div>
 
     <div class="main-container" id="page-content">
         <div class="services-grid">
@@ -360,67 +326,34 @@
     </div>
 
     <script>
+        const navLoader = document.getElementById('nav-loader');
         const userLang = localStorage.getItem('pref_lang') || 'ar';
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
+
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                navLoader.style.display = 'none';
+            }
+        };
+
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.getAttribute('href')) {
+                e.preventDefault();
+                const url = link.getAttribute('href');
+                navLoader.style.display = 'flex';
+                window.location.href = url;
+            }
+        });
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             document.querySelectorAll('.section-header').forEach(header => {
                 header.innerText = header.getAttribute(`data-${lang}`);
             });
+            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
         }
         updateUI();
-
-        // Pull to Refresh Script
-        let startY = 0;
-        let isRefreshing = false;
-        const body = document.body;
-        const pullArea = document.getElementById('pull-refresh-area');
-        const THRESHOLD = 70;
-
-        window.addEventListener('touchstart', (e) => {
-            if (window.scrollY === 0) {
-                startY = e.touches[0].pageY;
-                pullArea.style.transition = 'none';
-            }
-        }, {passive: true});
-
-        window.addEventListener('touchmove', (e) => {
-            if (isRefreshing || window.scrollY !== 0) return;
-            const currentY = e.touches[0].pageY;
-            const diff = currentY - startY;
-            if (diff > 0) {
-                const pullHeight = Math.min(diff * 0.4, THRESHOLD + 20); 
-                pullArea.style.height = pullHeight + 'px';
-                if (pullHeight > 10) body.classList.add('is-pulling');
-            }
-        }, {passive: true});
-
-        window.addEventListener('touchend', () => {
-            if (isRefreshing) return;
-            const currentHeight = parseInt(pullArea.style.height) || 0;
-            
-            if (currentHeight >= THRESHOLD) {
-                isRefreshing = true;
-                body.classList.add('is-refreshing');
-                pullArea.style.transition = 'height 0.2s ease-out';
-                pullArea.style.height = THRESHOLD + 'px';
-                
-                setTimeout(() => {
-                    pullArea.style.transition = 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                    pullArea.style.height = '0px';
-                    setTimeout(() => {
-                        body.classList.remove('is-pulling', 'is-refreshing');
-                        isRefreshing = false;
-                        location.reload();
-                    }, 400);
-                }, 1500);
-            } else {
-                pullArea.style.transition = 'height 0.3s ease-out';
-                pullArea.style.height = '0px';
-                body.classList.remove('is-pulling');
-            }
-        });
     </script>
 </body>
 </html>
