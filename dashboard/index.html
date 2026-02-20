@@ -23,6 +23,7 @@
             --profile-bg: #e8eaed;       
             --border-subtle: rgba(0,0,0,0.06);
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         body { 
@@ -43,11 +44,13 @@
             background-color: var(--page-bg);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             transition: height 0.2s ease-out;
             position: relative;
             z-index: 999;
             pointer-events: none;
+            padding-bottom: 10px;
+            box-sizing: border-box;
         }
 
         .pull-logo-box {
@@ -71,9 +74,19 @@
             animation: premiumFill 0.5s ease-in-out forwards;
         }
 
+        body.is-refreshing .pull-logo-box {
+            animation: pulse-logo 0.8s infinite ease-in-out;
+        }
+
         @keyframes premiumFill {
             0% { clip-path: inset(100% 0 0 0); }
             100% { clip-path: inset(0% 0 0 0); }
+        }
+
+        @keyframes pulse-logo {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.2); }
+            100% { transform: scale(1); filter: brightness(1); }
         }
 
         header { 
@@ -242,11 +255,15 @@
             gap: 12px; 
             flex: 1;
             cursor: pointer;
-            transition: var(--transition-main);
+            transition: var(--transition-bounce);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .circle-item:active {
-            transform: scale(0.94);
+        .circle-item:active .empty-circle, 
+        .circle-item:active .deposit-circle {
+            transform: scale(0.85);
+            background-color: #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .empty-circle {
@@ -259,6 +276,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: inherit;
         }
 
         .deposit-circle {
@@ -271,6 +289,7 @@
             justify-content: center;
             box-shadow: 0 8px 24px rgba(45, 90, 30, 0.2);
             border: none;
+            transition: inherit;
         }
 
         .circle-svg-icon {
@@ -297,6 +316,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: var(--transition-main);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .transactions-card:active {
+            background-color: #f9f9f9;
+            transform: scale(0.98);
         }
 
         .transactions-title {
@@ -490,7 +516,6 @@
         localStorage.setItem('last_known_balance', formatted);
       };
 
-      // تحميل الحالة الأولية
       const savedBalance = localStorage.getItem('last_known_balance');
       if (savedBalance) updateUI(parseFloat(savedBalance.replace(/,/g, '')));
 
@@ -529,7 +554,10 @@
         const canPull = () => window.scrollY === 0;
 
         window.addEventListener('touchstart', (e) => {
-            if (canPull()) startY = e.touches[0].pageY;
+            if (canPull()) {
+                startY = e.touches[0].pageY;
+                pullArea.style.transition = 'none';
+            }
         }, {passive: true});
 
         window.addEventListener('touchmove', (e) => {
@@ -538,34 +566,36 @@
             const diff = currentY - startY;
             if (diff > 0) {
                 if (e.cancelable) e.preventDefault();
-                const pullHeight = Math.min(diff * 0.4, THRESHOLD + 10); 
+                const pullHeight = Math.min(diff * 0.4, THRESHOLD + 20); 
                 pullArea.style.height = pullHeight + 'px';
-                if (pullHeight > 15) body.classList.add('is-pulling');
+                if (pullHeight > 10) body.classList.add('is-pulling');
             }
         }, {passive: false});
 
         window.addEventListener('touchend', async () => {
             if (isRefreshing) return;
             const currentHeight = parseInt(pullArea.style.height) || 0;
+            
             if (currentHeight >= THRESHOLD) {
                 isRefreshing = true;
                 body.classList.add('is-refreshing');
+                pullArea.style.transition = 'height 0.2s ease-out';
                 pullArea.style.height = THRESHOLD + 'px';
                 
-                // تحديث Firebase فقط بدون إعادة تحميل الصفحة
                 if (window.refreshFirebaseData) {
                     await window.refreshFirebaseData();
                 }
 
                 setTimeout(() => {
-                    pullArea.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 1, 1)';
+                    pullArea.style.transition = 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
                     pullArea.style.height = '0px';
                     setTimeout(() => {
                         body.classList.remove('is-pulling', 'is-refreshing');
                         isRefreshing = false;
-                    }, 300);
-                }, 600);
+                    }, 400);
+                }, 800);
             } else {
+                pullArea.style.transition = 'height 0.3s ease-out';
                 pullArea.style.height = '0px';
                 body.classList.remove('is-pulling');
             }
