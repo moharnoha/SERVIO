@@ -257,6 +257,7 @@
             cursor: pointer;
             transition: var(--transition-bounce);
             -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
         }
 
         .circle-item:active .empty-circle, 
@@ -318,6 +319,7 @@
             align-items: center;
             transition: var(--transition-main);
             -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
         }
 
         .transactions-card:active {
@@ -346,18 +348,20 @@
     <header>
         <div class="header-content">
             <div class="right-section">
-                <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <clipPath id="circleView">
-                            <circle cx="512" cy="512" r="512" />
-                        </clipPath>
-                    </defs>
-                    <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
-                    <g clip-path="url(#circleView)">
-                        <circle cx="512" cy="380" r="170.7" fill="var(--profile-icon)"/>
-                        <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="var(--profile-icon)"/>
-                    </g>
-                </svg>
+                <a href="profile/" style="text-decoration: none;">
+                    <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clipPath id="circleView">
+                                <circle cx="512" cy="512" r="512" />
+                            </clipPath>
+                        </defs>
+                        <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
+                        <g clip-path="url(#circleView)">
+                            <circle cx="512" cy="380" r="170.7" fill="var(--profile-icon)"/>
+                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="var(--profile-icon)"/>
+                        </g>
+                    </svg>
+                </a>
             </div>
 
             <div class="center-section">
@@ -441,23 +445,23 @@
             <div class="balance-amount"><span id="user-balance"></span> <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span></div>
             
             <div class="circles-section">
-                <div class="circle-item">
+                <a href="deposit/" class="circle-item">
                     <div class="deposit-circle">
                         <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="circle-label">إيداع</span>
-                </div>
-                <div class="circle-item">
+                </a>
+                <a href="store/" class="circle-item">
                     <div class="empty-circle">
                         <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="circle-label">متجر</span>
-                </div>
-                <div class="circle-item">
+                </a>
+                <a href="wallet/" class="circle-item">
                     <div class="empty-circle">
                         <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="3" y="5" width="18" height="14" rx="3" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -466,8 +470,8 @@
                         </svg>
                     </div>
                     <span class="circle-label">المحفظة</span>
-                </div>
-                <div class="circle-item">
+                </a>
+                <a href="more/" class="circle-item">
                     <div class="empty-circle">
                         <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="5" cy="12" r="1.5" fill="#1a1a1a"/>
@@ -476,15 +480,15 @@
                         </svg>
                     </div>
                     <span class="circle-label">مزيد</span>
-                </div>
+                </a>
             </div>
 
-            <div class="transactions-card">
+            <a href="transactions/" class="transactions-card">
                 <span class="transactions-title">آخر المعاملات</span>
                 <svg class="transactions-arrow" viewBox="0 0 24 24">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
-            </div>
+            </a>
         </div>
     </main>
 
