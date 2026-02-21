@@ -376,16 +376,8 @@
       const updateUI = (balance, name) => {
         if(balance !== undefined) {
             const numBalance = typeof balance === 'string' ? parseFloat(balance.replace(/,/g, '')) : balance;
-            
             const integerPart = Math.floor(numBalance).toLocaleString();
-            
-            let decimalPart = "";
-            const balanceStr = numBalance.toString();
-            if (balanceStr.includes('.')) {
-                decimalPart = balanceStr.split('.')[1].substring(0, 7);
-            } else {
-                decimalPart = "00";
-            }
+            const decimalPart = (numBalance % 1).toFixed(7).substring(2);
             
             if(el) {
                 el.innerHTML = `${integerPart}<span class="decimal-part">.${decimalPart}</span>`;
