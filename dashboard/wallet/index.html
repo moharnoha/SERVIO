@@ -375,27 +375,34 @@
 
       const updateUI = (balance, name) => {
         if(balance !== undefined) {
-            const numBalance = typeof balance === 'string' ? parseFloat(balance.replace(/,/g, '')) : balance;
-            const integerPart = Math.floor(numBalance).toLocaleString();
-            const decimalPart = (numBalance % 1).toFixed(7).substring(2);
+            // تحويل القيمة القادمة من فايربيز مباشرة
+            const numVal = parseFloat(balance);
+            
+            // تحويل الرقم لنص بدقة 7 أرقام عشرية
+            let fullStr = numVal.toFixed(7);
+            
+            // إزالة الأصفار الزائدة من اليمين
+            if (fullStr.indexOf('.') !== -1) {
+                fullStr = fullStr.replace(/\.?0+$/, "");
+            }
+
+            const parts = fullStr.split('.');
+            const integerPart = parseInt(parts[0]).toLocaleString();
+            const decimalPart = parts[1] || '';
             
             if(el) {
-                el.innerHTML = `${integerPart}<span class="decimal-part">.${decimalPart}</span>`;
+                if(decimalPart) {
+                    el.innerHTML = `${integerPart}<span class="decimal-part">.${decimalPart}</span>`;
+                } else {
+                    el.innerHTML = `${integerPart}`;
+                }
             }
             if(sym) sym.style.display = 'inline-block';
-            localStorage.setItem('last_known_balance', numBalance.toString());
         }
         if(name && nameEl) {
             nameEl.textContent = name;
-            localStorage.setItem('last_known_name', name);
         }
       };
-
-      const savedBalance = localStorage.getItem('last_known_balance');
-      const savedName = localStorage.getItem('last_known_name');
-      if (savedBalance || savedName) {
-          updateUI(savedBalance ? parseFloat(savedBalance) : undefined, savedName);
-      }
 
       window.refreshFirebaseData = async () => {
         const user = auth.currentUser;
@@ -412,6 +419,7 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           const userDocRef = doc(db, "users", user.uid);
+          // Snapshot يجلب البيانات مباشرة من Firebase عند كل تغيير
           onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
