@@ -378,11 +378,17 @@
             if(sym) sym.style.display = 'inline-block';
             localStorage.setItem('last_known_balance', formatted);
         }
-        if(name && nameEl) nameEl.textContent = name;
+        if(name && nameEl) {
+            nameEl.textContent = name;
+            localStorage.setItem('last_known_name', name);
+        }
       };
 
       const savedBalance = localStorage.getItem('last_known_balance');
-      if (savedBalance) updateUI(parseFloat(savedBalance.replace(/,/g, '')));
+      const savedName = localStorage.getItem('last_known_name');
+      if (savedBalance || savedName) {
+          updateUI(savedBalance ? parseFloat(savedBalance.replace(/,/g, '')) : undefined, savedName);
+      }
 
       window.refreshFirebaseData = async () => {
         const user = auth.currentUser;
@@ -391,7 +397,7 @@
           const docSnap = await getDoc(userDocRef);
           if (docSnap.exists()) {
             const data = docSnap.data();
-            updateUI(data.balance, data.name || data.username);
+            updateUI(data.balance, data.name);
           }
         }
       };
@@ -402,7 +408,7 @@
           onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
-              updateUI(data.balance, data.name || data.username);
+              updateUI(data.balance, data.name);
             }
           });
         }
