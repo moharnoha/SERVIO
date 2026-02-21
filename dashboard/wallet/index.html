@@ -213,7 +213,7 @@
             line-height: 1.1;
             display: flex;
             align-items: baseline;
-            gap: 0;
+            gap: 4px;
             letter-spacing: -2px;
             font-variant-numeric: tabular-nums;
             margin-bottom: 0px;
@@ -376,8 +376,16 @@
       const updateUI = (balance, name) => {
         if(balance !== undefined) {
             const numBalance = typeof balance === 'string' ? parseFloat(balance.replace(/,/g, '')) : balance;
+            
             const integerPart = Math.floor(numBalance).toLocaleString();
-            const decimalPart = (numBalance % 1).toFixed(7).substring(2);
+            
+            let decimalPart = "";
+            const balanceStr = numBalance.toString();
+            if (balanceStr.includes('.')) {
+                decimalPart = balanceStr.split('.')[1].substring(0, 7);
+            } else {
+                decimalPart = "00";
+            }
             
             if(el) {
                 el.innerHTML = `${integerPart}<span class="decimal-part">.${decimalPart}</span>`;
