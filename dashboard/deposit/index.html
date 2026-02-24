@@ -169,6 +169,28 @@
             opacity: 0.7;
         }
 
+        .favorite-btn {
+            position: absolute;
+            top: 32px;
+            left: 12px;
+            font-size: 16px;
+            color: #ccc;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.4s ease, transform 0.2s ease;
+        }
+
+        .favorite-btn.active {
+            color: transparent;
+            background: linear-gradient(135deg, #49773B, #507B42);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .favorite-btn:active {
+            transform: scale(1.3);
+        }
+
         .service-title {
             position: absolute;
             bottom: 10px;
@@ -200,6 +222,7 @@
         html[dir="ltr"] .service-title { text-align: left; }
         html[dir="ltr"] .card-icon { right: auto; left: 10px; }
         html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        html[dir="ltr"] .favorite-btn { left: auto; right: 12px; }
         
         #nav-loader {
             position: fixed;
@@ -254,72 +277,85 @@
     <div class="main-container" id="page-content">
         <div class="services-grid">
             <div class="section-header" data-ar="وسائل الدفع" data-en="Payment Methods">وسائل الدفع</div>
-            <a href="chpus/" class="service-card">
+            <a href="chpus/" class="service-card" data-id="pay_chpus">
                 <div class="card-icon"><img src="https://i.postimg.cc/SsqzcSLv/IMG-2724.jpg" alt="Cash Plus"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_chpus')"></i>
                 <h3 class="service-title">Cash Plus</h3>
             </a>
-            <a href="ormo/" class="service-card">
+            <a href="ormo/" class="service-card" data-id="pay_ormo">
                 <div class="card-icon"><img src="https://i.postimg.cc/YqL4hnT5/IMG-2729.jpg" alt="Orange Money"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_ormo')"></i>
                 <h3 class="service-title">Orange Money Maroc</h3>
             </a>
-            <a href="cihm/" class="service-card">
+            <a href="cihm/" class="service-card" data-id="pay_cihm">
                 <div class="card-icon"><img src="https://i.postimg.cc/y6SBz00y/IMG-2747.jpg" alt="cih mobile"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_cihm')"></i>
                 <h3 class="service-title">cih mobile</h3>
             </a>
             <div class="section-header" data-ar="التحويلات الدولية" data-en="International Transfers">التحويلات الدولية</div>
-            <a href="weun/" class="service-card">
+            <a href="weun/" class="service-card" data-id="pay_weun">
                 <div class="card-icon"><img src="https://i.postimg.cc/9Q0wbRH3/IMG-2738.jpg" alt="WU"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_weun')"></i>
                 <h3 class="service-title">Western Union</h3>
             </a>
-            <a href="tase/" class="service-card">
+            <a href="tase/" class="service-card" data-id="pay_tase">
                 <div class="card-icon"><img src="https://i.postimg.cc/c4nLLRWn/IMG-2741.png" alt="Taptapsend"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_tase')"></i>
                 <h3 class="service-title">Taptapsend</h3>
             </a>
-            <a href="smwo/" class="service-card">
+            <a href="smwo/" class="service-card" data-id="pay_smwo">
                 <div class="card-icon"><img src="https://i.postimg.cc/NjPt8LB4/IMG-2743.jpg" alt="smallworldfs"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_smwo')"></i>
                 <h3 class="service-title">smallworldfs</h3>
             </a>
-            <a href="sewa/" class="service-card">
+            <a href="sewa/" class="service-card" data-id="pay_sewa">
                 <div class="card-icon"><img src="https://i.postimg.cc/ZqVdx8Cv/IMG-2744.png" alt="Sendwave"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_sewa')"></i>
                 <h3 class="service-title">Sendwave</h3>
             </a>
-            <a href="botm/" class="service-card">
+            <a href="botm/" class="service-card" data-id="pay_botm">
                 <div class="card-icon"><img src="https://i.postimg.cc/wBZsr6Qz/IMG-2745.png" alt="botim"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_botm')"></i>
                 <h3 class="service-title">botim</h3>
             </a>
-            <a href="remy/" class="service-card">
+            <a href="remy/" class="service-card" data-id="pay_remy">
                 <div class="card-icon"><img src="https://i.postimg.cc/GhWVbY3T/IMG-2746.jpg" alt="remitly"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_remy')"></i>
                 <h3 class="service-title">remitly</h3>
             </a>
             <div class="section-header" data-ar="الخدمات المصرفية" data-en="Banking Services">الخدمات المصرفية</div>
-            <a href="atmo/" class="service-card">
+            <a href="atmo/" class="service-card" data-id="pay_atmo">
                 <div class="card-icon"><img src="https://i.postimg.cc/cJbmZmHS/IMG-2794.jpg" alt="Attijari Mobile"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_atmo')"></i>
                 <h3 class="service-title">Attijari Mobile</h3>
             </a>
             <div class="section-header" data-ar="المحافض الالكترونية" data-en="E-Wallets">المحافض الالكترونية</div>
-            <a href="bina/" class="service-card">
+            <a href="bina/" class="service-card" data-id="pay_bina">
                 <div class="card-icon"><img src="https://i.postimg.cc/T2SLJ37F/IMG-2799.jpg" alt="Binance"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_bina')"></i>
                 <h3 class="service-title">Binance</h3>
             </a>
-            <a href="skri/" class="service-card">
+            <a href="skri/" class="service-card" data-id="pay_skri">
                 <div class="card-icon"><img src="https://i.postimg.cc/3xd3rJSd/IMG-2825.jpg" alt="skrill"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_skri')"></i>
                 <h3 class="service-title">skrill</h3>
             </a>
-            <a href="rdpy/" class="service-card">
+            <a href="rdpy/" class="service-card" data-id="pay_rdpy">
                 <div class="card-icon"><img src="https://i.postimg.cc/QMFPWF1B/IMG-2828.jpg" alt="redotpay"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'pay_rdpy')"></i>
                 <h3 class="service-title">redotpay</h3>
             </a>
         </div>
@@ -336,15 +372,23 @@
             }
         };
 
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && link.getAttribute('href')) {
-                e.preventDefault();
-                const url = link.getAttribute('href');
-                navLoader.style.display = 'flex';
-                window.location.href = url;
-            }
-        });
+        function toggleFavorite(event, id) {
+            event.preventDefault();
+            event.stopPropagation();
+            const btn = event.currentTarget;
+            btn.classList.toggle('active');
+            const isFav = btn.classList.contains('active');
+            localStorage.setItem('fav_' + id, isFav);
+        }
+
+        function loadFavorites() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const id = btn.closest('.service-card').getAttribute('data-id');
+                if (localStorage.getItem('fav_' + id) === 'true') {
+                    btn.classList.add('active');
+                }
+            });
+        }
 
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
@@ -352,6 +396,7 @@
                 header.innerText = header.getAttribute(`data-${lang}`);
             });
             document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            loadFavorites();
         }
         updateUI();
     </script>
