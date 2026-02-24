@@ -162,13 +162,26 @@
         }
         .card-icon img { width: 85%; height: 85%; object-fit: contain; }
 
-        .action-arrow {
+        .favorite-btn {
             position: absolute;
             bottom: 10px;
             left: 12px;
-            font-size: 11px;
-            color: var(--accent-green);
-            opacity: 0.7;
+            font-size: 16px;
+            color: #ccc;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.4s ease, transform 0.2s ease;
+        }
+
+        .favorite-btn.active {
+            color: transparent;
+            background: linear-gradient(135deg, #49773B, #507B42);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .favorite-btn:active {
+            transform: scale(1.3);
         }
 
         .service-title {
@@ -203,7 +216,7 @@
         html[dir="ltr"] .section-header { text-align: left; }
         html[dir="ltr"] .service-title { text-align: left; right: 12px; left: 62px; }
         html[dir="ltr"] .card-icon { right: auto; left: 10px; }
-        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        html[dir="ltr"] .favorite-btn { left: auto; right: 12px; }
         
         #nav-loader {
             position: fixed;
@@ -258,14 +271,14 @@
     <div class="main-container" id="page-content">
         <div class="services-grid">
             <div class="section-header" data-ar="الخدمات والعروض" data-en="Services and Offers">الخدمات والعروض</div>
-            <a href="smm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/ZR0qrDs2/IMG-3686.png" alt="SMM"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">SMM</h3>
+            <a href="smm/" class="service-card" data-id="card_smm">
+                <div class="card-icon"><img src="https://i.postimg.cc/59z1QkBq/IMG-3671.jpg" alt="social media marketing"></div>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'card_smm')"></i>
+                <h3 class="service-title">social media marketing</h3>
             </a>
-            <a href="freefire/" class="service-card">
+            <a href="freefire/" class="service-card" data-id="card_ff">
                 <div class="card-icon"><img src="https://i.postimg.cc/6Qf6JxF3/IMG-3682.png" alt="Free Fire x JUJUTSU KAISEN"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'card_ff')"></i>
                 <h3 class="service-title">Free Fire x JUJUTSU KAISEN</h3>
             </a>
         </div>
@@ -282,12 +295,31 @@
             }
         };
 
+        function toggleFavorite(event, id) {
+            event.preventDefault();
+            event.stopPropagation();
+            const btn = event.currentTarget;
+            btn.classList.toggle('active');
+            const isFav = btn.classList.contains('active');
+            localStorage.setItem('fav_' + id, isFav);
+        }
+
+        function loadFavorites() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const id = btn.closest('.service-card').getAttribute('data-id');
+                if (localStorage.getItem('fav_' + id) === 'true') {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             document.querySelectorAll('.section-header').forEach(header => {
                 header.innerText = header.getAttribute(`data-${lang}`);
             });
             document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            loadFavorites();
         }
         updateUI();
     </script>
