@@ -6,7 +6,8 @@
     <meta name="google" content="notranslate">
     <title>serviocmm - Optimized UI</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
@@ -21,6 +22,8 @@
             --profile-bg: #e8eaed;       
             --border-subtle: rgba(0,0,0,0.06);
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-green: #386E2C; 
+            --card-white: #ffffff;
         }
 
         body { 
@@ -104,13 +107,109 @@
             width: 24px; 
         }
 
-        .main-container {
+        /* Styles from injected section */
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px;
+            padding: 15px;
             width: 100%;
             max-width: 480px;
-            margin: 0 auto;
-            padding: 0 24px;
             box-sizing: border-box;
-            background-color: var(--page-bg);
+        }
+
+        .service-card {
+            background-color: var(--card-white);
+            border-radius: 12px; 
+            height: 85px; 
+            text-decoration: none;
+            position: relative; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            overflow: hidden;
+            display: block;
+        }
+
+        .service-card:active { transform: scale(0.97); }
+
+        .card-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .card-icon img { width: 85%; height: 85%; object-fit: contain; }
+
+        .action-arrow {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 11px;
+            color: var(--accent-green);
+            opacity: 0.7;
+        }
+
+        .service-title {
+            position: absolute;
+            bottom: 10px;
+            right: 12px;
+            left: 12px;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .section-header {
+            grid-column: span 2;
+            font-size: 16px;
+            font-weight: 800;
+            color: #333;
+            margin: 15px 5px 5px 5px;
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        html[dir="ltr"] .services-grid { direction: ltr; }
+        html[dir="ltr"] .section-header { text-align: left; }
+        html[dir="ltr"] .service-title { text-align: left; }
+        html[dir="ltr"] .card-icon { right: auto; left: 10px; }
+        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
+        
+        #nav-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.19);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
         }
 
         .content-wrapper {
@@ -128,7 +227,11 @@
         }
     </style>
 </head>
-<body>
+<body class="notranslate" translate="no">
+
+    <div id="nav-loader">
+        <div class="loading-spinner"></div>
+    </div>
 
     <header>
         <div class="header-content">
@@ -148,12 +251,57 @@
         </div>
     </header>
 
-    <div class="main-container">
-        <div class="content-wrapper">
-            <div class="sub-header-icons">
-            </div>
+    <div class="main-container" id="page-content">
+        <div class="services-grid">
+            <div class="section-header" data-ar="الخدمات والعروض" data-en="Services and Offers">الخدمات والعروض</div>
+            <a href="chpus/" class="service-card">
+                <div class="card-icon"><img src="https://i.postimg.cc/ZR0qrDs2/IMG-3686.png" alt="SMM"></div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">SMM</h3>
+            </a>
+            <a href="ormo/" class="service-card">
+                <div class="card-icon"><img src="https://i.postimg.cc/6Qf6JxF3/IMG-3682.png" alt="Free Fire x JUJUTSU KAISEN"></div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">Free Fire x JUJUTSU KAISEN</h3>
+            </a>
+            <a href="cihm/" class="service-card">
+                <div class="card-icon"><img src="https://i.postimg.cc/y6SBz00y/IMG-2747.jpg" alt="cih mobile"></div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
+                <h3 class="service-title">cih mobile</h3>
+            </a>
         </div>
     </div>
 
+    <script>
+        const navLoader = document.getElementById('nav-loader');
+        const userLang = localStorage.getItem('pref_lang') || 'ar';
+        document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
+
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                navLoader.style.display = 'none';
+            }
+        };
+
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.getAttribute('href')) {
+                e.preventDefault();
+                const url = link.getAttribute('href');
+                navLoader.style.display = 'flex';
+                window.location.href = url;
+            }
+        });
+
+        function updateUI() {
+            const lang = localStorage.getItem('pref_lang') || 'ar';
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.innerText = header.getAttribute(`data-${lang}`);
+            });
+            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+        }
+        updateUI();
+    </script>
 </body>
 </html>
+
