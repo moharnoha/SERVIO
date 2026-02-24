@@ -107,19 +107,6 @@
             width: 24px; 
         }
 
-        /* Styles from injected section */
-        .loading-spinner {
-            width: 32px;
-            height: 32px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(0 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(30 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.083s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(60 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.166s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(90 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.25s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(120 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.333s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(150 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.416s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(180 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.5s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(210 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.583s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(240 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.666s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(270 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.75s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(300 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.833s" repeatCount="indefinite"/></rect><rect x="46.5" y="40" width="7" height="20" rx="3.5" ry="3.5" fill="%232E5822" transform="rotate(330 50 50) translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="0.916s" repeatCount="indefinite"/></rect></g></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
         
         .services-grid {
@@ -161,6 +148,15 @@
             border-radius: 8px;
         }
         .card-icon img { width: 85%; height: 85%; object-fit: contain; }
+
+        .action-arrow {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 11px;
+            color: var(--accent-green);
+            opacity: 0.7;
+        }
 
         .favorite-btn {
             position: absolute;
@@ -216,6 +212,7 @@
         html[dir="ltr"] .section-header { text-align: left; }
         html[dir="ltr"] .service-title { text-align: left; right: 12px; left: 62px; }
         html[dir="ltr"] .card-icon { right: auto; left: 10px; }
+        html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
         html[dir="ltr"] .favorite-btn { left: auto; right: 12px; }
         
         #nav-loader {
@@ -228,27 +225,11 @@
             justify-content: center;
             z-index: 99999;
         }
-
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .sub-header-icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body class="notranslate" translate="no">
 
-    <div id="nav-loader">
-        <div class="loading-spinner"></div>
-    </div>
+    <div id="nav-loader"></div>
 
     <header>
         <div class="header-content">
@@ -273,11 +254,13 @@
             <div class="section-header" data-ar="الخدمات والعروض" data-en="Services and Offers">الخدمات والعروض</div>
             <a href="smm/" class="service-card" data-id="card_smm">
                 <div class="card-icon"><img src="https://i.postimg.cc/59z1QkBq/IMG-3671.jpg" alt="social media marketing"></div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'card_smm')"></i>
                 <h3 class="service-title">social media marketing</h3>
             </a>
             <a href="freefire/" class="service-card" data-id="card_ff">
                 <div class="card-icon"><img src="https://i.postimg.cc/6Qf6JxF3/IMG-3682.png" alt="Free Fire x JUJUTSU KAISEN"></div>
+                <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <i class="fa-solid fa-heart favorite-btn" onclick="toggleFavorite(event, 'card_ff')"></i>
                 <h3 class="service-title">Free Fire x JUJUTSU KAISEN</h3>
             </a>
@@ -285,15 +268,8 @@
     </div>
 
     <script>
-        const navLoader = document.getElementById('nav-loader');
         const userLang = localStorage.getItem('pref_lang') || 'ar';
         document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
-
-        window.onpageshow = function(event) {
-            if (event.persisted) {
-                navLoader.style.display = 'none';
-            }
-        };
 
         function toggleFavorite(event, id) {
             event.preventDefault();
