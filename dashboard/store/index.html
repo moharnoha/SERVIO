@@ -141,15 +141,17 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             transition: 0.2s;
             overflow: hidden;
-            display: block;
+            display: flex;
+            align-items: center;
         }
 
         .service-card:active { transform: scale(0.97); }
 
         .card-icon {
             position: absolute;
-            top: 10px;
+            top: 50%;
             right: 10px;
+            transform: translateY(-50%);
             width: 42px;
             height: 42px;
             display: flex;
@@ -162,7 +164,7 @@
 
         .action-arrow {
             position: absolute;
-            top: 12px;
+            bottom: 10px;
             left: 12px;
             font-size: 11px;
             color: var(--accent-green);
@@ -171,18 +173,20 @@
 
         .service-title {
             position: absolute;
-            bottom: 10px;
-            right: 12px;
             left: 12px;
+            right: 62px;
             font-size: 13.5px;
             font-weight: 800;
             color: var(--text-main);
             margin: 0;
             text-align: right;
-            white-space: nowrap;
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
             font-family: 'Cairo', sans-serif;
+            line-height: 1.3;
         }
 
         .section-header {
@@ -197,7 +201,7 @@
 
         html[dir="ltr"] .services-grid { direction: ltr; }
         html[dir="ltr"] .section-header { text-align: left; }
-        html[dir="ltr"] .service-title { text-align: left; }
+        html[dir="ltr"] .service-title { text-align: left; right: 12px; left: 62px; }
         html[dir="ltr"] .card-icon { right: auto; left: 10px; }
         html[dir="ltr"] .action-arrow { left: auto; right: 12px; transform: rotate(180deg); }
         
@@ -254,20 +258,15 @@
     <div class="main-container" id="page-content">
         <div class="services-grid">
             <div class="section-header" data-ar="الخدمات والعروض" data-en="Services and Offers">الخدمات والعروض</div>
-            <a href="chpus/" class="service-card">
+            <a href="smm/" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/ZR0qrDs2/IMG-3686.png" alt="SMM"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">SMM</h3>
             </a>
-            <a href="ormo/" class="service-card">
+            <a href="freefire/" class="service-card">
                 <div class="card-icon"><img src="https://i.postimg.cc/6Qf6JxF3/IMG-3682.png" alt="Free Fire x JUJUTSU KAISEN"></div>
                 <i class="fa-solid fa-chevron-left action-arrow"></i>
                 <h3 class="service-title">Free Fire x JUJUTSU KAISEN</h3>
-            </a>
-            <a href="cihm/" class="service-card">
-                <div class="card-icon"><img src="https://i.postimg.cc/y6SBz00y/IMG-2747.jpg" alt="cih mobile"></div>
-                <i class="fa-solid fa-chevron-left action-arrow"></i>
-                <h3 class="service-title">cih mobile</h3>
             </a>
         </div>
     </div>
@@ -283,16 +282,6 @@
             }
         };
 
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && link.getAttribute('href')) {
-                e.preventDefault();
-                const url = link.getAttribute('href');
-                navLoader.style.display = 'flex';
-                window.location.href = url;
-            }
-        });
-
         function updateUI() {
             const lang = localStorage.getItem('pref_lang') || 'ar';
             document.querySelectorAll('.section-header').forEach(header => {
@@ -304,4 +293,3 @@
     </script>
 </body>
 </html>
-
