@@ -117,7 +117,7 @@
             display: grid;
             grid-template-columns: repeat(1, 1fr); 
             gap: 10px;
-            padding: 15px;
+            padding: 15px 25px;
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
@@ -149,7 +149,7 @@
             position: relative; 
             padding: 16px 20px;
             border-bottom: 1px solid #f2f2f2;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .field:last-child {
@@ -162,9 +162,9 @@
 
         .field .label { 
             font-size: 13px; 
-            font-weight: 600; 
-            color: #86868b; 
-            margin-bottom: 4px; 
+            font-weight: 800; 
+            color: #545354; 
+            margin-bottom: 8px; 
             display: block; 
             text-align: right;
             font-family: 'Cairo', sans-serif;
@@ -185,7 +185,7 @@
             border: none; 
             outline: none; 
             background: none; 
-            font-size: 17px; 
+            font-size: 15px; 
             font-weight: 600; 
             color: #1d1d1f; 
             width: 100%; 
@@ -194,7 +194,7 @@
         }
         
         .input-box input::placeholder {
-            color: #c1c1c6;
+            color: #8C8E91;
             font-weight: 400;
             opacity: 1;
         }
@@ -202,9 +202,15 @@
         .field-error-msg {
             font-size: 11px;
             color: #ff3b30;
-            font-weight: 600;
-            margin-top: 4px;
+            font-weight: 700;
+            margin-top: 6px;
             display: none;
+            animation: fadeInError 0.3s ease;
+        }
+
+        @keyframes fadeInError {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .limit-hint { 
@@ -379,7 +385,7 @@
                         <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
                             <label class="label" data-i18n="category_label">الفئة المختارة</label>
                             <div class="input-box" id="category-box" style="justify-content: space-between;">
-                                <span id="category" data-i18n="choose_service" style="color: #1d1d1f; font-weight: 600; font-size: 17px;">اضغط لاختيار خدمة...</span>
+                                <span id="category" data-i18n="choose_service" style="color: #1d1d1f; font-weight: 600; font-size: 15px;">اضغط لاختيار خدمة...</span>
                                 <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
                             </div>
                             <div class="field-error-msg" id="category-error"></div>
@@ -398,7 +404,7 @@
                         </div>
 
                         <div class="field">
-                            <label class="label" data-i18n="email_label">البريد الإلكتروني (Gmail)</label>
+                            <label class="label" data-i18n="email_label">البريد الإلكتروني</label>
                             <div class="input-box">
                                 <input id="email" type="email" readonly>
                             </div>
@@ -431,7 +437,7 @@
                 quantity_placeholder: "أدخل الكمية",
                 min: "الأدنى:",
                 max: "الأقصى:",
-                email_label: "البريد الإلكتروني (Gmail)",
+                email_label: "البريد الإلكتروني",
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
                 success_msg: "تم تفعيل الطلب",
@@ -439,7 +445,10 @@
                 balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
                 balance_sub: "قم بتعبئة الحساب",
                 error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
-                error_sub: "يرجى المحاولة لاحقاً"
+                error_sub: "يرجى المحاولة لاحقاً",
+                err_link_req: "يرجى إدخال الرابط أولاً",
+                err_cat_req: "يرجى اختيار الخدمة المطلوبة",
+                err_qty_req: "يرجى إدخال كمية صحيحة"
             },
             en: {
                 order_details: "Order Details",
@@ -451,7 +460,7 @@
                 quantity_placeholder: "Enter quantity",
                 min: "Min:",
                 max: "Max:",
-                email_label: "Email (Gmail)",
+                email_label: "Email",
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
                 success_msg: "Order Activated",
@@ -459,7 +468,10 @@
                 balance_err: "Sorry, your current balance is insufficient",
                 balance_sub: "Please top up your account",
                 error_msg: "Sorry, an unexpected error occurred",
-                error_sub: "Please try again later"
+                error_sub: "Please try again later",
+                err_link_req: "Please enter the link",
+                err_cat_req: "Please select a service",
+                err_qty_req: "Please enter a valid quantity"
             }
         };
 
@@ -618,9 +630,9 @@
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
             let hasError = false;
-            if (!link) { setFieldError('link', ""); hasError = true; }
-            if (!service) { setFieldError('category', ""); hasError = true; }
-            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { setFieldError('qty', ""); hasError = true; }
+            if (!link) { setFieldError('link', t.err_link_req); hasError = true; }
+            if (!service) { setFieldError('category', t.err_cat_req); hasError = true; }
+            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { setFieldError('qty', t.err_qty_req); hasError = true; }
             if (hasError) return;
 
             this.classList.add('loading');
