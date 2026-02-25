@@ -11,7 +11,7 @@
     
     <style>
         :root { 
-            --primary-green: #2d5a1e;    
+            --primary-green: #2F5822;    
             --vibrant-green: #74a367;    
             --header-bg: rgba(243, 242, 242, 0.85);        
             --page-bg: #F3F2F2;          
@@ -24,10 +24,9 @@
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --accent-green: #386E2C; 
             --card-white: #ffffff;
-            /* Variables from first code */
             --bg-light: #f8fbff; --border-gray: #E4ECE3; --text-dark: #1a202c;
-            --primary-blue: #2563eb; --accent: #000000; --success-green: #10b981;
-            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #2F5822;
+            --primary-blue: #2563eb; --accent: #000000; --success-green: #22c55e;
+            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #FFFFFF;
         }
 
         body { 
@@ -36,7 +35,7 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', 'Inter', sans-serif;
         }
 
         header { 
@@ -129,10 +128,9 @@
             color: #333;
             margin: 15px 5px 5px 5px;
             text-align: right;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', 'Inter', sans-serif;
         }
 
-        /* Apple Style Design */
         .content-area { padding: 5px 0; width: 100%; }
         .order-card { 
             width: 100%; 
@@ -148,7 +146,7 @@
         .field { 
             position: relative; 
             padding: 16px 20px;
-            border-bottom: 1px solid #f2f2f2;
+            border-bottom: 1.5px solid #e5e7eb;
             transition: all 0.2s ease;
         }
 
@@ -167,7 +165,7 @@
             margin-bottom: 8px; 
             display: block; 
             text-align: right;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', 'Inter', sans-serif;
             letter-spacing: -0.01em;
         }
         
@@ -190,11 +188,11 @@
             color: #1d1d1f; 
             width: 100%; 
             text-align: right;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', 'Inter', sans-serif;
         }
         
         .input-box input::placeholder {
-            color: #8C8E91;
+            color: #9ca3af;
             font-weight: 400;
             opacity: 1;
         }
@@ -220,9 +218,10 @@
             font-weight: 500; 
             display: flex; 
             gap: 12px; 
+            font-family: 'Cairo', 'Inter', sans-serif;
         }
 
-        #email { direction: ltr; text-align: left; opacity: 0.6; color: #1d1d1f !important; }
+        #email { direction: ltr; text-align: left; opacity: 0.6; color: #1d1d1f !important; font-family: 'Cairo', 'Inter', sans-serif; }
 
         .price-container { 
             background: #ffffff; 
@@ -241,40 +240,75 @@
             font-size: 15px; 
             font-weight: 600; 
             color: #1d1d1f;
+            font-family: 'Cairo', 'Inter', sans-serif;
         }
         .price-value { 
             font-size: 22px; 
             font-weight: 700; 
-            color: var(--primary-green); 
-            font-family: 'Lexend', sans-serif; 
+            color: #000000; 
+            font-family: 'Cairo', 'Inter', sans-serif; 
         }
 
         #payBtn { 
             width: 100%; 
-            height: 56px; 
+            max-width: 480px;
+            padding: 18px; 
+            border-radius: 16px; 
             border: none; 
-            border-radius: 14px; 
-            background: var(--primary-green); 
-            color: #fff; 
-            font-size: 17px; 
+            background-color: var(--primary-green); 
+            color: #ffffff; 
+            font-size: 18px; 
             font-weight: 700; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            transition: all 0.2s ease; 
-            font-family: 'Cairo', sans-serif;
+            transition: transform 0.1s ease, opacity 0.2s; 
+            position: relative;
+            box-sizing: border-box;
             margin-top: 20px;
             -webkit-tap-highlight-color: transparent;
         }
         
-        #payBtn:active { opacity: 0.8; transform: scale(0.98); }
+        #payBtn:active { transform: scale(0.98); opacity: 0.9; }
         #payBtn:disabled { background: #d1d1d6; color: #f2f2f7; cursor: not-allowed; }
 
-        .spinner { position: absolute; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.2); border-top-color: #fff; border-radius: 50%; display: none; }
-        .loading .spinner { display: block; animation: spin 0.8s linear infinite; }
+        .exact-8-spinner {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.5);
+            display: none;
+            width: 44px;
+            height: 44px;
+        }
+        .exact-8-spinner div {
+            position: absolute;
+            width: 6px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 10px;
+            left: 19px;
+            top: 0;
+            transform-origin: 3px 22px;
+            animation: spinner-fade 0.8s linear infinite;
+        }
+        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
+        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
+        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
+        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
+        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
+        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
+        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
+        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
+
+        @keyframes spinner-fade {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .loading .exact-8-spinner { display: block; }
         .loading #btn-text { opacity: 0; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
         #status-overlay {
             position: fixed;
@@ -289,6 +323,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            font-family: 'Cairo', sans-serif;
         }
         .status-icon-box {
             width: 100px;
@@ -419,7 +454,10 @@
 
                 <button id="payBtn">
                     <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
-                    <div class="spinner"></div>
+                    <div class="exact-8-spinner">
+                        <div></div><div></div><div></div><div></div>
+                        <div></div><div></div><div></div><div></div>
+                    </div>
                 </button>
             </div>
         </div>
