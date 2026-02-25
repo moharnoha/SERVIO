@@ -271,7 +271,13 @@
         }
         
         #payBtn:active { transform: scale(0.98); opacity: 0.9; }
-        #payBtn:disabled { background: #d1d1d6; color: #f2f2f7; cursor: not-allowed; }
+        
+        /* Updated disabled state to keep colors and text fixed */
+        #payBtn:disabled { 
+            background-color: var(--primary-green) !important; 
+            color: #ffffff !important; 
+            cursor: not-allowed; 
+        }
 
         .exact-8-spinner {
             position: absolute;
@@ -308,7 +314,8 @@
         }
 
         .loading .exact-8-spinner { display: block; }
-        .loading #btn-text { opacity: 0; }
+        /* Text remains visible when loading as per requirement */
+        .loading #btn-text { opacity: 1; }
 
         #status-overlay {
             position: fixed;
