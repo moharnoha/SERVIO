@@ -115,67 +115,72 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr); 
-            gap: 5px;
-            padding: 10px 25px;
+            gap: 10px;
+            padding: 0 25px 15px 25px;
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
         }
 
         .section-header {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 800;
-            color: #333;
-            margin: 5px 5px 2px 5px;
+            color: #121212;
+            margin: 20px 0 15px 0;
             text-align: right;
-            font-family: 'Cairo', 'Inter', sans-serif;
+            font-family: 'Cairo', sans-serif;
         }
 
-        .content-area { padding: 0; width: 100%; }
+        .content-area { padding: 5px 0; width: 100%; }
+        
         .order-card { 
             width: 100%; 
-            background: #ffffff; 
-            border-radius: 20px; 
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            background: transparent; 
+            border-radius: 0; 
+            overflow: visible;
+            box-shadow: none;
             box-sizing: border-box; 
         }
 
-        .form-grid { display: flex; flex-direction: column; gap: 0; padding: 0; }
+        .form-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            padding: 0; 
+        }
         
         .field { 
             position: relative; 
-            padding: 12px 20px;
-            border-bottom: 1.5px solid #e5e7eb;
+            padding: 0;
+            border-bottom: none;
             transition: all 0.2s ease;
         }
 
-        .field:last-child {
-            border-bottom: none;
-        }
-
-        .field:focus-within {
-            background-color: #fafafa;
-        }
-
         .field .label { 
-            font-size: 13px; 
-            font-weight: 800; 
-            color: #545354; 
-            margin-bottom: 4px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #1d1d1f; 
+            margin-bottom: 8px; 
             display: block; 
             text-align: right;
-            font-family: 'Cairo', 'Inter', sans-serif;
-            letter-spacing: -0.01em;
+            font-family: 'Cairo', sans-serif;
         }
         
         .input-box { 
             display: flex; 
             align-items: center; 
-            background: transparent; 
-            border: none; 
-            padding: 0; 
-            min-height: 28px; 
+            background: #ffffff; 
+            border: 1px solid #d2d2d7; 
+            border-radius: 12px;
+            padding: 12px 16px; 
+            min-height: 48px; 
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+        
+        .input-box:focus-within {
+            border-color: #000000;
+            box-shadow: none;
         }
         
         .input-box input, .input-box span { 
@@ -183,25 +188,24 @@
             border: none; 
             outline: none; 
             background: none; 
-            font-size: 15px; 
-            font-weight: 600; 
+            font-size: 16px; 
+            font-weight: 500; 
             color: #1d1d1f; 
             width: 100%; 
             text-align: right;
-            font-family: 'Cairo', 'Inter', sans-serif;
+            font-family: 'Cairo', sans-serif;
         }
         
         .input-box input::placeholder {
-            color: #9ca3af;
+            color: #86868b;
             font-weight: 400;
-            opacity: 1;
         }
         
         .field-error-msg {
-            font-size: 11px;
+            font-size: 12px;
             color: #ff3b30;
-            font-weight: 700;
-            margin-top: 4px;
+            font-weight: 600;
+            margin-top: 6px;
             display: none;
             animation: fadeInError 0.3s ease;
             text-align: right;
@@ -213,68 +217,68 @@
         }
 
         .limit-hint { 
-            font-size: 11px; 
-            color: #86868b; 
-            margin-top: 4px; 
+            font-size: 12px; 
+            color: #6e6e73; 
+            margin-top: 6px; 
             font-weight: 500; 
-            display: flex; 
+            display: none; 
             gap: 12px; 
-            font-family: 'Cairo', 'Inter', sans-serif;
+            font-family: 'Cairo', sans-serif;
         }
 
-        #email { direction: ltr; text-align: left; opacity: 0.6; color: #1d1d1f !important; font-family: 'Cairo', 'Inter', sans-serif; }
+        #email { direction: ltr; text-align: left; opacity: 0.7; background: #f5f5f7; border-color: #e5e5e7; }
 
         .price-container { 
             background: #ffffff; 
-            margin-top: 10px; 
-            padding: 16px 24px; 
+            margin-top: 30px; 
+            padding: 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border: 1px solid #e5e5e7;
             width: 100%;
             box-sizing: border-box;
         }
         
         .price-label { 
-            font-size: 15px; 
+            font-size: 16px; 
             font-weight: 600; 
-            color: #1d1d1f;
-            font-family: 'Cairo', 'Inter', sans-serif;
+            color: #6e6e73;
+            font-family: 'Cairo', sans-serif;
         }
         .price-value { 
-            font-size: 20px; 
-            font-weight: 700; 
-            color: #000000; 
-            font-family: 'Cairo', 'Inter', sans-serif; 
+            font-size: 24px; 
+            font-weight: 800; 
+            color: #1d1d1f; 
+            font-family: 'Lexend', sans-serif; 
         }
 
         #payBtn { 
             width: 100%; 
             max-width: 480px;
             padding: 16px; 
-            border-radius: 16px; 
+            border-radius: 12px; 
             border: none; 
-            background-color: var(--primary-green); 
+            background-color: #000000; 
             color: #ffffff; 
-            font-size: 18px; 
+            font-size: 17px; 
             font-weight: 700; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            transition: transform 0.1s ease, opacity 0.2s; 
+            transition: all 0.2s ease; 
             position: relative;
             box-sizing: border-box;
-            margin-top: 15px;
+            margin-top: 24px;
             -webkit-tap-highlight-color: transparent;
         }
         
-        #payBtn:active { transform: scale(0.98); opacity: 0.9; }
+        #payBtn:active { transform: scale(0.99); background-color: #1d1d1f; }
         
         #payBtn:disabled { 
-            background-color: var(--primary-green) !important; 
+            background-color: #d2d2d7 !important; 
             color: #ffffff !important; 
             cursor: not-allowed; 
         }
@@ -427,7 +431,7 @@
                         <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
                             <label class="label" data-i18n="category_label">الفئة المختارة</label>
                             <div class="input-box" id="category-box" style="justify-content: space-between;">
-                                <span id="category" data-i18n="choose_service" style="color: #1d1d1f; font-weight: 600; font-size: 15px;">اضغط لاختيار خدمة...</span>
+                                <span id="category" data-i18n="choose_service" style="color: #1d1d1f; font-weight: 500; font-size: 16px;">اضغط لاختيار خدمة...</span>
                                 <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
                             </div>
                             <div class="field-error-msg" id="category-error"></div>
@@ -438,11 +442,11 @@
                             <div class="input-box" id="qty-box">
                                 <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
                             </div>
-                            <div class="field-error-msg" id="qty-error"></div>
-                            <div class="limit-hint">
-                                <span id="min-hint">--</span>
-                                <span id="max-hint">--</span>
+                            <div class="limit-hint" id="limit-hint">
+                                <span id="min-hint"></span>
+                                <span id="max-hint"></span>
                             </div>
+                            <div class="field-error-msg" id="qty-error"></div>
                         </div>
 
                         <div class="field">
@@ -541,14 +545,20 @@
 
         function clearErrors() {
             document.querySelectorAll('.field-error-msg').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.field').forEach(el => el.style.backgroundColor = '');
+            document.querySelectorAll('.input-box').forEach(el => {
+                el.style.borderColor = '#d2d2d7';
+                el.style.backgroundColor = '#ffffff';
+            });
         }
 
         function setFieldError(fieldId, errorMsg) {
             const errorEl = document.getElementById(`${fieldId}-error`);
-            const fieldEl = document.getElementById(`${fieldId}-field`);
+            const boxEl = document.getElementById(`${fieldId}-box`);
             if (errorEl) { errorEl.innerText = errorMsg; errorEl.style.display = 'block'; }
-            if (fieldEl) { fieldEl.style.backgroundColor = 'rgba(255, 59, 48, 0.05)'; }
+            if (boxEl) { 
+                boxEl.style.borderColor = '#ff3b30';
+                boxEl.style.backgroundColor = 'transparent'; 
+            }
         }
 
         function formatNumber(num) { 
@@ -567,9 +577,12 @@
             if (rawValue !== "") qtyInput.value = formatNumber(rawValue); 
             else qtyInput.value = "";
             const err = document.getElementById('qty-error');
-            const field = document.getElementById('qty-field');
+            const box = document.getElementById('qty-box');
             if(err) err.style.display = 'none';
-            if(field) field.style.backgroundColor = '';
+            if(box) {
+                box.style.borderColor = '#d2d2d7';
+                box.style.backgroundColor = '#ffffff';
+            }
         }
 
         function maskSensitiveInfo(text) {
@@ -589,10 +602,21 @@
             const maxVal = localStorage.getItem("service_max");
             const savedEmail = localStorage.getItem("user_email");
             const isEmailHidden = localStorage.getItem("hide_email") === "true";
+            
             if (savedEmail) document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail;
             document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
-            document.getElementById('min-hint').innerHTML = minVal ? `<b>${translations[lang].min}</b> ${formatNumber(minVal)}` : `${translations[lang].min} --`;
-            document.getElementById('max-hint').innerHTML = maxVal ? `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}` : `${translations[lang].max} --`;
+            
+            const limitHint = document.getElementById('limit-hint');
+            if (chosenService && minVal && maxVal) {
+                document.getElementById('min-hint').innerHTML = `<b>${translations[lang].min}</b> ${formatNumber(minVal)}`;
+                document.getElementById('max-hint').innerHTML = `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}`;
+                limitHint.style.display = 'flex';
+            } else {
+                document.getElementById('min-hint').innerHTML = "";
+                document.getElementById('max-hint').innerHTML = "";
+                limitHint.style.display = 'none';
+            }
+            
             updatePriceAndFormat();
         }
 
@@ -604,9 +628,12 @@
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
             const err = document.getElementById('link-error');
-            const field = document.getElementById('link-field');
+            const box = document.getElementById('link-box');
             if(err) err.style.display = 'none';
-            if(field) field.style.backgroundColor = '';
+            if(box) {
+                box.style.borderColor = '#d2d2d7';
+                box.style.backgroundColor = '#ffffff';
+            }
         };
 
         function showFinalStatus(message, subMessage, isSuccess) {
