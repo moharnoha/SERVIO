@@ -575,7 +575,7 @@
             if (isSuccess) { iconBg.className = 'status-icon-box success'; icon.className = 'fas fa-check'; }
             else { iconBg.className = 'status-icon-box error'; icon.className = 'fas fa-times'; }
             overlay.style.display = 'flex';
-            setTimeout(() => { window.location.href = "../../dashboard/"; }, 2500);
+            setTimeout(() => { history.back(); }, 2500);
         }
     </script>
 
