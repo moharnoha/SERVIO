@@ -115,23 +115,23 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr); 
-            gap: 10px;
-            padding: 15px 25px;
+            gap: 5px;
+            padding: 10px 25px;
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
         }
 
         .section-header {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: #333;
-            margin: 15px 5px 5px 5px;
+            margin: 5px 5px 2px 5px;
             text-align: right;
             font-family: 'Cairo', 'Inter', sans-serif;
         }
 
-        .content-area { padding: 5px 0; width: 100%; }
+        .content-area { padding: 0; width: 100%; }
         .order-card { 
             width: 100%; 
             background: #ffffff; 
@@ -145,7 +145,7 @@
         
         .field { 
             position: relative; 
-            padding: 16px 20px;
+            padding: 12px 20px;
             border-bottom: 1.5px solid #e5e7eb;
             transition: all 0.2s ease;
         }
@@ -162,7 +162,7 @@
             font-size: 13px; 
             font-weight: 800; 
             color: #545354; 
-            margin-bottom: 8px; 
+            margin-bottom: 4px; 
             display: block; 
             text-align: right;
             font-family: 'Cairo', 'Inter', sans-serif;
@@ -175,7 +175,7 @@
             background: transparent; 
             border: none; 
             padding: 0; 
-            min-height: 32px; 
+            min-height: 28px; 
         }
         
         .input-box input, .input-box span { 
@@ -201,9 +201,10 @@
             font-size: 11px;
             color: #ff3b30;
             font-weight: 700;
-            margin-top: 6px;
+            margin-top: 4px;
             display: none;
             animation: fadeInError 0.3s ease;
+            text-align: right;
         }
 
         @keyframes fadeInError {
@@ -225,8 +226,8 @@
 
         .price-container { 
             background: #ffffff; 
-            margin-top: 15px; 
-            padding: 20px 24px; 
+            margin-top: 10px; 
+            padding: 16px 24px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -243,7 +244,7 @@
             font-family: 'Cairo', 'Inter', sans-serif;
         }
         .price-value { 
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: 700; 
             color: #000000; 
             font-family: 'Cairo', 'Inter', sans-serif; 
@@ -252,7 +253,7 @@
         #payBtn { 
             width: 100%; 
             max-width: 480px;
-            padding: 18px; 
+            padding: 16px; 
             border-radius: 16px; 
             border: none; 
             background-color: var(--primary-green); 
@@ -266,13 +267,12 @@
             transition: transform 0.1s ease, opacity 0.2s; 
             position: relative;
             box-sizing: border-box;
-            margin-top: 20px;
+            margin-top: 15px;
             -webkit-tap-highlight-color: transparent;
         }
         
         #payBtn:active { transform: scale(0.98); opacity: 0.9; }
         
-        /* Updated disabled state to keep colors and text fixed */
         #payBtn:disabled { 
             background-color: var(--primary-green) !important; 
             color: #ffffff !important; 
@@ -314,7 +314,6 @@
         }
 
         .loading .exact-8-spinner { display: block; }
-        /* Text remains visible when loading as per requirement */
         .loading #btn-text { opacity: 1; }
 
         #status-overlay {
@@ -369,6 +368,7 @@
         html[dir="ltr"] .section-header { text-align: left; }
         html[dir="ltr"] .field .label { text-align: left; }
         html[dir="ltr"] .input-box input, html[dir="ltr"] .input-box span { text-align: left; }
+        html[dir="ltr"] .field-error-msg { text-align: left; }
 
         #nav-loader {
             position: fixed;
@@ -438,11 +438,11 @@
                             <div class="input-box" id="qty-box">
                                 <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
                             </div>
+                            <div class="field-error-msg" id="qty-error"></div>
                             <div class="limit-hint">
                                 <span id="min-hint">--</span>
                                 <span id="max-hint">--</span>
                             </div>
-                            <div class="field-error-msg" id="qty-error"></div>
                         </div>
 
                         <div class="field">
