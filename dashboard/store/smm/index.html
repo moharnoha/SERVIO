@@ -143,7 +143,7 @@
             border-bottom: 1px solid #f0f0f0;
             flex-shrink: 0;
             display: flex;
-            align-items: center; /* توسيط عمودي للعناصر */
+            align-items: center;
             gap: 15px;
         }
 
@@ -191,7 +191,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             overflow: hidden;
         }
         
@@ -266,7 +266,12 @@
             font-family: 'Cairo', sans-serif;
         }
 
-        #email { direction: ltr; text-align: left; opacity: 0.7; background: #f5f5f7; border-color: #e5e5e7; }
+        .bottom-actions {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
 
         .price-container { 
             background: #ffffff; 
@@ -309,7 +314,7 @@
             justify-content: center; 
             position: relative;
             box-sizing: border-box;
-            margin-top: 15px;
+            margin-top: 10px;
             margin-bottom: 20px;
             flex-shrink: 0;
         }
@@ -427,13 +432,6 @@
                             </div>
                             <div class="field-error-msg" id="qty-error"></div>
                         </div>
-
-                        <div class="field">
-                            <label class="label" data-i18n="email_label">البريد الإلكتروني</label>
-                            <div class="input-box">
-                                <input id="email" type="email" readonly>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -467,7 +465,6 @@
                 quantity_placeholder: "أدخل الكمية",
                 min: "الأدنى:",
                 max: "الأقصى:",
-                email_label: "البريد الإلكتروني",
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
                 success_msg: "تم تفعيل الطلب",
@@ -490,7 +487,6 @@
                 quantity_placeholder: "Enter quantity",
                 min: "Min:",
                 max: "Max:",
-                email_label: "Email",
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
                 success_msg: "Order Activated",
@@ -569,25 +565,13 @@
             }
         }
 
-        function maskSensitiveInfo(text) {
-            if (!text) return "";
-            if (text.includes('@')) {
-                const [user, domain] = text.split('@');
-                return user.substring(0, 2) + "****@" + domain;
-            }
-            return text.substring(0, 2) + "****" + text.substring(text.length - 2);
-        }
-
         function updateUI() {
             applyTranslations();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const chosenService = localStorage.getItem('chosen_service');
             const minVal = localStorage.getItem("service_min");
             const maxVal = localStorage.getItem("service_max");
-            const savedEmail = localStorage.getItem("user_email");
-            const isEmailHidden = localStorage.getItem("hide_email") === "true";
             
-            if (savedEmail) document.getElementById("email").value = isEmailHidden ? maskSensitiveInfo(savedEmail) : savedEmail;
             document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
             
             const limitHint = document.getElementById('limit-hint');
@@ -658,15 +642,6 @@
             if (user) {
                 currentUser = user;
                 localStorage.setItem("user_email", user.email);
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                if (userSnap.exists()) {
-                    const userData = userSnap.data();
-                    localStorage.setItem("hide_email", userData.hide_email || "false");
-                }
-                const isEmailHidden = localStorage.getItem("hide_email") === "true";
-                document.getElementById("email").value = isEmailHidden ? 
-                    (user.email.substring(0, 2) + "****@" + user.email.split('@')[1]) : user.email;
             } 
         });
 
