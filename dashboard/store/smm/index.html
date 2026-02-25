@@ -11,11 +11,11 @@
     
     <style>
         :root { 
-            --primary-green: #2F5822;    
+            --primary-green: #2d5a1e;    
             --vibrant-green: #74a367;    
             --header-bg: rgba(243, 242, 242, 0.85);        
             --page-bg: #F3F2F2;          
-            --text-main: #000000;        
+            --text-main: #121212;        
             --text-muted: #5f6368;       
             --circle-empty: #FFFFFF;     
             --profile-icon: #9aa0a6;     
@@ -24,9 +24,7 @@
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --accent-green: #386E2C; 
             --card-white: #ffffff;
-            --bg-light: #f8fbff; --border-gray: #E4ECE3; --text-dark: #1a202c;
-            --primary-blue: #2563eb; --accent: #000000; --success-green: #22c55e;
-            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #FFFFFF;
+            --step-color: #4E793F;
         }
 
         body { 
@@ -35,7 +33,7 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Cairo', 'Inter', sans-serif;
+            font-family: 'Cairo', 'Lexend', sans-serif;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -44,7 +42,7 @@
         }
 
         header { 
-            width: 100%; height: 60px; 
+            width: 100%; height: 72px; 
             background-color: var(--header-bg); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -54,6 +52,19 @@
             position: relative; 
             z-index: 1000;
             direction: rtl !important;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-shrink: 0;
+        }
+
+        .secondary-header {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
             border-bottom: 1px solid var(--border-subtle);
             flex-shrink: 0;
         }
@@ -95,18 +106,18 @@
         }
 
         .account-text {
-            font-size: 16px; 
+            font-size: 18px; 
             font-weight: 700; 
-            color: #121212;
+            color: var(--text-main);
             letter-spacing: -0.3px; 
             white-space: nowrap;
         }
 
         .back-arrow-svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             fill: none;
-            stroke: #121212;
+            stroke: var(--text-main);
             stroke-width: 2.5;
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -116,14 +127,49 @@
             width: 24px; 
         }
 
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--step-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--step-color);
+            font-weight: 600;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .header-text-group {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+
+        .main-step-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #121212;
+            line-height: 1.2;
+        }
+
+        .sub-step-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+
         .main-container { 
             flex: 1;
             width: 100%; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            overflow-y: auto; /* السماح بالتمرير عند الحاجة في الشاشات الصغيرة */
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
         }
         
         .services-grid {
@@ -132,93 +178,36 @@
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
-            min-height: min-content;
-        }
-
-        .order-details-header {
-            background-color: #FFFFFF;
-            padding: 12px 20px;
-            width: 100%;
-            box-sizing: border-box;
-            border-bottom: 1px solid #f0f0f0;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .text-group {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .number-circle {
-            width: 28px;
-            height: 28px;
-            border: 2px solid var(--accent-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--accent-green);
-            flex-shrink: 0;
-        }
-
-        .section-header {
-            font-size: 16px;
-            font-weight: 800;
-            color: #121212;
-            margin: 0;
-            text-align: right;
-            font-family: 'Cairo', sans-serif;
-            line-height: 1.2;
-        }
-
-        .header-subtitle {
-            font-size: 11px;
-            color: #86868b;
-            font-weight: 600;
-            line-height: 1.2;
+            height: 100%;
+            overflow: hidden;
         }
 
         .content-area { 
-            padding: 10px 20px; 
+            padding: 20px; 
             width: 100%; 
             box-sizing: border-box;
             flex: 1;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
-        .order-card { 
-            width: 100%; 
-            background: transparent; 
-            box-sizing: border-box; 
-        }
-
         .form-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 8px;
-            padding: 0; 
+            gap: 15px;
         }
         
-        .field { 
-            position: relative; 
-            padding: 0;
-        }
+        .field { position: relative; }
 
         .field .label { 
-            font-size: 12px; 
+            font-size: 13px; 
             font-weight: 700; 
             color: #1d1d1f; 
-            margin-bottom: 3px; 
+            margin-bottom: 6px; 
             display: block; 
             text-align: right;
-            font-family: 'Cairo', sans-serif;
         }
         
         .input-box { 
@@ -226,9 +215,9 @@
             align-items: center; 
             background: #ffffff; 
             border: 1px solid #d2d2d7; 
-            border-radius: 10px;
-            padding: 6px 14px; 
-            min-height: 40px; 
+            border-radius: 12px;
+            padding: 8px 16px; 
+            min-height: 48px; 
             box-sizing: border-box;
         }
         
@@ -237,7 +226,7 @@
             border: none; 
             outline: none; 
             background: none; 
-            font-size: 14px; 
+            font-size: 15px; 
             font-weight: 500; 
             color: #1d1d1f; 
             width: 100%; 
@@ -246,80 +235,68 @@
         }
         
         .field-error-msg {
-            font-size: 10px;
+            font-size: 11px;
             color: #ff3b30;
             font-weight: 600;
-            margin-top: 2px;
+            margin-top: 4px;
             display: none;
             text-align: right;
         }
 
         .limit-hint { 
-            font-size: 10px; 
+            font-size: 11px; 
             color: #6e6e73; 
-            margin-top: 3px; 
+            margin-top: 6px; 
             font-weight: 500; 
             display: none; 
-            gap: 10px; 
-            font-family: 'Cairo', sans-serif;
+            gap: 12px; 
         }
 
         .bottom-actions {
-            margin-top: 15px;
+            margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 0;
-            flex-shrink: 0;
+            gap: 10px;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .price-container { 
             background: #ffffff; 
-            padding: 12px; 
+            padding: 15px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid #e5e5e7;
             width: 100%;
             box-sizing: border-box;
         }
         
-        .price-label { 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #6e6e73;
-        }
-        .price-value { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: #1d1d1f; 
-            font-family: 'Lexend', sans-serif; 
-        }
+        .price-label { font-size: 14px; font-weight: 600; color: #6e6e73; }
+        .price-value { font-size: 18px; font-weight: 800; color: #1d1d1f; font-family: 'Lexend', sans-serif; }
 
         #payBtn { 
             width: 100%; 
-            padding: 12px; 
-            border-radius: 10px; 
+            padding: 15px; 
+            border-radius: 12px; 
             border: none; 
             background-color: #000000; 
             color: #ffffff; 
-            font-size: 15px; 
+            font-size: 16px; 
             font-weight: 700; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             position: relative;
-            box-sizing: border-box;
-            margin-top: 8px;
-            margin-bottom: 20px;
         }
         
         .exact-8-spinner {
             position: absolute;
             right: 15px;
             top: 50%;
-            transform: translateY(-50%) scale(0.4);
+            transform: translateY(-50%) scale(0.5);
             display: none;
             width: 44px;
             height: 44px;
@@ -357,6 +334,8 @@
             display: none;
             z-index: 99999;
         }
+        html[dir="ltr"] .secondary-header { justify-content: flex-end; }
+        html[dir="ltr"] .header-text-group { text-align: left; }
     </style>
 </head>
 <body class="notranslate" translate="no">
@@ -386,48 +365,45 @@
         </div>
     </header>
 
+    <div class="secondary-header">
+        <div class="step-circle">1</div>
+        <div class="header-text-group">
+            <span class="main-step-title" data-ar="إدخال المعلومات" data-en="Enter Information">إدخال المعلومات</span>
+            <span class="sub-step-title" data-ar="يرجى ملء الحقول التالية" data-en="Please fill in the following fields">يرجى ملء الحقول التالية</span>
+        </div>
+    </div>
+
     <div class="main-container" id="page-content">
         <div class="services-grid">
-            
-            <div class="order-details-header">
-                <div class="number-circle">1</div>
-                <div class="text-group">
-                    <div class="section-header" data-ar="تفاصيل الطلب" data-en="Order Details">تفاصيل الطلب</div>
-                    <div class="header-subtitle" data-ar="يرجى ملء الحقول التالية" data-en="Please fill in the following fields">يرجى ملء الحقول التالية</div>
-                </div>
-            </div>
-            
             <div class="content-area">
-                <div class="order-card">
-                    <div class="form-grid">
-                        <div class="field" id="link-field">
-                            <label class="label" data-i18n="link_label">الرابط</label>
-                            <div class="input-box" id="link-box">
-                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
-                            </div>
-                            <div class="field-error-msg" id="link-error"></div>
+                <div class="form-grid">
+                    <div class="field" id="link-field">
+                        <label class="label" data-i18n="link_label">الرابط</label>
+                        <div class="input-box" id="link-box">
+                            <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
                         </div>
+                        <div class="field-error-msg" id="link-error"></div>
+                    </div>
 
-                        <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
-                            <label class="label" data-i18n="category_label">الفئة المختارة</label>
-                            <div class="input-box" id="category-box" style="justify-content: space-between;">
-                                <span id="category" data-i18n="choose_service">اضغط لاختيار خدمة...</span>
-                                <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
-                            </div>
-                            <div class="field-error-msg" id="category-error"></div>
+                    <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
+                        <label class="label" data-i18n="category_label">الفئة المختارة</label>
+                        <div class="input-box" id="category-box" style="justify-content: space-between;">
+                            <span id="category" data-i18n="choose_service">اضغط لاختيار خدمة...</span>
+                            <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
                         </div>
+                        <div class="field-error-msg" id="category-error"></div>
+                    </div>
 
-                        <div class="field" id="qty-field">
-                            <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
-                            <div class="input-box" id="qty-box">
-                                <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
-                            </div>
-                            <div class="limit-hint" id="limit-hint">
-                                <span id="min-hint"></span>
-                                <span id="max-hint"></span>
-                            </div>
-                            <div class="field-error-msg" id="qty-error"></div>
+                    <div class="field" id="qty-field">
+                        <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
+                        <div class="input-box" id="qty-box">
+                            <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
                         </div>
+                        <div class="limit-hint" id="limit-hint">
+                            <span id="min-hint"></span>
+                            <span id="max-hint"></span>
+                        </div>
+                        <div class="field-error-msg" id="qty-error"></div>
                     </div>
                 </div>
 
@@ -436,7 +412,6 @@
                         <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
                         <span class="price-value" id="display-price">USD 0.00</span>
                     </div>
-
                     <button id="payBtn">
                         <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
                         <div class="exact-8-spinner">
@@ -452,48 +427,26 @@
     <script>
         const translations = {
             ar: {
-                order_details: "تفاصيل الطلب",
-                link_label: "الرابط",
-                link_placeholder: "أدخل الرابط هنا",
-                category_label: "الفئة المختارة",
-                choose_service: "اضغط لاختيار خدمة...",
-                quantity_label: "الكمية المطلوبة",
-                quantity_placeholder: "أدخل الكمية",
-                min: "الأدنى:",
-                max: "الأقصى:",
-                total_due: "إجمالي المستحق",
-                confirm_order: "تأكيد الطلب والدفع",
-                success_msg: "تم تفعيل الطلب",
-                success_sub: "نشط الان …",
-                balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                balance_sub: "قم بتعبئة الحساب",
-                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
-                error_sub: "يرجى المحاولة لاحقاً",
-                err_link_req: "يرجى إدخال الرابط أولاً",
-                err_cat_req: "يرجى اختيار الخدمة المطلوبة",
-                err_qty_req: "يرجى إدخال كمية صحيحة"
+                link_label: "الرابط", link_placeholder: "أدخل الرابط هنا",
+                category_label: "الفئة المختارة", choose_service: "اضغط لاختيار خدمة...",
+                quantity_label: "الكمية المطلوبة", quantity_placeholder: "أدخل الكمية",
+                min: "الأدنى:", max: "الأقصى:", total_due: "إجمالي المستحق",
+                confirm_order: "تأكيد الطلب والدفع", success_msg: "تم تفعيل الطلب",
+                success_sub: "نشط الان …", balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
+                balance_sub: "قم بتعبئة الحساب", error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
+                error_sub: "يرجى المحاولة لاحقاً", err_link_req: "يرجى إدخال الرابط أولاً",
+                err_cat_req: "يرجى اختيار الخدمة المطلوبة", err_qty_req: "يرجى إدخال كمية صحيحة"
             },
             en: {
-                order_details: "Order Details",
-                link_label: "Link",
-                link_placeholder: "Enter link here",
-                category_label: "Selected Category",
-                choose_service: "Click to choose a service...",
-                quantity_label: "Requested Quantity",
-                quantity_placeholder: "Enter quantity",
-                min: "Min:",
-                max: "Max:",
-                total_due: "Total Due",
-                confirm_order: "Confirm & Pay",
-                success_msg: "Order Activated",
-                success_sub: "Active now ...",
-                balance_err: "Sorry, your current balance is insufficient",
-                balance_sub: "Please top up your account",
-                error_msg: "Sorry, an unexpected error occurred",
-                error_sub: "Please try again later",
-                err_link_req: "Please enter the link",
-                err_cat_req: "Please select a service",
-                err_qty_req: "Please enter a valid quantity"
+                link_label: "Link", link_placeholder: "Enter link here",
+                category_label: "Selected Category", choose_service: "Click to choose a service...",
+                quantity_label: "Requested Quantity", quantity_placeholder: "Enter quantity",
+                min: "Min:", max: "Max:", total_due: "Total Due",
+                confirm_order: "Confirm & Pay", success_msg: "Order Activated",
+                success_sub: "Active now ...", balance_err: "Sorry, your current balance is insufficient",
+                balance_sub: "Please top up your account", error_msg: "Sorry, an unexpected error occurred",
+                error_sub: "Please try again later", err_link_req: "Please enter the link",
+                err_cat_req: "Please select a service", err_qty_req: "Please enter a valid quantity"
             }
         };
 
@@ -511,11 +464,8 @@
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (translations[lang][key]) el.placeholder = translations[lang][key];
             });
-            document.querySelectorAll('.section-header').forEach(header => {
-                header.innerText = header.getAttribute(`data-${lang}`);
-            });
-            document.querySelectorAll('.header-subtitle').forEach(sub => {
-                sub.innerText = sub.getAttribute(`data-${lang}`);
+            document.querySelectorAll('[data-ar]').forEach(el => {
+                el.innerText = el.getAttribute(`data-${lang}`);
             });
         }
 
@@ -552,13 +502,7 @@
             document.getElementById("display-price").innerText = `USD ${displayVal}`;
             if (rawValue !== "") qtyInput.value = formatNumber(rawValue); 
             else qtyInput.value = "";
-            const err = document.getElementById('qty-error');
-            const box = document.getElementById('qty-box');
-            if(err) err.style.display = 'none';
-            if(box) {
-                box.style.borderColor = '#d2d2d7';
-                box.style.backgroundColor = '#ffffff';
-            }
+            clearErrors();
         }
 
         function updateUI() {
@@ -576,11 +520,8 @@
                 document.getElementById('max-hint').innerHTML = `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}`;
                 limitHint.style.display = 'flex';
             } else {
-                document.getElementById('min-hint').innerHTML = "";
-                document.getElementById('max-hint').innerHTML = "";
                 limitHint.style.display = 'none';
             }
-            
             updatePriceAndFormat();
         }
 
@@ -591,13 +532,7 @@
         document.getElementById("quantity").oninput = updatePriceAndFormat;
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
-            const err = document.getElementById('link-error');
-            const box = document.getElementById('link-box');
-            if(err) err.style.display = 'none';
-            if(box) {
-                box.style.borderColor = '#d2d2d7';
-                box.style.backgroundColor = '#ffffff';
-            }
+            clearErrors();
         };
 
         function showFinalStatus(message, subMessage, isSuccess) {
@@ -618,7 +553,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, increment, collection, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, increment, collection, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyBYNRiMneaU-d6FPMbCnjcWQBX4Tdg50zk", 
@@ -634,12 +569,7 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        onAuthStateChanged(auth, async (user) => { 
-            if (user) {
-                currentUser = user;
-                localStorage.setItem("user_email", user.email);
-            } 
-        });
+        onAuthStateChanged(auth, async (user) => { if (user) { currentUser = user; localStorage.setItem("user_email", user.email); } });
 
         document.getElementById("payBtn").onclick = async function() {
             clearErrors();
@@ -659,7 +589,7 @@
             let hasError = false;
             if (!link) { setFieldError('link', t.err_link_req); hasError = true; }
             if (!service) { setFieldError('category', t.err_cat_req); hasError = true; }
-            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { setFieldError('qty', t.err_qty_req); hasError = true; }
+            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed) { setFieldError('qty', t.err_qty_req); hasError = true; }
             if (hasError) return;
 
             this.classList.add('loading');
@@ -676,7 +606,7 @@
                     const transRef = doc(collection(db, "transactions"));
                     transaction.set(transRef, { amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`, description: "" + service, status: "Active", link: link, quantity: qtyNum, timestamp: serverTimestamp(), userId: currentUser.uid, userEmail: email });
                 });
-                try { fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: email, status: "Active" }) }); } catch (e) {}
+                try { fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge, gmail: email, status: "Active" }) }); } catch (e) {}
                 showFinalStatus(t.success_msg, t.success_sub, true);
             } catch (e) {
                 this.classList.remove('loading');
