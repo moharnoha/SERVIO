@@ -36,6 +36,11 @@
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
             font-family: 'Cairo', 'Inter', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         header { 
@@ -46,10 +51,11 @@
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
-            position: sticky; 
-            top: 0; z-index: 1000;
+            position: relative; 
+            z-index: 1000;
             direction: rtl !important;
             border-bottom: 1px solid var(--border-subtle);
+            flex-shrink: 0;
         }
 
         .header-content {
@@ -110,57 +116,108 @@
             width: 24px; 
         }
 
-        .main-container { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .main-container { 
+            flex: 1;
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overflow: hidden;
+        }
         
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr); 
-            gap: 10px;
-            padding: 0 25px 15px 25px;
+            display: flex;
+            flex-direction: column;
             width: 100%;
             max-width: 480px;
             box-sizing: border-box;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .order-details-header {
+            background-color: #FFFFFF;
+            padding: 15px 25px;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f0f0f0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center; /* توسيط عمودي للعناصر */
+            gap: 15px;
+        }
+
+        .text-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .number-circle {
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent-green);
+            flex-shrink: 0;
         }
 
         .section-header {
             font-size: 18px;
             font-weight: 800;
             color: #121212;
-            margin: 20px 0 15px 0;
+            margin: 0;
             text-align: right;
             font-family: 'Cairo', sans-serif;
+            line-height: 1.2;
         }
 
-        .content-area { padding: 5px 0; width: 100%; }
+        .header-subtitle {
+            font-size: 13px;
+            color: #86868b;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .content-area { 
+            padding: 10px 25px; 
+            width: 100%; 
+            box-sizing: border-box;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
         
         .order-card { 
             width: 100%; 
             background: transparent; 
-            border-radius: 0; 
-            overflow: visible;
-            box-shadow: none;
             box-sizing: border-box; 
         }
 
         .form-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 20px; 
+            gap: 12px;
             padding: 0; 
         }
         
         .field { 
             position: relative; 
             padding: 0;
-            border-bottom: none;
-            transition: all 0.2s ease;
         }
 
         .field .label { 
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: 700; 
             color: #1d1d1f; 
-            margin-bottom: 8px; 
+            margin-bottom: 4px; 
             display: block; 
             text-align: right;
             font-family: 'Cairo', sans-serif;
@@ -172,15 +229,9 @@
             background: #ffffff; 
             border: 1px solid #d2d2d7; 
             border-radius: 12px;
-            padding: 12px 16px; 
-            min-height: 48px; 
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            padding: 8px 16px; 
+            min-height: 44px; 
             box-sizing: border-box;
-        }
-        
-        .input-box:focus-within {
-            border-color: #000000;
-            box-shadow: none;
         }
         
         .input-box input, .input-box span { 
@@ -188,7 +239,7 @@
             border: none; 
             outline: none; 
             background: none; 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: 500; 
             color: #1d1d1f; 
             width: 100%; 
@@ -196,30 +247,19 @@
             font-family: 'Cairo', sans-serif;
         }
         
-        .input-box input::placeholder {
-            color: #86868b;
-            font-weight: 400;
-        }
-        
         .field-error-msg {
-            font-size: 12px;
+            font-size: 11px;
             color: #ff3b30;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 2px;
             display: none;
-            animation: fadeInError 0.3s ease;
             text-align: right;
         }
 
-        @keyframes fadeInError {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .limit-hint { 
-            font-size: 12px; 
+            font-size: 11px; 
             color: #6e6e73; 
-            margin-top: 6px; 
+            margin-top: 4px; 
             font-weight: 500; 
             display: none; 
             gap: 12px; 
@@ -230,8 +270,8 @@
 
         .price-container { 
             background: #ffffff; 
-            margin-top: 30px; 
-            padding: 20px; 
+            margin-top: 10px; 
+            padding: 15px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -239,16 +279,16 @@
             border: 1px solid #e5e5e7;
             width: 100%;
             box-sizing: border-box;
+            flex-shrink: 0;
         }
         
         .price-label { 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: 600; 
             color: #6e6e73;
-            font-family: 'Cairo', sans-serif;
         }
         .price-value { 
-            font-size: 24px; 
+            font-size: 20px; 
             font-weight: 800; 
             color: #1d1d1f; 
             font-family: 'Lexend', sans-serif; 
@@ -256,33 +296,24 @@
 
         #payBtn { 
             width: 100%; 
-            max-width: 480px;
-            padding: 16px; 
+            padding: 14px; 
             border-radius: 12px; 
             border: none; 
             background-color: #000000; 
             color: #ffffff; 
-            font-size: 17px; 
+            font-size: 16px; 
             font-weight: 700; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            transition: all 0.2s ease; 
             position: relative;
             box-sizing: border-box;
-            margin-top: 24px;
-            -webkit-tap-highlight-color: transparent;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
         }
         
-        #payBtn:active { transform: scale(0.99); background-color: #1d1d1f; }
-        
-        #payBtn:disabled { 
-            background-color: #d2d2d7 !important; 
-            color: #ffffff !important; 
-            cursor: not-allowed; 
-        }
-
         .exact-8-spinner {
             position: absolute;
             right: 15px;
@@ -303,29 +334,12 @@
             transform-origin: 3px 22px;
             animation: spinner-fade 0.8s linear infinite;
         }
-        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
-        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
-        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
-        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
-        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
-        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
-        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
-        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
-
-        @keyframes spinner-fade {
-            0% { opacity: 1; }
-            100% { opacity: 0.3; }
-        }
-
+        @keyframes spinner-fade { 0% { opacity: 1; } 100% { opacity: 0.3; } }
         .loading .exact-8-spinner { display: block; }
-        .loading #btn-text { opacity: 1; }
 
         #status-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-color: #ffffff;
             z-index: 9999;
             display: none;
@@ -333,55 +347,13 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-family: 'Cairo', sans-serif;
         }
-        .status-icon-box {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            animation: scaleUp 0.5s ease-out;
-        }
-        .status-icon-box.success { background-color: #e8f5e9; }
-        .status-icon-box.error { background-color: #ffebee; }
-        .status-icon-box i { font-size: 50px; }
-        .status-icon-box.success i { color: #2e7d32; }
-        .status-icon-box.error i { color: #c62828; }
-
-        .status-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 8px;
-            padding: 0 20px;
-        }
-        .status-sub {
-            font-size: 15px;
-            color: #64748b;
-            font-weight: 600;
-        }
-        @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        html[dir="ltr"] .section-header { text-align: left; }
-        html[dir="ltr"] .field .label { text-align: left; }
-        html[dir="ltr"] .input-box input, html[dir="ltr"] .input-box span { text-align: left; }
-        html[dir="ltr"] .field-error-msg { text-align: left; }
-
         #nav-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.19);
             backdrop-filter: blur(4px);
             display: none;
-            align-items: center;
-            justify-content: center;
             z-index: 99999;
         }
     </style>
@@ -415,7 +387,14 @@
 
     <div class="main-container" id="page-content">
         <div class="services-grid">
-            <div class="section-header" data-ar="تفاصيل الطلب" data-en="Order Details">تفاصيل الطلب</div>
+            
+            <div class="order-details-header">
+                <div class="number-circle">1</div>
+                <div class="text-group">
+                    <div class="section-header" data-ar="تفاصيل الطلب" data-en="Order Details">تفاصيل الطلب</div>
+                    <div class="header-subtitle" data-ar="يرجى ملء الحقول التالية" data-en="Please fill in the following fields">يرجى ملء الحقول التالية</div>
+                </div>
+            </div>
             
             <div class="content-area">
                 <div class="order-card">
@@ -431,7 +410,7 @@
                         <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
                             <label class="label" data-i18n="category_label">الفئة المختارة</label>
                             <div class="input-box" id="category-box" style="justify-content: space-between;">
-                                <span id="category" data-i18n="choose_service" style="color: #1d1d1f; font-weight: 500; font-size: 16px;">اضغط لاختيار خدمة...</span>
+                                <span id="category" data-i18n="choose_service">اضغط لاختيار خدمة...</span>
                                 <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
                             </div>
                             <div class="field-error-msg" id="category-error"></div>
@@ -458,18 +437,20 @@
                     </div>
                 </div>
 
-                <div class="price-container">
-                    <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
-                    <span class="price-value" id="display-price">USD 0.00</span>
-                </div>
-
-                <button id="payBtn">
-                    <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
-                    <div class="exact-8-spinner">
-                        <div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div>
+                <div class="bottom-actions">
+                    <div class="price-container">
+                        <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
+                        <span class="price-value" id="display-price">USD 0.00</span>
                     </div>
-                </button>
+
+                    <button id="payBtn">
+                        <span id="btn-text" data-i18n="confirm_order">تأكيد الطلب والدفع</span>
+                        <div class="exact-8-spinner">
+                            <div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -540,6 +521,9 @@
             });
             document.querySelectorAll('.section-header').forEach(header => {
                 header.innerText = header.getAttribute(`data-${lang}`);
+            });
+            document.querySelectorAll('.header-subtitle').forEach(sub => {
+                sub.innerText = sub.getAttribute(`data-${lang}`);
             });
         }
 
