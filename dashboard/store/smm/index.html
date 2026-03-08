@@ -126,13 +126,13 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 480px;
+            max-width: 100%; /* تمديد العرض ليشمل الصفحة كاملة */
             box-sizing: border-box;
         }
 
         .order-details-header {
             background-color: #FFFFFF;
-            padding: 15px 25px;
+            padding: 20px 25px; /* زيادة مساحة الهيدر ليتنفس التصميم */
             width: 100%;
             box-sizing: border-box;
             border-bottom: 1px solid #f0f0f0;
@@ -149,23 +149,23 @@
         }
 
         .number-circle {
-            width: 30px;
-            height: 30px;
-            border: 2px solid var(--accent-green);
+            width: 28px;
+            height: 28px;
+            border: 1.5px solid #000; /* نظام بسيط مثل الشركات الكبرى */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            font-weight: 800;
-            color: var(--accent-green);
+            font-weight: 600;
+            color: #000;
             flex-shrink: 0;
         }
 
         .section-header {
             font-size: 18px;
-            font-weight: 800;
-            color: #121212;
+            font-weight: 700;
+            color: #000000;
             margin: 0;
             text-align: right;
             font-family: 'Cairo', sans-serif;
@@ -175,12 +175,12 @@
         .header-subtitle {
             font-size: 13px;
             color: #86868b;
-            font-weight: 600;
+            font-weight: 500;
             line-height: 1.2;
         }
 
         .content-area { 
-            padding: 10px 25px; 
+            padding: 20px 25px; 
             width: 100%; 
             box-sizing: border-box;
             display: flex;
@@ -197,7 +197,7 @@
         .form-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 12px;
+            gap: 16px; /* تحسين المسافات بين الخانات */
             padding: 0; 
         }
         
@@ -207,10 +207,10 @@
         }
 
         .field .label { 
-            font-size: 13px; 
-            font-weight: 700; 
+            font-size: 14px; 
+            font-weight: 600; 
             color: #1d1d1f; 
-            margin-bottom: 4px; 
+            margin-bottom: 8px; 
             display: block; 
             text-align: right;
             font-family: 'Cairo', sans-serif;
@@ -220,11 +220,16 @@
             display: flex; 
             align-items: center; 
             background: #ffffff; 
-            border: 1px solid #d2d2d7; 
-            border-radius: 12px;
-            padding: 8px 16px; 
-            min-height: 44px; 
+            border: 1px solid #e0e0e0; /* حدود أنحف وبسيطة */
+            border-radius: 8px; /* زوايا أقل حدة وأكثر احترافية */
+            padding: 10px 16px; 
+            min-height: 48px; 
             box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-box:focus-within {
+            border-color: #000; /* فوكس بسيط */
         }
         
         .input-box input, .input-box span { 
@@ -233,82 +238,86 @@
             outline: none; 
             background: none; 
             font-size: 15px; 
-            font-weight: 500; 
-            color: #1d1d1f; 
+            font-weight: 400; 
+            color: #000; 
             width: 100%; 
             text-align: right;
             font-family: 'Cairo', sans-serif;
         }
         
         .field-error-msg {
-            font-size: 11px;
+            font-size: 12px;
             color: #ff3b30;
-            font-weight: 600;
-            margin-top: 2px;
+            font-weight: 400;
+            margin-top: 5px;
             display: none;
             text-align: right;
         }
 
         .limit-hint { 
             font-size: 11px; 
-            color: #6e6e73; 
-            margin-top: 4px; 
-            font-weight: 500; 
+            color: #86868b; 
+            margin-top: 6px; 
+            font-weight: 400; 
             display: none; 
             gap: 12px; 
             font-family: 'Cairo', sans-serif;
         }
 
         .bottom-actions {
-            margin-top: 15px;
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
-            gap: 0;
+            gap: 15px;
         }
 
         .price-container { 
-            background: #ffffff; 
-            padding: 15px; 
+            background: #f9f9f9; 
+            padding: 18px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-radius: 12px;
-            border: 1px solid #e5e5e7;
+            border-radius: 8px;
+            border: 1px solid #eeeeee;
             width: 100%;
             box-sizing: border-box;
             flex-shrink: 0;
         }
         
         .price-label { 
-            font-size: 15px; 
-            font-weight: 600; 
-            color: #6e6e73;
+            font-size: 14px; 
+            font-weight: 500; 
+            color: #555;
         }
         .price-value { 
             font-size: 20px; 
-            font-weight: 800; 
-            color: #1d1d1f; 
+            font-weight: 700; 
+            color: #000; 
             font-family: 'Lexend', sans-serif; 
         }
 
         #payBtn { 
             width: 100%; 
-            padding: 14px; 
-            border-radius: 12px; 
+            padding: 16px; 
+            border-radius: 8px; 
             border: none; 
             background-color: #000000; 
             color: #ffffff; 
             font-size: 16px; 
-            font-weight: 700; 
+            font-weight: 600; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             position: relative;
             box-sizing: border-box;
-            margin-top: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             flex-shrink: 0;
+            transition: opacity 0.2s;
+        }
+
+        #payBtn:active {
+            opacity: 0.8;
         }
         
         .exact-8-spinner {
@@ -334,7 +343,7 @@
         @keyframes spinner-fade { 0% { opacity: 1; } 100% { opacity: 0.3; } }
         .loading .exact-8-spinner { display: block; }
 
-        /* STATUS OVERLAY STYLES FROM REQUESTED CODE */
+        /* STATUS OVERLAY STYLES */
         #status-overlay {
             position: fixed;
             top: 0;
@@ -359,24 +368,24 @@
             margin-bottom: 25px;
             animation: scaleUp 0.5s ease-out;
         }
-        .status-icon-box.success { background-color: #e8f5e9; }
-        .status-icon-box.error { background-color: #ffebee; }
+        .status-icon-box.success { background-color: #f0f9f1; }
+        .status-icon-box.error { background-color: #fff5f5; }
         
         .status-icon-box i { font-size: 50px; }
-        .status-icon-box.success i { color: #2e7d32; }
-        .status-icon-box.error i { color: #c62828; }
+        .status-icon-box.success i { color: #000000; }
+        .status-icon-box.error i { color: #000000; }
 
         .status-title {
             font-size: 20px;
-            font-weight: 800;
-            color: #1a202c;
+            font-weight: 700;
+            color: #000;
             margin-bottom: 8px;
             padding: 0 20px;
         }
         .status-sub {
             font-size: 15px;
-            color: #64748b;
-            font-weight: 600;
+            color: #666;
+            font-weight: 400;
         }
         @keyframes scaleUp {
             0% { transform: scale(0); opacity: 0; }
@@ -387,7 +396,7 @@
         #nav-loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.19);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
             display: none;
             z-index: 99999;
@@ -557,7 +566,7 @@
         function clearErrors() {
             document.querySelectorAll('.field-error-msg').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.input-box').forEach(el => {
-                el.style.borderColor = '#d2d2d7';
+                el.style.borderColor = '#e0e0e0';
                 el.style.backgroundColor = '#ffffff';
             });
         }
@@ -591,7 +600,7 @@
             const box = document.getElementById('qty-box');
             if(err) err.style.display = 'none';
             if(box) {
-                box.style.borderColor = '#d2d2d7';
+                box.style.borderColor = '#e0e0e0';
                 box.style.backgroundColor = '#ffffff';
             }
         }
@@ -630,7 +639,7 @@
             const box = document.getElementById('link-box');
             if(err) err.style.display = 'none';
             if(box) {
-                box.style.borderColor = '#d2d2d7';
+                box.style.borderColor = '#e0e0e0';
                 box.style.backgroundColor = '#ffffff';
             }
         };
