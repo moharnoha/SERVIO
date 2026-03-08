@@ -12,21 +12,20 @@
     <style>
         :root { 
             --primary-green: #2F5822;    
-            --vibrant-green: #74a367;    
-            --header-bg: rgba(243, 242, 242, 0.85); 
-            --page-bg: rgba(243, 242, 242, 0.85); 
+            --header-bg: #f3f2f2; 
+            --page-bg: #f3f2f2; 
             --text-main: #000000;        
             --text-muted: #8E8E93;       
             --border-subtle: rgba(0,0,0,0.06);
             --primary-blue: #007AFF;
+            --bg-light: #ffffff;
         }
 
-        /* ضبط الارتفاع لضمان بقاء العناصر في واجهة واحدة */
         html, body { 
             height: 100%;
             margin: 0; padding: 0; 
             background-color: var(--page-bg); 
-            overflow: hidden; /* منع التمرير الكلي للحفاظ على الواجهة الواحدة */
+            overflow: hidden;
         }
 
         body { 
@@ -38,16 +37,13 @@
             flex-direction: column;
         }
 
-        /* الهيدر الآن غير ثابت (يتحرك مع الصفحة) */
         header { 
             width: 100%; height: 72px; 
             background-color: var(--header-bg); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
-            position: relative; /* غير ثابت */
+            position: relative;
             z-index: 1000;
             border-bottom: 1px solid var(--border-subtle);
         }
@@ -67,17 +63,16 @@
         .account-text { font-size: 18px; font-weight: 700; color: #121212; white-space: nowrap; }
         .back-arrow-svg { width: 24px; height: 24px; fill: none; stroke: #121212; stroke-width: 2.5; }
 
-        /* الحاوية الرئيسية تأخذ المساحة المتبقية */
         .main-container { 
             flex: 1;
             width: 100%; 
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            justify-content: space-between; /* دفع العناصر للأسفل */
-            padding-bottom: 20px;
+            justify-content: space-between;
+            padding-bottom: 25px;
             box-sizing: border-box;
-            overflow-y: auto; /* السماح بالتمرير داخل الحاوية فقط إذا لزم الأمر */
+            overflow-y: auto;
         }
         
         .services-grid {
@@ -91,88 +86,120 @@
         .section-header { font-size: 13px; color: #6e6e73; text-align: right; }
 
         .field { 
-            background-color: #FFFFFF;
-            width: 92%;
+            background-color: var(--bg-light);
+            width: 90%;
             margin: 0 auto 10px auto;
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            padding: 14px 16px;
-            min-height: 48px;
+            padding: 12px 16px;
+            min-height: 52px;
             box-sizing: border-box;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        .field .label { font-size: 16px; min-width: 90px; text-align: right; }
+        .field .label { font-size: 15px; min-width: 80px; text-align: right; font-weight: 600; }
         .input-box { flex: 1; display: flex; align-items: center; }
         .input-box input, .input-box span { 
             width: 100%; border: none; outline: none; background: none; 
-            font-size: 16px; color: #000; text-align: left; font-family: 'Cairo';
+            font-size: 15px; color: #000; text-align: left; font-family: 'Cairo';
         }
 
-        #category { color: var(--primary-blue); }
+        #category { color: var(--primary-blue); font-weight: 600; }
 
         .header-subtitle {
-            font-size: 13px; color: #8E8E93;
-            padding: 5px 20px; text-align: right;
+            font-size: 12px; color: #8E8E93;
+            padding: 5px 25px; text-align: right;
         }
 
-        /* دفع قسم السعر والزر لأسفل الصفحة */
         .bottom-actions-container {
             width: 100%;
             max-width: 500px;
-            margin-top: auto; /* يدفع هذا القسم للأسفل */
+            margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .price-container { 
-            background: #ffffff; 
-            padding: 14px 16px; 
+            background-color: var(--bg-light); 
+            padding: 18px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-radius: 12px;
-            width: 92%;
-            margin: 0 auto;
+            border-radius: 16px;
+            width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
         
-        .price-value { font-size: 17px; font-weight: 600; font-family: 'Lexend'; }
+        .price-label { font-size: 18px; font-weight: 700; color: #000000; }
+        .price-value { font-size: 18px; font-weight: 700; font-family: 'Lexend'; color: #000000; }
 
         #payBtn { 
-            width: 92%; 
-            margin: 0 auto;
-            padding: 16px; 
-            border-radius: 12px; 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 16px; 
             border: none; 
-            background-color: #000000; 
+            background-color: var(--primary-green); 
             color: #ffffff; 
-            font-size: 17px; 
-            font-weight: 600; 
+            font-size: 18px; 
+            font-weight: 700; 
             cursor: pointer;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease, opacity 0.2s;
+            box-sizing: border-box;
         }
 
-        /* لودر الزر */
+        #payBtn:active { transform: scale(0.98); opacity: 0.9; }
+
         .exact-8-spinner {
-            position: absolute; right: 15px; top: 50%;
-            transform: translateY(-50%) scale(0.5);
-            display: none; width: 44px; height: 44px;
+            position: absolute;
+            right: 15px;
+            width: 44px;
+            height: 44px;
+            transform: scale(0.5);
+            display: none;
         }
+
         .exact-8-spinner div {
-            position: absolute; width: 6px; height: 14px;
-            background: #ffffff; border-radius: 10px; left: 19px;
-            transform-origin: 3px 22px; animation: spinner-fade 0.8s linear infinite;
+            position: absolute;
+            width: 6px;
+            height: 14px;
+            background: #666;
+            border-radius: 10px;
+            left: 19px;
+            top: 0;
+            transform-origin: 3px 22px;
+            animation: spinner-fade 0.8s linear infinite;
         }
-        @keyframes spinner-fade { 0% { opacity: 1; } 100% { opacity: 0.3; } }
-        .loading .exact-8-spinner { display: block; }
-        .loading #btn-text { opacity: 0; }
+
+        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
+        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
+        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
+        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
+        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
+        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
+        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
+        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
+
+        @keyframes spinner-fade {
+            0% { background: #ffffff; opacity: 1; }
+            100% { background: #666; opacity: 0.3; }
+        }
+
+        .loading .exact-8-spinner {
+            display: block;
+        }
 
         #status-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--page-bg); z-index: 9999;
+            background-color: #f3f2f2; z-index: 9999;
             display: none; flex-direction: column; align-items: center; justify-content: center;
         }
     </style>
@@ -243,11 +270,9 @@
         </div>
     </div>
 
-    <div id="status-overlay">
-        </div>
+    <div id="status-overlay"></div>
 
     <script>
-        // دالة تحديث السعر والتنسيق
         function updatePrice() {
             const qtyInput = document.getElementById("quantity");
             const priceDisplay = document.getElementById("display-price");
@@ -256,7 +281,7 @@
             let val = qtyInput.value.replace(/[^0-9]/g, '');
             if (val !== "") {
                 const total = unitPrice * parseInt(val);
-                priceDisplay.innerText = `USD ${total.toLocaleString()}`;
+                priceDisplay.innerText = `USD ${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
                 qtyInput.value = parseInt(val).toLocaleString();
             } else {
                 priceDisplay.innerText = "USD 0.00";
@@ -266,11 +291,9 @@
         document.getElementById("quantity").oninput = updatePrice;
         function goToCategory() { window.location.href = "../Category/"; }
 
-        // محاكاة الضغط للزر
         document.getElementById("payBtn").onclick = function() {
             this.classList.add('loading');
             this.disabled = true;
-            // منطق Firebase هنا
         };
     </script>
 </body>
