@@ -126,13 +126,13 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 100%; /* تمديد العرض ليشمل الصفحة كاملة */
+            max-width: 100%; 
             box-sizing: border-box;
         }
 
         .order-details-header {
             background-color: #FFFFFF;
-            padding: 20px 25px; /* زيادة مساحة الهيدر ليتنفس التصميم */
+            padding: 20px 25px; 
             width: 100%;
             box-sizing: border-box;
             border-bottom: 1px solid #f0f0f0;
@@ -146,20 +146,22 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            gap: 4px; /* مسافة إضافية بين العنوان والوصف */
         }
 
         .number-circle {
-            width: 28px;
-            height: 28px;
-            border: 1.5px solid #000; /* نظام بسيط مثل الشركات الكبرى */
+            width: 32px; /* زيادة بسيطة في الحجم لتعزيز الوضوح */
+            height: 32px;
+            border: 2px solid #000; /* خط أوضح وأكثر بروزاً */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 16px; /* خط أوضح للرقم */
+            font-weight: 800; /* سمك خط رقم 1 */
             color: #000;
             flex-shrink: 0;
+            font-family: 'Lexend', sans-serif;
         }
 
         .section-header {
@@ -197,7 +199,7 @@
         .form-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 16px; /* تحسين المسافات بين الخانات */
+            gap: 16px; 
             padding: 0; 
         }
         
@@ -220,8 +222,8 @@
             display: flex; 
             align-items: center; 
             background: #ffffff; 
-            border: 1px solid #e0e0e0; /* حدود أنحف وبسيطة */
-            border-radius: 8px; /* زوايا أقل حدة وأكثر احترافية */
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
             padding: 10px 16px; 
             min-height: 48px; 
             box-sizing: border-box;
@@ -229,7 +231,7 @@
         }
 
         .input-box:focus-within {
-            border-color: #000; /* فوكس بسيط */
+            border-color: #000; 
         }
         
         .input-box input, .input-box span { 
@@ -343,7 +345,6 @@
         @keyframes spinner-fade { 0% { opacity: 1; } 100% { opacity: 0.3; } }
         .loading .exact-8-spinner { display: block; }
 
-        /* STATUS OVERLAY STYLES */
         #status-overlay {
             position: fixed;
             top: 0;
@@ -644,7 +645,6 @@
             }
         };
 
-        // FINAL STATUS DISPLAY FUNCTION FROM REQUESTED INTERFACE
         function showFinalStatus(message, subMessage, isSuccess) {
             const overlay = document.getElementById('status-overlay');
             const titleEl = document.getElementById('status-title');
