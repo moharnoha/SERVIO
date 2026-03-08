@@ -13,20 +13,20 @@
         :root { 
             --primary-green: #2F5822;    
             --vibrant-green: #74a367;    
-            --header-bg: rgba(243, 242, 242, 0.85);        
-            --page-bg: #F3F2F2;          
+            --header-bg: #F2F2F7;        
+            --page-bg: #F2F2F7;          
             --text-main: #000000;        
-            --text-muted: #5f6368;       
+            --text-muted: #8E8E93;       
             --circle-empty: #FFFFFF;     
             --profile-icon: #9aa0a6;     
             --profile-bg: #e8eaed;       
             --border-subtle: rgba(0,0,0,0.06);
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --accent-green: #386E2C; 
+            --accent-green: #34C759; 
             --card-white: #ffffff;
-            --bg-light: #f8fbff; --border-gray: #E4ECE3; --text-dark: #1a202c;
-            --primary-blue: #2563eb; --accent: #000000; --success-green: #22c55e;
-            --error-red: #ef4444; --bg-gray: #E4ECE3; --header-green: #FFFFFF;
+            --bg-light: #f8fbff; --border-gray: #E5E5EA; --text-dark: #1a202c;
+            --primary-blue: #007AFF; --accent: #000000; --success-green: #34C759;
+            --error-red: #FF3B30; --bg-gray: #E5E5EA; --header-green: #FFFFFF;
         }
 
         body { 
@@ -46,8 +46,6 @@
         header { 
             width: 100%; height: 72px; 
             background-color: var(--header-bg); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
@@ -120,227 +118,153 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            padding-top: 10px;
         }
         
         .services-grid {
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 100%; 
+            max-width: 500px; 
             box-sizing: border-box;
         }
 
         .order-details-header {
-            background-color: #FFFFFF;
-            padding: 20px 25px; 
+            padding: 15px 20px 8px 20px; 
             width: 100%;
             box-sizing: border-box;
-            border-bottom: 1px solid #f0f0f0;
-            flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        .text-group {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 4px;
-        }
-
-        .number-circle {
-            width: 32px; 
-            height: 32px;
-            border: 2px solid #000; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px; 
-            font-weight: 800; 
-            color: #000;
-            flex-shrink: 0;
-            font-family: 'Lexend', sans-serif;
         }
 
         .section-header {
-            font-size: 18px;
-            font-weight: 700;
-            color: #000000;
-            margin: 0;
-            text-align: right;
-            font-family: 'Cairo', sans-serif;
-            line-height: 1.2;
-        }
-
-        .header-subtitle {
             font-size: 13px;
-            color: #86868b;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-
-        .content-area { 
-            padding: 20px 25px; 
-            width: 100%; 
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .white-fields-section {
-            background-color: #FFFFFF;
+            font-weight: 400;
+            color: #6e6e73;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            text-align: right;
             width: 100%;
-            padding: 20px 25px;
-            box-sizing: border-box;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .order-card { 
-            width: 100%; 
-            background: transparent; 
-            box-sizing: border-box; 
         }
 
-        .form-grid { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 16px; 
-            padding: 0; 
-        }
-        
         .field { 
+            background-color: #FFFFFF;
+            width: 92%;
+            margin: 0 auto 10px auto;
+            border-radius: 12px;
             position: relative; 
-            padding: 0;
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            min-height: 48px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            box-sizing: border-box;
         }
 
         .field .label { 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            margin-bottom: 8px; 
-            display: block; 
+            font-size: 16px; 
+            font-weight: 400; 
+            color: #000000; 
+            min-width: 110px;
             text-align: right;
-            font-family: 'Cairo', sans-serif;
         }
         
         .input-box { 
+            flex: 1;
             display: flex; 
             align-items: center; 
-            background: #f9f9f9; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 8px; 
-            padding: 10px 16px; 
-            min-height: 48px; 
-            box-sizing: border-box;
-            transition: all 0.2s ease-in-out;
-            outline: none;
+            background: transparent; 
+            padding: 0;
+            transition: all 0.2s;
         }
 
-        .input-box:focus-within {
-            border-color: #e0e0e0; 
-            box-shadow: none;
-            background: #f9f9f9;
-        }
-
-        .input-box.error-state {
-            border-color: #e0e0e0;
-            background-color: #f9f9f9;
-        }
-        
         .input-box input, .input-box span { 
             flex: 1; 
             border: none; 
             outline: none !important; 
             background: none; 
-            font-size: 15px; 
-            font-weight: 400; 
+            font-size: 16px; 
             color: #000; 
+            text-align: left;
+            padding-left: 5px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        #platformLink::placeholder, #quantity::placeholder {
+            color: #C7C7CC;
+        }
+
+        #category {
+            color: var(--primary-blue);
+            font-weight: 400;
+        }
+
+        .content-area { 
+            padding: 10px 16px; 
             width: 100%; 
-            text-align: right;
-            font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .field-error-msg {
-            font-size: 12px;
-            color: #ff3b30;
-            font-weight: 500;
-            margin-top: 6px;
-            display: none !important;
-            text-align: right;
-            animation: fadeIn 0.2s ease;
+            box-sizing: border-box;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .limit-hint { 
-            font-size: 11px; 
-            color: #86868b; 
-            margin-top: 6px; 
-            font-weight: 400; 
-            display: none; 
-            gap: 12px; 
-            font-family: 'Cairo', sans-serif;
+        .header-subtitle {
+            font-size: 13px;
+            color: #8E8E93;
+            padding: 10px 20px 15px 20px;
+            line-height: 1.4;
+            text-align: right;
         }
 
         .bottom-actions {
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .price-container { 
             background: #ffffff; 
-            padding: 18px; 
+            padding: 14px 16px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-radius: 8px;
-            border: 1px solid #eeeeee;
-            width: 100%;
+            border-radius: 12px;
+            width: 92%;
+            margin: 0 auto;
             box-sizing: border-box;
-            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
         
         .price-label { 
-            font-size: 14px; 
-            font-weight: 500; 
-            color: #555;
+            font-size: 16px; 
+            font-weight: 400; 
+            color: #000;
         }
         .price-value { 
-            font-size: 20px; 
-            font-weight: 700; 
+            font-size: 17px; 
+            font-weight: 600; 
             color: #000; 
             font-family: 'Lexend', sans-serif; 
         }
 
         #payBtn { 
-            width: 100%; 
-            padding: 16px; 
-            border-radius: 8px; 
+            width: 92%; 
+            margin: 0 auto 40px auto;
+            padding: 14px; 
+            border-radius: 12px; 
             border: none; 
             background-color: #000000; 
             color: #ffffff; 
-            font-size: 16px; 
+            font-size: 17px; 
             font-weight: 600; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            position: relative;
-            box-sizing: border-box;
-            margin-bottom: 40px;
-            flex-shrink: 0;
-            transition: opacity 0.2s;
-            outline: none;
+            transition: transform 0.1s;
         }
 
         #payBtn:active {
-            opacity: 0.8;
+            transform: scale(0.98);
+            opacity: 0.9;
         }
         
         .exact-8-spinner {
@@ -372,48 +296,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffffff;
+            background-color: #F2F2F7;
             z-index: 9999;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
         .status-icon-box {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
-            animation: scaleUp 0.5s ease-out;
+            margin-bottom: 20px;
         }
-        .status-icon-box.success { background-color: #f0f9f1; }
-        .status-icon-box.error { background-color: #fff5f5; }
-        
-        .status-icon-box i { font-size: 50px; }
-        .status-icon-box.success i { color: #000000; }
-        .status-icon-box.error i { color: #000000; }
+        .status-icon-box.success { background-color: #34C759; }
+        .status-icon-box.error { background-color: #FF3B30; }
+        .status-icon-box i { color: white; font-size: 40px; }
 
-        .status-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 8px;
-            padding: 0 20px;
-        }
-        .status-sub {
-            font-size: 15px;
-            color: #666;
-            font-weight: 400;
-        }
-        @keyframes scaleUp {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .status-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .status-sub { font-size: 16px; color: #8E8E93; }
 
         #nav-loader {
             position: fixed;
@@ -456,46 +360,33 @@
         <div class="services-grid">
             
             <div class="order-details-header">
-                <div class="number-circle">1</div>
-                <div class="text-group">
-                    <div class="section-header" data-ar="تفاصيل الطلب" data-en="Order Details">تفاصيل الطلب</div>
-                    <div class="header-subtitle" data-ar="يرجى ملء الحقول التالية" data-en="Please fill in the following fields">يرجى ملء الحقول التالية</div>
+                <div class="section-header" data-ar="تفاصيل الطلب" data-en="Order Details">تفاصيل الطلب</div>
+            </div>
+
+            <div class="field" id="link-field">
+                <label class="label" data-i18n="link_label">الرابط</label>
+                <div class="input-box" id="link-box">
+                    <input id="platformLink" type="url" required data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
                 </div>
             </div>
 
-            <div class="white-fields-section">
-                <div class="order-card">
-                    <div class="form-grid">
-                        <div class="field" id="link-field">
-                            <label class="label" data-i18n="link_label">الرابط</label>
-                            <div class="input-box" id="link-box">
-                                <input id="platformLink" type="url" required data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
-                            </div>
-                            <div class="field-error-msg" id="link-error"></div>
-                        </div>
-
-                        <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
-                            <label class="label" data-i18n="category_label">الفئة المختارة</label>
-                            <div class="input-box" id="category-box" style="justify-content: space-between;">
-                                <span id="category" data-i18n="choose_service">اضغط لاختيار خدمة...</span>
-                                <i class="fas fa-chevron-left" style="font-size: 14px; color: #c1c1c6;"></i>
-                            </div>
-                            <div class="field-error-msg" id="category-error"></div>
-                        </div>
-
-                        <div class="field" id="qty-field">
-                            <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
-                            <div class="input-box" id="qty-box">
-                                <input id="quantity" type="text" inputmode="numeric" required data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
-                            </div>
-                            <div class="limit-hint" id="limit-hint">
-                                <span id="min-hint"></span>
-                                <span id="max-hint"></span>
-                            </div>
-                            <div class="field-error-msg" id="qty-error"></div>
-                        </div>
-                    </div>
+            <div class="field" id="category-field" onclick="goToCategory()" style="cursor:pointer">
+                <label class="label" data-i18n="category_label">الخدمة</label>
+                <div class="input-box" id="category-box">
+                    <span id="category" data-i18n="choose_service">اختر خدمة...</span>
                 </div>
+                <i class="fas fa-chevron-left" style="font-size: 14px; color: #C7C7CC;"></i>
+            </div>
+
+            <div class="field" id="qty-field">
+                <label class="label" data-i18n="quantity_label">الكمية</label>
+                <div class="input-box" id="qty-box">
+                    <input id="quantity" type="text" inputmode="numeric" required data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
+                </div>
+            </div>
+
+            <div class="header-subtitle" data-ar="يرجى التأكد من صحة الرابط والكمية قبل إتمام الطلب. سيتم البدء في التنفيذ فوراً." data-en="Please ensure the link and quantity are correct before confirming. Execution starts immediately.">
+                يرجى التأكد من صحة الرابط والكمية قبل إتمام الطلب. سيتم البدء في التنفيذ فوراً.
             </div>
             
             <div class="content-area">
@@ -523,45 +414,45 @@
                 order_details: "تفاصيل الطلب",
                 link_label: "الرابط",
                 link_placeholder: "أدخل الرابط هنا",
-                category_label: "الفئة المختارة",
-                choose_service: "اضغط لاختيار خدمة...",
-                quantity_label: "الكمية المطلوبة",
-                quantity_placeholder: "أدخل الكمية",
+                category_label: "الخدمة",
+                choose_service: "اختر خدمة...",
+                quantity_label: "الكمية",
+                quantity_placeholder: "0",
                 min: "الأدنى:",
                 max: "الأقصى:",
                 total_due: "إجمالي المستحق",
                 confirm_order: "تأكيد الطلب والدفع",
                 success_msg: "تم تفعيل الطلب",
                 success_sub: "نشط الان …",
-                balance_err: "عذراً، رصيدك الحالي غير كافٍ لإتمام هذه العملية",
-                balance_sub: "قم بتعبئة الحساب",
-                error_msg: "نعتذر، حدث خطأ غير متوقع. يرجى المحاولة لاحقاً",
+                balance_err: "رصيد غير كافٍ",
+                balance_sub: "يرجى شحن حسابك للمتابعة",
+                error_msg: "حدث خطأ",
                 error_sub: "يرجى المحاولة لاحقاً",
-                err_link_req: "يرجى إدخال الرابط أولاً",
-                err_cat_req: "يرجى اختيار الخدمة المطلوبة",
-                err_qty_req: "يرجى إدخال كمية صحيحة"
+                err_link_req: "يرجى إدخال الرابط",
+                err_cat_req: "يرجى اختيار الخدمة",
+                err_qty_req: "يرجى إدخال الكمية"
             },
             en: {
                 order_details: "Order Details",
                 link_label: "Link",
                 link_placeholder: "Enter link here",
-                category_label: "Selected Category",
-                choose_service: "Click to choose a service...",
-                quantity_label: "Requested Quantity",
-                quantity_placeholder: "Enter quantity",
+                category_label: "Service",
+                choose_service: "Choose service...",
+                quantity_label: "Quantity",
+                quantity_placeholder: "0",
                 min: "Min:",
                 max: "Max:",
                 total_due: "Total Due",
                 confirm_order: "Confirm & Pay",
                 success_msg: "Order Activated",
                 success_sub: "Active now ...",
-                balance_err: "Sorry, your current balance is insufficient",
-                balance_sub: "Please top up your account",
-                error_msg: "Sorry, an unexpected error occurred",
+                balance_err: "Insufficient Balance",
+                balance_sub: "Please top up to continue",
+                error_msg: "Error Occurred",
                 error_sub: "Please try again later",
-                err_link_req: "Please enter the link",
-                err_cat_req: "Please select a service",
-                err_qty_req: "Please enter a valid quantity"
+                err_link_req: "Link required",
+                err_cat_req: "Service required",
+                err_qty_req: "Quantity required"
             }
         };
 
@@ -587,16 +478,7 @@
             });
         }
 
-        function clearErrors() {
-            document.querySelectorAll('.field-error-msg').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.input-box').forEach(el => {
-                el.classList.remove('error-state');
-            });
-        }
-
-        function setFieldError(fieldId, errorMsg) {
-            // Error messages disabled as per request
-        }
+        function clearErrors() {}
 
         function formatNumber(num) { 
             if (!num || isNaN(num)) return "0";
@@ -613,33 +495,13 @@
             document.getElementById("display-price").innerText = `USD ${displayVal}`;
             if (rawValue !== "") qtyInput.value = formatNumber(rawValue); 
             else qtyInput.value = "";
-            
-            const err = document.getElementById('qty-error');
-            const box = document.getElementById('qty-box');
-            if(err) err.style.display = 'none';
-            if(box) box.classList.remove('error-state');
         }
 
         function updateUI() {
             applyTranslations();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const chosenService = localStorage.getItem('chosen_service');
-            const minVal = localStorage.getItem("service_min");
-            const maxVal = localStorage.getItem("service_max");
-            
             document.getElementById("category").innerText = chosenService || translations[lang].choose_service;
-            
-            const limitHint = document.getElementById('limit-hint');
-            if (chosenService && minVal && maxVal) {
-                document.getElementById('min-hint').innerHTML = `<b>${translations[lang].min}</b> ${formatNumber(minVal)}`;
-                document.getElementById('max-hint').innerHTML = `<b>${translations[lang].max}</b> ${formatNumber(maxVal)}`;
-                limitHint.style.display = 'flex';
-            } else {
-                document.getElementById('min-hint').innerHTML = "";
-                document.getElementById('max-hint').innerHTML = "";
-                limitHint.style.display = 'none';
-            }
-            
             updatePriceAndFormat();
         }
 
@@ -651,10 +513,6 @@
         document.getElementById("quantity").oninput = updatePriceAndFormat;
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
-            const err = document.getElementById('link-error');
-            const box = document.getElementById('link-box');
-            if(err) err.style.display = 'none';
-            if(box) box.classList.remove('error-state');
         };
 
         function showFinalStatus(message, subMessage, isSuccess) {
@@ -710,7 +568,6 @@
         });
 
         document.getElementById("payBtn").onclick = async function() {
-            clearErrors();
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const t = translations[lang];
             if (!currentUser) return;
@@ -725,14 +582,7 @@
             const minAllowed = parseInt(localStorage.getItem("service_min")) || 0;
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
-            let hasError = false;
-            if (!link) { hasError = true; }
-            if (!service) { hasError = true; }
-            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { 
-                hasError = true; 
-            }
-            
-            if (hasError) return;
+            if (!link || !service || qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed) return;
 
             this.classList.add('loading');
             this.disabled = true;
