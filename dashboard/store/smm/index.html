@@ -146,19 +146,19 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 4px; /* مسافة إضافية بين العنوان والوصف */
+            gap: 4px;
         }
 
         .number-circle {
-            width: 32px; /* زيادة بسيطة في الحجم لتعزيز الوضوح */
+            width: 32px; 
             height: 32px;
-            border: 2px solid #000; /* خط أوضح وأكثر بروزاً */
+            border: 2px solid #000; 
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px; /* خط أوضح للرقم */
-            font-weight: 800; /* سمك خط رقم 1 */
+            font-size: 16px; 
+            font-weight: 800; 
             color: #000;
             flex-shrink: 0;
             font-family: 'Lexend', sans-serif;
@@ -188,6 +188,14 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+        }
+
+        .white-fields-section {
+            background-color: #FFFFFF;
+            width: 100%;
+            padding: 20px 25px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .order-card { 
@@ -221,23 +229,31 @@
         .input-box { 
             display: flex; 
             align-items: center; 
-            background: #ffffff; 
+            background: #f9f9f9; 
             border: 1px solid #e0e0e0; 
             border-radius: 8px; 
             padding: 10px 16px; 
             min-height: 48px; 
             box-sizing: border-box;
-            transition: border-color 0.2s ease;
+            transition: all 0.2s ease-in-out;
+            outline: none;
         }
 
         .input-box:focus-within {
-            border-color: #000; 
+            border-color: #e0e0e0; 
+            box-shadow: none;
+            background: #f9f9f9;
+        }
+
+        .input-box.error-state {
+            border-color: #e0e0e0;
+            background-color: #f9f9f9;
         }
         
         .input-box input, .input-box span { 
             flex: 1; 
             border: none; 
-            outline: none; 
+            outline: none !important; 
             background: none; 
             font-size: 15px; 
             font-weight: 400; 
@@ -245,16 +261,20 @@
             width: 100%; 
             text-align: right;
             font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .field-error-msg {
             font-size: 12px;
             color: #ff3b30;
-            font-weight: 400;
-            margin-top: 5px;
-            display: none;
+            font-weight: 500;
+            margin-top: 6px;
+            display: none !important;
             text-align: right;
+            animation: fadeIn 0.2s ease;
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         .limit-hint { 
             font-size: 11px; 
@@ -267,14 +287,14 @@
         }
 
         .bottom-actions {
-            margin-top: 30px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
         .price-container { 
-            background: #f9f9f9; 
+            background: #ffffff; 
             padding: 18px; 
             display: flex; 
             justify-content: space-between; 
@@ -316,6 +336,7 @@
             margin-bottom: 40px;
             flex-shrink: 0;
             transition: opacity 0.2s;
+            outline: none;
         }
 
         #payBtn:active {
@@ -441,14 +462,14 @@
                     <div class="header-subtitle" data-ar="يرجى ملء الحقول التالية" data-en="Please fill in the following fields">يرجى ملء الحقول التالية</div>
                 </div>
             </div>
-            
-            <div class="content-area">
+
+            <div class="white-fields-section">
                 <div class="order-card">
                     <div class="form-grid">
                         <div class="field" id="link-field">
                             <label class="label" data-i18n="link_label">الرابط</label>
                             <div class="input-box" id="link-box">
-                                <input id="platformLink" data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
+                                <input id="platformLink" type="url" required data-i18n-placeholder="link_placeholder" placeholder="أدخل الرابط هنا">
                             </div>
                             <div class="field-error-msg" id="link-error"></div>
                         </div>
@@ -465,7 +486,7 @@
                         <div class="field" id="qty-field">
                             <label class="label" data-i18n="quantity_label">الكمية المطلوبة</label>
                             <div class="input-box" id="qty-box">
-                                <input id="quantity" type="text" inputmode="numeric" data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
+                                <input id="quantity" type="text" inputmode="numeric" required data-i18n-placeholder="quantity_placeholder" placeholder="0" maxlength="13">
                             </div>
                             <div class="limit-hint" id="limit-hint">
                                 <span id="min-hint"></span>
@@ -475,7 +496,9 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
+            
+            <div class="content-area">
                 <div class="bottom-actions">
                     <div class="price-container">
                         <span class="price-label" data-i18n="total_due">إجمالي المستحق</span>
@@ -567,19 +590,12 @@
         function clearErrors() {
             document.querySelectorAll('.field-error-msg').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.input-box').forEach(el => {
-                el.style.borderColor = '#e0e0e0';
-                el.style.backgroundColor = '#ffffff';
+                el.classList.remove('error-state');
             });
         }
 
         function setFieldError(fieldId, errorMsg) {
-            const errorEl = document.getElementById(`${fieldId}-error`);
-            const boxEl = document.getElementById(`${fieldId}-box`);
-            if (errorEl) { errorEl.innerText = errorMsg; errorEl.style.display = 'block'; }
-            if (boxEl) { 
-                boxEl.style.borderColor = '#ff3b30';
-                boxEl.style.backgroundColor = 'transparent'; 
-            }
+            // Error messages disabled as per request
         }
 
         function formatNumber(num) { 
@@ -597,13 +613,11 @@
             document.getElementById("display-price").innerText = `USD ${displayVal}`;
             if (rawValue !== "") qtyInput.value = formatNumber(rawValue); 
             else qtyInput.value = "";
+            
             const err = document.getElementById('qty-error');
             const box = document.getElementById('qty-box');
             if(err) err.style.display = 'none';
-            if(box) {
-                box.style.borderColor = '#e0e0e0';
-                box.style.backgroundColor = '#ffffff';
-            }
+            if(box) box.classList.remove('error-state');
         }
 
         function updateUI() {
@@ -633,16 +647,14 @@
         window.addEventListener('load', updateUI);
         window.addEventListener('pageshow', updateUI);
         window.addEventListener('storage', updateUI);
+        
         document.getElementById("quantity").oninput = updatePriceAndFormat;
         document.getElementById("platformLink").oninput = function() {
             this.value = this.value.replace(/[^\x00-\x7F]/g, "");
             const err = document.getElementById('link-error');
             const box = document.getElementById('link-box');
             if(err) err.style.display = 'none';
-            if(box) {
-                box.style.borderColor = '#e0e0e0';
-                box.style.backgroundColor = '#ffffff';
-            }
+            if(box) box.classList.remove('error-state');
         };
 
         function showFinalStatus(message, subMessage, isSuccess) {
@@ -702,7 +714,8 @@
             const lang = localStorage.getItem('pref_lang') || 'ar';
             const t = translations[lang];
             if (!currentUser) return;
-            const link = document.getElementById("platformLink").value;
+            
+            const link = document.getElementById("platformLink").value.trim();
             const email = currentUser.email; 
             const qtyRaw = document.getElementById("quantity").value.replace(/,/g, '');
             const qtyNum = parseInt(qtyRaw) || 0;
@@ -713,9 +726,12 @@
             const maxAllowed = parseInt(localStorage.getItem("service_max")) || Infinity;
 
             let hasError = false;
-            if (!link) { setFieldError('link', t.err_link_req); hasError = true; }
-            if (!service) { setFieldError('category', t.err_cat_req); hasError = true; }
-            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { setFieldError('qty', t.err_qty_req); hasError = true; }
+            if (!link) { hasError = true; }
+            if (!service) { hasError = true; }
+            if (qtyNum <= 0 || qtyNum < minAllowed || qtyNum > maxAllowed || qtyRaw.length > 10) { 
+                hasError = true; 
+            }
+            
             if (hasError) return;
 
             this.classList.add('loading');
@@ -728,11 +744,40 @@
                     if (!userSnap.exists()) throw "User does not exist";
                     const currentBalance = parseFloat(userSnap.data().balance || 0);
                     if (currentBalance < (finalCharge - 0.000000001)) throw "INSUFFICIENT_BALANCE";
-                    transaction.update(userRef, { balance: increment(-finalCharge), total_spend: increment(finalCharge) });
+                    
+                    transaction.update(userRef, { 
+                        balance: increment(-finalCharge), 
+                        total_spend: increment(finalCharge) 
+                    });
+                    
                     const transRef = doc(collection(db, "transactions"));
-                    transaction.set(transRef, { amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`, description: "" + service, status: "Active", link: link, quantity: qtyNum, timestamp: serverTimestamp(), userId: currentUser.uid, userEmail: email });
+                    transaction.set(transRef, { 
+                        amount: `-${finalCharge.toFixed(8).replace(/\.?0+$/, "")}`, 
+                        description: "" + service, 
+                        status: "Active", 
+                        link: link, 
+                        quantity: qtyNum, 
+                        timestamp: serverTimestamp(), 
+                        userId: currentUser.uid, 
+                        userEmail: email 
+                    });
                 });
-                try { fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify({ platformLink: link, category: service, quantity: qtyNum, charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), gmail: email, status: "Active" }) }); } catch (e) {}
+                
+                try { 
+                    fetch(scriptURL, { 
+                        method: "POST", 
+                        mode: "no-cors", 
+                        body: JSON.stringify({ 
+                            platformLink: link, 
+                            category: service, 
+                            quantity: qtyNum, 
+                            charge: finalCharge.toFixed(8).replace(/\.?0+$/, ""), 
+                            gmail: email, 
+                            status: "Active" 
+                        }) 
+                    }); 
+                } catch (e) {}
+                
                 showFinalStatus(t.success_msg, t.success_sub, true);
             } catch (e) {
                 this.classList.remove('loading');
