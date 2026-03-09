@@ -15,8 +15,7 @@
             --header-bg: #f3f2f2; 
             --page-bg: #f3f2f2; 
             --text-main: #000000;        
-            --text-muted: #8a8a8e;       /* لون تفاصيل الطلب */
-            --border-subtle: rgba(0,0,0,0.06);
+            --text-muted: #8a8a8e;       
             --bg-light: #ffffff;
         }
 
@@ -83,6 +82,7 @@
         .order-details-header { padding: 15px 20px 8px 20px; }
         .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 600; }
 
+        /* التصميم الموحد لجميع الخانات بما فيها المستحق */
         .field { 
             background-color: var(--bg-light);
             width: 90%;
@@ -123,9 +123,14 @@
             line-height: 1.2;
         }
 
+        .price-value { 
+            font-weight: 800; 
+            font-family: 'Lexend'; 
+            color: #000000;
+        }
+
         #category { color: var(--primary-green); font-weight: 600; }
 
-        /* تعديل النص القانوني ليكون بنفس لون "تفاصيل الطلب" */
         .header-subtitle {
             font-size: 12px; 
             color: var(--text-muted); 
@@ -152,23 +157,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
-        .price-container { 
-            background-color: transparent; 
-            padding: 10px 18px; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: flex-start; 
-            border-radius: 16px;
-            width: 100%;
-            box-sizing: border-box;
-            border: 1.5px solid #d1d1d6; 
-            height: 64px; 
-        }
-        
-        .price-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 2px; }
-        .price-value { font-size: 16px; font-weight: 800; font-family: 'Lexend'; color: #000000; }
 
         #payBtn { 
             width: 100%; 
@@ -270,9 +258,11 @@
         </div>
 
         <div class="bottom-actions-container">
-            <div class="price-container">
-                <span class="price-label">المستحق</span>
-                <span class="price-value" id="display-price">USD 0.00</span>
+            <div class="field">
+                <label class="label">المستحق</label>
+                <div class="input-box">
+                    <span class="price-value" id="display-price">USD 0.00</span>
+                </div>
             </div>
 
             <button id="payBtn">
