@@ -61,7 +61,7 @@
         .right-section { cursor: pointer; display: flex; align-items: center; }
         .center-section { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
         .account-text { font-size: 18px; font-weight: 700; color: #121212; white-space: nowrap; }
-        .back-arrow-svg { width: 22px; height: 22px; fill: none; stroke: #000000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+        .back-arrow-svg { width: 22px; height: 22px; fill: none; stroke: var(--primary-green); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 
         .main-container { 
             flex: 1;
@@ -124,7 +124,7 @@
             font-family: 'Cairo';
         }
 
-        #category { color: var(--primary-blue); font-weight: 600; }
+        #category { color: var(--primary-green); font-weight: 600; }
 
         .header-subtitle {
             font-size: 14px; color: #8a8a8e; font-weight: 600;
@@ -231,6 +231,7 @@
                 <svg class="back-arrow-svg" viewBox="0 0 24 24">
                     <path d="M9 18l6-6-6-6" />
                 </svg>
+                <span style="color: var(--primary-green); font-size: 18px; font-weight: 700; margin-right: 8px;">store</span>
             </div>
             <div class="center-section">
                 <span class="account-text">social media marketing</span>
