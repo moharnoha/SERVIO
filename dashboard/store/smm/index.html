@@ -7,6 +7,7 @@
     <title>serviocmm - Optimized UI</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
@@ -133,26 +134,10 @@
             margin: 0 auto;
         }
 
-        .terms-underline { text-decoration: underline; color: var(--text-muted); }
-
-        /* شريط السعر فوق الكلافيي */
-        #keyboard-price-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #ffffff;
-            border-top: 1px solid #d1d1d6;
-            padding: 12px 20px;
-            display: none; /* يظهر فقط عند الكتابة */
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            z-index: 2000;
+        .terms-underline {
+            text-decoration: underline;
+            color: var(--text-muted);
         }
-
-        .kb-price-label { font-size: 14px; font-weight: 600; color: var(--text-muted); }
-        .kb-price-value { font-size: 17px; font-weight: 800; font-family: 'Lexend'; color: var(--primary-green); }
 
         .bottom-actions-container {
             width: 100%;
@@ -160,25 +145,37 @@
             margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             padding: 20px;
             box-sizing: border-box;
         }
 
+        /* تنسيق "المستحق" كنص فقط مثل الشركات الكبرى */
         .price-text-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 92%;
-            margin: 0 auto;
+            width: 90%;
+            margin: 0 auto 5px auto;
+            padding: 0 5px;
         }
 
-        .price-label-text { font-size: 15px; font-weight: 700; color: var(--text-main); }
-        .price-value-text { font-size: 16px; font-weight: 800; font-family: 'Lexend'; color: var(--text-main); }
+        .price-label-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .price-value-text {
+            font-size: 16px;
+            font-weight: 800;
+            font-family: 'Lexend';
+            color: var(--text-main);
+        }
 
         #payBtn { 
             width: 100%; 
-            height: 64px;
+            padding: 18px; 
             border-radius: 16px; 
             border: none; 
             background-color: var(--primary-green); 
@@ -189,11 +186,40 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.1s ease;
+            transition: transform 0.1s ease, opacity 0.2s;
+            box-sizing: border-box;
+            height: 64px; /* نفس ارتفاع الخانات السابقة */
         }
 
-        #payBtn:active { transform: scale(0.98); }
+        #payBtn:active { transform: scale(0.98); opacity: 0.9; }
 
+        .exact-8-spinner {
+            position: absolute;
+            right: 15px;
+            width: 44px;
+            height: 44px;
+            transform: scale(0.5);
+            display: none;
+        }
+
+        .exact-8-spinner div {
+            position: absolute;
+            width: 6px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 10px;
+            left: 19px;
+            top: 0;
+            transform-origin: 3px 22px;
+            animation: spinner-fade 0.8s linear infinite;
+        }
+
+        @keyframes spinner-fade {
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .loading .exact-8-spinner { display: block; }
     </style>
 </head>
 <body>
@@ -201,31 +227,43 @@
     <header>
         <div class="header-content">
             <div class="right-section" onclick="history.back()">
-                <svg class="back-arrow-svg" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" /></svg>
+                <svg class="back-arrow-svg" viewBox="0 0 24 24">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
                 <span style="color: var(--primary-green); font-size: 18px; font-weight: 700; margin-right: 8px;">store</span>
             </div>
-            <div class="center-section"><span class="account-text">social media marketing</span></div>
+            <div class="center-section">
+                <span class="account-text">social media marketing</span>
+            </div>
             <div class="left-section" style="width:24px;"></div>
         </div>
     </header>
 
     <div class="main-container">
         <div class="services-grid">
-            <div class="order-details-header"><div class="section-header">تفاصيل الطلب</div></div>
+            <div class="order-details-header">
+                <div class="section-header">تفاصيل الطلب</div>
+            </div>
 
             <div class="field">
                 <label class="label">الرابط</label>
-                <div class="input-box"><input id="platformLink" type="url" placeholder="أدخل الرابط هنا"></div>
+                <div class="input-box">
+                    <input id="platformLink" type="url" placeholder="أدخل الرابط هنا">
+                </div>
             </div>
 
             <div class="field" onclick="goToCategory()" style="cursor:pointer">
                 <label class="label">الخدمة</label>
-                <div class="input-box"><span id="category">اختر خدمة...</span></div>
+                <div class="input-box">
+                    <span id="category">اختر خدمة...</span>
+                </div>
             </div>
 
             <div class="field">
                 <label class="label">الكمية</label>
-                <div class="input-box"><input id="quantity" type="text" inputmode="numeric" placeholder="0"></div>
+                <div class="input-box">
+                    <input id="quantity" type="text" inputmode="numeric" placeholder="0">
+                </div>
             </div>
 
             <div class="header-subtitle">
@@ -240,45 +278,48 @@
                 <span class="price-label-text">المستحق</span>
                 <span class="price-value-text" id="display-price">USD 0.00</span>
             </div>
-            <button id="payBtn">تأكيد الطلب والدفع</button>
-        </div>
-    </div>
 
-    <div id="keyboard-price-bar">
-        <span class="kb-price-label">المستحق الحالي:</span>
-        <span class="kb-price-value" id="kb-display-price">USD 0.00</span>
+            <button id="payBtn">
+                <span id="btn-text">تأكيد الطلب والدفع</span>
+                <div class="exact-8-spinner">
+                    <div></div><div></div><div></div><div></div>
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </button>
+        </div>
     </div>
 
     <script>
         const quantityInput = document.getElementById("quantity");
-        const priceBar = document.getElementById("keyboard-price-bar");
-        const displayPrice = document.getElementById("display-price");
-        const kbDisplayPrice = document.getElementById("kb-display-price");
+
+        quantityInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                quantityInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
 
         function updatePrice() {
+            const qtyInput = document.getElementById("quantity");
+            const priceDisplay = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
-            let val = quantityInput.value.replace(/[^0-9]/g, '');
             
+            let val = qtyInput.value.replace(/[^0-9]/g, '');
             if (val !== "") {
                 const total = unitPrice * parseInt(val);
-                const formatted = `USD ${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-                displayPrice.innerText = formatted;
-                kbDisplayPrice.innerText = formatted;
-                quantityInput.value = parseInt(val).toLocaleString();
+                priceDisplay.innerText = `USD ${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+                qtyInput.value = parseInt(val).toLocaleString();
             } else {
-                displayPrice.innerText = "USD 0.00";
-                kbDisplayPrice.innerText = "USD 0.00";
+                priceDisplay.innerText = "USD 0.00";
             }
         }
 
-        quantityInput.oninput = updatePrice;
-
-        // إظهار الشريط عند الضغط على خانة الكمية
-        quantityInput.onfocus = () => { priceBar.style.display = 'flex'; };
-        // إخفاء الشريط عند ترك الخانة
-        quantityInput.onblur = () => { priceBar.style.display = 'none'; };
-
+        document.getElementById("quantity").oninput = updatePrice;
         function goToCategory() { window.location.href = "../Category/"; }
+
+        document.getElementById("payBtn").onclick = function() {
+            this.classList.add('loading');
+            this.disabled = true;
+        };
     </script>
 </body>
 </html>
