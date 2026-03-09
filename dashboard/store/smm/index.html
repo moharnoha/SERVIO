@@ -39,13 +39,13 @@
 
         header { 
             width: 100%; height: 72px; 
-            background-color: var(--header-bg); 
+            background-color: var(--page-bg); 
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
             position: relative;
             z-index: 1000;
-            border-bottom: 1px solid var(--border-subtle);
+            border-bottom: none;
         }
 
         .header-content {
@@ -61,7 +61,7 @@
         .right-section { cursor: pointer; display: flex; align-items: center; }
         .center-section { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
         .account-text { font-size: 18px; font-weight: 700; color: #121212; white-space: nowrap; }
-        .back-arrow-svg { width: 24px; height: 24px; fill: none; stroke: #121212; stroke-width: 2.5; }
+        .back-arrow-svg { width: 22px; height: 22px; fill: none; stroke: #000000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 
         .main-container { 
             flex: 1;
@@ -229,8 +229,7 @@
         <div class="header-content">
             <div class="right-section" onclick="history.back()">
                 <svg class="back-arrow-svg" viewBox="0 0 24 24">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
+                    <path d="M9 18l6-6-6-6" />
                 </svg>
             </div>
             <div class="center-section">
