@@ -12,7 +12,6 @@
     <style>
         :root { 
             --primary-green: #2F5822;    
-            --header-bg: #f3f2f2; 
             --page-bg: #f3f2f2; 
             --text-main: #000000;        
             --text-muted: #8a8a8e;       
@@ -82,10 +81,10 @@
         .order-details-header { padding: 15px 20px 8px 20px; }
         .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 600; }
 
-        /* التصميم الموحد لجميع الخانات بما فيها المستحق */
+        /* توحيد جميع الخانات لتكون بنفس العرض والطول والتصميم */
         .field { 
             background-color: var(--bg-light);
-            width: 90%;
+            width: 90%; /* نفس العرض لجميع الخانات */
             margin: 0 auto 10px auto;
             border-radius: 16px;
             display: flex;
@@ -149,17 +148,18 @@
 
         .bottom-actions-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* ضمان أن الحاوية السفلية لا تتجاوز عرض الشبكة */
             margin-top: auto;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding: 20px;
+            padding: 0 0 20px 0; /* إزالة الـ Padding الجانبي لتوحيد العرض مع الخانات */
             box-sizing: border-box;
         }
 
         #payBtn { 
-            width: 100%; 
+            width: 90%; 
+            margin: 0 auto;
             padding: 18px; 
             border-radius: 16px; 
             border: none; 
