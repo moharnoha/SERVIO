@@ -15,9 +15,8 @@
             --header-bg: #f3f2f2; 
             --page-bg: #f3f2f2; 
             --text-main: #000000;        
-            --text-muted: #8E8E93;       
+            --text-muted: #8a8a8e;       /* لون تفاصيل الطلب */
             --border-subtle: rgba(0,0,0,0.06);
-            --primary-blue: #007AFF;
             --bg-light: #ffffff;
         }
 
@@ -45,7 +44,6 @@
             box-sizing: border-box;
             position: relative;
             z-index: 1000;
-            border-bottom: none;
         }
 
         .header-content {
@@ -83,7 +81,7 @@
         }
 
         .order-details-header { padding: 15px 20px 8px 20px; }
-        .section-header { font-size: 14px; color: #8a8a8e; text-align: right; font-weight: 600; }
+        .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 600; }
 
         .field { 
             background-color: var(--bg-light);
@@ -127,9 +125,21 @@
 
         #category { color: var(--primary-green); font-weight: 600; }
 
+        /* تعديل النص القانوني ليكون بنفس لون "تفاصيل الطلب" */
         .header-subtitle {
-            font-size: 14px; color: #8a8a8e; font-weight: 600;
-            padding: 5px 25px; text-align: right;
+            font-size: 12px; 
+            color: var(--text-muted); 
+            font-weight: 500;
+            padding: 10px 25px; 
+            text-align: right; 
+            line-height: 1.8;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .terms-underline {
+            text-decoration: underline;
+            color: var(--text-muted);
         }
 
         .bottom-actions-container {
@@ -144,19 +154,21 @@
         }
 
         .price-container { 
-            background-color: var(--bg-light); 
-            padding: 18px; 
+            background-color: transparent; 
+            padding: 10px 18px; 
             display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: flex-start; 
             border-radius: 16px;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border: 1.5px solid #d1d1d6; 
+            height: 64px; 
         }
         
-        .price-label { font-size: 18px; font-weight: 700; color: #000000; }
-        .price-value { font-size: 18px; font-weight: 700; font-family: 'Lexend'; color: #000000; }
+        .price-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 2px; }
+        .price-value { font-size: 16px; font-weight: 800; font-family: 'Lexend'; color: #000000; }
 
         #payBtn { 
             width: 100%; 
@@ -168,7 +180,6 @@
             font-size: 18px; 
             font-weight: 700; 
             cursor: pointer;
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -191,7 +202,7 @@
             position: absolute;
             width: 6px;
             height: 14px;
-            background: #666;
+            background: #ffffff;
             border-radius: 10px;
             left: 19px;
             top: 0;
@@ -199,29 +210,12 @@
             animation: spinner-fade 0.8s linear infinite;
         }
 
-        .exact-8-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -0.7s; }
-        .exact-8-spinner div:nth-child(2) { transform: rotate(45deg); animation-delay: -0.6s; }
-        .exact-8-spinner div:nth-child(3) { transform: rotate(90deg); animation-delay: -0.5s; }
-        .exact-8-spinner div:nth-child(4) { transform: rotate(135deg); animation-delay: -0.4s; }
-        .exact-8-spinner div:nth-child(5) { transform: rotate(180deg); animation-delay: -0.3s; }
-        .exact-8-spinner div:nth-child(6) { transform: rotate(225deg); animation-delay: -0.2s; }
-        .exact-8-spinner div:nth-child(7) { transform: rotate(270deg); animation-delay: -0.1s; }
-        .exact-8-spinner div:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
-
         @keyframes spinner-fade {
-            0% { background: #ffffff; opacity: 1; }
-            100% { background: #666; opacity: 0.3; }
+            0% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
 
-        .loading .exact-8-spinner {
-            display: block;
-        }
-
-        #status-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #f3f2f2; z-index: 9999;
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .loading .exact-8-spinner { display: block; }
     </style>
 </head>
 <body>
@@ -269,13 +263,15 @@
             </div>
 
             <div class="header-subtitle">
-                سيتم البدء في التنفيذ فوراً بعد الدفع.
+                بإتمامك لهذه العملية، فإنك ستعتبر موافقًا على <span class="terms-underline">سياسة الخصوصية</span> و<span class="terms-underline">شروط الاستخدام</span> المُطبَّقتين لدينا.
+                <br>
+                بمجرد الدفع، أنت توافق على الشروط والأحكام لدى serviocmm.
             </div>
         </div>
 
         <div class="bottom-actions-container">
             <div class="price-container">
-                <span class="price-label">إجمالي المستحق</span>
+                <span class="price-label">المستحق</span>
                 <span class="price-value" id="display-price">USD 0.00</span>
             </div>
 
@@ -288,8 +284,6 @@
             </button>
         </div>
     </div>
-
-    <div id="status-overlay"></div>
 
     <script>
         function updatePrice() {
