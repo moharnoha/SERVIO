@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="google" content="notranslate">
     <title>serviocmm - Optimized UI</title>
     
@@ -22,7 +22,10 @@
             height: 100%;
             margin: 0; padding: 0; 
             background-color: var(--page-bg); 
-            overflow: hidden;
+            /* تم تعديل overflow للسماح بالسحب والتحديث */
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         body { 
@@ -32,6 +35,7 @@
             font-family: 'Cairo', sans-serif;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
         header { 
@@ -73,12 +77,9 @@
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            justify-content: space-between;
             padding-bottom: 25px;
-            padding-top: 72px;
+            padding-top: 85px; /* مسافة كافية تحت الهيدر */
             box-sizing: border-box;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
         
         .services-grid {
@@ -129,6 +130,7 @@
             text-align: right; 
             font-family: 'Cairo';
             line-height: 1.2;
+            -webkit-appearance: none;
         }
 
         #category { color: var(--primary-green); font-weight: 600; }
@@ -152,7 +154,7 @@
         .bottom-actions-container {
             width: 100%;
             max-width: 500px;
-            margin-top: auto;
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -248,7 +250,7 @@
         </div>
     </header>
 
-    <div class="main-container" id="scrollContainer">
+    <div class="main-container">
         <div class="services-grid">
             <div class="order-details-header">
                 <div class="section-header">تفاصيل الطلب</div>
@@ -300,17 +302,18 @@
 
     <script>
         const quantityInput = document.getElementById("quantity");
-        const scrollContainer = document.getElementById("scrollContainer");
         const header = document.getElementById("mainHeader");
 
-        scrollContainer.addEventListener('scroll', () => {
-            if (scrollContainer.scrollTop > 10) {
+        // تفعيل تغيير لون الهيدر عند سحب الصفحة للأسفل
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
         });
 
+        // تثبيت الصفحة عند التركيز على الكمية لإظهار السعر
         quantityInput.addEventListener('focus', () => {
             setTimeout(() => {
                 quantityInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
