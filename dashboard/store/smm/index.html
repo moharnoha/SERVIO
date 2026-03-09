@@ -81,10 +81,9 @@
         .order-details-header { padding: 15px 20px 8px 20px; }
         .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 600; }
 
-        /* توحيد جميع الخانات لتكون بنفس العرض والطول والتصميم */
         .field { 
             background-color: var(--bg-light);
-            width: 90%; /* نفس العرض لجميع الخانات */
+            width: 90%;
             margin: 0 auto 10px auto;
             border-radius: 16px;
             display: flex;
@@ -122,12 +121,6 @@
             line-height: 1.2;
         }
 
-        .price-value { 
-            font-weight: 800; 
-            font-family: 'Lexend'; 
-            color: #000000;
-        }
-
         #category { color: var(--primary-green); font-weight: 600; }
 
         .header-subtitle {
@@ -148,18 +141,40 @@
 
         .bottom-actions-container {
             width: 100%;
-            max-width: 500px; /* ضمان أن الحاوية السفلية لا تتجاوز عرض الشبكة */
+            max-width: 500px;
             margin-top: auto;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding: 0 0 20px 0; /* إزالة الـ Padding الجانبي لتوحيد العرض مع الخانات */
+            padding: 20px;
             box-sizing: border-box;
         }
 
+        /* تنسيق "المستحق" كنص فقط مثل الشركات الكبرى */
+        .price-text-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto 5px auto;
+            padding: 0 5px;
+        }
+
+        .price-label-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .price-value-text {
+            font-size: 16px;
+            font-weight: 800;
+            font-family: 'Lexend';
+            color: var(--text-main);
+        }
+
         #payBtn { 
-            width: 90%; 
-            margin: 0 auto;
+            width: 100%; 
             padding: 18px; 
             border-radius: 16px; 
             border: none; 
@@ -173,6 +188,7 @@
             justify-content: center;
             transition: transform 0.1s ease, opacity 0.2s;
             box-sizing: border-box;
+            height: 64px; /* نفس ارتفاع الخانات السابقة */
         }
 
         #payBtn:active { transform: scale(0.98); opacity: 0.9; }
@@ -258,11 +274,9 @@
         </div>
 
         <div class="bottom-actions-container">
-            <div class="field">
-                <label class="label">المستحق</label>
-                <div class="input-box">
-                    <span class="price-value" id="display-price">USD 0.00</span>
-                </div>
+            <div class="price-text-row">
+                <span class="price-label-text">المستحق</span>
+                <span class="price-value-text" id="display-price">USD 0.00</span>
             </div>
 
             <button id="payBtn">
