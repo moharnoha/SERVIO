@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="notranslate" translate="no"> 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="google" content="notranslate">
     <title>serviocmm - Optimized UI</title>
     
@@ -11,49 +11,40 @@
     
     <style>
         :root { 
-            --primary-green: #2F5822;    
-            --page-bg: #f3f2f2; 
-            --text-main: #000000;        
-            --text-muted: #8a8a8e;       
-            --bg-light: #ffffff;
-        }
-
-        html, body { 
-            height: 100%;
-            margin: 0; padding: 0; 
-            background-color: var(--page-bg); 
-            /* تم تعديل overflow للسماح بالسحب والتحديث */
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            --primary-green: #2d5a1e;    
+            --vibrant-green: #74a367;    
+            --header-bg: #F3F2F2;        
+            --page-bg: #F3F2F2;          
+            --text-main: #121212;        
+            --text-muted: #5f6368;       
+            --circle-empty: #FFFFFF;     
+            --profile-icon: #9aa0a6;     
+            --profile-bg: #e8eaed;       
+            --border-subtle: rgba(0,0,0,0.06);
+            --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-green: #386E2C; 
+            --card-white: #ffffff;
         }
 
         body { 
+            margin: 0; padding: 0; 
+            background-color: var(--page-bg); 
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            font-family: 'Lexend', sans-serif;
+            overflow-x: hidden;
         }
 
         header { 
             width: 100%; height: 72px; 
-            background-color: var(--page-bg); 
+            background-color: var(--header-bg); 
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            transition: background-color 0.3s ease, border-bottom 0.3s ease;
-        }
-
-        header.scrolled {
-            background-color: #F4F2F2;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: relative; 
+            top: 0; z-index: 1000;
+            direction: rtl !important;
         }
 
         .header-content {
@@ -66,36 +57,79 @@
             position: relative;
         }
 
-        .right-section { cursor: pointer; display: flex; align-items: center; }
-        .center-section { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
-        .account-text { font-size: 18px; font-weight: 700; color: #121212; white-space: nowrap; }
-        .back-arrow-svg { width: 22px; height: 22px; fill: none; stroke: var(--primary-green); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+        @media (min-width: 481px) {
+            .header-content {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+        }
+
+        .right-section { 
+            display: flex; 
+            align-items: center; 
+            flex-shrink: 0;
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        .center-section { 
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            width: max-content;
+        }
+
+        .account-text {
+            font-size: 18px; 
+            font-weight: 700; 
+            color: var(--text-main);
+            letter-spacing: -0.3px; 
+            white-space: nowrap;
+        }
+
+        .back-arrow-svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--text-main);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .left-section {
+            width: 24px; 
+        }
 
         .main-container { 
-            flex: 1;
             width: 100%; 
             display: flex; 
             flex-direction: column; 
-            align-items: center;
+            align-items: center; 
             padding-bottom: 25px;
-            padding-top: 85px; /* مسافة كافية تحت الهيدر */
             box-sizing: border-box;
         }
         
         .services-grid {
             width: 100%;
-            max-width: 500px; 
+            max-width: 480px; 
             display: flex;
             flex-direction: column;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
-        .order-details-header { padding: 15px 20px 8px 20px; }
-        .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 600; }
+        .order-details-header { padding: 15px 5px 8px 5px; }
+        .section-header { font-size: 14px; color: var(--text-muted); text-align: right; font-weight: 800; font-family: 'Cairo'; }
 
         .field { 
-            background-color: var(--bg-light);
-            width: 90%;
-            margin: 0 auto 10px auto;
+            background-color: var(--card-white);
+            width: 100%;
+            margin-bottom: 10px;
             border-radius: 16px;
             display: flex;
             flex-direction: column;
@@ -103,7 +137,7 @@
             padding: 10px 18px;
             height: 64px;
             box-sizing: border-box;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
 
         .field .label { 
@@ -112,6 +146,7 @@
             color: var(--text-main); 
             margin-bottom: 2px;
             text-align: right;
+            font-family: 'Cairo';
         }
         
         .input-box { 
@@ -133,17 +168,17 @@
             -webkit-appearance: none;
         }
 
-        #category { color: var(--primary-green); font-weight: 600; }
+        #category { color: var(--primary-green); font-weight: 700; }
 
         .header-subtitle {
             font-size: 12px; 
             color: var(--text-muted); 
             font-weight: 500;
-            padding: 10px 25px; 
+            padding: 10px 5px; 
             text-align: right; 
             line-height: 1.8;
-            width: 90%;
-            margin: 0 auto;
+            width: 100%;
+            font-family: 'Cairo';
         }
 
         .terms-underline {
@@ -153,12 +188,12 @@
 
         .bottom-actions-container {
             width: 100%;
-            max-width: 500px;
-            margin-top: 30px;
+            max-width: 480px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding: 20px;
+            padding: 0 15px;
             box-sizing: border-box;
         }
 
@@ -166,15 +201,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 90%;
-            margin: 0 auto 5px auto;
+            width: 100%;
             padding: 0 5px;
+            box-sizing: border-box;
         }
 
         .price-label-text {
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-main);
+            font-family: 'Cairo';
         }
 
         .price-value-text {
@@ -200,6 +236,7 @@
             transition: transform 0.1s ease, opacity 0.2s;
             box-sizing: border-box;
             height: 64px;
+            font-family: 'Cairo';
         }
 
         #payBtn:active { transform: scale(0.98); opacity: 0.9; }
@@ -231,26 +268,42 @@
         }
 
         .loading .exact-8-spinner { display: block; }
+        
+        #nav-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.19);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
     </style>
 </head>
-<body>
+<body class="notranslate" translate="no">
 
-    <header id="mainHeader">
+    <div id="nav-loader"></div>
+
+    <header>
         <div class="header-content">
             <div class="right-section" onclick="history.back()">
-                <svg class="back-arrow-svg" viewBox="0 0 24 24">
-                    <path d="M9 18l6-6-6-6" />
+                <svg class="back-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
-                <span style="color: var(--primary-green); font-size: 18px; font-weight: 700; margin-right: 8px;">store</span>
             </div>
+
             <div class="center-section">
-                <span class="account-text">social media marketing</span>
+                <span class="account-text">store</span>
             </div>
-            <div class="left-section" style="width:24px;"></div>
+
+            <div class="left-section">
+            </div>
         </div>
     </header>
 
-    <div class="main-container">
+    <div class="main-container" id="page-content">
         <div class="services-grid">
             <div class="order-details-header">
                 <div class="section-header">تفاصيل الطلب</div>
@@ -302,16 +355,6 @@
 
     <script>
         const quantityInput = document.getElementById("quantity");
-        const header = document.getElementById("mainHeader");
-
-        // تفعيل تغيير لون الهيدر عند سحب الصفحة للأسفل
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 10) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
 
         // تثبيت الصفحة عند التركيز على الكمية لإظهار السعر
         quantityInput.addEventListener('focus', () => {
@@ -341,6 +384,9 @@
             this.classList.add('loading');
             this.disabled = true;
         };
+        
+        const userLang = localStorage.getItem('pref_lang') || 'ar';
+        document.documentElement.dir = userLang === 'en' ? 'ltr' : 'rtl';
     </script>
 </body>
 </html>
