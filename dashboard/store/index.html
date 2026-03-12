@@ -13,7 +13,7 @@
         :root { 
             --primary-green: #2d5a1e;    
             --vibrant-green: #74a367;    
-            --header-bg: rgba(243, 242, 242, 0.85);        
+            --header-bg: #F3F2F2;        
             --page-bg: #F3F2F2;          
             --text-main: #121212;        
             --text-muted: #5f6368;       
@@ -38,15 +38,12 @@
         header { 
             width: 100%; height: 72px; 
             background-color: var(--header-bg); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
-            position: sticky; 
+            position: relative; 
             top: 0; z-index: 1000;
             direction: rtl !important;
-            border-bottom: 1px solid var(--border-subtle);
         }
 
         .header-content {
