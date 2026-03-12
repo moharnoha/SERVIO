@@ -356,13 +356,6 @@
     <script>
         const quantityInput = document.getElementById("quantity");
 
-        // تثبيت الصفحة عند التركيز على الكمية لإظهار السعر
-        quantityInput.addEventListener('focus', () => {
-            setTimeout(() => {
-                quantityInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
-        });
-
         function updatePrice() {
             const priceDisplay = document.getElementById("display-price");
             const unitPrice = parseFloat(localStorage.getItem("service_price")) || 0;
