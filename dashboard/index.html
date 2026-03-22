@@ -354,6 +354,19 @@
         .nav-item.active .nav-label {
             color: var(--primary-green);
         }
+
+        /* Modal styling to keep bottom nav visible */
+        #page-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 90px);
+            background: var(--page-bg);
+            z-index: 1500;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -420,7 +433,7 @@
         </div>
     </div>
 
-    <main class="main-container">
+    <main class="main-container" id="main-view">
         <div class="content-wrapper">
             <div class="top-row">
                 <div class="balance-label-wrapper">
@@ -465,15 +478,17 @@
         </div>
     </main>
 
+    <div id="page-modal"></div>
+
     <nav class="bottom-nav">
-        <a href="/" class="nav-item active">
+        <a href="/" class="nav-item active" onclick="showPage(event, 'home')">
             <svg class="nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
             <span class="nav-label">الرئيسية</span>
         </a>
-        <a href="wallet/" class="nav-item">
+        <a href="wallet/" class="nav-item" onclick="showPage(event, 'wallet')">
             <svg class="nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <rect x="3" y="5" width="18" height="14" rx="3"></rect>
                 <path d="M3 10H21"></path>
@@ -481,7 +496,7 @@
             </svg>
             <span class="nav-label">المحفظة</span>
         </a>
-        <a href="store/" class="nav-item">
+        <a href="store/" class="nav-item" onclick="showPage(event, 'store')">
             <svg class="nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
@@ -546,6 +561,38 @@
     </script>
 
     <script>
+        function showPage(event, page) {
+            event.preventDefault();
+            const modal = document.getElementById('page-modal');
+            const main = document.getElementById('main-view');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (page === 'home') {
+                modal.style.display = 'none';
+                main.style.display = 'block';
+            } else {
+                main.style.display = 'none';
+                modal.style.display = 'block';
+                modal.innerHTML = '<div style="padding:40px; text-align:center; font-family:Lexend;">جاري تحميل صفحة ' + (page === 'wallet' ? 'المحفظة' : 'المتجر') + '...</div>';
+                
+                // Simulate page call (fetch real page content here)
+                fetch(page + '/')
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const content = doc.body.innerHTML;
+                        modal.innerHTML = content;
+                    })
+                    .catch(() => {
+                        modal.innerHTML = '<div style="padding:40px; text-align:center;">عذراً، تعذر تحميل الصفحة.</div>';
+                    });
+            }
+        }
+
         let startY = 0;
         let isRefreshing = false;
         const body = document.body;
