@@ -24,6 +24,7 @@
             --border-subtle: rgba(0,0,0,0.06);
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --nav-inactive: #8E8E93;
         }
 
         body { 
@@ -35,7 +36,7 @@
             font-family: 'Lexend' !important;
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
-            padding-bottom: 90px;
+            padding-bottom: 70px;
         }
 
         #pull-refresh-area {
@@ -276,7 +277,7 @@
             width: 68px;
             height: 68px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-green), var(--vibrant-green));
+            background: linear-gradient(135deg, #2d5a1e, #74a367);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -299,56 +300,52 @@
 
         .bottom-nav {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 48px);
-            max-width: 432px;
-            height: 68px;
-            background-color: #ffffff;
-            border-radius: 34px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            padding: 0 8px;
+            justify-content: space-around;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border: 1px solid var(--border-subtle);
+            border-top: 0.5px solid rgba(0, 0, 0, 0.15);
             z-index: 2000;
-            gap: 4px;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .nav-item {
+            flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
-            padding: 10px 14px;
-            border-radius: 26px;
+            justify-content: center;
+            height: 100%;
             text-decoration: none;
-            transition: var(--transition-main);
             -webkit-tap-highlight-color: transparent;
         }
 
-        .nav-item.active {
-            background-color: #f3f2f2;
+        .nav-icon {
+            width: 28px;
+            height: 28px;
+            stroke: var(--nav-inactive);
+            stroke-width: 2.5;
+            fill: none;
+            transition: all 0.1s ease;
         }
 
-        .nav-icon {
-            width: 22px;
-            height: 22px;
-            stroke: #1a1a1a;
-            stroke-width: 2;
-            fill: none;
+        .nav-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--nav-inactive);
+            margin-top: 2px;
+            transition: all 0.1s ease;
         }
 
         .nav-item.active .nav-icon {
             stroke: var(--primary-green);
-        }
-
-        .nav-label {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #1a1a1a;
         }
 
         .nav-item.active .nav-label {
@@ -362,11 +359,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #FFFFFF; /* White background to avoid gray areas */
+            background: #FFFFFF;
             z-index: 1500;
             overflow-y: auto;
             padding-top: 0;
-            padding-bottom: 0; /* Changed from 100px to allow full height */
+            padding-bottom: 0;
             box-sizing: border-box;
         }
 
@@ -497,17 +494,22 @@
             </svg>
             <span class="nav-label">الرئيسية</span>
         </a>
+        <a href="orders/" class="nav-item" onclick="showPage(event, 'orders')">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+            <span class="nav-label">طلباتي</span>
+        </a>
         <a href="wallet/" class="nav-item" onclick="showPage(event, 'wallet')">
             <svg class="nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <rect x="3" y="5" width="18" height="14" rx="3"></rect>
                 <path d="M3 10H21"></path>
-                <path d="M7 15H7.01"></path>
             </svg>
             <span class="nav-label">المحفظة</span>
         </a>
         <a href="store/" class="nav-item" onclick="showPage(event, 'store')">
             <svg class="nav-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z"></path>
             </svg>
             <span class="nav-label">المتجر</span>
         </a>
