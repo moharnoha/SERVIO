@@ -37,7 +37,7 @@
             font-family: 'Lexend' !important;
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
-            padding-bottom: 70px;
+            padding-bottom: 95px;
         }
 
         #pull-refresh-area {
@@ -299,7 +299,7 @@
             letter-spacing: -0.1px;
         }
 
-        /* شريط التنقل السفلي الجديد */
+        /* --- New Bottom Navigation Styles --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -308,95 +308,106 @@
             background-color: #ffffff;
             display: flex;
             justify-content: space-around;
-            align-items: flex-end;
-            height: 80px;
+            align-items: center; 
+            height: 95px;
             border-top: 1px solid #EEEEEE;
-            padding: 10px 10px 12px 10px;
-            overflow: hidden;
+            padding: 0 10px 5px 10px;
+            overflow: hidden; 
             z-index: 2000;
-            box-sizing: border-box;
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
             flex: 1;
             cursor: pointer;
             color: #000000;
-            transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28); 
+            transition: transform 0.2s ease-out;
             height: 100%;
-            position: relative;
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .icon-container {
-            height: 48px;
+        .side-box {
+            height: 40px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2px;
+        }
+
+        .store-box {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
+            width: 100%;
         }
 
         .nav-item i {
-            font-size: 20px; 
-            transition: font-size 0.2s ease;
-            color: #000000;
+            font-size: 26px;
         }
 
         .store-circle {
             background-color: #4D783E; 
-            width: 44px;
-            height: 44px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             z-index: 2;
-            transition: transform 0.2s ease;
         }
 
         .ring {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 62px;
+            height: 62px;
             border: 2px solid transparent;
             border-radius: 50%;
-            transition: border-color 0.2s ease, transform 0.2s ease;
+            transition: border-color 0.2s ease;
             z-index: 1;
-            transform: scale(0.9);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .nav-item span {
             font-family: 'Cairo', sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 400;
-            margin-top: 2px;
-            white-space: nowrap;
             line-height: 1;
+            transition: font-weight 0.2s ease;
+            white-space: nowrap;
             color: #000000;
         }
 
-        .nav-item.active span { 
-            font-weight: 700; 
-        }
-        
-        .nav-item.active { 
-            transform: scale(1.08); 
+        .side-item span {
+            margin-top: 2px; 
         }
 
-        .nav-item.active .ring { 
-            border-color: #000000; 
-            transform: scale(1);
+        .store-item span {
+            margin-top: 8px;
         }
 
-        .nav-item:active { 
-            transform: scale(0.96); 
+        .nav-item.active span {
+            font-weight: 700;
+        }
+
+        .nav-item.active .ring {
+            border-color: #000000;
+        }
+
+        .nav-item.active {
+            transform: scale(1.04);
+        }
+
+        .nav-item:active {
+            transform: scale(0.97);
         }
 
         #page-modal {
@@ -534,25 +545,25 @@
     <div id="page-modal"></div>
 
     <nav class="bottom-nav">
-        <a href="wallet/" class="nav-item" onclick="showPage(event, 'wallet')">
-            <div class="icon-container">
+        <a href="wallet/" class="nav-item side-item" onclick="showPage(event, 'wallet')">
+            <div class="side-box">
                 <i class="fa-solid fa-wallet"></i>
             </div>
             <span>المحفظة</span>
         </a>
 
-        <a href="store/" class="nav-item" onclick="showPage(event, 'store')">
-            <div class="icon-container">
+        <a href="store/" class="nav-item store-item" onclick="showPage(event, 'store')">
+            <div class="store-box">
                 <div class="ring"></div>
                 <div class="store-circle">
-                    <i class="fa-solid fa-bag-shopping" style="font-size: 19px; color: white;"></i>
+                    <i class="fa-solid fa-bag-shopping"></i>
                 </div>
             </div>
             <span>المتجر</span>
         </a>
 
-        <a href="/" class="nav-item active" onclick="showPage(event, 'home')">
-            <div class="icon-container">
+        <a href="/" class="nav-item side-item active" onclick="showPage(event, 'home')">
+            <div class="side-box">
                 <i class="fa-solid fa-house"></i>
             </div>
             <span>الرئيسية</span>
