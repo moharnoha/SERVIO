@@ -37,7 +37,7 @@
             font-family: 'Lexend' !important;
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
-            padding-bottom: 95px;
+            padding-bottom: 75px;
         }
 
         #pull-refresh-area {
@@ -299,7 +299,7 @@
             letter-spacing: -0.1px;
         }
 
-        /* --- New Bottom Navigation Styles --- */
+        /* --- Updated Bottom Navigation Styles --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -309,9 +309,9 @@
             display: flex;
             justify-content: space-around;
             align-items: center; 
-            height: 95px;
+            height: 75px; /* تم تقليص الطول من 85px إلى 75px */
             border-top: 1px solid #EEEEEE;
-            padding: 0 10px 5px 10px;
+            padding: 0 10px 0px 10px;
             overflow: hidden; 
             z-index: 2000;
             padding-bottom: env(safe-area-inset-bottom);
@@ -332,14 +332,14 @@
         }
 
         .side-box {
-            height: 40px; 
+            height: 34px; 
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .store-box {
-            height: 60px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -348,13 +348,13 @@
         }
 
         .nav-item i {
-            font-size: 26px;
+            font-size: 22px; 
         }
 
         .store-circle {
             background-color: #4D783E; 
-            width: 56px;
-            height: 56px;
+            width: 44px; /* تم تقليص الحجم من 50px */
+            height: 44px; /* تم تقليص الحجم من 50px */
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -365,8 +365,8 @@
 
         .ring {
             position: absolute;
-            width: 62px;
-            height: 62px;
+            width: 50px;
+            height: 50px;
             border: 2px solid transparent;
             border-radius: 50%;
             transition: border-color 0.2s ease;
@@ -378,7 +378,7 @@
 
         .nav-item span {
             font-family: 'Cairo', sans-serif;
-            font-size: 12px;
+            font-size: 10.5px; 
             font-weight: 400;
             line-height: 1;
             transition: font-weight 0.2s ease;
@@ -387,11 +387,11 @@
         }
 
         .side-item span {
-            margin-top: 2px; 
+            margin-top: 0px; 
         }
 
         .store-item span {
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .nav-item.active span {
@@ -556,7 +556,7 @@
             <div class="store-box">
                 <div class="ring"></div>
                 <div class="store-circle">
-                    <i class="fa-solid fa-bag-shopping"></i>
+                    <i class="fa-solid fa-bag-shopping" style="font-size: 20px;"></i>
                 </div>
             </div>
             <span>المتجر</span>
