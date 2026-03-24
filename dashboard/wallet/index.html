@@ -80,9 +80,9 @@
             white-space: nowrap;
         }
 
-        .search-icon-right {
+        .search-icon-left {
             position: absolute;
-            right: 0;
+            left: 0;
             display: flex;
             align-items: center;
             cursor: pointer;
@@ -166,6 +166,8 @@
             font-size: 16px;
             font-weight: 500;
             color: var(--text-muted);
+            width: 100%;
+            text-align: right;
         }
 
         #user-name {
@@ -176,53 +178,73 @@
         .balance-card {
             width: 100%;
             background-color: #FFFFFF;
-            border-radius: 16px;
             margin-top: 12px;
             padding: 24px;
             box-sizing: border-box;
             border: 1px solid var(--border-subtle);
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            min-height: 180px;
+            height: 220px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            position: relative;
+        }
+
+        .mini-balance {
+            font-size: 12px;
+            font-weight: 600;
+            color: #000000;
+            position: absolute;
+            right: 24px;
+            top: 24px;
+            letter-spacing: -0.1px;
         }
 
         .top-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
             width: 100%;
+            margin-top: 12px;
         }
 
         .card-label {
             font-size: 14px;
             font-weight: 500;
             color: var(--text-muted);
+            margin-left: 12px;
         }
 
         .balance-amount {
-            font-size: 44px;
-            font-weight: 700;
             color: var(--text-main);
             margin-top: auto;
+            margin-bottom: auto;
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            justify-content: flex-start;
+            width: 100%;
             letter-spacing: -1px;
-            min-height: 50px;
-        }
-
-        .decimal-part {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--text-muted);
+            direction: ltr;
         }
 
         .currency-symbol {
             font-size: 24px;
             font-weight: 700;
             color: var(--text-main);
+            margin-left: 8px;
+        }
+
+        .balance-value-container {
+            font-size: 44px;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+
+        .decimal-part {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-muted);
         }
 
         .card-icon-container {
@@ -247,7 +269,7 @@
 
     <header>
         <div class="header-content">
-            <div class="search-icon-right">
+            <div class="search-icon-left">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -272,7 +294,10 @@
                 <div class="welcome-msg">مرحبا بك <span id="user-name"></span></div>
                 
                 <div class="balance-card">
+                    <div class="mini-balance" id="mini-user-balance">0 USD</div>
+                    
                     <div class="top-row">
+                        <div class="card-label">رصيد serviocmm</div>
                         <div class="card-icon-container">
                             <svg class="servio-logo-svg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
@@ -298,12 +323,13 @@
                                 </g>
                             </svg>
                         </div>
-                        <div class="card-label">رصيد serviocmm</div>
                     </div>
                     
                     <div class="balance-amount">
-                        <span id="user-balance"></span>
                         <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span>
+                        <div class="balance-value-container" id="user-balance-container">
+                            <span id="user-balance">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -335,29 +361,42 @@
       const db = getFirestore(app);
 
       const el = document.getElementById('user-balance');
+      const container = document.getElementById('user-balance-container');
       const sym = document.getElementById('curr-sym');
       const nameEl = document.getElementById('user-name');
+      const miniEl = document.getElementById('mini-user-balance');
 
       const updateUI = (balance, name) => {
+        let formattedBalance = "0";
+        let integerDisplay = "0";
+        let decimalDisplay = "";
+
         if(balance !== undefined && balance !== null) {
             const numVal = parseFloat(balance);
+            formattedBalance = numVal.toFixed(2);
             let fullStr = numVal.toFixed(7);
             if (fullStr.indexOf('.') !== -1) {
                 fullStr = fullStr.replace(/\.?0+$/, "");
             }
             const parts = fullStr.split('.');
-            const integerPart = parseInt(parts[0]).toLocaleString();
-            const decimalPart = parts[1] || '';
+            integerDisplay = parseInt(parts[0]).toLocaleString();
+            decimalDisplay = parts[ parts.length > 1 ? 1 : 0 ] || '';
+            if (parts.length === 1) decimalDisplay = ''; // Handle no decimal case
+            else decimalDisplay = parts[1];
             
-            if(el) {
-                if(decimalPart) {
-                    el.innerHTML = `${integerPart}<span class="decimal-part">.${decimalPart}</span>`;
+            if(container) {
+                if(decimalDisplay) {
+                    container.innerHTML = `${integerDisplay}<span class="decimal-part">.${decimalDisplay}</span>`;
                 } else {
-                    el.innerHTML = `${integerPart}`;
+                    container.innerHTML = `${integerDisplay}`;
                 }
             }
             if(sym) sym.style.display = 'inline-block';
+            if(miniEl) miniEl.textContent = `${integerDisplay}${decimalDisplay ? '.'+decimalDisplay : ''} USD`;
+        } else {
+            if(miniEl) miniEl.textContent = `0 USD`;
         }
+        
         if(name && nameEl) {
             nameEl.textContent = name;
         }
@@ -387,3 +426,4 @@
     </script>
 </body>
 </html>
+
