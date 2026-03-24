@@ -125,18 +125,28 @@
             align-items: center; 
             flex-shrink: 0;
             z-index: 2;
+            gap: 20px; /* زيادة المسافة هنا */
         }
         
-        .center-section { 
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex; 
-            align-items: center; 
+        .left-section {
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .header-action-icon {
+            font-size: 20px;
+            color: var(--profile-icon);
+            text-decoration: none;
+            transition: var(--transition-main);
+            display: flex;
+            align-items: center;
             justify-content: center;
-            width: auto;
-            pointer-events: none;
+        }
+
+        .header-action-icon:active {
+            transform: scale(0.9);
+            opacity: 0.7;
         }
 
         .account-text {
@@ -309,7 +319,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center; 
-            height: 75px; /* تم تقليص الطول من 85px إلى 75px */
+            height: 75px; 
             border-top: 1px solid #EEEEEE;
             padding: 0 10px 0px 10px;
             overflow: hidden; 
@@ -353,8 +363,8 @@
 
         .store-circle {
             background-color: #4D783E; 
-            width: 44px; /* تم تقليص الحجم من 50px */
-            height: 44px; /* تم تقليص الحجم من 50px */
+            width: 44px; 
+            height: 44px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -438,7 +448,7 @@
     <header id="main-header">
         <div class="header-content">
             <div class="right-section">
-                <a href="profile/" style="text-decoration: none;">
+                <a href="profile/" style="text-decoration: none; display: flex; align-items: center;">
                     <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <clipPath id="circleView">
@@ -452,13 +462,17 @@
                         </g>
                     </svg>
                 </a>
+                <a href="support/" class="header-action-icon">
+                    <i class="fa-solid fa-headset"></i>
+                </a>
+                <a href="messages/" class="header-action-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </a>
             </div>
 
-            <div class="center-section">
+            <div class="left-section">
                 <span class="account-text">ServioCmm</span>
             </div>
-
-            <div style="width: 32px;"></div>
         </div>
     </header>
 
