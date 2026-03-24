@@ -30,7 +30,7 @@
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
             font-family: 'Lexend', sans-serif;
-            overscroll-behavior-y: contain;
+            overscroll-behavior-y: auto;
             touch-action: pan-x pan-y;
         }
 
@@ -42,10 +42,10 @@
             display: flex; align-items: center; 
             padding: 0 20px;
             box-sizing: border-box;
-            position: sticky; 
-            top: 0; z-index: 1000;
+            position: relative; 
+            z-index: 1000;
             direction: rtl !important;
-            border-bottom: 1px solid var(--border-subtle);
+            border-bottom: none;
         }
 
         .header-content {
@@ -54,7 +54,7 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             position: relative;
         }
 
@@ -68,8 +68,8 @@
         .center-section { 
             display: flex; 
             align-items: center; 
-            justify-content: flex-start;
-            width: max-content;
+            justify-content: center;
+            width: 100%;
         }
 
         .account-text {
@@ -78,6 +78,56 @@
             color: var(--text-main);
             letter-spacing: -0.3px; 
             white-space: nowrap;
+        }
+
+        .search-icon-right {
+            position: absolute;
+            right: 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .tabs-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 8px auto 0;
+            padding: 0 24px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tabs-wrapper {
+            background-color: #e8e8e8;
+            border-radius: 14px;
+            padding: 4px;
+            display: flex;
+            width: 100%;
+            gap: 4px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            border: none;
+            padding: 10px 0;
+            border-radius: 10px;
+            font-family: 'Lexend', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-main);
+            background: transparent;
+            color: var(--text-muted);
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tab-btn.active {
+            background-color: #FFFFFF;
+            color: var(--text-main);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .main-container {
@@ -94,6 +144,21 @@
             flex-direction: column;
             align-items: flex-start;
             padding: 0;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .welcome-msg {
@@ -169,56 +234,84 @@
             width: 100%;
             height: 100%;
         }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-content">
+            <div class="search-icon-right">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
             <div class="center-section">
                 <span class="account-text">wallet serviocmm</span>
             </div>
         </div>
     </header>
 
+    <div class="tabs-container">
+        <div class="tabs-wrapper">
+            <button class="tab-btn active" onclick="showTab('wallet', event)">المحفظة</button>
+            <button class="tab-btn" onclick="showTab('activities', event)">الأنشطة</button>
+        </div>
+    </div>
+
     <main class="main-container">
-        <div class="content-wrapper">
-            <div class="welcome-msg">مرحبا بك <span id="user-name"></span></div>
-            
-            <div class="balance-card">
-                <div class="top-row">
-                    <div class="card-icon-container">
-                        <svg class="servio-logo-svg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="deepGreen" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#2d5a1e" />
-                                    <stop offset="100%" style="stop-color:#1a3611" />
-                                </linearGradient>
-                                <linearGradient id="vibrantGreen" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#74a367" />
-                                    <stop offset="100%" style="stop-color:#5a854f" />
-                                </linearGradient>
-                                <mask id="whiteGap">
-                                    <rect width="1000" height="800" fill="white" />
-                                    <circle cx="350" cy="400" r="362" fill="black" />
-                                </mask>
-                            </defs>
-                            <circle cx="350" cy="400" r="350" fill="url(#deepGreen)" />
-                            <circle cx="650" cy="400" r="350" fill="url(#vibrantGreen)" mask="url(#whiteGap)" />
-                            <g transform="rotate(-38 500 400)">
-                                <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                                <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
-                                <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="card-label">رصيد serviocmm</div>
-                </div>
+        <div id="wallet" class="tab-content active">
+            <div class="content-wrapper">
+                <div class="welcome-msg">مرحبا بك <span id="user-name"></span></div>
                 
-                <div class="balance-amount">
-                    <span id="user-balance"></span>
-                    <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span>
+                <div class="balance-card">
+                    <div class="top-row">
+                        <div class="card-icon-container">
+                            <svg class="servio-logo-svg" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="deepGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#2d5a1e" />
+                                        <stop offset="100%" style="stop-color:#1a3611" />
+                                    </linearGradient>
+                                    <linearGradient id="vibrantGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#74a367" />
+                                        <stop offset="100%" style="stop-color:#5a854f" />
+                                    </linearGradient>
+                                    <mask id="whiteGap">
+                                        <rect width="1000" height="800" fill="white" />
+                                        <circle cx="350" cy="400" r="362" fill="black" />
+                                    </mask>
+                                </defs>
+                                <circle cx="350" cy="400" r="350" fill="url(#deepGreen)" />
+                                <circle cx="650" cy="400" r="350" fill="url(#vibrantGreen)" mask="url(#whiteGap)" />
+                                <g transform="rotate(-38 500 400)">
+                                    <rect x="290" y="390" width="75" height="145" rx="37.5" fill="#FFFFFF" />
+                                    <rect x="425" y="80" width="155" height="640" rx="77.5" fill="#FFFFFF" />
+                                    <rect x="640" y="445" width="75" height="145" rx="37.5" fill="#FFFFFF" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="card-label">رصيد serviocmm</div>
+                    </div>
+                    
+                    <div class="balance-amount">
+                        <span id="user-balance"></span>
+                        <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="activities" class="tab-content">
+            <div class="empty-state">
+                لا توجد أنشطة حالياً
             </div>
         </div>
     </main>
@@ -281,6 +374,16 @@
           });
         }
       });
+    </script>
+
+    <script>
+        window.showTab = function(tabId, event) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
     </script>
 </body>
 </html>
