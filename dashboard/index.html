@@ -19,7 +19,7 @@
             --page-bg: #F3F2F2;          
             --text-main: #121212;        
             --text-muted: #5f6368;       
-            --circle-empty: #FFFFFF;     
+            --circle-empty: #e8eaed;     
             --profile-icon: #9aa0a6;     
             --profile-bg: #e8eaed;       
             --border-subtle: rgba(0,0,0,0.06);
@@ -162,7 +162,6 @@
         .profile-icon-svg {
             width: 32px; 
             height: 32px; 
-            fill: #000000; 
             transition: var(--transition-main);
         }
 
@@ -267,7 +266,7 @@
         .circle-item:active .empty-circle, 
         .circle-item:active .deposit-circle {
             transform: scale(0.85);
-            background-color: #e0e0e0;
+            background-color: #d1d3d6;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
@@ -276,11 +275,11 @@
             height: 68px;
             border-radius: 50%;
             background-color: var(--circle-empty);
-            border: 1px solid var(--border-subtle);
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            box-shadow: none;
             transition: inherit;
         }
 
@@ -449,16 +448,10 @@
             <div class="right-section">
                 <a href="profile/" style="text-decoration: none; display: flex; align-items: center;">
                     <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <clipPath id="circleView">
-                                <circle cx="512" cy="512" r="512" />
-                            </clipPath>
-                        </defs>
-                        <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
-                        <g clip-path="url(#circleView)">
-                            <circle cx="512" cy="380" r="170.7" fill="#000000"/>
-                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="#000000"/>
-                        </g>
+                        <path d="M512 523.848232m-355.639035 0a355.639035 355.639035 0 1 0 711.27807 0 355.639035 355.639035 0 1 0-711.27807 0Z" fill="var(--page-bg)" />
+                        <path d="M512 407.905761m-161.35608 0a161.35608 161.35608 0 1 0 322.71216 0 161.35608 161.35608 0 1 0-322.71216 0Z" fill="#000000" />
+                        <path d="M512 121.318097c-222.311048 0-402.530135 180.218786-402.530135 402.530135s180.218786 402.530135 402.530135 402.530136 402.530135-180.218786 402.530135-402.530136S734.311349 121.318097 512 121.318097z m0 758.16917c-196.413999 0-355.639035-159.225035-355.639035-355.639035S315.586001 168.209198 512 168.209198s355.639035 159.225035 355.639035 355.639034-159.225035 355.639035-355.639035 355.639035z" fill="#000000" />
+                        <path d="M228.006978 761.925817a281.175913 151.722881 0 1 0 562.351827 0 281.175913 151.722881 0 1 0-562.351827 0Z" fill="#000000" />
                     </svg>
                 </a>
                 <a href="support/" class="header-action-icon">
