@@ -197,6 +197,7 @@
             right: 24px;
             top: 24px;
             letter-spacing: -0.1px;
+            direction: ltr;
         }
 
         .top-row {
@@ -294,7 +295,7 @@
                 <div class="welcome-msg">مرحبا بك <span id="user-name"></span></div>
                 
                 <div class="balance-card">
-                    <div class="mini-balance" id="mini-user-balance">0 USD</div>
+                    <div class="mini-balance" id="mini-user-balance"></div>
                     
                     <div class="top-row">
                         <div class="card-label">رصيد serviocmm</div>
@@ -326,10 +327,8 @@
                     </div>
                     
                     <div class="balance-amount">
+                        <div class="balance-value-container" id="user-balance-container"></div>
                         <span class="currency-symbol" id="curr-sym" style="display:none;">USD</span>
-                        <div class="balance-value-container" id="user-balance-container">
-                            <span id="user-balance">0</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -360,29 +359,24 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
-      const el = document.getElementById('user-balance');
       const container = document.getElementById('user-balance-container');
       const sym = document.getElementById('curr-sym');
       const nameEl = document.getElementById('user-name');
       const miniEl = document.getElementById('mini-user-balance');
 
       const updateUI = (balance, name) => {
-        let formattedBalance = "0";
-        let integerDisplay = "0";
+        let integerDisplay = "";
         let decimalDisplay = "";
 
         if(balance !== undefined && balance !== null) {
             const numVal = parseFloat(balance);
-            formattedBalance = numVal.toFixed(2);
             let fullStr = numVal.toFixed(7);
             if (fullStr.indexOf('.') !== -1) {
                 fullStr = fullStr.replace(/\.?0+$/, "");
             }
             const parts = fullStr.split('.');
             integerDisplay = parseInt(parts[0]).toLocaleString();
-            decimalDisplay = parts[ parts.length > 1 ? 1 : 0 ] || '';
-            if (parts.length === 1) decimalDisplay = ''; // Handle no decimal case
-            else decimalDisplay = parts[1];
+            decimalDisplay = parts.length > 1 ? parts[1] : '';
             
             if(container) {
                 if(decimalDisplay) {
@@ -393,8 +387,6 @@
             }
             if(sym) sym.style.display = 'inline-block';
             if(miniEl) miniEl.textContent = `${integerDisplay}${decimalDisplay ? '.'+decimalDisplay : ''} USD`;
-        } else {
-            if(miniEl) miniEl.textContent = `0 USD`;
         }
         
         if(name && nameEl) {
@@ -426,4 +418,3 @@
     </script>
 </body>
 </html>
-
