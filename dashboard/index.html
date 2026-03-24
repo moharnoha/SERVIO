@@ -125,7 +125,7 @@
             align-items: center; 
             flex-shrink: 0;
             z-index: 2;
-            gap: 20px; /* زيادة المسافة هنا */
+            gap: 20px;
         }
         
         .left-section {
@@ -136,7 +136,7 @@
 
         .header-action-icon {
             font-size: 20px;
-            color: var(--profile-icon);
+            color: #000000;
             text-decoration: none;
             transition: var(--transition-main);
             display: flex;
@@ -162,7 +162,7 @@
         .profile-icon-svg {
             width: 32px; 
             height: 32px; 
-            fill: var(--profile-icon); 
+            fill: #000000; 
             transition: var(--transition-main);
         }
 
@@ -309,7 +309,6 @@
             letter-spacing: -0.1px;
         }
 
-        /* --- Updated Bottom Navigation Styles --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -457,8 +456,8 @@
                         </defs>
                         <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
                         <g clip-path="url(#circleView)">
-                            <circle cx="512" cy="380" r="170.7" fill="var(--profile-icon)"/>
-                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="var(--profile-icon)"/>
+                            <circle cx="512" cy="380" r="170.7" fill="#000000"/>
+                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="#000000"/>
                         </g>
                     </svg>
                 </a>
@@ -466,7 +465,7 @@
                     <i class="fa-solid fa-headset"></i>
                 </a>
                 <a href="messages/" class="header-action-icon">
-                    <i class="fa-solid fa-bell"></i>
+                    <i class="fa-regular fa-bell"></i>
                 </a>
             </div>
 
