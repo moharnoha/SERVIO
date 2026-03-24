@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -26,6 +26,9 @@
             --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --nav-inactive: #8E8E93;
+            /* Unified Font Strategy */
+            --font-main: 'Lexend', 'Cairo', sans-serif;
+            --font-secondary: 'Cairo', 'Lexend', sans-serif;
         }
 
         body { 
@@ -34,7 +37,7 @@
             direction: rtl !important; 
             -webkit-font-smoothing: antialiased;
             color: var(--text-main);
-            font-family: 'Lexend' !important;
+            font-family: var(--font-main) !important;
             overscroll-behavior-y: contain;
             touch-action: pan-x pan-y;
             padding-bottom: 75px;
@@ -154,6 +157,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-text-stroke: 0.5px #000000;
         }
 
         .header-action-icon:active {
@@ -166,7 +170,7 @@
             font-weight: 700; 
             color: var(--text-main);
             letter-spacing: -0.6px;
-            font-family: 'Lexend' !important;
+            font-family: var(--font-main) !important;
             font-display: block;
             white-space: nowrap;
         }
@@ -213,6 +217,7 @@
             font-size: 15.5px;
             font-weight: 500;
             color: var(--text-muted);
+            font-family: var(--font-secondary);
         }
 
         .chevron-down-svg {
@@ -237,6 +242,7 @@
             font-variant-numeric: tabular-nums;
             margin-bottom: 0px;
             min-height: 57px;
+            font-family: var(--font-main);
         }
 
         .currency-symbol {
@@ -245,6 +251,7 @@
             color: var(--text-main);
             letter-spacing: 0;
             opacity: 0.7;
+            font-family: var(--font-main);
         }
 
         .card-icon-container {
@@ -319,6 +326,7 @@
             font-weight: 600; 
             color: #1a1a1a;
             letter-spacing: -0.1px;
+            font-family: var(--font-secondary);
         }
 
         .bottom-nav {
@@ -370,6 +378,7 @@
 
         .nav-item i {
             font-size: 22px; 
+            -webkit-text-stroke: 0.5px #000000;
         }
 
         .store-circle {
@@ -398,11 +407,11 @@
         }
 
         .nav-item span {
-            font-family: 'Cairo', sans-serif;
-            font-size: 10.5px; 
-            font-weight: 400;
+            font-family: var(--font-secondary);
+            font-size: 11px; 
+            font-weight: 500;
             line-height: 1;
-            transition: font-weight 0.2s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
             color: #000000;
         }
@@ -416,7 +425,7 @@
         }
 
         .nav-item.active span {
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .nav-item.active .ring {
@@ -546,7 +555,7 @@
                 </a>
                 <a href="transactions/" class="circle-item">
                     <div class="empty-circle">
-                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                         </svg>
                     </div>
@@ -555,9 +564,9 @@
                 <a href="more/" class="circle-item">
                     <div class="empty-circle">
                         <svg class="circle-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="5" cy="12" r="1.5" fill="#1a1a1a"/>
-                            <circle cx="12" cy="12" r="1.5" fill="#1a1a1a"/>
-                            <circle cx="19" cy="12" r="1.5" fill="#1a1a1a"/>
+                            <circle cx="5" cy="12" r="2" fill="#1a1a1a"/>
+                            <circle cx="12" cy="12" r="2" fill="#1a1a1a"/>
+                            <circle cx="19" cy="12" r="2" fill="#1a1a1a"/>
                         </svg>
                     </div>
                     <span class="circle-label">مزيد</span>
