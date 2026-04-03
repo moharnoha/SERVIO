@@ -474,7 +474,7 @@
             </div>
 
             <div class="center-section">
-                <span class="account-text">ServioCmm</span>
+                <span id="header-title" class="account-text">ServioCmm</span>
             </div>
 
             <div class="left-section">
@@ -563,14 +563,14 @@
     <div id="page-modal"></div>
 
     <nav class="bottom-nav">
-        <a href="wallet/" class="nav-item side-item" onclick="showPage(event, 'wallet')">
+        <a href="wallet/" class="nav-item side-item" onclick="showPage(event, 'wallet', 'المحفظة')">
             <div class="side-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#000000" viewBox="0 0 256 256"><path d="M196,136a16,16,0,1,1-16-16A16,16,0,0,1,196,136Zm40-36v80a32,32,0,0,1-32,32H60a32,32,0,0,1-32-32V60.92A32,32,0,0,1,60,28H192a12,12,0,0,1,0,24H60a8,8,0,0,0-8,8.26v.08A8.32,8.32,0,0,0,60.48,68H204A32,32,0,0,1,236,100Zm-24,0a8,8,0,0,0-8-8H60.48A33.72,33.72,0,0,1,52,90.92V180a8,8,0,0,0,8,8H204a8,8,0,0,0,8-8Z"></path></svg>
             </div>
             <span>المحفظة</span>
         </a>
 
-        <a href="store/" class="nav-item store-item" onclick="showPage(event, 'store')">
+        <a href="store/" class="nav-item store-item" onclick="showPage(event, 'store', 'المتجر')">
             <div class="store-box">
                 <div class="ring"></div>
                 <div class="store-circle">
@@ -580,7 +580,7 @@
             <span>المتجر</span>
         </a>
 
-        <a href="/" class="nav-item side-item active" onclick="showPage(event, 'home')">
+        <a href="/" class="nav-item side-item active" onclick="showPage(event, 'home', 'ServioCmm')">
             <div class="side-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#000000" viewBox="0 0 256 256"><path d="M222.14,105.85l-80-80a20,20,0,0,0-28.28,0l-80,80A19.86,19.86,0,0,0,28,120v96a12,12,0,0,0,12,12h64a12,12,0,0,0,12-12V164h24v52a12,12,0,0,0,12,12h64a12,12,0,0,0,12-12V120A19.86,19.86,0,0,0,222.14,105.85ZM204,204H164V152a12,12,0,0,0-12-12H104a12,12,0,0,0-12,12v52H52V121.65l76-76,76,76Z"></path></svg>
             </div>
@@ -645,14 +645,17 @@
     </script>
 
     <script>
-        function showPage(event, page) {
+        function showPage(event, page, title) {
             event.preventDefault();
             const modal = document.getElementById('page-modal');
             const main = document.getElementById('main-view');
             const navItems = document.querySelectorAll('.nav-item');
+            const headerTitle = document.getElementById('header-title');
 
             navItems.forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
+            
+            if(headerTitle) headerTitle.textContent = title;
 
             if (page === 'home') {
                 modal.style.display = 'none';
