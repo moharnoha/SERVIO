@@ -447,7 +447,7 @@
             position: relative;
             width: 100%;
             height: calc(100vh - 147px);
-            background: #FFFFFF;
+            background: var(--page-bg);
             z-index: 500;
             overflow-y: auto;
             box-sizing: border-box;
@@ -661,10 +661,12 @@
                 modal.style.display = 'none';
                 main.style.display = 'block';
                 document.body.style.backgroundColor = 'var(--page-bg)';
+                document.querySelector('.bottom-nav').style.backgroundColor = 'var(--page-bg)';
             } else {
                 main.style.display = 'none';
                 modal.style.display = 'block';
                 document.body.style.backgroundColor = '#FFFFFF';
+                document.querySelector('.bottom-nav').style.backgroundColor = '#FFFFFF';
                 modal.innerHTML = `<iframe src="${page}/"></iframe>`;
             }
         }
