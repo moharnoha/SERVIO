@@ -136,8 +136,7 @@
             justify-content: flex-end;
             flex: 1;
             z-index: 2;
-            gap: 15px;
-            margin-right: 30px;
+            gap: 12px;
         }
 
         .center-section {
@@ -157,6 +156,10 @@
             align-items: center;
             justify-content: center;
             color: #000000;
+            background-color: var(--profile-bg);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
         }
 
         .header-action-icon:active {
@@ -175,8 +178,8 @@
         }
 
         .profile-icon-svg {
-            width: 32px; 
-            height: 32px; 
+            width: 20px; 
+            height: 20px; 
             fill: #000000; 
             transition: var(--transition-main);
         }
@@ -463,18 +466,9 @@
     <header id="main-header">
         <div class="header-content">
             <div class="right-section">
-                <a href="profile/" style="text-decoration: none; display: flex; align-items: center;">
-                    <svg class="profile-icon-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <clipPath id="circleView">
-                                <circle cx="512" cy="512" r="512" />
-                            </clipPath>
-                        </defs>
-                        <circle cx="512" cy="512" r="512" fill="var(--profile-bg)" />
-                        <g clip-path="url(#circleView)">
-                            <circle cx="512" cy="380" r="170.7" fill="#AFAEAE"/>
-                            <path d="M100 880c0-140 150-200 412-200s412 60 412 200v150H100V880z" fill="#AFAEAE"/>
-                        </g>
+                <a href="profile/" class="header-action-icon">
+                    <svg class="profile-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                 </a>
             </div>
@@ -484,25 +478,14 @@
             </div>
 
             <div class="left-section">
-                <a href="scan/" class="header-action-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-                        <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-                        <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-                        <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-                        <line x1="7" y1="12" x2="17" y2="12"></line>
-                    </svg>
-                </a>
-                <a href="messages/" class="header-action-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                    </svg>
-                </a>
                 <a href="support/" class="header-action-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256"><path d="M204.73,51.85A108.07,108.07,0,0,0,20,128v56a28,28,0,0,0,28,28H64a28,28,0,0,0,28-28V144a28,28,0,0,0-28-28H44.84A84.05,84.05,0,0,1,128,44h.64a83.7,83.7,0,0,1,82.52,72H192a28,28,0,0,0-28,28v40a28,28,0,0,0,28,28h19.6A20,20,0,0,1,192,228H136a12,12,0,0,0,0,24h56a44.05,44.05,0,0,0,44-44V128A107.34,107.34,0,0,0,204.73,51.85ZM64,140a4,4,0,0,1,4,4v40a4,4,0,0,1-4,4H48a4,4,0,0,1-4-4V140Zm124,44V144a4,4,0,0,1,4-4h20v48H192A4,4,0,0,1,188,184Z"></path></svg>
+                </a>
+                <a href="menu/" class="header-action-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="5" cy="12" r="1"></circle>
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
                     </svg>
                 </a>
             </div>
